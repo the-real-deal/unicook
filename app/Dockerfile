@@ -1,6 +1,8 @@
-FROM php:8.2-apache
+FROM php:8.2-apache-trixie
 
 ARG USER
+
+RUN apt-get update -y && apt-get install -y openssh-client
 
 RUN docker-php-ext-install mysqli
 
