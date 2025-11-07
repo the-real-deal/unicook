@@ -1,0 +1,6 @@
+# env not ignored for demo purposes
+# .env
+
+# direnv
+.direnv/
+.envrc*

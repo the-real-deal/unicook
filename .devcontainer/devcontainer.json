@@ -1,0 +1,37 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+    "name": "IronGate",
+    "dockerComposeFile": [
+        "../compose.yml"
+    ],
+    "service": "app",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "features": {
+        "ghcr.io/devcontainers/features/git": {}
+    },
+    "mounts": [
+        {
+            "source": "${localWorkspaceFolder}",
+            "target": "/workspaces/${localWorkspaceFolderBasename}",
+            "type": "bind"
+        },
+        {
+            "source": "${localWorkspaceFolder}/${APP_ROOT}/www",
+            "target": "/var/www/html",
+            "type": "bind"
+        }
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mtxr.sqltools",
+                "mtxr.sqltools-driver-mysql",
+                "ms-azuretools.vscode-containers",
+                "ms-vsliveshare.vsliveshare",
+                "zobo.php-intellisense"
+            ]
+        }
+    },
+    "updateRemoteUserUID": true
+}
