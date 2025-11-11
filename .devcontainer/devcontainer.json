@@ -34,7 +34,8 @@
                 "mtxr.sqltools-driver-mysql",
                 "ms-azuretools.vscode-containers",
                 "ms-vsliveshare.vsliveshare",
-                "zobo.php-intellisense"
+                "zobo.php-intellisense",
+                "xdebug.php-debug"
             ]
         }
     },
