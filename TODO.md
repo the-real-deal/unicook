@@ -8,12 +8,82 @@ Utenti
 
 Sistema di recensioni
 
-Creazione di menù (giornalieri/settimanali/etc...) in base ai valori nutrizionali, recensioni e prezzo delle ricette.
-- Generazione automatica della lista della spesa in base al menù creato
+Creazione di menù (giornalieri/settimanali/etc...) in base ai gusti, recensioni, prezzo delle ricette, tempo di esecuzione e altri tag vari (valori nutrizionali).
 - Integrazione con gusti dell'utente e decisione sul momento
+- Generazione automatica della lista della spesa in base al menù creato
 
-Inserimento ingradienti:
-- Nome, calorie, macronutrienti (carboidrati, proteine, grassi) (solo preponderante)
+### DB (accenni)
+#### Utenti
+> User
+- Username
+- Email
+- Password
+- Gusti
+- Lista di Ricette Salvate
+
+#### Gusti
+[TODO] Refine Concept
+> Gusto
+- Tipologia
+- Positivo/Negativo
+
+Tipologie di Gusti
+- Carne
+- Pesce
+- Verdure
+- Piccante
+#### Ricette
+>Ricetta
+- Nome
+- Descrizione
+- Tempo di Preparazione (veloce-media durata-lungo)
+- Numero di Persone Target
+- Serie di ingredienti
+- Procedimento a step
+
+> Ingrediente
+- Nome
+- Quantità
+- Eventuale Codice a barre (per API).
+
+> Step procedimento
+- Descrizione
+- Ordine (progressivo)
+
+#### Tag
+##### Scelta Singola
+> Prezzo
+- Low       $
+- Medium    $$
+- High      $$$
+
+> Tempo
+- Short     <15 min
+- Medium    15 min< x < 30 min
+- Long      > 30 min
+
+> Difficoltà
+- Easy
+- Medium
+- Hard
+
+##### Scelta Multipla
+> Tag
+- Carne
+- Pesce
+- Verdure
+- Piccante
+- Diet
+- Breakfast
+- Launch
+- Dinner
+- Snack
+
+#### Recensioni
+> Recensione
+- Rating (1-5)
+- Commento
+- Data
 
 ## Idee
 - Filtri per tempo di preparazione
