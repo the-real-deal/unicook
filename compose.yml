@@ -3,10 +3,11 @@ name: ${DOCKER_COMPOSE_NAME:?DOCKER_COMPOSE_NAME must be non-empty}
 services:
   db:
     env_file: ${DB_ROOT?DB_ROOT must exist}/.env
-    image: ${DOCKER_COMPOSE_NAME}/db
+    image: ${DOCKER_COMPOSE_NAME}-db
     container_name: ${DOCKER_COMPOSE_NAME}-db
     build:
       context: ${DB_ROOT}
+      dockerfile: Containerfile
       args:
         WORKDIR: ${DOCKER_WORKDIR?DOCKER_WORKDIR must exist}/db
     expose:
@@ -35,10 +36,11 @@ services:
     environment:
       DB_HOST: db
       APP_PORT: ${APP_PORT}
-    image: ${DOCKER_COMPOSE_NAME}/app
+    image: ${DOCKER_COMPOSE_NAME}-app
     container_name: ${DOCKER_COMPOSE_NAME}-app
     build:
       context: ${APP_ROOT}
+      dockerfile: Containerfile
       args:
         USER: ${DOCKER_USER:?DOCKER_USER must be non-empty}
     ports:
