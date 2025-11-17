@@ -1,0 +1,12 @@
+DROP DATABASE IF EXISTS `UniCook`;
+CREATE DATABASE `UniCook`;
+
+USE `UniCook`;
+
+DROP TABLE IF EXISTS `User`;
+CREATE TABLE `User` (
+    `ID` CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    `Name` VARCHAR(50)
+);
+INSERT INTO `User`(`Name`) VALUES
+('Marco');
