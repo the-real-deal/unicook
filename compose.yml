@@ -18,7 +18,8 @@ services:
   phpmyadmin:
     image: phpmyadmin:5.2.1-apache
     depends_on:
-      - db
+      db:
+        condition: service_started
     environment:
       PMA_USER: root
       PMA_PASSWORD: root
@@ -30,8 +31,8 @@ services:
 
   app:
     depends_on:
-      - db
-      - phpmyadmin
+      db:
+        condition: service_started
     env_file: ${APP_ROOT?APP_ROOT must exist}/.env
     environment:
       DB_HOST: db
