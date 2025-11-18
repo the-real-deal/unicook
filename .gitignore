@@ -1,9 +1,8 @@
-# env not ignored for demo purposes
-# .env
+# .env not ignored for demo purposes
 
 # direnv
 .direnv/
-.envrc*
+.envrc
 
 # sqltools
 *.session.sql
