@@ -1,30 +1,97 @@
-// Use DBML to define your database structure
-// Docs: https://dbml.dbdiagram.io/docs
+//////////////////////////////////////////////////////
+// DB per community di ricette per studenti fuorisede
+// 15 entità – completo e scalabile
+//////////////////////////////////////////////////////
 
-Table follows {
-  following_user_id integer
-  followed_user_id integer
-  created_at timestamp
+//////////////////////////////////////////////////////
+// 1) Utenti
+//////////////////////////////////////////////////////
+Table Users {
+  ID char(36) [primary key]
+  Username varchar [not null, unique]
+  Email varchar [not null, unique]
+  Password char(128) [not null]
+  Avatar blob
+  admin bool [default: false]
 }
 
-Table users {
-  id integer [primary key]
-  username varchar
-  role varchar
-  created_at timestamp
+//////////////////////////////////////////////////////
+// 2) Ricette
+//////////////////////////////////////////////////////
+Table Recipes {
+  ID char(36) [primary key]
+  Title varchar(50) [not null]
+  Description text
+  Difficulty enum('Easy','Medium','Hard')
+  Cooking_time int
+  Servings int
+  UserID char(36) [not null]
 }
 
-Table posts {
-  id integer [primary key]
-  title varchar
-  body text [note: 'Content of the post']
-  user_id integer [not null]
-  status varchar
-  created_at timestamp
+Ref: Recipes.UserID > Users.ID
+
+//////////////////////////////////////////////////////
+// 3) Ingredienti
+//////////////////////////////////////////////////////
+Table Ingredients {
+  ID char(36) [primary key]
+  Name varchar [not null, unique]
+  Category varchar(20)
+  BarCode varchar
 }
 
-Ref user_posts: posts.user_id > users.id // many-to-one
+//////////////////////////////////////////////////////
+// 4) Ingredienti delle ricette (N-N)
+//////////////////////////////////////////////////////
+Table RecipeIngredients {
+  ID char(36) [primary key]
+  Ingredient_id integer [not null]
+  Quantity varchar
+  Unit varchar
+}
 
-Ref: users.id < follows.following_user_id
+Ref: RecipeIngredients.ID > Recipes.ID
+Ref: RecipeIngredients.ID > Ingredients.ID
 
-Ref: users.id < follows.followed_user_id
+//////////////////////////////////////////////////////
+// 5) Commenti
+//////////////////////////////////////////////////////
+Table Comments {
+  ID integer [primary key, increment]
+  UserID char(36) [not null]
+  RecipeID integer [not null]
+  Body text [not null]
+  Rating int
+  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Ref: Comments.UserID > Users.ID
+Ref: Comments.RecipeID > Recipes.ID
+
+//////////////////////////////////////////////////////
+// 6) Foto ricette
+//////////////////////////////////////////////////////
+Table RecipePhotos {
+  ID integer [primary key, increment]
+  RecipeID integer [not null]
+  Photo blob [not null]
+  UploadedAt timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Ref: RecipePhotos.RecipeID > Recipes.ID
+
+
+//////////////////////////////////////////////////////
+// 8) Likes ricette
+//////////////////////////////////////////////////////
+Table RecipeLikes {
+  ID integer [primary key, increment]
+  UserID char(36) [not null]
+  RecipeID integer [not null]
+  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Ref: RecipeLikes.UserID > Users.ID
+Ref: RecipeLikes.RecipeID > Recipes.ID
+
+
