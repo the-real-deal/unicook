@@ -1,9 +1,7 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
 {
     "name": "UniCook",
     "dockerComposeFile": [
-        "compose.yaml"
+        "../compose.yaml"
     ],
     "service": "app",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
@@ -23,7 +21,7 @@
         },
         {
             "source": "${localEnv:HOME}/.ssh",
-            "target": "/home/${DOCKER_USER}/.ssh",
+            "target": "/home/${APP_USER}/.ssh",
             "type": "bind"
         }
     ],
