@@ -1,0 +1,105 @@
+:root {
+    --font-size: 16px;
+
+    --background: hsl(60, 33%, 98%);
+    --text: hsl(0, 0%, 24%);
+    --text-muted: hsl(0, 0%, 54%);
+
+    --primary: hsl(144, 36%, 69%);
+    --primary-text: hsl(0, 0%, 100%);
+    --primary-text-muted: hsl(0, 0%, 90%);
+
+    --secondary: hsl(35, 56%, 91%);
+    --secondary-text: hsl(0, 0%, 24%);
+    --secondary-text-muted: hsl(0, 0%, 54%);
+
+    --tertiary: hsl(24, 100%, 86%);
+    --tertiary-text: hsl(0, 0%, 24%);
+    --tertiary-text-muted: hsl(0, 0%, 54%);
+
+    --card: hsl(0, 0%, 100%);
+    --card-foreground: hsl(0, 0%, 24%);
+
+    --accent: hsl(22, 100%, 74%);
+    --accent-text: var(--primary-text);
+    --accent-text-muted: var(--primary-text-muted);
+
+    --danger: hsl(0, 73%, 48%);
+    --danger-text: var(--primary-text);
+    --danger-text-muted: var(--primary-text-muted);
+
+    --info: hsl(204, 86%, 53%);
+    --info-text: var(--primary-text);
+    --info-text-muted: var(--primary-text-muted);
+
+    --warning: hsl(39, 100%, 50%);
+    --warning-text: var(--primary-text);
+    --warning-text-muted: var(--primary-text-muted);
+
+    --success: hsl(141, 53%, 53%);
+    --success-text: var(--primary-text);
+    --success-text-muted: var(--primary-text-muted);
+
+    --border: hsl(0, 0%, 4%);
+
+    --font-weight-medium: 500;
+    --font-weight-normal: 400;
+
+    --radius: 1rem;
+
+    /* Shadows */
+    --shadow-light: 0px 12px 12px #00000015;
+    --shadow-dark: 0px 4px 4px #00000030;
+    --shadow-combined: var(--shadow-light), var(--shadow-dark);
+    --shadow-hover: 0px 16px 16px #00000040;
+
+    /* For small animations */
+    --default-transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+
+    /*
+    Example
+    .element {
+        box-shadow: var(--shadow-combined);
+        transition: box-shadow 0.4s var(--default-transition-timing-function);
+    }
+    .element:hover {
+        box-shadow: var(--shadow-hover);
+    }
+    */
+}
+
+/* [TODO]: maybe change names/colors for semplicity with this format */
+/* :root {
+    
+    --bg-dark: hsl(91 54% 1%);
+    --bg: hsl(90 34% 4%);
+    --bg-light: hsl(88 18% 8%);
+    --text: hsl(89 54% 92%);
+    --text-muted: hsl(89 12% 67%);
+    --highlight: hsl(88 10% 37%);
+    --border: hsl(88 13% 26%);
+    --border-muted: hsl(87 20% 16%);
+    --primary: hsl(87 35% 61%);
+    --secondary: hsl(271 54% 76%);
+    --danger: hsl(9 26% 64%);
+    --warning: hsl(52 19% 57%);
+    --success: hsl(146 17% 59%);
+    --info: hsl(217 28% 65%);
+}
+
+body.light {
+    --bg-dark: hsl(89 18% 88%);
+    --bg: hsl(89 32% 94%);
+    --bg-light: hsl(89 100% 99%);
+    --text: hsl(91 73% 3%);
+    --text-muted: hsl(88 13% 26%);
+    --highlight: hsl(89 100% 98%);
+    --border: hsl(88 8% 48%);
+    --border-muted: hsl(89 10% 60%);
+    --primary: hsl(81 84% 17%);
+    --secondary: hsl(273 35% 33%);
+    --danger: hsl(9 21% 41%);
+    --warning: hsl(52 23% 34%);
+    --success: hsl(147 19% 36%);
+    --info: hsl(217 22% 41%);
+}
