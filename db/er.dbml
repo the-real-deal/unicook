@@ -1,114 +1,118 @@
-//////////////////////////////////////////////////////
-// DB per community di ricette per studenti fuorisede
-// 15 entità – completo e scalabile
-//////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////
-// 1) Utenti
-//////////////////////////////////////////////////////
-Table Users {
-  ID char(36) [primary key]
-  Username varchar [not null, unique]
-  Email varchar [not null, unique]
-  Password char(255) [not null]
-  Avatar blob
-  Admin bool [default: false, not null]
-  Deleted bool [default: false, not null]
+Enum "Recipes_Difficulty_enum" {
+  "Easy"
+  "Medium"
+  "Hard"
 }
 
-//////////////////////////////////////////////////////
-// 2) Ricette
-//////////////////////////////////////////////////////
-Table Recipes {
-  ID char(36) [primary key]
-  Title varchar(50) [not null]
-  Description text 
-  Difficulty enum('Easy','Medium','Hard')
-  CookingTime int
-  Servings int
-  UserID char(36) [not null]
-  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`, not null]
-  Deleted bool [default: false, not null]
+Table "Users" {
+  "ID" CHAR(36) [pk]
+  "Username" VARCHAR(255) [unique, not null]
+  "Email" VARCHAR(255) [unique, not null]
+  "Password" VARCHAR(255) [not null]
+  "Avatar" MEDIUMBLOB
+  "Admin" BOOL [not null, default: false]
+  "Deleted" BOOLEAN [not null, default: false]
 }
 
-Ref: Recipes.UserID > Users.ID
+Table "Tags" {
+  "ID" CHAR(36) [pk]
+  "Name" VARCHAR(20) [not null]
+}
 
-Table RecipeSteps {
-  RecipeID char(36) [not null]
-  StepNumber int [not null, increment]
-  Instruction text [not null]
-  Photo blob
-  indexes {
+Table "Recipes" {
+  "ID" CHAR(36) [pk]
+  "Title" VARCHAR(50) [not null]
+  "Description" TEXT
+  "Difficulty" Recipes_Difficulty_enum [not null]
+  "CookingTime" INT [not null]
+  "Servings" INT [not null]
+  "UserID" CHAR(36) [not null]
+  "CreatedAt" DATETIME [not null, default: `NOW()`]
+  "Deleted" BOOLEAN [not null, default: false]
+}
+
+Table "RecipeSteps" {
+  "RecipeID" CHAR(36) [not null]
+  "StepNumber" INT [not null]
+  "Instruction" TEXT [not null]
+  "Photo" MEDIUMBLOB
+
+  Indexes {
     (RecipeID, StepNumber) [pk]
   }
 }
 
-Ref: RecipeSteps.RecipeID > Recipes.ID
+Table "RecipeIngredients" {
+  "RecipeID" CHAR(36) [not null]
+  "IngredientID" INT [not null]
+  "Name" VARCHAR(50) [not null]
+  "Quantity" VARCHAR(50) [not null]
+  "BarCode" VARCHAR(20)
 
-
-//////////////////////////////////////////////////////
-// 4) Ingredienti delle ricette (N-N)
-//////////////////////////////////////////////////////
-Table RecipeIngredients {
-  RecipeID char(36) [primary key]
-  IngredientID integer [not null,increment]
-  "Name" varchar(50) [not null]
-  Quantity varchar(50) [not null]
-  BarCode varchar(20) 
+  Indexes {
+    (RecipeID, IngredientID) [pk]
+  }
 }
 
-Ref: RecipeIngredients.RecipeID > Recipes.ID
+Table "RecipePhotos" {
+  "RecipeID" CHAR(36) [not null]
+  "ID" INT [not null]
+  "Photo" MEDIUMBLOB [not null]
 
-//////////////////////////////////////////////////////
-// 5) Commenti
-//////////////////////////////////////////////////////
-Table Reviews {
-  ID integer [primary key, increment]
-  UserID char(36) [not null]
-  RecipeID integer [not null]
-  Body text [not null]
-  Rating int [not null, default: 0, note: 'Valutazione da 1 a 5']
-  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`, not null]
+  Indexes {
+    (RecipeID, ID) [pk]
+  }
 }
 
-Ref: Reviews.UserID > Users.ID
-Ref: Reviews.RecipeID > Recipes.ID
+Table "RecipeTags" {
+  "RecipeID" CHAR(36) [not null]
+  "TagID" CHAR(36) [not null]
 
-//////////////////////////////////////////////////////
-// 6) Foto ricette
-//////////////////////////////////////////////////////
-Table RecipePhotos {
-  ID integer [primary key, increment]
-  RecipeID integer [not null]
-  Photo blob [not null]
-}
-
-Ref: RecipePhotos.RecipeID > Recipes.ID
-
-
-//////////////////////////////////////////////////////
-// 8) Likes ricette
-//////////////////////////////////////////////////////
-Table RecipeLikes {
-  UserID char(36) [not null]
-  RecipeID integer [not null]
-  indexes {(RecipeID, UserID) [pk]}
-}
-
-Ref: RecipeLikes.UserID > Users.ID
-Ref: RecipeLikes.RecipeID > Recipes.ID
-
-Table Tags {
-  ID char(36) [primary key]
-  "Name" varchar(20) [not null, unique]
-}
-
-Table RecipeTags {
-  RecipeID char(36)
-  TagID char(36)
-  indexes {
+  Indexes {
     (RecipeID, TagID) [pk]
   }
 }
-Ref: RecipeTags.RecipeID > Recipes.ID
-Ref: RecipeTags.TagID > Tags.ID
+
+Table "Reviews" {
+  "ID" CHAR(36) [pk]
+  "UserID" CHAR(36) [not null]
+  "RecipeID" CHAR(36) [not null]
+  "Rating" INT [not null]
+  "Body" TEXT
+  "CreatedAt" DATETIME [not null, default: `NOW()`]
+  "Deleted" BOOLEAN [not null, default: false]
+
+  Checks {
+    `"Rating" >= 0 && "Rating" <= 5"`
+  }
+}
+
+Table "RecipeLikes" {
+  "UserID" CHAR(36) [not null]
+  "RecipeID" CHAR(36) [not null]
+  "Deleted" BOOLEAN [not null, default: false]
+
+  Indexes {
+    (RecipeID, UserID) [pk]
+  }
+}
+
+Ref:"Users"."ID" < "Recipes"."UserID"
+
+Ref:"Recipes"."ID" < "RecipeSteps"."RecipeID"
+
+Ref:"Recipes"."ID" < "RecipeIngredients"."RecipeID"
+
+Ref:"Users"."ID" < "Reviews"."UserID"
+
+Ref:"Recipes"."ID" < "Reviews"."RecipeID"
+
+Ref:"Recipes"."ID" < "RecipePhotos"."RecipeID"
+
+Ref:"Users"."ID" < "RecipeLikes"."UserID"
+
+Ref:"Recipes"."ID" < "RecipeLikes"."RecipeID"
+
+Ref:"Recipes"."ID" < "RecipeTags"."RecipeID"
+
+Ref:"Tags"."ID" < "RecipeTags"."TagID"

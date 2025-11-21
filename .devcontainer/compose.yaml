@@ -1,0 +1,6 @@
+include:
+  - path: ../compose.yaml
+    project_directory: ..
+    env_file:
+      - "../.env"
+      - ".env"

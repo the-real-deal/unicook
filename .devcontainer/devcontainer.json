@@ -3,7 +3,7 @@
 {
     "name": "UniCook",
     "dockerComposeFile": [
-        "../compose.yml"
+        "compose.yaml"
     ],
     "service": "app",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
