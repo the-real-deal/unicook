@@ -12,7 +12,8 @@ Table Users {
   Email varchar [not null, unique]
   Password char(128) [not null]
   Avatar blob
-  admin bool [default: false]
+  Admin bool [default: false, not null]
+  Deleted bool [default: false, not null]
 }
 
 //////////////////////////////////////////////////////
@@ -21,52 +22,57 @@ Table Users {
 Table Recipes {
   ID char(36) [primary key]
   Title varchar(50) [not null]
-  Description text
+  Description text 
   Difficulty enum('Easy','Medium','Hard')
-  Cooking_time int
+  CookingTime int
   Servings int
   UserID char(36) [not null]
+  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`, not null]
+  Deleted bool [default: false, not null]
 }
 
 Ref: Recipes.UserID > Users.ID
 
-//////////////////////////////////////////////////////
-// 3) Ingredienti
-//////////////////////////////////////////////////////
-Table Ingredients {
-  ID char(36) [primary key]
-  Name varchar [not null, unique]
-  Category varchar(20)
-  BarCode varchar
+Table RecipeSteps {
+  RecipeID char(36) [not null]
+  StepNumber int [not null, increment]
+  Instruction text [not null]
+  Photo blob
+  indexes {
+    (RecipeID, StepNumber) [pk]
+  }
 }
+
+Ref: RecipeSteps.RecipeID > Recipes.ID
+
 
 //////////////////////////////////////////////////////
 // 4) Ingredienti delle ricette (N-N)
 //////////////////////////////////////////////////////
 Table RecipeIngredients {
-  ID char(36) [primary key]
-  Ingredient_id integer [not null]
-  Quantity varchar
-  Unit varchar
+  RecipeID char(36) [primary key]
+  IngredientID integer [not null,increment]
+  "Name" varchar(50) [not null]
+  Quantity varchar(50) [not null]
+  BarCode varchar(20) 
 }
 
-Ref: RecipeIngredients.ID > Recipes.ID
-Ref: RecipeIngredients.ID > Ingredients.ID
+Ref: RecipeIngredients.RecipeID > Recipes.ID
 
 //////////////////////////////////////////////////////
 // 5) Commenti
 //////////////////////////////////////////////////////
-Table Comments {
+Table Reviews {
   ID integer [primary key, increment]
   UserID char(36) [not null]
   RecipeID integer [not null]
   Body text [not null]
-  Rating int
-  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`]
+  Rating int [not null, default: 0, note: 'Valutazione da 1 a 5']
+  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`, not null]
 }
 
-Ref: Comments.UserID > Users.ID
-Ref: Comments.RecipeID > Recipes.ID
+Ref: Reviews.UserID > Users.ID
+Ref: Reviews.RecipeID > Recipes.ID
 
 //////////////////////////////////////////////////////
 // 6) Foto ricette
@@ -75,7 +81,6 @@ Table RecipePhotos {
   ID integer [primary key, increment]
   RecipeID integer [not null]
   Photo blob [not null]
-  UploadedAt timestamp [default: `CURRENT_TIMESTAMP`]
 }
 
 Ref: RecipePhotos.RecipeID > Recipes.ID
@@ -85,13 +90,25 @@ Ref: RecipePhotos.RecipeID > Recipes.ID
 // 8) Likes ricette
 //////////////////////////////////////////////////////
 Table RecipeLikes {
-  ID integer [primary key, increment]
   UserID char(36) [not null]
   RecipeID integer [not null]
-  CreatedAt timestamp [default: `CURRENT_TIMESTAMP`]
+  indexes {(RecipeID, UserID) [pk]}
 }
 
 Ref: RecipeLikes.UserID > Users.ID
 Ref: RecipeLikes.RecipeID > Recipes.ID
 
+Table Tags {
+  ID char(36) [primary key]
+  "Name" varchar(20) [not null, unique]
+}
 
+Table RecipeTags {
+  RecipeID char(36)
+  TagID char(36)
+  indexes {
+    (RecipeID, TagID) [pk]
+  }
+}
+Ref: RecipeTags.RecipeID > Recipes.ID
+Ref: RecipeTags.TagID > Tags.ID
