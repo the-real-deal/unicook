@@ -10,7 +10,7 @@ Table Users {
   ID char(36) [primary key]
   Username varchar [not null, unique]
   Email varchar [not null, unique]
-  Password char(128) [not null]
+  Password char(255) [not null]
   Avatar blob
   Admin bool [default: false, not null]
   Deleted bool [default: false, not null]
