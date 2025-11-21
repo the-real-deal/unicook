@@ -1,3 +1,21 @@
 {
-    "docker.lsp.experimental.vulnerabilityScanning": false
+    "docker.lsp.experimental.vulnerabilityScanning": false,
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "db",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "UniCook",
+            "group": "UniBo",
+            "database": "UniCook",
+            "username": "root",
+            "password": "root"
+        }
+    ]
 }

@@ -1,0 +1,118 @@
+Enum "Recipes_Difficulty_enum" {
+  "Easy"
+  "Medium"
+  "Hard"
+}
+
+Table "Users" {
+  "ID" CHAR(36) [pk]
+  "Username" VARCHAR(255) [unique, not null]
+  "Email" VARCHAR(255) [unique, not null]
+  "Password" VARCHAR(255) [not null]
+  "Avatar" MEDIUMBLOB
+  "Admin" BOOL [not null, default: false]
+  "Deleted" BOOLEAN [not null, default: false]
+}
+
+Table "Tags" {
+  "ID" CHAR(36) [pk]
+  "Name" VARCHAR(20) [not null]
+}
+
+Table "Recipes" {
+  "ID" CHAR(36) [pk]
+  "Title" VARCHAR(50) [not null]
+  "Description" TEXT
+  "Difficulty" Recipes_Difficulty_enum [not null]
+  "CookingTime" INT [not null]
+  "Servings" INT [not null]
+  "UserID" CHAR(36) [not null]
+  "CreatedAt" DATETIME [not null, default: `NOW()`]
+  "Deleted" BOOLEAN [not null, default: false]
+}
+
+Table "RecipeSteps" {
+  "RecipeID" CHAR(36) [not null]
+  "StepNumber" INT [not null]
+  "Instruction" TEXT [not null]
+  "Photo" MEDIUMBLOB
+
+  Indexes {
+    (RecipeID, StepNumber) [pk]
+  }
+}
+
+Table "RecipeIngredients" {
+  "RecipeID" CHAR(36) [not null]
+  "IngredientID" INT [not null]
+  "Name" VARCHAR(50) [not null]
+  "Quantity" VARCHAR(50) [not null]
+  "BarCode" VARCHAR(20)
+
+  Indexes {
+    (RecipeID, IngredientID) [pk]
+  }
+}
+
+Table "RecipePhotos" {
+  "RecipeID" CHAR(36) [not null]
+  "ID" INT [not null]
+  "Photo" MEDIUMBLOB [not null]
+
+  Indexes {
+    (RecipeID, ID) [pk]
+  }
+}
+
+Table "RecipeTags" {
+  "RecipeID" CHAR(36) [not null]
+  "TagID" CHAR(36) [not null]
+
+  Indexes {
+    (RecipeID, TagID) [pk]
+  }
+}
+
+Table "Reviews" {
+  "ID" CHAR(36) [pk]
+  "UserID" CHAR(36) [not null]
+  "RecipeID" CHAR(36) [not null]
+  "Rating" INT [not null]
+  "Body" TEXT
+  "CreatedAt" DATETIME [not null, default: `NOW()`]
+  "Deleted" BOOLEAN [not null, default: false]
+
+  Checks {
+    `"Rating" >= 0 && "Rating" <= 5"`
+  }
+}
+
+Table "RecipeLikes" {
+  "UserID" CHAR(36) [not null]
+  "RecipeID" CHAR(36) [not null]
+  "Deleted" BOOLEAN [not null, default: false]
+
+  Indexes {
+    (RecipeID, UserID) [pk]
+  }
+}
+
+Ref:"Users"."ID" < "Recipes"."UserID"
+
+Ref:"Recipes"."ID" < "RecipeSteps"."RecipeID"
+
+Ref:"Recipes"."ID" < "RecipeIngredients"."RecipeID"
+
+Ref:"Users"."ID" < "Reviews"."UserID"
+
+Ref:"Recipes"."ID" < "Reviews"."RecipeID"
+
+Ref:"Recipes"."ID" < "RecipePhotos"."RecipeID"
+
+Ref:"Users"."ID" < "RecipeLikes"."UserID"
+
+Ref:"Recipes"."ID" < "RecipeLikes"."RecipeID"
+
+Ref:"Recipes"."ID" < "RecipeTags"."RecipeID"
+
+Ref:"Tags"."ID" < "RecipeTags"."TagID"

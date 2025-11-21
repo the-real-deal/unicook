@@ -3,7 +3,7 @@
 {
     "name": "UniCook",
     "dockerComposeFile": [
-        "../compose.yml"
+        "compose.yaml"
     ],
     "service": "app",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
@@ -33,9 +33,10 @@
                 "mtxr.sqltools",
                 "mtxr.sqltools-driver-mysql",
                 "ms-azuretools.vscode-containers",
-                "ms-vsliveshare.vsliveshare",
                 "zobo.php-intellisense",
-                "xdebug.php-debug"
+                "xdebug.php-debug",
+                "dbdiagram.dbdiagram-vscode",
+                "ms-vsliveshare.vsliveshare"
             ]
         }
     },
