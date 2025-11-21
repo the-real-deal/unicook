@@ -35,7 +35,8 @@
                 "ms-azuretools.vscode-containers",
                 "zobo.php-intellisense",
                 "xdebug.php-debug",
-                "dbdiagram.dbdiagram-vscode"
+                "dbdiagram.dbdiagram-vscode",
+                "ms-vsliveshare.vsliveshare"
             ]
         }
     },
