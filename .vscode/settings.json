@@ -1,5 +1,4 @@
 {
-    "docker.lsp.experimental.vulnerabilityScanning": false,
     "sqltools.connections": [
         {
             "mysqlOptions": {

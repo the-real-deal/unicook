@@ -1,3 +1,8 @@
+<?php 
+require_once 'bootstrap.php';
+$Title = includeComponent('components/Title');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +13,7 @@
 </head>
 
 <body>
-    <h1>Hello, World!</h1>
+    <?= $Title(message: 'Hello, World!') ?>
 </body>
 
 </html>
