@@ -22,7 +22,7 @@ function renderComponent(string $__DIR__, array $props, string $templateFile = '
     // get buffer and clean it
     // https://www.php.net/manual/en/function.ob-get-clean.php
     $template = ob_get_clean();
-    assert($template != false); // assert there are no errors
+    assert($template !== false); // assert there are no errors
     return $template;
 }
 ?>
