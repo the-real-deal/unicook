@@ -1,12 +1,10 @@
 <?php
 
-function includeComponent(string $path, string $filename = 'index.php'): callable  {
-    $componentFile = joinPath(rootPath($path), $filename);
-    return require $componentFile;
-}
-
-function renderComponent(string $__DIR__, array $props, string $templateFile = 'template.php'): string {
-    $templatePath = joinPath($__DIR__, $templateFile);
+function renderComponent(string $__FILE__, array $props, string $templateExtension = 'template'): string {
+    $extension = pathinfo($__FILE__, PATHINFO_EXTENSION);
+    $filename = pathinfo($__FILE__, PATHINFO_FILENAME);
+    $templateFile = $filename . '.' . $templateExtension . '.' . $extension;
+    $templatePath = joinPath(dirname($__FILE__), $templateFile);
     
     // store page rendering in buffer
     // https://www.php.net/manual/en/function.ob-start.php

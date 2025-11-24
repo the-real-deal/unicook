@@ -1,6 +1,6 @@
 <?php 
 require_once 'bootstrap.php';
-$Title = includeComponent('components/Title');
+require_once rootPath('components', 'Title.php');
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ $Title = includeComponent('components/Title');
 </head>
 
 <body>
-    <?= $Title(message: 'Hello, World!') ?>
+    <?= Title('Hello, World!') ?>
 </body>
 
 </html>
