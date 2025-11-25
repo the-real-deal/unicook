@@ -11,7 +11,7 @@ function joinPath(array|string ...$args): string {
             array_push($items, $arg);
         }
     }
-    return join(DIRECTORY_SEPARATOR, $items);
+    return implode(DIRECTORY_SEPARATOR, $items);
 }
 
 function rootPath(array|string ...$args): string {
