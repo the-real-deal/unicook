@@ -6,7 +6,7 @@ CREATE TABLE `Users` (
     `Username` VARCHAR(255) UNIQUE NOT NULL,
     `Email` VARCHAR(255) UNIQUE NOT NULL,
     `Password` VARCHAR(255) NOT NULL,
-    `Avatar` MEDIUMBLOB,
+    `AvatarID` CHAR(36),
     `Admin` BOOL NOT NULL DEFAULT false,
     `Deleted` BOOLEAN NOT NULL DEFAULT false
 );
@@ -35,7 +35,7 @@ CREATE TABLE `RecipeSteps` (
     `RecipeID` CHAR(36) NOT NULL,
     `StepNumber` INT NOT NULL,
     `Instruction` TEXT NOT NULL,
-    `Photo` MEDIUMBLOB,
+    `PhotoID` CHAR(36),
     PRIMARY KEY (`RecipeID`, `StepNumber`)
 );
 
@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `RecipePhotos`;
 CREATE TABLE `RecipePhotos` (
     `RecipeID` CHAR(36) NOT NULL,
     `ID` INT NOT NULL,
-    `Photo` MEDIUMBLOB NOT NULL,
+    `PhotoID` CHAR(36),
     PRIMARY KEY (`RecipeID`, `ID`)
 );
 
