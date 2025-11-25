@@ -11,10 +11,8 @@ function renderComponent(string $__FILE__, array $props, string $templateExtensi
     ob_start();
     // create scope to prevent variables pollution
     (function() use($props, $templatePath) {
-        // make props visible to the template by converting them to variables
-        // https://www.php.net/manual/en/function.extract.php
-        extract($props);
         // include template
+        $props = (object)$props; // make props accessible with arrow notation
         require $templatePath;
     })();
     // get buffer and clean it
@@ -23,4 +21,5 @@ function renderComponent(string $__FILE__, array $props, string $templateExtensi
     assert($template !== false); // assert there are no errors
     return $template;
 }
+
 ?>

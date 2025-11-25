@@ -1,3 +1,3 @@
 <h1>
-    <?= $message ?>
+    <?= $props->message ?>
 </h1>
