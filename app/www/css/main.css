@@ -1,7 +1,7 @@
 :root {
     --font-size: 16px;
 
-    --background: hsl(60, 33%, 98%);
+    --background: hsl(40, 33%, 99%);
     --text: hsl(0, 0%, 24%);
     --text-muted: hsl(0, 0%, 54%);
 
@@ -40,7 +40,7 @@
     --success-text: var(--primary-text);
     --success-text-muted: var(--primary-text-muted);
 
-    --border: hsl(0, 0%, 4%);
+    --border: hsl(0, 0%, 92%);
 
     --font-weight-medium: 500;
     --font-weight-normal: 400;
