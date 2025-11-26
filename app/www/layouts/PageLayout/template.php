@@ -1,6 +1,6 @@
 <?php 
-require_once 'MainLayout.php';
-require_once rootPath('components', 'HTMLHeader.php');
+requireComponent('layouts', 'MainLayout');
+requireComponent('components', 'HTMLHeader');
 ?>
 
 <?= MainLayout(

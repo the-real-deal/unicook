@@ -1,5 +1,5 @@
 <?php
 function MainLayout(string $pageTitle, array $children) {
-    return new Component(__FILE__, get_defined_vars());
+    return new Component(__DIR__, get_defined_vars());
 }
 ?>
