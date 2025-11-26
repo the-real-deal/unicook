@@ -1,13 +1,14 @@
 <?php 
-requireComponent('layouts', 'MainLayout');
-requireComponent('components', 'HTMLHeader');
-?>
+requireComponent(rootPath('layouts', 'MainLayout'));
+requireComponent(rootPath('components', 'HTMLHeader'));
+requireComponent(rootPath('components', 'ListView'));
 
-<?= MainLayout(
-    pageTitle: $props->pageTitle,
+echo MainLayout(
+    title: $props->title,
     children: [
-        HTMLHeader('Navbar: '.$props->pageTitle),
-        $props->page,
+        HTMLHeader('Navbar: '.$props->title),
+        ListView($props->children),
         HTMLHeader('Footer'),
-    ] 
-) ?>
+    ]
+);
+?>
