@@ -1,7 +1,10 @@
 <?php
 session_start();
 
-function requireDir(string $dirPath): void {
+define('PROJECT_ROOT', __DIR__);
+
+function requireDir(string $dirPath, bool $appendRoot = true): void {
+    $dirPath = $appendRoot ? PROJECT_ROOT . DIRECTORY_SEPARATOR . $dirPath : $dirPath;
     // require_once recursively all PHP files in the given directory
     $files = scandir($dirPath);
     foreach ($files as $file) {
