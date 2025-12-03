@@ -15,7 +15,7 @@ function joinPath(array|string ...$args): string {
 }
 
 function rootPath(array|string ...$args): string {
-    return joinPath($_SERVER['DOCUMENT_ROOT'], $args);
+    return joinPath(PROJECT_ROOT, ...$args);
 }
 
 ?>
