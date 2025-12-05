@@ -8,7 +8,10 @@ enum HeaderLevel: string {
     case H6 = 'h6';
 }
 
+// A component for just a simple html header is created for reusing
+// the header level injection logic.
 function HTMLHeader(string $message, HeaderLevel $level = HeaderLevel::H1) {
-    renderComponent(__DIR__, get_defined_vars());
-}
+    $element = $level->value;
 ?>
+<<?= $element ?>><?= $message ?></<?= $element ?>>
+<?php } ?>

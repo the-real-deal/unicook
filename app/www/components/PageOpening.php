@@ -1,7 +1,8 @@
-<!-- 
-Note: script tags cannot be closed directly with />
-https://stackoverflow.com/a/69984  
--->
+<?php
+// Note: script tags cannot be closed directly with />
+// https://stackoverflow.com/a/69984 
+function PageOpening(string $title) {
+?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -12,14 +13,13 @@ https://stackoverflow.com/a/69984
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <title><?= $props->title ?></title>
+    <title><?= $title ?></title>
     <!-- js -->
     <?php
     $scripts = array_map(fn($path) => substr($path, strlen(PROJECT_ROOT)), listFilesRec('js', 'js'));
     foreach ($scripts as $script) {
     ?>
-    <script src="<?= $script ?>"></script>
-    <?php
-    }
-    ?>
+        <script src="<?= $script ?>"></script>
+    <?php } ?>
 </head>
+<?php } ?>

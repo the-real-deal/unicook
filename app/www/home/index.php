@@ -1,9 +1,8 @@
 <?php
 require_once '../bootstrap.php';
-
-requireComponent(rootPath('components', 'PageOpening'));
-requireComponent(rootPath('components', 'HTMLHeader'));
-requireComponent(rootPath('components', 'FileInput'));
+require_once rootPath('components', 'PageOpening.php');
+require_once rootPath('components', 'HTMLHeader.php');
+require_once rootPath('components', 'FileInput.php');
 
 PageOpening('Home');
 ?>
