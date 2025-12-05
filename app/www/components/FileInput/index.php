@@ -1,6 +1,6 @@
 <?php
-function FileInput(string $id, FileType $type, ?string $name = null): Component {
+function FileInput(string $id, FileType $type, ?string $name = null) {
     $name ??= $id;
-    return new Component(__DIR__, get_defined_vars());
+    renderComponent(__DIR__, get_defined_vars());
 }
 ?>

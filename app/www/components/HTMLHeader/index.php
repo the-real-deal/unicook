@@ -8,7 +8,7 @@ enum HeaderLevel: string {
     case H6 = 'h6';
 }
 
-function HTMLHeader(string $message, HeaderLevel $level = HeaderLevel::H1): Component {
-    return new Component(__DIR__, get_defined_vars());
+function HTMLHeader(string $message, HeaderLevel $level = HeaderLevel::H1) {
+    renderComponent(__DIR__, get_defined_vars());
 }
 ?>
