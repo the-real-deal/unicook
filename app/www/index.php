@@ -1,7 +1,12 @@
 <?php 
 require_once 'bootstrap.php';
-require_once rootPath('layouts', 'PageLayout.php');
-require_once rootPath('components', 'HTMLHeader.php');
+
+$server = new ApiServer();
+
+$server->addEndpoint(HTTPMethod::GET, function() {
+    Response::redirect('/home/');
+});
+
+$server->respond();
 ?>
 
-<?= PageLayout("Home", HTMLHeader('Test title', HeaderLevel::H2)) ?>

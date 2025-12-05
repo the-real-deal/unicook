@@ -1,0 +1,3 @@
+<FilesMatch "bootstrap\.php|bootstrap\.js">
+    Deny from all
+</FilesMatch>

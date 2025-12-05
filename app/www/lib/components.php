@@ -1,17 +1,18 @@
 <?php
 
-class Component {
+function requireComponent(string ...$path): void {
+    require_once joinPath($path, 'index.php');
+}
+
+readonly class Component {
     private string $templatePath;
 
     public function __construct(
-        private string $__FILE__,
+        private string $templateDir,
         private array $props,
-        private string $templateExtension = 'template',
+        string $templatePath = 'template.php',
     ) {
-        $extension = pathinfo($__FILE__, PATHINFO_EXTENSION);
-        $filename = pathinfo($__FILE__, PATHINFO_FILENAME);
-        $templateFile = $filename . '.' . $templateExtension . '.' . $extension;
-        $this->templatePath = joinPath(dirname($__FILE__), $templateFile);
+        $this->templatePath = joinPath($templateDir, $templatePath);
     }
 
     function render(): string {
