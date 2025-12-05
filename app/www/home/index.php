@@ -5,7 +5,7 @@ requireComponent(rootPath('components', 'PageOpening'));
 requireComponent(rootPath('components', 'HTMLHeader'));
 requireComponent(rootPath('components', 'FileInput'));
 
-echo PageOpening('Home');
+PageOpening('Home');
 ?>
 <body>
     <?= HTMLHeader('Test title') ?>
