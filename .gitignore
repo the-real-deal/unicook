@@ -6,3 +6,6 @@
 
 # sqltools
 *.session.sql
+
+# temporary test files
+*.tmp.*

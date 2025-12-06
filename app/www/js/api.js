@@ -1,12 +1,12 @@
-class ApiError extends Error { }
+class ApiError extends Error {}
 
 /**
- * @param {Response} res 
+ * @param {Response} res
  * @returns {Response}
  */
 function rejectApiError(res) {
-    if (res.ok) {
-        return res
-    }
-    throw new ApiError(res.json().error)
+  if (res.ok) {
+    return res;
+  }
+  throw new ApiError(res.json().error);
 }

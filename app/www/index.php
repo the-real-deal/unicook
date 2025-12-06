@@ -1,12 +1,11 @@
-<?php 
-require_once 'bootstrap.php';
+<?php
+require_once "bootstrap.php";
 
 $server = new ApiServer();
 
-$server->addEndpoint(HTTPMethod::GET, function() {
-    Response::redirect('/home/');
+$server->addEndpoint(HTTPMethod::GET, function () {
+    Response::redirect("/home/");
 });
 
 $server->respond();
 ?>
-

@@ -5,10 +5,18 @@ CREATE TABLE `Users` (
     `ID` CHAR(36) PRIMARY KEY,
     `Username` VARCHAR(255) UNIQUE NOT NULL,
     `Email` VARCHAR(255) UNIQUE NOT NULL,
-    `Password` VARCHAR(255) NOT NULL,
+    `Password` CHAR(128) NOT NULL,
+    `Salt` CHAR(128) NOT NULL,
     `AvatarID` CHAR(36),
     `Admin` BOOL NOT NULL DEFAULT false,
     `Deleted` BOOLEAN NOT NULL DEFAULT false
+);
+
+DROP TABLE IF EXISTS `LoginAttempts`;
+CREATE TABLE `LoginAttempts` (
+    `UserID` CHAR(36) NOT NULL,
+    `Timestamp` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    PRIMARY KEY (`UserID`, `Timestamp`)
 );
 
 DROP TABLE IF EXISTS `Tags`;
@@ -48,7 +56,7 @@ CREATE TABLE `RecipeIngredients` (
     `BarCode` VARCHAR(20),
     PRIMARY KEY (`RecipeID`, `IngredientID`)
 );
-
+Email
 DROP TABLE IF EXISTS `RecipePhotos`;
 CREATE TABLE `RecipePhotos` (
     `RecipeID` CHAR(36) NOT NULL,
