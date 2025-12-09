@@ -5,6 +5,7 @@
 
 body {
     min-width: 250px;
+    background-color: #fBf6ef;
 }
 
 /* NAVBAR BASE */
@@ -63,7 +64,9 @@ nav div.navbar-nav>a:last-child:hover {
     box-shadow: none !important;
 }
 
-div {
+footer div,
+nav div,
+#about-page div {
     max-width: 1300px !important;
 }
 
@@ -119,11 +122,11 @@ footer p {
 
 
 /* ABOUT PAGE */
-section:nth-child(odd) {
+#about-page section:nth-child(odd) {
     background-color: #F6F8F2;
 }
 
-section:nth-child(even) {
+#about-page section:nth-child(even) {
     background-color: #FDFCFA;
 }
 
@@ -189,7 +192,7 @@ section:nth-child(even) {
 }
 
 #stats-section {
-    background: #198754;
+    background: #198754 !important;
     color: white;
 }
 
@@ -275,4 +278,147 @@ section:nth-child(even) {
     border: 1px ridge rgb(44, 156, 6);
     background-color: rgb(44, 156, 6);
     color: white;
+}
+
+/* SINGLE PAGE RECIPE */
+#single-recipe-page div {
+    max-width: 1050px !important;
+    margin: auto;
+}
+
+#recipe-info {
+    margin-top: 80px;
+}
+
+#recipe-info div>a {
+    color: currentColor;
+    text-decoration: none;
+    border-radius: 26px;
+    border: none;
+}
+
+#recipe-info div>a:hover {
+    color: currentColor;
+    text-decoration: none;
+    background-color: gainsboro;
+}
+
+#recipe-info img {
+    border-radius: 2rem;
+    aspect-ratio: 16/9;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+
+#recipe-info div:has(>img) {
+    position: relative;
+}
+
+#recipe-info div:has(>form) {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#recipe-info svg {
+    aspect-ratio: 1/1;
+}
+
+#recipe-info label {
+    border-radius: 50%;
+    background-color: #F4E8D9;
+}
+
+#recipe-info label:hover {
+    background-color: gray;
+}
+
+#recipe-info ul,
+#recipe-info dl,
+#aside ul {
+    list-style-type: none;
+}
+
+
+#recipe-info dl>div>div {
+    background-color: #F8F2E9;
+    border-radius: 16px;
+}
+
+#recipe-info li:has(>a) {
+    border-radius: 16px;
+    background-color: #F4E8D9;
+}
+
+#aside {
+    position: sticky;
+    top: 120px;
+    height: fit-content !important;
+}
+
+@media screen and (max-width: 767.5px) {
+    #aside {
+        position: static;
+        max-height: none;
+    }
+}
+
+
+
+#aside input[type="checkbox"]:checked+label {
+    text-decoration: line-through;
+}
+
+#aside>div,
+#instruction>div,
+#student-tips>div,
+#nutrition-info>div {
+    /* border: 2px solid #E6D3B3; */
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+#aside label {
+    word-wrap: break-word;
+    display: inline-block;
+    max-width: calc(100% - 30px);
+}
+
+#instruction ol {
+    list-style: none;
+    counter-reset: item;
+    padding-left: 0;
+}
+
+#instruction li {
+    counter-increment: item;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+#instruction li:before {
+    content: counter(item);
+    background: lightblue;
+    border-radius: 50%;
+    color: white;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+#nutrition-info dl {
+    list-style-type: none;
+}
+
+#nutrition-info {
+    margin-bottom: 60px;
+}
+
+#single-recipe-page {
+    background-color: #FDFCFA;
 }
