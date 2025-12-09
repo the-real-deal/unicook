@@ -1,15 +1,9 @@
 <?php
 // Note: script tags cannot be closed directly with />
-<<<<<<< Updated upstream
-// https://stackoverflow.com/a/69984 
-function PageOpening(string $title) {
-?>
-=======
 // https://stackoverflow.com/a/69984
 function PageOpening(string $title, array $extraCss = [])
 {
     ?>
->>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -28,10 +22,13 @@ function PageOpening(string $title, array $extraCss = [])
     ?>
     <!-- js -->
     <?php
-    $scripts = array_map(fn($path) => substr($path, strlen(PROJECT_ROOT)), listFilesRec('js', 'js'));
-    foreach ($scripts as $script) {
-    ?>
+    $scripts = array_map(
+        fn($path) => substr($path, strlen(PROJECT_ROOT)),
+        listFilesRec("js", "js"),
+    );
+    foreach ($scripts as $script) { ?>
         <script src="<?= $script ?>"></script>
-    <?php } ?>
+    <?php }?>
 </head>
-<?php } ?>
+<?php
+} ?>
