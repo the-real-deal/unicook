@@ -20,4 +20,5 @@ function PageOpening(string $title, array $extraCss = []) {
         <link rel="stylesheet" type="text/css" href="<?= $css ?>" />
     <?php } ?>
 </head>
-<?php } ?>
+<?php
+} ?>
