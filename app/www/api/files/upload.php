@@ -3,16 +3,16 @@ require_once "../../bootstrap.php";
 
 $server = new ApiServer();
 
-$server->addEndpoint(HTTPMethod::POST, function () {
+$server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     try {
         $file = UploadFile::uploadFileArray(
             $_FILES["fileToUpload"],
             FileType::Image,
             "testupload"
         );
-        Response::sendJSON($file);
+        $res->sendJSON($file);
     } catch (UploadErrorException | BadFileException $e) {
-        Response::dieWithError(HTTPCode::BadRequest, $e);
+        $res->dieWithError(HTTPCode::BadRequest, $e);
     }
 });
 

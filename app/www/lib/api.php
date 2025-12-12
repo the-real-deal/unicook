@@ -31,10 +31,10 @@ enum HTTPMethod: string {
 class InvalidHTTPHeaderDataException extends Exception {}
 
 // https://www.php.net/manual/en/filter.constants.php#filter.constants.flags.generic
-final class Request {
-    private function __construct() {}
+class ApiRequest {
+    public function __construct() {}
 
-    public static function parseID(string $value): string|false {
+    public function parseID(string $value): string|false {
         $value = htmlspecialchars($value);
         return filter_var(
             $value, 
@@ -43,10 +43,15 @@ final class Request {
     }
 }
 
-final class Response {
-    private function __construct() {}
+class ApiResponse {
+    public function __construct() {}
 
-    public static function setHeader(HTTPHeader $header, mixed $data) {
+    public function setCode(HTTPCode $code): self {
+        http_response_code($code->value);
+        return $this;
+    }
+
+    public function setHeader(HTTPHeader $header, mixed $data): self {
         $headerName = $header->value;
         if (!$header->checkData($data)) {
             throw new InvalidHTTPHeaderDataException(
@@ -57,47 +62,47 @@ final class Response {
             $data = $data->value;
         }
         header("$headerName: $data");
+        return $this;
     }
 
-    public static function sendText(string $data) {
-        self::setHeader(HTTPHeader::ContentType, MimeType::PlainText);
-        self::setHeader(HTTPHeader::ContentLength, strlen($data));
+    public function sendText(string $data): self {
+        $this->setHeader(HTTPHeader::ContentType, MimeType::PlainText)
+            ->setHeader(HTTPHeader::ContentLength, strlen($data));
         echo $data;
+        return $this;
     }
 
-    public static function sendJSON(array|object $data) {
+    public function sendJSON(array|object $data): self {
         $jsonString = json_encode($data);
-        self::setHeader(HTTPHeader::ContentType, MimeType::JSON);
-        self::setHeader(HTTPHeader::ContentLength, strlen($jsonString));
+        $this->setHeader(HTTPHeader::ContentType, MimeType::JSON)
+            ->setHeader(HTTPHeader::ContentLength, strlen($jsonString));
         echo $jsonString;
+        return $this;
     }
 
-    public static function sendFile(UploadFile $file) {
-        self::setHeader(HTTPHeader::ContentType, $file->mime);
-        self::setHeader(HTTPHeader::ContentLength, $file->size);
+    public function sendFile(UploadFile $file): self {
+        $this->setHeader(HTTPHeader::ContentType, $file->mime)
+            ->setHeader(HTTPHeader::ContentLength, $file->size);
         readfile($file->uploadPath());
+        return $this;
     }
 
-    public static function dieWithError(
+    public function dieWithError(
         HTTPCode $code, 
         string|Exception|null $err = null
     ): never {
-        self::setCode($code);
+        $this->setCode($code);
         if (isset($err)) {
-            self::sendJSON([
+            $this->sendJSON([
                 "error" => is_string($err) ? $err : $err->getMessage(),
             ]);
         }
         die();
     }
 
-    public static function redirect(string $uri): never {
-        self::setHeader(HTTPHeader::Location, $uri);
+    public function redirect(string $uri): never {
+        $this->setHeader(HTTPHeader::Location, $uri);
         die();
-    }
-
-    public static function setCode(HTTPCode $code) {
-        http_response_code($code->value);
     }
 }
 
@@ -110,23 +115,26 @@ class ApiServer {
     }
 
     public function respond() {
+        $req = new ApiRequest();
+        $res = new ApiResponse();
+
         $allowedHttpMethods = HTTPMethod::cases();
         $methodIndex = searchEnum(
             $allowedHttpMethods,
             strtoupper($_SERVER["REQUEST_METHOD"]),
         );
         if ($methodIndex === false) {
-            Response::dieWithError(HTTPCode::MethodNotAllowed);
+            $res->dieWithError(HTTPCode::MethodNotAllowed);
         }
         
         $method = $allowedHttpMethods[$methodIndex];
         $callback = $this->callbacks[$method->value] 
-            ?? Response::dieWithError(HTTPCode::MethodNotAllowed);
+            ?? $res->dieWithError(HTTPCode::MethodNotAllowed);
         
         try {
-            $callback();
+            $callback($req, $res);
         } catch (Exception $e) {
-            Response::dieWithError(HTTPCode::InternalServerError, $e);
+            $res->dieWithError(HTTPCode::InternalServerError, $e);
         }
     }
 }

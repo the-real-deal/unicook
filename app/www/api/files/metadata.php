@@ -3,18 +3,18 @@ require_once "../../bootstrap.php";
 
 $server = new ApiServer();
 
-$server->addEndpoint(HTTPMethod::GET, function () {
-    $id = Request::parseID($_GET["id"]);
+$server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
+    $id = $req->parseID($_GET["id"]);
     if ($id === false) {
-        Response::dieWithError(HTTPCode::BadRequest, "Invalid or missing id");
+        $res->dieWithError(HTTPCode::BadRequest, "Invalid or missing id");
     }
 
     $file = UploadFile::fromId($id, "testupload");
     if ($file === false) {
-        Response::dieWithError(HTTPCode::NotFound);
+        $res->dieWithError(HTTPCode::NotFound);
     }
     
-    Response::sendJSON($file);
+    $res->sendJSON($file);
 });
 
 $server->respond();
