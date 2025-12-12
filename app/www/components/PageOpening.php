@@ -1,9 +1,8 @@
 <?php
 // Note: script tags cannot be closed directly with />
 // https://stackoverflow.com/a/69984
-function PageOpening(string $title, array $extraCss = [])
-{
-    ?>
+function PageOpening(string $title, array $extraCss = []) {
+?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -16,20 +15,9 @@ function PageOpening(string $title, array $extraCss = [])
     <!-- css -->
     <?php
     $cssPaths = ["/css/main.css"] + $extraCss;
-    foreach ($cssPaths as $css) { ?>
-        <link rel="stylesheet" type="text/css" href="<?= $css ?>" />
-    <?php }
+    foreach ($cssPaths as $css) { 
     ?>
-    <!-- js -->
-    <?php
-    $scripts = array_map(
-        fn($path) => substr($path, strlen(PROJECT_ROOT)),
-        listFilesRec("js", "js"),
-    );
-    foreach ($scripts as $script) { ?>
-        <script src="<?= $script ?>"></script>
-    <?php }?>
+        <link rel="stylesheet" type="text/css" href="<?= $css ?>" />
+    <?php } ?>
 </head>
-<?php
-}
-?>
+<?php } ?>

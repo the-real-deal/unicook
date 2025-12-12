@@ -11,4 +11,9 @@ function searchEnum(mixed $cases, mixed $value): string|int|false {
     return array_search($value, $enumValues, true);
 }
 
+function envValue(string $key): ?string {
+    $value = getenv($key);
+    return $value === false ? null : $value;
+}
+
 ?>

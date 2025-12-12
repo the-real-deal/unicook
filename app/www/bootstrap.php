@@ -1,8 +1,4 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
 define("PROJECT_ROOT", __DIR__);
 
 function listFilesRec(
@@ -36,8 +32,7 @@ function listFilesRec(
     return $result;
 }
 
-function requireDir(string $dirPath, string $root = PROJECT_ROOT)
-{
+function requireDir(string $dirPath, string $root = PROJECT_ROOT) {
     $files = listFilesRec($dirPath, "php", $root);
     foreach ($files as $file) {
         require_once $file;

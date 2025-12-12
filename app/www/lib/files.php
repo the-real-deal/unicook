@@ -5,13 +5,10 @@
 defineIfMissing("UPLOAD_DIR", rootPath("uploads"));
 if (!file_exists(UPLOAD_DIR) || !is_dir(UPLOAD_DIR)) {
     // upload directory must be created manually to add access permissions (e.g. .htaccess file)
-    throw new ErrorException(
-        "Upload directory " . UPLOAD_DIR . " does not exist",
-    );
+    throw new ErrorException("Upload directory " . UPLOAD_DIR . " does not exist");
 }
 
-enum MimeType: string
-{
+enum MimeType: string {
     case JPEG = "image/jpeg";
     case PNG = "image/png";
     case GIF = "image/gif";
@@ -20,8 +17,7 @@ enum MimeType: string
     case JavaScript = "text/javascript";
     case PlainText = "text/plain";
 
-    public function preferredExtension(): string
-    {
+    public function preferredExtension(): string {
         return match ($this) {
             self::JPEG => "jpeg",
             self::PNG => "png",
@@ -33,19 +29,16 @@ enum MimeType: string
     }
 }
 
-enum FileType: string
-{
+enum FileType: string {
     case Image = "image";
 
-    public function maxSize(): int
-    {
+    public function maxSize(): int {
         return match ($this) {
-            self::Image => 50 * 1024, // 50KB
+            self::Image => 500 * 1024, // 500KB
         };
     }
 
-    public function allowedMimes(): array
-    {
+    public function allowedMimes(): array {
         return match ($this) {
             self::Image => [
                 MimeType::JPEG,
@@ -60,60 +53,49 @@ enum FileType: string
 class BadFileException extends Exception {}
 class UploadErrorException extends Exception {}
 
-readonly class UploadFile
-{
-    // private constructor to enforce validation method for creation
-    // and prevent throwing exceptions in constructor (bad practice)
+readonly class UploadFile {
     public function __construct(
+        private string $path,
         public string $id,
         public FileType $type,
         public MimeType $mime,
         public int $size,
     ) {}
 
-    private static function createUploadPath(string $id, MimeType $mime): string
-    {
-        return joinPath(UPLOAD_DIR, "$id.{$mime->preferredExtension()}");
+    private static function createUploadPath(string $id, MimeType $mime, string $path): string {
+        return joinPath(UPLOAD_DIR, $path, "$id.{$mime->preferredExtension()}");
     }
 
-    private static function createMetadataPath(string $id): string
-    {
-        return joinPath(UPLOAD_DIR, "$id.json");
+    private static function createMetadataPath(string $id, string $path): string {
+        return joinPath(UPLOAD_DIR, $path, "$id.json");
     }
 
-    public static function fromArray(array $data): self
-    {
-        assert(is_string($data["type"]) || $data["type"] instanceof FileType);
-        assert(is_string($data["mime"]) || $data["mime"] instanceof MimeType);
-
-        return new self(
-            id: $data["id"],
-            type: is_string($data["type"])
-                ? FileType::from($data["type"])
-                : $data["type"],
-            mime: is_string($data["mime"])
-                ? MimeType::from($data["mime"])
-                : $data["mime"],
-            size: $data["size"],
-        );
-    }
-
-    public static function fromId(string $id): self|false
-    {
-        $path = self::createMetadataPath($id);
-        if (!file_exists($path) || !is_file($path)) {
+    public static function fromId(string $id, string $path): self|false {
+        $metadataPath = self::createMetadataPath($id, $path);
+        if (!file_exists($metadataPath) || !is_file($metadataPath)) {
             return false;
         }
-        $jsonString = file_get_contents($path);
+        $jsonString = file_get_contents($metadataPath);
         if ($jsonString === false) {
             throw new RuntimeException("Error reading metadata for $id");
         }
-        $jsonData = json_decode($jsonString, true);
-        return self::fromArray($jsonData);
+        
+        $jsonData = json_decode($jsonString, false);
+        assert(is_string($jsonData->id));
+        assert(is_string($jsonData->type));
+        assert(is_string($jsonData->mime));
+        assert(is_int($jsonData->size));
+
+        return new self(
+            path: $path,
+            id: $jsonData->id,
+            type: FileType::from($jsonData->type),
+            mime: MimeType::from($jsonData->mime),
+            size: $jsonData->size,
+        );
     }
 
-    public static function fromFileArray(array $file, FileType $type): self
-    {
+    public static function uploadFileArray(array $file, FileType $type, string $path): self {
         // https://www.php.net/manual/en/features.file-upload.php
         $error = $file["error"];
 
@@ -136,19 +118,19 @@ readonly class UploadFile
                 throw new UploadErrorException("Unknown file upload error");
         }
 
-        $path = $file["tmp_name"];
+        $tmpName = $file["tmp_name"];
         $size = $file["size"];
         $typename = $type->value;
 
         // check file size
         if ($size > $type->maxSize()) {
             throw new BadFileException(
-                "Exceeded filesize limit for type $typename",
+                "Exceeded size limit for type $typename",
             );
         }
         // check MIME type
         $mimeFinfo = new finfo(FILEINFO_MIME_TYPE);
-        $mimeString = $mimeFinfo->file($path);
+        $mimeString = $mimeFinfo->file($tmpName);
         if ($mimeString === false) {
             throw new BadFileException("Invalid file format");
         }
@@ -163,37 +145,43 @@ readonly class UploadFile
         $mime = $allowedMimes[$mimeIndex];
 
         $id = uuidv4();
-        $uploadPath = self::createUploadPath($id, $mime);
-        $moveOk = move_uploaded_file($path, $uploadPath);
-        if (!$moveOk) {
+        $uploadPath = self::createUploadPath($id, $mime, $path);
+        createMissingDir($uploadPath);
+        $moveOk = move_uploaded_file($tmpName, $uploadPath);
+        if ($moveOk === false) {
             throw new RuntimeException("Failed to upload file");
         }
 
         $result = new UploadFile(
+            path: $path,
             id: $id,
             type: $type,
             mime: $mime,
             size: $size,
         );
 
-        $metadataPath = self::createMetadataPath($id);
+        $metadataPath = self::createMetadataPath($id, $path);
+        createMissingDir($metadataPath);
         $metadataFile = fopen($metadataPath, "w");
+        $resultJson = json_encode($result);
+        if ($resultJson === false) {
+            throw new RuntimeException("Failed to upload metadata");
+        }
+        
         try {
-            fwrite($metadataFile, json_encode($result));
+            fwrite($metadataFile, $resultJson);
             return $result;
         } finally {
             fclose($metadataFile);
         }
     }
 
-    public function uploadPath(): string
-    {
-        return self::createUploadPath($this->id, $this->mime);
+    public function uploadPath(): string {
+        return self::createUploadPath($this->id, $this->mime, $this->path);
     }
 
-    public function metadataPath(): string
-    {
-        return self::createMetadataPath($this->id);
+    public function metadataPath(): string {
+        return self::createMetadataPath($this->id, $this->path);
     }
 }
 ?>

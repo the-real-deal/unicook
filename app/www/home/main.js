@@ -1,12 +1,12 @@
-const form = document.getElementById("testForm");
-const img = document.getElementById("uploadedImage");
-const code = document.getElementById("uploadedImageMetadata");
+import { rejectApiError } from "/js/api.js"
+
+const form = document.getElementById("testForm")
+const img = document.getElementById("uploadedImage")
+const code = document.getElementById("uploadedImageMetadata")
 
 form.addEventListener("submit", async (e) => {
-  console.log("Submit handler called");
-  // prevent opening of new page
-  e.preventDefault();
-  // e.stopImmediatePropagation()
+  console.log("Submit handler called")
+  e.preventDefault() // prevent opening of new page
 
   const result = await fetch(form.action, {
     method: form.method,
@@ -15,12 +15,12 @@ form.addEventListener("submit", async (e) => {
     .then(rejectApiError)
     .then((res) => res.json())
     .catch((err) => {
-      code.innerText = `${err}`;
-      return null;
-    });
+      code.innerText = `${err}`
+      return null
+    })
   if (result === null) {
-    return;
+    return
   }
-  code.innerText = JSON.stringify(result, null, 2);
-  img.src = `/api/files/content.php?id=${result.id}`;
-});
+  code.innerText = JSON.stringify(result, null, 2)
+  img.src = `/api/files/content.php?id=${result.id}`
+})

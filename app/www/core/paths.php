@@ -18,4 +18,11 @@ function rootPath(array|string ...$args): string {
     return joinPath(PROJECT_ROOT, ...$args);
 }
 
+function createMissingDir(string $path) {
+    $path = is_dir($path) ? $path : dirname($path);
+    if (!file_exists($path)) {
+        mkdir($path, recursive: true);
+    }
+}
+
 ?>

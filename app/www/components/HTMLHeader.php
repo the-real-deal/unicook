@@ -11,10 +11,8 @@ enum HeaderLevel: string
 
 // A component for just a simple html header is created for reusing
 // the header level injection logic.
-function HTMLHeader(string $message, HeaderLevel $level = HeaderLevel::H1)
-{
-    $element = $level->value; ?>
-<<?= $element ?>><?= $message ?></<?= $element ?>>
-<?php
-}
+function HTMLHeader(string $message, HeaderLevel $level = HeaderLevel::H1) {
+    $element = $level->value; 
 ?>
+<<?= $element ?>><?= $message ?></<?= $element ?>>
+<?php } ?>

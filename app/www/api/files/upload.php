@@ -5,13 +5,14 @@ $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::POST, function () {
     try {
-        $file = UploadFile::fromFileArray(
+        $file = UploadFile::uploadFileArray(
             $_FILES["fileToUpload"],
             FileType::Image,
+            "testupload"
         );
         Response::sendJSON($file);
     } catch (UploadErrorException | BadFileException $e) {
-        Response::dieWithException($e, HTTPCode::BadRequest);
+        Response::dieWithError(HTTPCode::BadRequest, $e);
     }
 });
 
