@@ -1,4 +1,6 @@
 <?php
+require_once "lib/utils.php";
+
 enum QueryParamType: string {
     case String = "s";
     case Int = "i";
@@ -7,7 +9,7 @@ enum QueryParamType: string {
 class QueryStatement {
     private array $params = [];
             
-    private function __construct(private mysqli_stmt $statement) {}
+    public function __construct(private mysqli_stmt $statement) {}
 
     public function bind(QueryParamType $type, mixed $value): self {
         $this->statement->bind_param($type->value, $value);
@@ -60,4 +62,10 @@ class DatabaseHelper {
         return new QueryStatement($statement);
     }
 }
+
+abstract class DBTable {
+    // return static: instance of child class
+    abstract public static function fromTableRow(array $row): static;
+}
+
 ?>

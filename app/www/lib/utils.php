@@ -1,8 +1,9 @@
 <?php
 
-function defineIfMissing(string $name, mixed $value): void {
-    if (!defined($name)) {
-        define($name, $value);
+function createMissingDir(string $path) {
+    $path = is_dir($path) ? $path : dirname($path);
+    if (!file_exists($path)) {
+        mkdir($path, recursive: true);
     }
 }
 

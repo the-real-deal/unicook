@@ -2,7 +2,9 @@
 // $_FILES[<filename>] keys reference:
 // https://www.php.net/manual/en/features.file-upload.post-method.php
 
-defineIfMissing("UPLOAD_DIR", rootPath("uploads"));
+require_once "lib/utils.php";
+
+define("UPLOAD_DIR", PROJECT_ROOT . "/uploads");
 if (!file_exists(UPLOAD_DIR) || !is_dir(UPLOAD_DIR)) {
     // upload directory must be created manually to add access permissions (e.g. .htaccess file)
     throw new ErrorException("Upload directory " . UPLOAD_DIR . " does not exist");
@@ -63,11 +65,11 @@ readonly class UploadFile {
     ) {}
 
     private static function createUploadPath(string $id, MimeType $mime, string $path): string {
-        return joinPath(UPLOAD_DIR, $path, "$id.{$mime->preferredExtension()}");
+        return UPLOAD_DIR . "/$path/$id.{$mime->preferredExtension()}";
     }
 
     private static function createMetadataPath(string $id, string $path): string {
-        return joinPath(UPLOAD_DIR, $path, "$id.json");
+        return UPLOAD_DIR . "/$path/$id.json";
     }
 
     public static function fromId(string $id, string $path): self|false {
@@ -184,4 +186,5 @@ readonly class UploadFile {
         return self::createMetadataPath($this->id, $this->path);
     }
 }
+
 ?>

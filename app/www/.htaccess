@@ -1,3 +1,4 @@
-<FilesMatch "bootstrap\.php|bootstrap\.js">
+<FilesMatch "bootstrap\.php">
     Deny from all
 </FilesMatch>
+php_value auto_prepend_file "bootstrap.php"
