@@ -18,7 +18,7 @@ Creazione di menù (giornalieri/settimanali/etc...) in base ai gusti, recensioni
 - Username
 - Email
 - Password
-- Gusti
+- Gusti 
 - Lista di Ricette Salvate
 
 #### Gusti
