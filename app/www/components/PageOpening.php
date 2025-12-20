@@ -1,6 +1,9 @@
 <?php
+require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+
 // Note: script tags cannot be closed directly with />
 // https://stackoverflow.com/a/69984
+
 function PageOpening(string $title, array $extraCss = []) {
 ?>
 <!DOCTYPE html>

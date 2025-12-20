@@ -1,5 +1,5 @@
 <?php
-// require_once "../bootstrap.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "components/PageOpening.php";
 require_once "components/HTMLHeader.php";
 require_once "components/FileInput.php";

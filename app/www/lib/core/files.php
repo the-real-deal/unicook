@@ -1,8 +1,9 @@
 <?php
+require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+require_once "lib/utils.php";
+
 // $_FILES[<filename>] keys reference:
 // https://www.php.net/manual/en/features.file-upload.post-method.php
-
-require_once "lib/utils.php";
 
 define("UPLOAD_DIR", PROJECT_ROOT . "/uploads");
 if (!file_exists(UPLOAD_DIR) || !is_dir(UPLOAD_DIR)) {

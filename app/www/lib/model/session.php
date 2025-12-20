@@ -1,4 +1,5 @@
 <?php
+require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "lib/core/db.php";
 
 define("SESSION_KEY_ATTRIBUTE", "sessionKey");

@@ -1,5 +1,5 @@
 <?php
-define("PROJECT_ROOT", __DIR__);
+define("PROJECT_ROOT", $_SERVER['DOCUMENT_ROOT']);
 
 // allow includes with paths starting from project root
 $includePathSplit = explode(PATH_SEPARATOR, get_include_path());
