@@ -16,4 +16,24 @@ function envValue(string $key): ?string {
     return $value === false ? null : $value;
 }
 
+interface Closeable {
+    public function close();
+}
+
+trait AutoCloseable {
+    public function __destruct() {
+        $this->close();
+    }
+
+    abstract public function close();
+}
+
+function using(Closeable $value, callable $callback) {
+    try {
+        return $callback($value);
+    } finally {
+        $value->close();
+    }
+}
+
 ?>

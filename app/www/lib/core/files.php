@@ -5,7 +5,7 @@ require_once "lib/utils.php";
 // $_FILES[<filename>] keys reference:
 // https://www.php.net/manual/en/features.file-upload.post-method.php
 
-define("UPLOAD_DIR", PROJECT_ROOT . "/uploads");
+define("UPLOAD_DIR", "{$_SERVER['DOCUMENT_ROOT']}/uploads");
 if (!file_exists(UPLOAD_DIR) || !is_dir(UPLOAD_DIR)) {
     // upload directory must be created manually to add access permissions (e.g. .htaccess file)
     throw new ErrorException("Upload directory " . UPLOAD_DIR . " does not exist");

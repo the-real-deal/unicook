@@ -4,10 +4,23 @@ require_once "lib/core/db.php";
 
 define("SESSION_KEY_ATTRIBUTE", "sessionKey");
 
-readonly class Session {
-    private function __construct(
+readonly class User extends DBTable {
+    protected function __construct(
         public string $id,
-        public string $userID,
+        public string $username,
+        public string $email,
+        public string $passwordHash,
+        public ?string $avatarId,
+        public bool $isAdmin,
+        public DateTime $createdAt,
+        public bool $deleted,
+    ) {}
+}
+
+readonly class LoginSession extends DBTable {
+    protected function __construct(
+        public string $id,
+        public string $userId,
         public string $key,
         public string $expiresAt,
         public bool $forceExpired,

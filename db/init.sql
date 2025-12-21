@@ -9,147 +9,150 @@ DROP USER IF EXISTS 'unicook_appuser'@'%';
 CREATE USER 'unicook_appuser'@'%' IDENTIFIED BY 'unicook_app_user_passwd!';
 GRANT SELECT, INSERT, UPDATE ON * TO 'unicook_appuser'@'%';
 
+-- set timezone to UTC
+SET time_zone = '+00:00';
+
 -- tables
 
--- The deleted field is present to not give delete permissions to the user
+-- the deleted field is present to not give delete permissions to the user
 
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
-    `ID` CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    `Username` VARCHAR(255) UNIQUE NOT NULL,
-    `Email` VARCHAR(255) UNIQUE NOT NULL,
-    `PasswordHash` CHAR(128) NOT NULL,
-    `AvatarID` CHAR(36),
-    `Admin` BOOL NOT NULL DEFAULT false,
-    `CreatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `Deleted` BOOLEAN NOT NULL DEFAULT false
+    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `username` VARCHAR(255) UNIQUE NOT NULL,
+    `email` VARCHAR(255) UNIQUE NOT NULL,
+    `passwordHash` CHAR(128) NOT NULL,
+    `avatarId` CHAR(36),
+    `isAdmin` BIT NOT NULL DEFAULT false,
+    `createdAt` DATETIME NOT NULL DEFAULT now(),
+    `deleted` BIT NOT NULL DEFAULT false
 );
 
 DROP TABLE IF EXISTS `LoginAttempts`;
 CREATE TABLE `LoginAttempts` (
-    `ID` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `UserID` CHAR(36) NOT NULL,
-    `Timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `userId` CHAR(36) NOT NULL,
+    `attemptedAt` DATETIME NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS `LoginSessions`;
 CREATE TABLE `LoginSessions` (
-    `ID` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `UserID` CHAR(36) NOT NULL,
-    `Key` CHAR(36) UNIQUE NOT NULL DEFAULT (UUID()),
-    `ExpiresAt` TIMESTAMP NOT NULL,
-    `ForceExpired` BOOLEAN NOT NULL DEFAULT false
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `userId` CHAR(36) NOT NULL,
+    `key` CHAR(36) UNIQUE NOT NULL DEFAULT (uuid()),
+    `expiresAt` DATETIME NOT NULL,
+    `forceExpired` BIT NOT NULL DEFAULT false
 );
 
 DROP TABLE IF EXISTS `Tags`;
 CREATE TABLE `Tags` (
-    `ID` CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    `Name` VARCHAR(20) NOT NULL
+    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `name` VARCHAR(20) NOT NULL
 );
 
 DROP TABLE IF EXISTS `Recipes`;
 CREATE TABLE `Recipes` (
-    `ID` CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    `Title` VARCHAR(50) NOT NULL,
-    `Description` TEXT,
-    `PhotoID` CHAR(36),
-    `Difficulty` INT NOT NULL,
-    `CookingTime` INT NOT NULL,
-    `Servings` INT NOT NULL,
-    `UserID` CHAR(36) NOT NULL,
-    `CreatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `Deleted` BOOLEAN NOT NULL DEFAULT false
+    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `title` VARCHAR(50) NOT NULL,
+    `description` TEXT,
+    `photoId` CHAR(36),
+    `difficulty` INT NOT NULL,
+    `cookingTime` INT NOT NULL,
+    `servings` INT NOT NULL,
+    `userId` CHAR(36) NOT NULL,
+    `createdAt` DATETIME NOT NULL DEFAULT now(),
+    `deleted` BIT NOT NULL DEFAULT false
 );
 
 DROP TABLE IF EXISTS `RecipeSteps`;
 CREATE TABLE `RecipeSteps` (
-    `RecipeID` CHAR(36) NOT NULL,
-    `StepNumber` INT NOT NULL,
-    `Instruction` TEXT NOT NULL,
-    `PhotoID` CHAR(36),
-    PRIMARY KEY (`RecipeID`, `StepNumber`)
+    `recipeId` CHAR(36) NOT NULL,
+    `stepNumber` INT NOT NULL,
+    `instruction` TEXT NOT NULL,
+    `photoId` CHAR(36),
+    PRIMARY KEY (`recipeId`, `stepNumber`)
 );
 
 DROP TABLE IF EXISTS `RecipeIngredients`;
 CREATE TABLE `RecipeIngredients` (
-    `RecipeID` CHAR(36) NOT NULL,
-    `IngredientID` INT NOT NULL,
-    `Name` VARCHAR(50) NOT NULL,
-    `Quantity` VARCHAR(50) NOT NULL,
-    `BarCode` VARCHAR(20),
-    PRIMARY KEY (`RecipeID`, `IngredientID`)
+    `recipeId` CHAR(36) NOT NULL,
+    `ingredientId` INT NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `quantity` VARCHAR(50) NOT NULL,
+    `barcode` VARCHAR(20),
+    PRIMARY KEY (`recipeId`, `ingredientId`)
 );
 
 DROP TABLE IF EXISTS `RecipeTags`;
 CREATE TABLE `RecipeTags` (
-    `RecipeID` CHAR(36) NOT NULL,
-    `TagID` CHAR(36) NOT NULL,
-    PRIMARY KEY (`RecipeID`, `TagID`)
+    `recipeId` CHAR(36) NOT NULL,
+    `tagId` CHAR(36) NOT NULL,
+    PRIMARY KEY (`recipeId`, `tagId`)
 );
 
 DROP TABLE IF EXISTS `Reviews`;
 CREATE TABLE `Reviews` (
-    `ID` CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    `UserID` CHAR(36) NOT NULL,
-    `RecipeID` CHAR(36) NOT NULL,
-    `Rating` INT NOT NULL,
-    `Body` TEXT,
-    `CreatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `Deleted` BOOLEAN NOT NULL DEFAULT false,
-    CHECK (`Rating` >= 0 AND `Rating` <= 5)
+    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `userId` CHAR(36) NOT NULL,
+    `recipeId` CHAR(36) NOT NULL,
+    `rating` INT NOT NULL,
+    `body` TEXT,
+    `createdAt` DATETIME NOT NULL DEFAULT now(),
+    `deleted` BIT NOT NULL DEFAULT false,
+    CHECK (`rating` >= 0 AND `rating` <= 5)
 );
 
 DROP TABLE IF EXISTS `RecipeLikes`;
 CREATE TABLE `RecipeLikes` (
-    `UserID` CHAR(36) NOT NULL,
-    `RecipeID` CHAR(36) NOT NULL,
-    `Deleted` BOOLEAN NOT NULL DEFAULT false,
-    PRIMARY KEY (`RecipeID`, `UserID`)
+    `userId` CHAR(36) NOT NULL,
+    `recipeId` CHAR(36) NOT NULL,
+    `deleted` BIT NOT NULL DEFAULT false,
+    PRIMARY KEY (`recipeId`, `userId`)
 );
 
 ALTER TABLE `LoginAttempts`
-ADD FOREIGN KEY (`UserID`) REFERENCES `Users`(`ID`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 
 ALTER TABLE `LoginSessions`
-ADD FOREIGN KEY (`UserID`) REFERENCES `Users`(`ID`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 
 ALTER TABLE `Recipes`
-ADD FOREIGN KEY (`UserID`) REFERENCES `Users`(`ID`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 
 ALTER TABLE `RecipeSteps`
-ADD FOREIGN KEY (`RecipeID`) REFERENCES `Recipes`(`ID`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
 
 ALTER TABLE `RecipeIngredients`
-ADD FOREIGN KEY (`RecipeID`) REFERENCES `Recipes`(`ID`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
 
 ALTER TABLE `Reviews`
-ADD FOREIGN KEY (`UserID`) REFERENCES `Users`(`ID`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 ALTER TABLE `Reviews`
-ADD FOREIGN KEY (`RecipeID`) REFERENCES `Recipes`(`ID`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
 
 ALTER TABLE `RecipeLikes`
-ADD FOREIGN KEY (`UserID`) REFERENCES `Users`(`ID`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 ALTER TABLE `RecipeLikes`
-ADD FOREIGN KEY (`RecipeID`) REFERENCES `Recipes`(`ID`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
 
 ALTER TABLE `RecipeTags`
-ADD FOREIGN KEY (`RecipeID`) REFERENCES `Recipes`(`ID`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
 ALTER TABLE `RecipeTags`
-ADD FOREIGN KEY (`TagID`) REFERENCES `Tags`(`ID`);
+ADD FOREIGN KEY (`tagId`) REFERENCES `Tags`(`id`);
 
 -- data
 
 -- user passwords are <email part before @>123!
 -- e.g. mario.rossi@gmail.com => mario.rossi123!
 INSERT INTO `Users`(
-    `ID`, 
-    `Username`, 
-    `Email`, 
-    `PasswordHash`, 
-    `AvatarID`, 
-    `Admin`, 
-    `CreatedAt`, 
-    `Deleted`
+    `id`, 
+    `username`, 
+    `email`, 
+    `passwordHash`, 
+    `avatarId`, 
+    `isAdmin`, 
+    `createdAt`, 
+    `deleted`
 ) VALUES
 (
     'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f', 
