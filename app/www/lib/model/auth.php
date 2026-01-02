@@ -26,7 +26,7 @@ readonly class LoginSession extends DBTable {
         public bool $forceExpired,
     ) {}
 
-    public static function check(DatabaseHelper $db): mysqli_result|false {
+    public static function check(Database $db): mysqli_result|false {
         // $result = $db->createStatement(<<<sql
         //     SELECT u.*
         //     FROM `LoginSessions` ls

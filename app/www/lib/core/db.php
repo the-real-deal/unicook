@@ -186,6 +186,7 @@ class QueryStatement {
     public function __construct(private mysqli_stmt $statement) {}
 
     public function bind(SqlValue $type, mixed $value): self {
+        # todo: multiple bind
         $this->statement->bind_param($type->typeString(), $value);
         return $this;
     }
