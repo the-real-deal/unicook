@@ -95,8 +95,8 @@ nav span {
     color: var(--text);
 }
 
-nav>*,
-footer>* {
+nav > *,
+footer > * {
     min-width: 0 !important;
 }
 
@@ -117,15 +117,16 @@ nav li a:hover {
 }
 
 /* BOTTONE LOGIN */
-nav div.navbar-nav>a:last-child {
+nav div.navbar-nav > a:last-child {
     background: var(--primary);
+    min-width: max-content;
     color: white;
     font-weight: 600;
     text-decoration: none;
     border-radius: 50px;
 }
 
-nav div.navbar-nav>a:last-child:hover {
+nav div.navbar-nav > a:last-child:hover {
     background: var(--primary-text);
 }
 
