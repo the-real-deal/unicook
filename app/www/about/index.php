@@ -3,6 +3,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
+require_once "components/Chat.php";
 
 PageOpening("About",["style.css"]);
 ?>
@@ -13,6 +14,7 @@ PageOpening("About",["style.css"]);
     ?>
     <!-- ABOUT PAGE-->
     <main>
+        <?php Chat(); ?>
         <!-- HERO SECTION -->
         <section class="py-5" id="hero-section">
             <div class="container-fluid text-center">

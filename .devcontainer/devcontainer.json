@@ -34,7 +34,8 @@
                 "zobo.php-intellisense",
                 "xdebug.php-debug",
                 "dbdiagram.dbdiagram-vscode",
-                "ms-vsliveshare.vsliveshare"
+                "ms-vsliveshare.vsliveshare",
+                "ritwickdey.LiveServer"
             ]
         }
     },
