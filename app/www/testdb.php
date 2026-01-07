@@ -15,10 +15,10 @@ sql);
 function myApi(string $id1) {
     global $statement; // or store it as a class member / static var
 
-    $statement->bind([
+    $statement->bind(
         // one for each '?' in the query
         SqlValueType::String->createParam($id1),
-    ]);
+    );
 
     if ($statement->execute()) {
         $result = $statement->getResult();

@@ -193,7 +193,7 @@ class QueryStatement {
             
     public function __construct(private mysqli_stmt $statement) {}
 
-    public function bind(array $params): self {
+    public function bind(SqlParam ...$params): self {
         $typeStrings = array_map(fn ($v) => $v->type->typeString(), $params);
         $data = array_map(fn ($v) => $v->data, $params);
         $this->statement->bind_param(implode("", $typeStrings), ...$data);
