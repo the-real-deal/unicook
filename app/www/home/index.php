@@ -18,7 +18,7 @@ PageOpening("Home");
         <br />
         <input type="submit" value="Upload Image" />
     </form>
-    <br />
+    <br/>
     <pre><code id="uploadedImageMetadata">No file uploaded</code></pre>
     <img id="uploadedImage" alt="uploaded image" />
     <script type="module" src="main.js"></script>
