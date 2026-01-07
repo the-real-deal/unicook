@@ -50,8 +50,8 @@ enum SqlValueType {
                 return "s";
         }
     }
-    
-    public function valueFromField(null|int|float|string|false $value): mixed  {
+
+    public function valueFromField(null|int|float|string|false $value): mixed {
         if ($value === null) {
             return null;
         }
@@ -74,7 +74,7 @@ enum SqlValueType {
         }
     }
     
-    public function valueIntoField(mixed $value): null|int|float|string  {
+    public function valueIntoField(mixed $value): null|int|float|string {
         if ($value === null) {
             return null;
         }
@@ -96,6 +96,14 @@ enum SqlValueType {
                 return $value->format(MYSQL_DATETIME_FORMAT);
         }
     }
+
+    public function createParam(mixed $data): SqlParam {
+        return new SqlParam($this, $data);
+    }
+}
+
+readonly class SqlParam {
+    public function __construct(public SqlValueType $type, public mixed $data) {}
 }
 
 class QueryRow extends ArrayObject {
@@ -185,9 +193,10 @@ class QueryStatement {
             
     public function __construct(private mysqli_stmt $statement) {}
 
-    public function bind(SqlValue $type, mixed $value): self {
-        # todo: multiple bind
-        $this->statement->bind_param($type->typeString(), $value);
+    public function bind(array $params): self {
+        $typeStrings = array_map(fn ($v) => $v->type->typeString(), $params);
+        $data = array_map(fn ($v) => $v->data, $params);
+        $this->statement->bind_param(implode("", $typeStrings), ...$data);
         return $this;
     }
 
