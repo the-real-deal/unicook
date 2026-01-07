@@ -103,7 +103,8 @@ nav a {
 footer {
     margin-top: 20px;
     box-shadow: var(--shadow-light);
-    background-color: var(--bg-footer);
+    background-color: var(--bg-dark);
+    border-top: 0.5px solid var(--border-muted);
 }
 
 footer span {

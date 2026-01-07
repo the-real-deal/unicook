@@ -1,0 +1,113 @@
+@import url("general-card.css");
+
+/*------------------------------------*/
+/*           Recipe Card              */
+/*------------------------------------*/
+
+.recipe-card article {
+    width: 95%;
+    background-color: var(--bg-light);
+    overflow: hidden;
+    border-bottom: var(--border-card);
+    border-top: var(--border-top);
+    position: relative;
+}
+
+.recipe-card article>h3 {
+    transition: var(--default-transition-timing-function);
+    padding: 5px 0%;
+    margin-block: 0px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* .recipe-card article span, */
+.recipe-card article>ul {
+    padding: 5px 0%;
+    margin-bottom: 0px;
+}
+
+.recipe-card article>ul>li {
+    margin-bottom: 0px;
+    margin-top: 5px;
+    padding: 0px 0%;
+    text-align: center;
+    font-size: small;
+    font-weight: normal;
+    color: var(--text);
+}
+
+.recipe-card article>div>img {
+    transition: var(--default-transition-timing-function);
+}
+
+.recipe-card article>div {
+    overflow: hidden;
+}
+
+.recipe-card article:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.recipe-card article:hover h3 {
+    color: var(--primary-text);
+}
+
+.recipe-card article:hover div>img {
+    transform: scale(1.03);
+}
+
+.recipe-card article>ul>li {
+    margin: 5px, 0%;
+    padding: 10px 0%;
+    display: inline-block;
+    padding: 1px 3%;
+    border-radius: 500px;
+    background-color: var(--primary-shade);
+    text-align: center;
+}
+
+.recipe-card article>ul>li:first-child {
+    background-color: var(--secondary-shade);
+}
+
+.recipe-card article span {
+    font-weight: lighter;
+    margin-left: 2px;
+    font-size: smaller;
+}
+
+.recipe-card article>a {
+    text-decoration: underline;
+    font-size: medium;
+    font-weight: 400;
+    color: var(--text);
+    transition: var(--default-transition-timing-function);
+}
+
+.recipe-card article>a:hover {
+    color: var(--primary-text);
+}
+
+.recipe-card>article>div:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.recipe-card>article>div:last-child {
+    width: 10%;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    background-color: var(--bg-dark);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.recipe-card>article>div:last-child:hover {
+    background-color: var(--bg-light);
+}
+
+.recipe-card article>:not(:first-child, :last-child) {
+    padding-inline: 7%;
+    margin-bottom: 10px;
+}

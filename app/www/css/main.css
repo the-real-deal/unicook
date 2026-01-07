@@ -1,2 +1,4 @@
 @import 'variables.css';
 @import 'layout.css';
+@import 'components/general-card.css';
+@import 'components/recipe-card.css';

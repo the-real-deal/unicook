@@ -1,0 +1,65 @@
+/*------------------------------------*/
+/*           Category Card            */
+/*------------------------------------*/
+.category-card {
+    list-style-type: none;
+}
+
+.category-card>a {
+    width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    font-size: medium;
+    font-weight: 600;
+}
+
+.category-card>a>p {
+    color: var(--text);
+    font-weight: lighter;
+    font-size: small;
+}
+
+.category-card:nth-child(3n)>a {
+    background-color: var(--primary);
+}
+
+.category-card:nth-child(3n+2)>a {
+    background-color: var(--secondary);
+
+}
+
+.category-card:nth-child(3n+1)>a {
+    background-color: var(--tertiary);
+}
+
+.category-card:nth-child(3n)>a>div:first-child {
+    background-color: var(--primary-shade);
+}
+
+.category-card:nth-child(3n+2)>a>div:first-child {
+    background-color: var(--secondary-shade);
+
+}
+
+.category-card:nth-child(3n+1)>a>div:first-child {
+    background-color: var(--tertiary-shade);
+}
+
+.category-card>a>div:first-child {
+    border-radius: var(--card-radius);
+    margin: 20px auto 10px auto;
+    width: 40%;
+    color: var(--text);
+    aspect-ratio: 1/1;
+    display: block;
+}
+
+.category-card>a:hover {
+    box-shadow: var(--shadow-hover);
+    transform: scale(1.03);
+}
+
+.category-card svg {
+    width: 40%;
+    aspect-ratio: 1/1;
+}

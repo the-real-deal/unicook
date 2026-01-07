@@ -1,0 +1,198 @@
+body {
+    margin-top: 0px;
+}
+
+/*------------------------------------*/
+/*            Heading Page            */
+/*------------------------------------*/
+
+main h1 {
+    font-size: 58px;
+    font-weight: 400;
+}
+
+main>:first-child p {
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+h2+p {
+    color: var(--text-muted);
+}
+
+main input[type=search] {
+    border-radius: var(--radius);
+    border-width: 2px;
+    border-color: var(--bg-light);
+    border-style: solid;
+    outline: none;
+    transition: var(--default-transition-timing-function);
+    background-image: url('/assets/search.svg');
+    background-position: 3% 50%;
+    background-repeat: no-repeat;
+    padding: 14px 6%;
+}
+
+main input[type=search]:focus {
+    border-width: 2px;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-shade);
+}
+
+main header:has(> input[type=search]) {
+    background-color: var(--bg-dark);
+}
+
+main header:has(> input[type=search]:focus) {
+    border-radius: 16px;
+}
+
+main header form:first-of-type input[type=submit] {
+    border: 0px;
+    background-color: var(--primary);
+    border-radius: var(--radius);
+    transition: var(--default-transition-timing-function);
+    box-shadow: var(--shadow-combined);
+    color: var(--bg-light);
+    padding-block: 14px;
+}
+
+main header form:first-of-type input[type=submit]:hover {
+    /* border: 1px ridge var(--primary-text); */
+    background-color: var(--primary-text);
+    box-shadow: var(--shadow-hover);
+    color: var(--bg-light);
+}
+
+main header form:last-of-type>input[type=submit] {
+    border-width: 1px;
+    border-radius: var(--card-radius);
+    border-color: var(--border-muted);
+    background-color: var(--bg-light);
+    border-style: solid;
+    outline: none;
+    background-image: url('/assets/random.svg');
+    background-position: 10% 50%;
+    background-size: 10%;
+    background-repeat: no-repeat;
+    padding-inline: 6% 2%;
+    transition: var(--default-transition-timing-function);
+}
+
+main header form:last-of-type>input[type=submit]:hover {
+    background-color: var(--secondary);
+    border-color: var(--secondary-text);
+}
+
+main header>div:last-child>div {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+    box-shadow: 0 25px 50px -12px #00000040;
+}
+
+main header>div:last-child img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+main>*:not(:first-child),
+main>:first-child>* {
+    max-width: 1250px;
+    margin-block: 10px;
+    margin-inline: auto !important;
+    /* To override bootstrap styles */
+}
+
+main>:first-child {
+    background-color: var(--bg-dark);
+}
+
+main>* {
+    padding-block: 60px;
+}
+
+
+@media (min-width: 576px) and (max-width: 768px) {
+    main h1 {
+        font-size: 40px;
+    }
+}
+
+.recipe-card>article,
+.category-card>a {
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-combined);
+    transition: var(--default-transition-timing-function);
+    font-family: var(--font-family);
+    color: var(--text);
+}
+
+/*------------------------------------*/
+/*           Category Card            */
+/*------------------------------------*/
+.category-card {
+    list-style-type: none;
+}
+
+.category-card>a {
+    width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    font-size: medium;
+    font-weight: 600;
+}
+
+.category-card>a>p {
+    color: var(--text);
+    font-weight: lighter;
+    font-size: small;
+}
+
+.category-card:nth-child(3n)>a {
+    background-color: var(--primary);
+}
+
+.category-card:nth-child(3n+2)>a {
+    background-color: var(--secondary);
+
+}
+
+.category-card:nth-child(3n+1)>a {
+    background-color: var(--tertiary);
+}
+
+.category-card:nth-child(3n)>a>div:first-child {
+    background-color: var(--primary-shade);
+}
+
+.category-card:nth-child(3n+2)>a>div:first-child {
+    background-color: var(--secondary-shade);
+
+}
+
+.category-card:nth-child(3n+1)>a>div:first-child {
+    background-color: var(--tertiary-shade);
+}
+
+.category-card>a>div:first-child {
+    border-radius: var(--card-radius);
+    margin: 20px auto 10px auto;
+    width: 40%;
+    color: var(--text);
+    aspect-ratio: 1/1;
+    display: block;
+}
+
+.category-card>a:hover {
+    box-shadow: var(--shadow-hover);
+    transform: scale(1.03);
+}
+
+.category-card svg {
+    width: 40%;
+    aspect-ratio: 1/1;
+}

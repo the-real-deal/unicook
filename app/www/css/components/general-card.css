@@ -1,0 +1,8 @@
+.recipe-card>article,
+.category-card>a {
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-combined);
+    transition: var(--default-transition-timing-function);
+    font-family: var(--font-family);
+    color: var(--text);
+}
