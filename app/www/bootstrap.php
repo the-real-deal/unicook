@@ -8,4 +8,12 @@ set_include_path(implode(PATH_SEPARATOR, $includePathSplit));
 // set UTC as default timezone
 date_default_timezone_set('UTC');
 
+function debug(mixed ...$values) {
+    echo "<pre>";
+    foreach ($values as $val) {
+        var_dump($val);
+    }
+    echo "</pre>";
+}
+
 ?>

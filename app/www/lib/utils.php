@@ -1,4 +1,5 @@
 <?php
+
 function createMissingDir(string $path) {
     $path = is_dir($path) ? $path : dirname($path);
     if (!file_exists($path)) {
