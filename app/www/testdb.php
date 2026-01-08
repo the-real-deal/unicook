@@ -5,15 +5,13 @@ require_once "lib/model/auth.php";
 
 $db = Database::connectDefault();
 
-$statement = $db->createStatement(<<<sql
-SELECT * 
-FROM `Users` 
-WHERE 
-    `ID` = ?
-sql);
-
-function myApi(string $id1) {
-    global $statement; // or store it as a class member / static var
+function myApi(Database $db, string $id1) {
+    $statement = $db->createStatement(<<<sql
+        SELECT * 
+        FROM `Users` 
+        WHERE 
+            `ID` = ?
+        sql);
 
     $statement->bind(
         // one for each '?' in the query
@@ -33,6 +31,6 @@ function myApi(string $id1) {
     }
 }
 
-myApi("a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f");
+myApi($db, "a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f");
 
 ?>
