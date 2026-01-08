@@ -115,6 +115,33 @@ main>* {
     padding-block: 60px;
 }
 
+main>:last-child>div {
+    border: var(--border-muted);
+    background-color: var(--primary-text);
+    box-shadow: var(--shadow-combined);
+    color: var(--bg-light);
+    border-radius: 3rem;
+    margin-inline: 5%;
+}
+
+main>:last-child p {
+    color: var(--bg-light);
+}
+
+main>:last-child a {
+    background-color: var(--bg-light);
+    color: var(--primary-text);
+    border: 2px solid var(--primary-text);
+    text-decoration: none;
+    border-radius: 20px;
+    transition: var(--default-transition-timing-function);
+}
+
+main>:last-child a:hover {
+    background-color: var(--secondary-text);
+    color: var(--bg-light);
+    border: 2px solid var(--bg-light);
+}
 
 @media (min-width: 576px) and (max-width: 768px) {
     main h1 {
@@ -122,7 +149,11 @@ main>* {
     }
 }
 
-.recipe-card>article,
+
+/*------------------------------------*/
+/*             Tmp Styling            */
+/*------------------------------------*/
+
 .category-card>a {
     border-radius: var(--card-radius);
     box-shadow: var(--shadow-combined);
@@ -131,9 +162,6 @@ main>* {
     color: var(--text);
 }
 
-/*------------------------------------*/
-/*           Category Card            */
-/*------------------------------------*/
 .category-card {
     list-style-type: none;
 }

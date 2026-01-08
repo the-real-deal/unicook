@@ -42,7 +42,7 @@ function RecipeCard(string $id, string $recipeTitle, array $tags, int $timeRequi
                 <span aria-label="Cost"><?php echo $cost ?></span>
             </div>
         </div>
-        <a>More...</a>
+        <a href="#" >More...</a>
         <div class="d-flex justify-content-center align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-bookmark" viewBox="0 0 16 16">

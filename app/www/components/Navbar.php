@@ -7,7 +7,7 @@
         <div class="container-fluid d-flex justify-content-between">
             <div class="container-fluid d-flex justify-content-between">
                 <!-- BRAND -->
-                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="/home">
                     <div class="d-flex align-items-center justify-content-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="white"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -43,9 +43,9 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <div class="navbar-nav d-flex">
                     <ul class="navbar-nav d-flex gap-2 my-2 mx-1">
-                        <li class="nav-item"><a class="nav-link px-3 py-2" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-3 py-2" href="/home">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-3 py-2" href="#">Recipes</a></li>
-                        <li class="nav-item"><a class="nav-link px-3 py-2" href="#">About</a></li>
+                        <li class="nav-item"><a class="nav-link px-3 py-2" href="/about">About</a></li>
                     </ul>
                     <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login.html">
                         <svg class="flex-shrink-0 me-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"

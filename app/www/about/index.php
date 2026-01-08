@@ -319,28 +319,20 @@ PageOpening("About",["style.css"]);
         <!-- CTA SECTION -->
         <section class="py-5">
             <div class="container">
-
                 <div class="p-5 text-center" id="section-ending">
-
                     <h2 class="mb-3">Ready to Start Your Cooking Journey?</h2>
                     <p class="lead mb-4 w-75 mx-auto">
                         Join our community of student cooks and discover how easy and fun cooking can be.
                     </p>
-
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-
                         <a href="/recipes" class="px-4 py-2">
                             Browse Recipes
                         </a>
-
                         <a href="/" class="px-4 py-2">
                             Back to Home
                         </a>
-
                     </div>
-
                 </div>
-
             </div>
         </section>
     </main>

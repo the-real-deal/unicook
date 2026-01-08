@@ -51,7 +51,7 @@ section:nth-child(even) {
 }
 
 .value-card {
-    border: var(--border-muted);
+    border: 1px solid var(--border-muted);
     border-radius: var(--radius);
     background-color: var(--bg-light);
     transition: var(--default-transition-timing-function);

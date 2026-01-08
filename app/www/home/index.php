@@ -38,8 +38,8 @@ PageOpening("Home",["style.css"]);
                 </div>
                 <div class="d-sm-none d-lg-flex col-lg-6 justify-content-center align-content-center">
                     <div>
-                        <img src="https://images.unsplash.com/photo-1671725501632-3980b640f420?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwc3R1ZGVudCUyMGNvb2tpbmclMjBraXRjaGVufGVufDF8fHx8MTc2MzEyMzM5NXww&ixlib=rb-4.1.0&q=80&w=1080"
-                            alt="Student cooking">
+                        <img src="/assets/homepage.png"
+                            alt="">
                     </div>
                 </div>
             </header>
@@ -55,13 +55,13 @@ PageOpening("Home",["style.css"]);
         </section>
 
         <!-- Categories -->
-        <section>
-            <h2>Popular Categories</h2>
+        <section class="row">
+            <h2>Hand-Picked Categories</h2>
             <p>Find recipes that fit your needs</p>
-            <ul class="row text-center px-0">
+            <ul class="row text-center">
                 <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
                     <!-- href="http://www.google.it" -->
-                    <a class="my-1">
+                    <a href="#" class="my-1">
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- Vegan -->
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -78,7 +78,7 @@ PageOpening("Home",["style.css"]);
                     </a>
                 </li>
                 <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a class="my-1">
+                    <a href="#" class="my-1">
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- Moon -->
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -94,7 +94,7 @@ PageOpening("Home",["style.css"]);
                     </a>
                 </li>
                 <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a class="my-1">
+                    <a href="#" class="my-1">
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- International -->
                             <svg xmlns="http://www.w3.org/2000/svg" height viewBox="0 0 24 24" fill="none"
@@ -110,7 +110,7 @@ PageOpening("Home",["style.css"]);
                     </a>
                 </li>
                 <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a class="my-1">
+                    <a href="#" class="my-1">
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- Low Ingredients -->
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -129,7 +129,7 @@ PageOpening("Home",["style.css"]);
                     </a>
                 </li>
                 <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a class="my-1">
+                    <a href="#" class="my-1">
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- Quick  -->
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -145,7 +145,7 @@ PageOpening("Home",["style.css"]);
                     </a>
                 </li>
                 <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a class="my-1">
+                    <a href="#" class="my-1">
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- Budget -->
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -160,6 +160,18 @@ PageOpening("Home",["style.css"]);
                     </a>
                 </li>
             </ul>
+        </section>
+
+        <section class="py-3">
+            <div class="p-5 text-center">
+                <h2 class="mb-3">Ready to Start Cooking?</h2>
+                <p class="lead mb-4 w-75 mx-auto">
+                    Join thousands of students who are eating better, saving money, and having fun in the kitchen.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="/recipes" class="px-4 py-2">Browse Recipes</a>
+                </div>
+            </div>
         </section>
     </main>
 

@@ -31,9 +31,9 @@
                 <div class="col-lg-3 col-md-6">
                     <span>Quick Links</span>
                     <ul class="list-unstyled mt-2">
-                        <li class="mb-2"><a href="#">Home</a></li>
+                        <li class="mb-2"><a href="/home">Home</a></li>
                         <li class="mb-2"><a href="#">Recipes</a></li>
-                        <li class="mb-2"><a href="#">About</a></li>
+                        <li class="mb-2"><a href="/about">About</a></li>
                     </ul>
                 </div>
 
