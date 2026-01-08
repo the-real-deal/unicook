@@ -195,8 +195,8 @@ class QueryStatement {
 
     public function bind(SqlParam ...$params): self {
         $typeStrings = array_map(fn ($v) => $v->type->typeString(), $params);
-        $data = array_map(fn ($v) => $v->data, $params);
-        $this->statement->bind_param(implode("", $typeStrings), ...$data);
+        $fields = array_map(fn ($v) => $v->type->valueIntoField($v->data), $params);
+        $this->statement->bind_param(implode("", $typeStrings), ...$fields);
         return $this;
     }
 
@@ -207,9 +207,19 @@ class QueryStatement {
     public function getResult(): QueryResult|false {
         return QueryResult::fromResult($this->statement->get_result());
     }
+
+    public function expectResult(): QueryResult {
+        $result = $this->getResult();
+        if ($result === false) {
+            throw new RuntimeException("Expected query result");
+        }
+        return $result;
+    }
 }
 
-class Database {
+class Database implements Closeable {
+    use AutoCloseable;
+
     private mysqli $conn;
 
     public function __construct(
@@ -240,6 +250,10 @@ class Database {
         $statement = $this->conn->prepare($query);
         return new QueryStatement($statement);
     }
+
+    public function close() {
+        $this->conn->close();
+    }
 }
 
 readonly abstract class DBTable {
@@ -251,6 +265,10 @@ readonly abstract class DBTable {
             $params[] = $row[$param->getName()];
         }
         return new static(...$params);
+    }
+
+    protected static function sqlTableAliasPrefix(?string $tableAlias = null): string {
+        return $tableAlias === null ? "" : "$tableAlias.";
     }
 }
 

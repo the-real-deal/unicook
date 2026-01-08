@@ -35,12 +35,11 @@ CREATE TABLE `LoginAttempts` (
     `attemptedAt` DATETIME NOT NULL DEFAULT now()
 );
 
-DROP TABLE IF EXISTS `LoginSessions`;
-CREATE TABLE `LoginSessions` (
-    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+DROP TABLE IF EXISTS `AuthSessions`;
+CREATE TABLE `AuthSessions` (
+    `id` CHAR(36) UNIQUE NOT NULL DEFAULT (uuid()),
     `userId` CHAR(36) NOT NULL,
-    `key` CHAR(36) UNIQUE NOT NULL DEFAULT (uuid()),
-    `expiresAt` DATETIME NOT NULL,
+    `createdAt` DATETIME NOT NULL DEFAULT now(),
     `forceExpired` BIT NOT NULL DEFAULT false
 );
 
@@ -113,7 +112,7 @@ CREATE TABLE `RecipeLikes` (
 ALTER TABLE `LoginAttempts`
 ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 
-ALTER TABLE `LoginSessions`
+ALTER TABLE `AuthSessions`
 ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 
 ALTER TABLE `Recipes`
@@ -143,6 +142,7 @@ ADD FOREIGN KEY (`tagId`) REFERENCES `Tags`(`id`);
 -- data
 
 -- user passwords are <email part before @>123!
+-- hashed with php password_hash($password, PASSWORD_DEFAULT)
 -- e.g. mario.rossi@gmail.com => mario.rossi123!
 INSERT INTO `Users`(
     `id`, 
