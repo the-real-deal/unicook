@@ -267,8 +267,8 @@ readonly abstract class DBTable {
         return new static(...$params);
     }
 
-    protected static function sqlTableAliasPrefix(?string $tableAlias = null): string {
-        return $tableAlias === null ? "" : "$tableAlias.";
+    public static function fromOptionalTableRow(?QueryRow $row): ?static {
+        return $row === null ? null : static::fromTableRow($row);
     }
 }
 
