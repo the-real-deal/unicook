@@ -11,6 +11,10 @@ body {
     background-color: var(--bg);
 }
 
+h1 {
+    color: var(--text);
+}
+
 /* NAVBAR BASE */
 nav {
     background: var(--bg) !important;

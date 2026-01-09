@@ -44,7 +44,7 @@
                 <div class="navbar-nav d-flex">
                     <ul class="navbar-nav d-flex gap-2 my-2 mx-1">
                         <li class="nav-item"><a class="nav-link px-3 py-2" href="/home">Home</a></li>
-                        <li class="nav-item"><a class="nav-link px-3 py-2" href="#">Recipes</a></li>
+                        <li class="nav-item"><a class="nav-link px-3 py-2" href="/recipes">Recipes</a></li>
                         <li class="nav-item"><a class="nav-link px-3 py-2" href="/about">About</a></li>
                     </ul>
                     <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login.html">
