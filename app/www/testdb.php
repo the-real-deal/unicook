@@ -13,10 +13,7 @@ function myApi(Database $db, string $id1) {
             `ID` = ?
         sql);
 
-    $statement->bind(
-        // one for each '?' in the query
-        SqlValueType::String->createParam($id1),
-    );
+    $statement->bind($id1);
 
     if ($statement->execute()) {
         $result = $statement->getResult();

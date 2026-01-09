@@ -1,6 +1,7 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
-require_once "files.php";
+require_once "lib/core/files.php";
+require_once "lib/utils.php";
 
 enum HTTPHeader: string {
     case ContentType = "Content-Type";
@@ -59,7 +60,7 @@ class ApiResponse {
                 "Invalid value $data for header $headerName",
             );
         }
-        if ($data instanceof \UnitEnum) {
+        if (isEnum($data)) {
             $data = $data->value;
         }
         header("$headerName: $data");

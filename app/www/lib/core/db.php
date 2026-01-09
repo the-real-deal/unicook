@@ -37,6 +37,21 @@ enum SqlValueType {
         }
     }
 
+    public static function fromValue(mixed $value): ?self {
+        if (is_int($value)) {
+            return self::Int;
+        } else if (is_bool($value)) {
+            return self::Bool;
+        } else if (is_float($value)) {
+            return self::Float;
+        } else if (is_string($value)) {
+            return self::Float;
+        } else if ($value instanceof DateTime) {
+            return self::DateTime;
+        }
+        return null;
+    }
+
     // https://www.php.net/manual/en/mysqli-stmt.bind-param.php
     public function typeString(): string  {
         switch ($this) {
@@ -115,7 +130,8 @@ class QueryRow extends ArrayObject {
         $data = [];
         foreach ($row as $key => $value) {
             assert($fields[$key] instanceof SqlValueType);
-            $data[$key] = $fields[$key]->valueFromField($value);
+            $value = $fields[$key]->valueFromField($value);
+            $data[$key] = $value;
         }
         return new self($data);
     }
@@ -262,7 +278,15 @@ readonly abstract class DBTable {
         $reflection = new ReflectionClass(static::class);
         $params = [];
         foreach ($reflection->getConstructor()->getParameters() as $param) {
-            $params[] = $row[$param->getName()];
+            $value = $row[$param->getName()];
+            $type = $param->getType();
+            if ($type !== null && $type instanceof ReflectionNamedType && !$type->isBuiltin()) {
+                $enumClass = new ReflectionClass($type->getName());
+                if ($enumClass->isEnum()) {
+                    $value = $enumClass::from($value);
+                }
+            }
+            array_push($params, $value);
         }
         return new static(...$params);
     }
