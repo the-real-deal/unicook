@@ -28,16 +28,10 @@ CREATE TABLE `Users` (
     `deleted` BIT NOT NULL DEFAULT false
 );
 
-DROP TABLE IF EXISTS `LoginAttempts`;
-CREATE TABLE `LoginAttempts` (
-    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `userId` CHAR(36) NOT NULL,
-    `attemptedAt` DATETIME NOT NULL DEFAULT now()
-);
-
 DROP TABLE IF EXISTS `AuthSessions`;
 CREATE TABLE `AuthSessions` (
-    `id` CHAR(36) UNIQUE NOT NULL DEFAULT (uuid()),
+    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `key` CHAR(36) UNIQUE NOT NULL DEFAULT (uuid()),
     `userId` CHAR(36) NOT NULL,
     `createdAt` DATETIME NOT NULL DEFAULT now(),
     `forceExpired` BIT NOT NULL DEFAULT false
@@ -108,9 +102,6 @@ CREATE TABLE `RecipeLikes` (
     `deleted` BIT NOT NULL DEFAULT false,
     PRIMARY KEY (`recipeId`, `userId`)
 );
-
-ALTER TABLE `LoginAttempts`
-ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 
 ALTER TABLE `AuthSessions`
 ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
