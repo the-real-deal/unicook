@@ -2,9 +2,55 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "lib/core/db.php";
 
-define("AUTH_SESSION_ID_KEY", "AUTH_SESSION_ID");
-
 $db = Database::connectDefault();
+
+readonly class AuthSession extends DBTable {
+    private const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
+
+    protected function __construct(
+        public string $id,
+        public string $key,
+        public string $userId,
+        public DateTime $createdAt,
+        public bool $forceExpired,
+    ) {}
+
+    public function expired(): bool {
+        $now = new DateTime();
+        $seconds = self::SESSION_VALIDITY_SECS;
+        // https://www.php.net/manual/en/dateinterval.construct.php
+        $secondsInterval = new DateInterval("PT{$seconds}S");
+        return $this->forceExpired || $this->createdAt->add($secondsInterval) <= $now;
+    }
+
+    public static function sqlValidityCheck(?string $alias): string {
+        $table = self::tableAliasPrefix($alias);
+        $seconds = self::SESSION_VALIDITY_SECS;
+        return <<<sql
+        NOT $table`forceExpired` 
+        AND date_add($table`createdAt`, INTERVAL $seconds SECOND) > now()
+        sql;
+    }
+
+    public static function fromKey(Database $db, string $key): self|false {
+        $validityCheck = AuthSession::sqlValidityCheck("s");
+        $query = $db->createStatement(<<<sql
+            SELECT s.*
+            FROM `AuthSessions` s
+            WHERE s.`key` = ?
+                AND $validityCheck
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($key))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        if ($result->totalRows === 0) {
+            return false;
+        }
+        return self::fromTableRow($result->fetchOne());
+    }
+}
 
 readonly class User extends DBTable {
     protected function __construct(
@@ -17,81 +63,117 @@ readonly class User extends DBTable {
         public DateTime $createdAt,
         public bool $deleted,
     ) {}
-}
 
-readonly class AuthSession extends DBTable {
-    private const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
-
-    protected function __construct(
-        public string $id,
-        public string $userId,
-        public DateTime $createdAt,
-        public bool $forceExpired,
-    ) {}
-
-    private static function createUserSession(Database $db, string $userId): self|false {
+    public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
         $query = $db->createStatement(<<<sql
-            INSERT INTO `AuthSessions`(`userId`) VALUES (?)
+            SELECT u.*
+            FROM `Users` u
+                JOIN `AuthSessions` s ON u.`id` = s.`userId`
+            WHERE s.`id` = ?
             sql);
-        // TODO: create session and check login
+        $ok = $query->bind(SqlValueType::String->createParam($sessionId))->execute();
+        if (!$ok) {
+            return false;
+        }
+
+        $result = $query->expectResult();
+        if ($result->totalRows === 0) {
+            return false;
+        }
+
+        return self::fromTableRow($result->fetchOne());
     }
 
-    private static function sqlExpiredCheck(?string $tableAlias = null): string {
-        $tablePrefix = self::sqlTableAliasPrefix($tableAlias);
-        $seconds = self::SESSION_VALIDITY_SECS;
-        return <<<sql
-        (NOT $tablePrefix`forceExpired` 
-        AND $tablePrefix`createdAt` > DATE_ADD(now(), INTERVAL $seconds SECONDS))
-        sql;
-    }
-
-    private static function matchUserPassword(Database $db, string $email, string $password): string|false {
+    public static function fromEmailAndPassword(Database $db, string $email, string $password): self|false {
         $query = $db->createStatement(<<<sql
-            SELECT u.`id`, u.`passwordHash`
+            SELECT u.*
             FROM `Users` u
             WHERE u.`email` = ?
             sql);
-        $query->bind(SqlValueType::String->createParam($email))->execute();
+        $ok = $query->bind(SqlValueType::String->createParam($email))->execute();
+        if (!$ok) {
+            return false;
+        }
         $result = $query->expectResult();
         if ($result->totalRows === 0) {
             return false;
         }
         
-        ["passwordHash" => $passwordHash, "id" => $id ] = $result->fetchOne();
-        $passwordMatches = password_verify($password, $passwordHash);
+        $user = self::fromTableRow($result->fetchOne());
+        $passwordMatches = password_verify($password, $user->passwordHash);
         if (!$passwordMatches) {
             return false;
         }
-        return $id;
+        return $user;
     }
 
-    private function expire(Database $db): bool {
+    private function getMostRecentAuthSession(Database $db): ?AuthSession {
+        $query = $db->createStatement(<<<sql
+            SELECT s.* 
+            FROM `AuthSessions` s
+            WHERE s.`userId` = ? 
+            ORDER BY s.`createdAt` DESC
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $row = $query->expectResult()->fetchOne();
+        return AuthSession::fromOptionalTableRow($row);
+    }
+
+    public function createAuthSession(Database $db): AuthSession|false {
+        $query = $db->createStatement(<<<sql
+            INSERT INTO `AuthSessions`(`userId`) VALUES (?)
+            sql);
+        
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        return $this->getMostRecentAuthSession($db);
+    }
+}
+
+readonly class LoginSession {
+    public function __construct(
+        public AuthSession $auth,
+        public User $user,
+    ) {}
+
+    public static function login(Database $db, string $email, string $password): self|false {
+        $user = User::fromEmailAndPassword($db, $email, $password);
+        if ($user === false) {
+            return false;
+        }
+        $auth = $user->createAuthSession($db);
+        if ($auth === false) {
+            return false;
+        }
+        return new self(auth: $auth, user: $user);
+    }
+
+    public static function fromAuthSessionKey(Database $db, string $key): self|false {
+        $auth = AuthSession::fromKey($db, $key);
+        if ($auth === false) {
+            return false;
+        }
+
+        $user = User::fromAuthSessionId($db, $auth->id);
+        if ($user === false) {
+            return false;
+        }
+
+        return new self(auth: $auth, user: $user);
+    }
+
+    public function logout(Database $db): bool {
         $query = $db->createStatement(<<<sql
             UPDATE `AuthSessions`
             SET `forceExpired` = true
             WHERE `id` = ?
             sql);
-        return $query->bind(SqlValueType::String->createParam($this->id))->execute();
-    }
-
-    private function expired(): bool {
-        $now = new DateTime();
-        // https://www.php.net/manual/en/dateinterval.construct.php
-        $secondsInterval = new DateInterval("PT{$SESSION_VALIDITY_SECS}S");
-        return $this->forceExpired || $this->expiresAt > $now->add($secondsInterval);
-    }
-
-    public static function login(Database $db, string $email, string $password): QueryResult|false {
-        $userId = self::matchUserPassword($db, $email, $password);
-        if ($userId === false) {
-            return false;
-        }
-
-        
-    }
-
-    public static function check(Database $db, string $key): QueryResult|false {
-        return false;
+        return $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
     }
 }
 
