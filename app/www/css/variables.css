@@ -8,6 +8,7 @@
     --highlight: oklch(1 0.02 84);
     --border: oklch(95.514% 0.00011 271.152);
     --border-muted: oklch(0.9142 0.0092 78.28);
+    --border-focused: oklch(55.039% 0.13111 153.696);
     --primary: oklch(0.8419 0.0807 160.82);
     --primary-shade: oklch(0.881 0.0503 164.39);
     --primary-text: oklch(55.039% 0.13111 153.696);
@@ -33,6 +34,7 @@
     --shadow-dark: 0px 4px 4px #00000030;
     --shadow-combined: var(--shadow-light), var(--shadow-dark);
     --shadow-hover: 0px 16px 16px #00000040;
+    --shadow-focus: 0 0 0 4px #7ac9a233;
 
     --default-transition-timing-function: 0.2s cubic-bezier(.4, 0, .2, 1);
 
