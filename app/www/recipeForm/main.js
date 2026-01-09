@@ -1,4 +1,3 @@
-
 let newIngredientIndex = 1;
 function addIngredientSlot() {
     const ingredientsList = document.getElementById('ingredients');
@@ -10,27 +9,27 @@ function addIngredientSlot() {
     labelQuantity.setAttribute('for', `ingredientQuantity-${newIngredientIndex}`);
     labelQuantity.className = 'd-none';
     labelQuantity.hidden = true;
-    labelQuantity.textContent = 'inserisci la quantità prossimo ingrediente';
+    labelQuantity.textContent = 'enter the quantity of the next ingredient';
 
     const inputQuantity = document.createElement('input');
     inputQuantity.id = `ingredientQuantity-${newIngredientIndex}`;
     inputQuantity.type = 'text';
     inputQuantity.name = 'ingredientQuantity[]';
     inputQuantity.className = 'p-2 col-md-2';
-    inputQuantity.placeholder = 'Quantità';
+    inputQuantity.placeholder = 'Quantity';
 
     const labelName = document.createElement('label');
     labelName.setAttribute('for', `ingredientName-${newIngredientIndex}`);
     labelName.className = 'd-none';
     labelName.hidden = true;
-    labelName.textContent = 'inserisci il prossimo ingrediente';
+    labelName.textContent = 'enter the next ingredient';
 
     const inputName = document.createElement('input');
     inputName.id = `ingredientName-${newIngredientIndex}`;
     inputName.type = 'text';
     inputName.name = 'ingredientName[]';
     inputName.className = 'p-2 flex-grow-1';
-    inputName.placeholder = 'Aggiungi ingrediente';
+    inputName.placeholder = 'Add ingredient';
 
     const button = document.createElement('button');
     button.type = 'button';
@@ -101,7 +100,7 @@ function addStepSlot() {
     labelStep.setAttribute('for', `step-${newIndex}`);
     labelStep.className = 'd-none';
     labelStep.hidden = true;
-    labelStep.textContent = 'inserisci il passaggio della ricetta';
+    labelStep.textContent = 'enter the recipe step';
 
     const inputStep = document.createElement('textarea');
     inputStep.oninput = function () {
@@ -112,7 +111,7 @@ function addStepSlot() {
     inputStep.id = `step-${newIndex}`;
     inputStep.name = 'steps[]';
     inputStep.className = 'p-2 flex-grow-1';
-    inputStep.placeholder = 'Descrivi il passaggio';
+    inputStep.placeholder = 'Describe the step';
 
     const button = document.createElement('button');
     button.type = 'button';

@@ -82,7 +82,7 @@ section:nth-child(even) {
 }
 
 #section-ending {
-    border: var(--border-muted);
+    border: 1px solid var(--border-muted);
     background-color: var(--bg-light);
     box-shadow: var(--shadow-combined);
     border-radius: 3rem;
