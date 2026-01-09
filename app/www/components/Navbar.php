@@ -47,7 +47,7 @@
                         <li class="nav-item"><a class="nav-link px-3 py-2" href="#">Recipes</a></li>
                         <li class="nav-item"><a class="nav-link px-3 py-2" href="/about">About</a></li>
                     </ul>
-                    <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login.html">
+                    <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login">
                         <svg class="flex-shrink-0 me-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round">
