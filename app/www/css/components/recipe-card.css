@@ -111,3 +111,9 @@
     margin-inline: 7%;
     margin-bottom: 10px;
 }
+
+@media (min-width: 576px) and (max-width: 768px) {
+    .recipe-card>article>div:last-child {
+        width: 5%;
+    }
+}

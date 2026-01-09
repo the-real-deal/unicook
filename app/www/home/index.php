@@ -4,6 +4,7 @@ require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/RecipeCard.php";
+require_once "components/CategoryCard.php";
 
 PageOpening("Home",["style.css"]);
 ?>
@@ -33,10 +34,10 @@ PageOpening("Home",["style.css"]);
                     </form>
                     <form>
                         <label for="btn_random" hidden>Random Recipe</label>
-                        <input id="btn_random" type="submit" value="Random Recipe" class="py-1">
+                        <input id="btn_random" type="submit" value="Random Recipe">
                     </form>
                 </div>
-                <div class="d-sm-none d-lg-flex col-lg-6 justify-content-center align-content-center">
+                <div class="d-none d-lg-flex col-lg-6 justify-content-center align-content-center">
                     <div>
                         <img src="/assets/homepage.png"
                             alt="">
@@ -58,107 +59,13 @@ PageOpening("Home",["style.css"]);
         <section class="row">
             <h2>Hand-Picked Categories</h2>
             <p>Find recipes that fit your needs</p>
-            <ul class="row text-center">
-                <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <!-- href="http://www.google.it" -->
-                    <a href="#" class="my-1">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <!-- Vegan -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-leaf w-8 h-8" aria-hidden="true">
-                                <path
-                                    d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z">
-                                </path>
-                                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-                            </svg>
-                        </div>
-                        Vegan
-                        <p>34 Recipes</p>
-                    </a>
-                </li>
-                <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a href="#" class="my-1">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <!-- Moon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-moon w-8 h-8" aria-hidden="true">
-                                <path
-                                    d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401">
-                                </path>
-                            </svg>
-                        </div>
-                        Night Snacks
-                        <p>34 Recipes</p>
-                    </a>
-                </li>
-                <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a href="#" class="my-1">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <!-- International -->
-                            <svg xmlns="http://www.w3.org/2000/svg" height viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-globe w-8 h-8" aria-hidden="true">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
-                                <path d="M2 12h20"></path>
-                            </svg>
-                        </div>
-                        International
-                        <p>34 Recipes</p>
-                    </a>
-                </li>
-                <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a href="#" class="my-1">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <!-- Low Ingredients -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-cookie w-8 h-8" aria-hidden="true">
-                                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
-                                <path d="M8.5 8.5v.01"></path>
-                                <path d="M16 15.5v.01"></path>
-                                <path d="M12 12v.01"></path>
-                                <path d="M11 17v.01"></path>
-                                <path d="M7 14v.01"></path>
-                            </svg>
-                        </div>
-                        Few Ingredients
-                        <p>34 Recipes</p>
-                    </a>
-                </li>
-                <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a href="#" class="my-1">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <!-- Quick  -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-zap w-8 h-8" aria-hidden="true">
-                                <path
-                                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z">
-                                </path>
-                            </svg>
-                        </div>
-                        Quick Meals
-                        <p>34 Recipes</p>
-                    </a>
-                </li>
-                <li class="col-sm-6 col-md-4 col-lg-2 category-card py-1">
-                    <a href="#" class="my-1">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <!-- Budget -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-dollar-sign w-8 h-8" aria-hidden="true">
-                                <line x1="12" x2="12" y1="2" y2="22"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                        </div>
-                        Budget-Friendly
-                        <p>34 Recipes</p>
-                    </a>
-                </li>
+            <ul class="row text-center px-0 m-auto">
+                <?php CategoryCard("1", "Vegan", 34, "vegan.svg") ?>
+                <?php CategoryCard("2", "Night Snacks", 34, "moon.svg") ?>
+                <?php CategoryCard("3", "International", 34, "international.svg") ?>
+                <?php CategoryCard("4", "Few Ingredients", 34, "lowIngredients.svg") ?>
+                <?php CategoryCard("5", "Quick Meals", 34, "quick.svg") ?>
+                <?php CategoryCard("6", "Budget-Friendly", 34, "budget.svg") ?>
             </ul>
         </section>
 
