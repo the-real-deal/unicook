@@ -6,13 +6,17 @@
 }
 
 body {
-    padding-top: 120px;
+    padding-top: 76px;
     min-width: 250px;
     background-color: var(--bg);
 }
 
-h1 {
+:heading {
     color: var(--text);
+}
+
+:heading+p {
+    color: var(--text-muted);
 }
 
 /* NAVBAR BASE */

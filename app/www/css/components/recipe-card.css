@@ -3,9 +3,12 @@
 /*------------------------------------*/
 /*           Recipe Card              */
 /*------------------------------------*/
+.recipe-card {
+    margin-bottom: 20px;
+}
 
 .recipe-card article {
-    width: 95%;
+    width: 92%;
     background-color: var(--bg-light);
     overflow: hidden;
     border-bottom: var(--border-card);

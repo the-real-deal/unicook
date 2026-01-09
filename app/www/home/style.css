@@ -16,9 +16,6 @@ main>:first-child p {
     color: var(--text-muted);
 }
 
-h2+p {
-    color: var(--text-muted);
-}
 
 main header form:last-of-type>input[type=submit] {
     border-width: 1px;

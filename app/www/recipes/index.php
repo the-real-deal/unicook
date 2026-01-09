@@ -27,6 +27,7 @@ $tags = [
     "Smoked"
 ];
 $totalRecipes = 13;
+$resultNumber = 4;
 ?>
 
 <body>
@@ -38,7 +39,7 @@ $totalRecipes = 13;
             <div class="row">
                 <form class="w-100">
                     <!-- SEARCH BAR -->
-                    <?php SearchBar("recipes-search")?>
+                    <?php SearchBar("recipes-search",50)?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
                             <select name="difficulty" id="dif" class="w-100 px-2 py-1 mx-2">
@@ -84,9 +85,13 @@ $totalRecipes = 13;
         </header>
         <div>
             <section class="row">
-                <h2>Featured Recipes</h2>
-                <p>Handpicked favorites for busy students</p>
+                <h2>Results</h2>
+                <p>Showing <?php echo $resultNumber ?> recipes</p>
                 
+                <?php RecipeCard("1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?php RecipeCard("2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?php RecipeCard("3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?php RecipeCard("4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
                 <?php RecipeCard("1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
                 <?php RecipeCard("2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
                 <?php RecipeCard("3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
