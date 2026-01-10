@@ -7,7 +7,7 @@ $server = new ApiServer();
 
 define("MISTRAL_API_URL", "https://api.mistral.ai/v1/chat/completions");
 // clear api key for demo purposes
-define("MISTRAL_API_KEY", envValue("MISTRAL_API_KEY") || "IhRvclzbzEpKU2WbHmbALC45M0uEo3wu");
+define("MISTRAL_API_KEY", envValue("MISTRAL_API_KEY") || "nh5cxczbW9RHViDA6WhFnM8w8YCkQStc");
 define("MISTRAL_AGENT_ID", envValue("MISTRAL_AGENT_ID") || "ag_019b12d4995071a98c64db6fd041d99e");
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
