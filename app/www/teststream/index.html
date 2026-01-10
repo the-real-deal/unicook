@@ -21,7 +21,7 @@
         <div class="status" id="status"></div>
 
         <h3>Response:</h3>
-        <pre readonly class="response" id="response"></pre>
+        <div class="response" id="response"></div>
     </div>
 
     <script>
@@ -58,6 +58,7 @@
                     body: new FormData(form)
                 })
 
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`)
                 }
@@ -78,7 +79,7 @@
                     // https://stackoverflow.com/a/36949791
                     const chunk = decoder.decode(value)
                     currentResponse += chunk
-                    responseDiv.textContent = currentResponse
+                    responseDiv.innerHTML = currentResponse
 
                     // auto-scroll to bottom
                     responseDiv.scrollTop = responseDiv.scrollHeight
