@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming API Client</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Streaming API Client</h1>
+
+        <form id="chatForm" action="/api/teststream.php" method="post">
+            <label for="prompt">Your message:</label>
+            <textarea id="prompt" name="prompt" placeholder="Enter your message here...">Ciao! Come stai?</textarea>
+
+            <input id="sendBtn" type="submit" value="Send Message" />
+        </form>
+
+        <div class="status" id="status"></div>
+
+        <h3>Response:</h3>
+        <pre readonly class="response" id="response"></pre>
+    </div>
+
+    <script>
+        let eventSource = null
+        let currentResponse = ''
+
+        const form = document.getElementById('chatForm')
+        const prompt = document.getElementById('prompt')
+        const responseDiv = document.getElementById('response')
+        const statusDiv = document.getElementById('status')
+        const sendBtn = document.getElementById('sendBtn')
+
+        // Allow Enter key to send (Shift+Enter for new line)
+        prompt.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                sendMessage()
+            }
+        })
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault() // prevent opening of new page
+
+            // Reset
+            currentResponse = ''
+            responseDiv.textContent = ''
+            statusDiv.textContent = 'Connecting...'
+            sendBtn.disabled = true
+
+            try {
+                // Use fetch with streaming
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: new FormData(form)
+                })
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+
+                statusDiv.textContent = 'Streaming...'
+
+                // Read the streaming response
+                const reader = response.body.getReader()
+                const decoder = new TextDecoder()
+
+                while (true) {
+                    const { done, value } = await reader.read()
+
+                    if (done) {
+                        statusDiv.textContent = 'Stream complete'
+                        break
+                    }
+
+                    // Decode the chunk
+                    const chunk = decoder.decode(value, { stream: true })
+                    currentResponse += chunk
+                    responseDiv.textContent = currentResponse
+
+                    // Auto-scroll to bottom
+                    responseDiv.scrollTop = responseDiv.scrollHeight
+                }
+
+            } catch (error) {
+                console.error('Error:', error)
+                statusDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`
+            } finally {
+                sendBtn.disabled = false
+            }
+        })
+    </script>
+</body>
+
+</html>
