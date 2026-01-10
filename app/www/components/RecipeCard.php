@@ -6,7 +6,7 @@ function RecipeCard(string $id, string $recipeTitle, array $tags, int $timeRequi
 <div class="p-0 col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center recipe-card">
     <article class="my-2 pb-2">
         <div>
-            <img class="card-img-top img-fluid" src="/assets/penne.tmp.jpg" alt="">
+            <img class="card-img-top img-fluid" src="/assets/penne.jpg" alt="">
         </div>
         <h3><?php echo $recipeTitle ?></h3>
         <ul>
