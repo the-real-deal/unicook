@@ -11,6 +11,9 @@ define("MISTRAL_API_KEY", envValue("MISTRAL_API_KEY") ?? "nh5cxczbW9RHViDA6WhFnM
 define("MISTRAL_AGENT_ID", envValue("MISTRAL_AGENT_ID") ?? "ag_019b12d4995071a98c64db6fd041d99e");
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
+    ini_set("output_buffering", false);
+    ob_implicit_flush(true);
+
     $res->setHeader(HTTPHeader::ContentType, MimeType::PlainText);
     $prompt = $_POST["prompt"];
 
@@ -78,8 +81,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
                     $content .= $choice->delta->content;
                 }
                 echo $content;
-                flush();
-                
+
                 if ($end) {
                     return;
                 }
