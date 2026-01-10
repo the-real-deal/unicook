@@ -63,8 +63,6 @@
                 }
 
                 statusDiv.textContent = 'Streaming...'
-
-                // Read the streaming response
                 const reader = response.body.getReader()
                 const decoder = new TextDecoder()
 
@@ -76,12 +74,13 @@
                         break
                     }
 
-                    // Decode the chunk
-                    const chunk = decoder.decode(value, { stream: true })
+                    // decode the chunk
+                    // https://stackoverflow.com/a/36949791
+                    const chunk = decoder.decode(value)
                     currentResponse += chunk
                     responseDiv.textContent = currentResponse
 
-                    // Auto-scroll to bottom
+                    // auto-scroll to bottom
                     responseDiv.scrollTop = responseDiv.scrollHeight
                 }
 
