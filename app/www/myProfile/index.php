@@ -60,9 +60,9 @@ PageOpening("My Profile", ["style.css"]);
                 <?php RecipeCard("4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
             </div>
         </div>
-        <div class="container mb-2 mx-auto p-4">
+        <div class="container-fluid mb-2 mx-auto p-4">
             <h3 class="col-12 col-md-4 text-center mb-3"><strong>Saved Recipes</strong></h3>
-            <div class="row">
+            <div class="row ">
                 <?php RecipeCard("1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
                 <?php RecipeCard("2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
                 <?php RecipeCard("3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
@@ -73,4 +73,5 @@ PageOpening("My Profile", ["style.css"]);
 </main> 
     <?php Footer();?>
     <script type="module" src="main.js"></script>
+    <script type="module" src="/js/recipeCard.js"></script>
 </body>
