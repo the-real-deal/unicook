@@ -4,7 +4,7 @@ require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 
-PageOpening("Login",["/css/loginRegister.css"]);
+PageOpening("Login", [ "/css/loginRegister.css" ]);
 ?>
 <body>
     <?php 

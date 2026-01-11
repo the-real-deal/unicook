@@ -5,7 +5,7 @@ require_once "lib/core/db.php";
 $db = Database::connectDefault();
 
 readonly class AuthSession extends DBTable {
-    private const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
+    public const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
 
     protected function __construct(
         public string $id,
@@ -136,6 +136,9 @@ readonly class User extends DBTable {
 }
 
 readonly class LoginSession {
+    private const AUTH_KEY_COOKIES_ATTR = "auth_key";
+    private const LOGIN_SESSION_ATTR = "login";
+
     public function __construct(
         public AuthSession $auth,
         public User $user,
@@ -150,10 +153,36 @@ readonly class LoginSession {
         if ($auth === false) {
             return false;
         }
-        return new self(auth: $auth, user: $user);
+        $login = new self(auth: $auth, user: $user);
+        $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
+        setcookie(
+            self::AUTH_KEY_COOKIES_ATTR,
+            $login->auth->key,
+            time() + AuthSession::SESSION_VALIDITY_SECS,
+        );
+        return $login;
     }
 
-    public static function fromAuthSessionKey(Database $db, string $key): self|false {
+    public function logout(Database $db): bool {
+        $query = $db->createStatement(<<<sql
+            UPDATE `AuthSessions`
+            SET `forceExpired` = true
+            WHERE `id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
+        if ($ok) {
+            unset($_SESSION[self::LOGIN_SESSION_ATTR]);
+            unset($_COOKIE[self::AUTH_KEY_COOKIES_ATTR]);
+            setcookie(
+                self::AUTH_KEY_COOKIES_ATTR,
+                "",
+                time(), // expired
+            );
+        }
+        return $ok;
+    }
+
+    private static function fromAuthSessionKey(Database $db, string $key): self|false {
         $auth = AuthSession::fromKey($db, $key);
         if ($auth === false) {
             return false;
@@ -167,13 +196,23 @@ readonly class LoginSession {
         return new self(auth: $auth, user: $user);
     }
 
-    public function logout(Database $db): bool {
-        $query = $db->createStatement(<<<sql
-            UPDATE `AuthSessions`
-            SET `forceExpired` = true
-            WHERE `id` = ?
-            sql);
-        return $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
+    public static function autoLogin(): self|false {
+        $serializedLogin = $_SESSION[self::LOGIN_SESSION_ATTR] ?? null;
+        if ($serializedLogin !== null) {
+            return unserialize($serializedLogin);
+        }
+
+        $authSessionKey = $_COOKIE[AUTH_SESSION_KEY_COOKIES_ATTR] ?? null;
+        if ($authSessionKey === null) {
+            return false;
+        }
+
+        $login = self::fromAuthSessionKey($authSessionKey);
+        if ($login === false) {
+            return false;
+        }
+        $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
+        return $login;
     }
 }
 
