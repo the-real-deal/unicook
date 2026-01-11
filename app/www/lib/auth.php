@@ -1,6 +1,7 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "lib/core/db.php";
+require_once "lib/core/api.php";
 
 $db = Database::connectDefault();
 
@@ -196,22 +197,32 @@ readonly class LoginSession {
         return new self(auth: $auth, user: $user);
     }
 
-    public static function autoLogin(): self|false {
+    public static function autoLogin(Database $db): self|false {
         $serializedLogin = $_SESSION[self::LOGIN_SESSION_ATTR] ?? null;
         if ($serializedLogin !== null) {
             return unserialize($serializedLogin);
         }
 
-        $authSessionKey = $_COOKIE[AUTH_SESSION_KEY_COOKIES_ATTR] ?? null;
+        $authSessionKey = $_COOKIE[self::AUTH_KEY_COOKIES_ATTR] ?? null;
+        // TODO: FIX NULL COOKIE
         if ($authSessionKey === null) {
             return false;
         }
 
-        $login = self::fromAuthSessionKey($authSessionKey);
+        $login = self::fromAuthSessionKey($db, $authSessionKey);
         if ($login === false) {
             return false;
         }
         $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
+        return $login;
+    }
+
+    public static function autoLoginOrRedirect(Database $db, string $redirect = "/login/"): self {
+        $login = self::autoLogin($db);
+        if ($login === false) {
+            $res = new ApiResponse();
+            $res->redirect($redirect);
+        }
         return $login;
     }
 }

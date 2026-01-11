@@ -1,5 +1,20 @@
 <?php
 
+define("SESSION_NAME", "unicook_session");
+session_name(SESSION_NAME);
+// https://www.php.net/manual/en/session.security.ini.php
+session_start([
+    "cookie_lifetime" => 0,
+    "use_cookies" => true,
+    "use_only_cookies" => true,
+    "use_strict_mode" => true,
+    "cookie_httponly" => true,
+    "cookie_secure" => false,
+    "cookie_samesite" => "Strict",
+    "use_trans_sid" => false,
+    "cache_limiter" => "nocache",
+]);
+
 // allow includes with paths starting from project root
 $includePathSplit = explode(PATH_SEPARATOR, get_include_path());
 array_splice($includePathSplit, 1, 0, $_SERVER['DOCUMENT_ROOT']); // insert after '.'
@@ -15,20 +30,5 @@ function debug(mixed ...$values) {
     }
     echo "</pre>";
 }
-
-define("SESSION_NAME", "unicook_session");
-// https://www.php.net/manual/en/session.security.ini.php
-session_start([
-    "session_name" => SESSION_NAME,
-    "session.cookie_lifetime" => 0,
-    "session.use_cookies" => true,
-    "session.use_only_cookies" => true,
-    "session.use_strict_mode" => true,
-    "session.cookie_httponly" => true,
-    "session.cookie_secure" => false,
-    "session.cookie_samesite" => "Strict",
-    "session.use_trans_sid" => false,
-    "session.cache_limiter" => "nocache",
-]);
 
 ?>

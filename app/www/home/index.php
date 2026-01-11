@@ -6,6 +6,10 @@ require_once "components/Footer.php";
 require_once "components/RecipeCard.php";
 require_once "components/CategoryCard.php";
 require_once "components/SearchBar.php";
+require_once "lib/auth.php";
+
+$db = Database::connectDefault();
+$login = LoginSession::autoLoginOrRedirect($db);
 
 PageOpening("Home",["style.css"]);
 ?>
@@ -15,6 +19,10 @@ PageOpening("Home",["style.css"]);
         <div><!-- Presentational Purposes Only -->
             <header class="row pt-5 px-5">
                 <div class="col-md-12 col-lg-6 p-0 pt-4 pe-0 pe-lg-4">
+                    <h1>Welcome <?= $login->user->username ?></h1>
+                    <form id="logoutForm" action="/api/auth/logout.php" method="POST">
+                        <input type="submit" value="Logout" />
+                    </form>
                     <h1>Easy Recipes for Student Life</h1>
                     <p>Simple, affordable, and quick recipes designed for college students living away from home. Start
                         cooking with confidence
@@ -83,7 +91,5 @@ PageOpening("Home",["style.css"]);
 
     <?php Footer();?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+    <script type="module" src="main.js"></script>
 </body>

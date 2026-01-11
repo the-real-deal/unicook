@@ -9,7 +9,10 @@ class InvalidHTTPHeaderDataException extends Exception {}
 class ApiRequest {
     public function __construct() {}
 
-    public function parseID(string $value): string|false {
+    public function parseStringNonEmpty(?string $value): string|false {
+        if ($value === null) {
+            return false;
+        }
         $value = htmlspecialchars($value);
         return filter_var(
             $value, 
