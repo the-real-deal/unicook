@@ -1,0 +1,29 @@
+body {
+    background-image: url('/assets/patternpad.svg');
+    background-repeat: repeat;
+}
+
+section {
+    background-color: var(--bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-dark);
+}
+
+#profile-section button {
+    background-color: inherit;
+    color: var(--danger);
+    border: none;
+    cursor: pointer;
+    transition: var(--default-transition-timing-function);
+}
+
+#profile-section label {
+    color: var(--info);
+    cursor: pointer;
+    transition: var(--default-transition-timing-function);
+}
+
+#profile-section button:hover,
+#profile-section label:hover {
+    color: var(--shadow-dark);
+}

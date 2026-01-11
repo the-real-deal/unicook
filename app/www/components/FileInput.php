@@ -2,7 +2,7 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "lib/core/files.php";
 
-function FileInput(string $id, FileType $type, ?string $name = null) {
+function FileInput(string $id, FileType $type, ?string $name = null, bool $hidden = false) {
     $name ??= $id;
     $acceptString = implode(
         ", ",
@@ -14,5 +14,6 @@ function FileInput(string $id, FileType $type, ?string $name = null) {
     name="<?= $name ?>"
     type="file"
     accept="<?= $acceptString ?>"
+    <?= $hidden ? "hidden" : "" ?>
 />
 <?php } ?>

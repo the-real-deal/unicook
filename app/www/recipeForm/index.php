@@ -3,6 +3,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
+require_once "components/FileInput.php";
 
 PageOpening("Create Recipe", ["style.css"]);
 ?>
@@ -20,7 +21,8 @@ PageOpening("Create Recipe", ["style.css"]);
             <input type="text" id="description" class="p-2" placeholder="Describe your recipe..." required />
 
             <label for="image_URL">Image (optional)</label>
-            <input type="file" id="image_URL" class="p-2" />
+            <!-- <input type="image" id="image_URL" class="p-2" /> -->
+            <?php FileInput("image_URL", FileType::Image); ?>
 
             <hr>
             <label for="tags">Tags</label>
