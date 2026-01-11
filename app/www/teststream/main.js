@@ -13,6 +13,11 @@ prompt.addEventListener('keydown', function (e) {
     }
 })
 
+function displayResponse(displayedText) {
+    let markdownHtml = marked.parse(displayedText)
+    responseDiv.innerHTML = markdownHtml
+}
+
 form.addEventListener("submit", async (e) => {
     e.preventDefault()
 
@@ -49,12 +54,12 @@ form.addEventListener("submit", async (e) => {
                 dotsCount = 0
                 clearInterval(dotInterval)
                 // Add characters gradually (adjust speed here)
-                const charsToAdd = Math.min(3, pendingText.length) // Add 3 chars at a time
-                // const charsToAdd = 1
+                // const charsToAdd = Math.min(3, pendingText.length) // Add 3 chars at a time
+                const charsToAdd = 1
                 displayedText += pendingText.substring(0, charsToAdd)
                 pendingText = pendingText.substring(charsToAdd)
 
-                responseDiv.textContent = displayedText
+                displayResponse(displayedText)
 
                 // autoscroll?
 
@@ -65,14 +70,14 @@ form.addEventListener("submit", async (e) => {
                 if (dataFinished) {
                     dotsCount = 0
                     clearInterval(dotInterval)
-                    responseDiv.textContent = displayedText
+                    displayResponse(displayedText)
                     statusDiv.textContent = 'Streaming complete!'
                     sendBtn.disabled = false
                     return
                 }
                 dotInterval = setInterval(() => {
                     dotsCount = (dotsCount + 1) % 4
-                    responseDiv.textContent = displayedText + ".".repeat(dotsCount)
+                    displayResponse(displayedText + ".".repeat(dotsCount))
                 }, 200)
             }
         }
@@ -104,7 +109,7 @@ form.addEventListener("submit", async (e) => {
     } finally {
         dataFinished = true
         clearInterval(dotInterval)
-        responseDiv.textContent = displayedText
+        displayResponse(displayedText)
     }
 })
 
