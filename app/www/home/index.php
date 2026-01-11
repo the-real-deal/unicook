@@ -22,14 +22,7 @@ PageOpening("Home",["style.css"]);
                     </p>
                     <form class="w-100">
                         <!-- SEARCH BAR -->
-                        <?php SearchBar("home-search")?> 
-                        <!-- <div class=" d-flex align-items-center mb-5 w-100">
-                            <label for="search_bar" hidden>Text input for search purpose</label>
-                            <input id="search_bar" type="search" placeholder="Search Recipes..."
-                                class="me-2 w-75" />
-                            <label for="btn_search" hidden>Button to start the search</label>
-                            <input id="btn_search" type="submit" class="px-4 w-auto" value="Search" />
-                        </div> -->
+                        <?php SearchBar("home-search")?>
                     </form>
                     <form>
                         <label for="btn_random" hidden>Random Recipe</label>
@@ -83,6 +76,7 @@ PageOpening("Home",["style.css"]);
 
     <?php Footer();?>
 
+    <script src="/js/recipeCard.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
