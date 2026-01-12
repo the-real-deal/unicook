@@ -2,6 +2,7 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "lib/core/db.php";
 require_once "lib/core/api.php";
+require_once "lib/core/uuid.php";
 
 $db = Database::connectDefault();
 
@@ -10,7 +11,7 @@ readonly class AuthSession extends DBTable {
 
     protected function __construct(
         public string $id,
-        public string $key,
+        public string $keyHash,
         public string $userId,
         public DateTime $createdAt,
         public bool $forceExpired,
@@ -38,10 +39,9 @@ readonly class AuthSession extends DBTable {
         $query = $db->createStatement(<<<sql
             SELECT s.*
             FROM `AuthSessions` s
-            WHERE s.`key` = ?
-                AND $validityCheck
+            WHERE $validityCheck
             sql);
-        $ok = $query->bind(SqlValueType::String->createParam($key))->execute();
+        $ok = $query->execute();
         if (!$ok) {
             return false;
         }
@@ -49,7 +49,16 @@ readonly class AuthSession extends DBTable {
         if ($result->totalRows === 0) {
             return false;
         }
-        return self::fromTableRow($result->fetchOne());
+        $auth = self::fromTableRow($result->fetchOne());
+        if ($auth === false) {
+            return false;
+        }
+        $keyMatches = password_verify($key, $auth->keyHash);
+        if ($keyMatches) {
+            return $auth;
+        } else {
+            return false;
+        }
     }
 }
 
@@ -102,37 +111,29 @@ readonly class User extends DBTable {
         
         $user = self::fromTableRow($result->fetchOne());
         $passwordMatches = password_verify($password, $user->passwordHash);
-        if (!$passwordMatches) {
+        if ($passwordMatches) {
+            return $user;
+        } else {
             return false;
         }
-        return $user;
     }
 
-    private function getMostRecentAuthSession(Database $db): ?AuthSession {
+    public function createAuthSession(Database $db): string|false {
         $query = $db->createStatement(<<<sql
-            SELECT s.* 
-            FROM `AuthSessions` s
-            WHERE s.`userId` = ? 
-            ORDER BY s.`createdAt` DESC
-            sql);
-        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
-        if (!$ok) {
-            return false;
-        }
-        $row = $query->expectResult()->fetchOne();
-        return AuthSession::fromOptionalTableRow($row);
-    }
-
-    public function createAuthSession(Database $db): AuthSession|false {
-        $query = $db->createStatement(<<<sql
-            INSERT INTO `AuthSessions`(`userId`) VALUES (?)
+            INSERT INTO `AuthSessions`(`keyHash`, `userId`) VALUES (?, ?)
             sql);
         
-        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        $key = uuidv4();
+        $keyHash = password_hash($key, PASSWORD_DEFAULT);
+        
+        $ok = $query->bind(
+            SqlValueType::String->createParam($keyHash),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
         if (!$ok) {
             return false;
         }
-        return $this->getMostRecentAuthSession($db);
+        return $key;
     }
 }
 
@@ -151,15 +152,20 @@ readonly class LoginSession {
         if ($user === false) {
             return false;
         }
-        $auth = $user->createAuthSession($db);
+        $authKey = $user->createAuthSession($db);
+        if ($authKey === false) {
+            return false;
+        }
+        $auth = AuthSession::fromKey($db, $authKey);
         if ($auth === false) {
             return false;
         }
+
         $login = new self(auth: $auth, user: $user);
         $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
         setcookie(
             self::AUTH_KEY_COOKIE_ATTR,
-            $login->auth->key,
+            $authKey,
             [
                 "expires" => time() + AuthSession::SESSION_VALIDITY_SECS,
                 "path" => self::AUTH_KEY_COOKIE_PATH,

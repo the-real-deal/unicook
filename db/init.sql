@@ -31,7 +31,7 @@ CREATE TABLE `Users` (
 DROP TABLE IF EXISTS `AuthSessions`;
 CREATE TABLE `AuthSessions` (
     `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
-    `key` CHAR(36) UNIQUE NOT NULL DEFAULT (uuid()),
+    `keyHash` CHAR(128) UNIQUE NOT NULL,
     `userId` CHAR(36) NOT NULL,
     `createdAt` DATETIME NOT NULL DEFAULT now(),
     `forceExpired` BIT NOT NULL DEFAULT false
