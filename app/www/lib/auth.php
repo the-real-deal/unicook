@@ -137,7 +137,8 @@ readonly class User extends DBTable {
 }
 
 readonly class LoginSession {
-    private const AUTH_KEY_COOKIES_ATTR = "auth_key";
+    private const AUTH_KEY_COOKIE_ATTR = "auth_key";
+    private const AUTH_KEY_COOKIE_PATH = "/";
     private const LOGIN_SESSION_ATTR = "login";
 
     public function __construct(
@@ -157,9 +158,12 @@ readonly class LoginSession {
         $login = new self(auth: $auth, user: $user);
         $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
         setcookie(
-            self::AUTH_KEY_COOKIES_ATTR,
+            self::AUTH_KEY_COOKIE_ATTR,
             $login->auth->key,
-            time() + AuthSession::SESSION_VALIDITY_SECS,
+            [
+                "expires" => time() + AuthSession::SESSION_VALIDITY_SECS,
+                "path" => self::AUTH_KEY_COOKIE_PATH,
+            ],
         );
         return $login;
     }
@@ -173,11 +177,14 @@ readonly class LoginSession {
         $ok = $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
         if ($ok) {
             unset($_SESSION[self::LOGIN_SESSION_ATTR]);
-            unset($_COOKIE[self::AUTH_KEY_COOKIES_ATTR]);
+            unset($_COOKIE[self::AUTH_KEY_COOKIE_ATTR]);
             setcookie(
-                self::AUTH_KEY_COOKIES_ATTR,
+                self::AUTH_KEY_COOKIE_ATTR,
                 "",
-                time(), // expired
+                [
+                    "expires" => time(),
+                    "path" => self::AUTH_KEY_COOKIE_PATH,
+                ],
             );
         }
         return $ok;
@@ -203,8 +210,7 @@ readonly class LoginSession {
             return unserialize($serializedLogin);
         }
 
-        $authSessionKey = $_COOKIE[self::AUTH_KEY_COOKIES_ATTR] ?? null;
-        // TODO: FIX NULL COOKIE
+        $authSessionKey = $_COOKIE[self::AUTH_KEY_COOKIE_ATTR] ?? null;
         if ($authSessionKey === null) {
             return false;
         }
