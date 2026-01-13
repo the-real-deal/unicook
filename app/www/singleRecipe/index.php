@@ -198,79 +198,14 @@ PageOpening("Recipe",["style.css"]);
                     </section>
                     <section id="student-tips">
                         <div class="p-4 mb-4">
-                            <div class="d-flex gap-2  mb-4">
-                                <svg fill="#000000" width="34px" height="34px" viewBox="0 0 24.00 24.00"
-                                    xmlns="http://www.w3.org/2000/svg" stroke="#000000"
-                                    stroke-width="0.00024000000000000003">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path
-                                            d="M12,9a3.982,3.982,0,0,0-2.96,6.666A7,7,0,0,0,5,22a1,1,0,0,0,1,1H18a1,1,0,0,0,1-1,7,7,0,0,0-4.04-6.334A3.982,3.982,0,0,0,12,9Zm0,2a2,2,0,1,1-2,2A2,2,0,0,1,12,11Zm4.9,10H7.1a5,5,0,0,1,9.8,0ZM12,7a1,1,0,0,1-1-1V2a1,1,0,0,1,2,0V6A1,1,0,0,1,12,7Zm4.6,1.9A1,1,0,0,1,15.89,7.2l2.828-2.829a1,1,0,1,1,1.414,1.414L17.3,8.611A1,1,0,0,1,16.6,8.9ZM8.11,8.611a1,1,0,0,1-1.414,0L3.868,5.782A1,1,0,0,1,5.282,4.368L8.11,7.2A1,1,0,0,1,8.11,8.611ZM23,13a1,1,0,0,1-1,1H18.5a1,1,0,0,1,0-2H22A1,1,0,0,1,23,13ZM1,13a1,1,0,0,1,1-1H5.5a1,1,0,0,1,0,2H2A1,1,0,0,1,1,13Z">
-                                        </path>
-                                    </g>
-                                </svg>
-                                <h2>Student Tips</h2>
-                            </div>
-                            <ul>
-                                <li>
-                                    Use any pasta shape you have on hand - they all work great!
-                                </li>
-                                <li>
-                                    Use any pasta shape you have on hand - they all work great!
-                                </li>
-                                <li>
-                                    Use any pasta shape you have on hand - they all work great!
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
-                    <section id="nutrition-info">
-                        <div class="p-4 mb-4">
                             <div class="d-flex gap-2 mb-4">
-                                <svg width="34px" height="34px" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" stroke="#000000">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path
-                                            d="M4 11.9998H8L9.5 8.99976L11.5 13.9998L13 11.9998H15M12 6.42958C12.4844 5.46436 13.4683 4.72543 14.2187 4.35927C16.1094 3.43671 17.9832 3.91202 19.5355 5.46436C21.4881 7.41698 21.4881 10.5828 19.5355 12.5354L12.7071 19.3639C12.3166 19.7544 11.6834 19.7544 11.2929 19.3639L4.46447 12.5354C2.51184 10.5828 2.51184 7.41698 4.46447 5.46436C6.0168 3.91202 7.89056 3.43671 9.78125 4.35927C10.5317 4.72543 11.5156 5.46436 12 6.42958Z"
-                                            stroke="#000000" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round"></path>
-                                    </g>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
+                                    <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                                 </svg>
-                                <h2>Nutrition Info</h2>
-                            </div>
-
-                            <dl class="row d-flex">
-                                <div class="text-center col-6 col-lg-3 mb-4 mb-lg-0">
-                                    <div class="px-2">
-                                        <dt>Prep Time</dt>
-                                        <dd>20 min</dd>
-                                    </div>
-                                </div>
-                                <div class="text-center col-6 col-lg-3 mb-4 mb-lg-0">
-                                    <div class="px-2">
-                                        <dt>Prep Time</dt>
-                                        <dd>20 min</dd>
-                                    </div>
-                                </div>
-                                <div class="text-center col-6 col-lg-3 mb-lg-0">
-                                    <div class="px-2">
-                                        <dt>Prep Time</dt>
-                                        <dd>20 min</dd>
-                                    </div>
-                                </div>
-                                <div class="text-center col-6 col-lg-3 mb-lg-0">
-                                    <div class="px-2">
-                                        <dt>Prep Time</dt>
-                                        <dd>20 min</dd>
-                                    </div>
-                                </div>
-                            </dl>
+                                <h2>Review</h2>
+                            </div>    
                         </div>
                     </section>
-
                 </div>
             </div>
         </div>
