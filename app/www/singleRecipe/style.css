@@ -1,5 +1,5 @@
 div {
-    max-width: 1300px !important;
+    max-width: 1000px !important;
 }
 
 #recipe-info {
@@ -83,8 +83,7 @@ div {
 
 #aside>div,
 #instruction>div,
-#student-tips>div,
-#nutrition-info>div {
+#reviews>div {
     /* border: 2px solid #E6D3B3; */
     border-radius: 16px;
     background-color: var(--bg-light);
@@ -120,12 +119,12 @@ div {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-weight: bold;
 }
 
-#nutrition-info dl {
-    list-style-type: none;
+#reviews svg {
+    color: var(--primary);
 }
+
 
 
 body {

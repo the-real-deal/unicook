@@ -210,14 +210,17 @@ PageOpening("Recipe",["style.css"]);
                             </ol>
                         </div>
                     </section>
-                    <section id="student-tips">
+                    <section id="reviews">
                         <div class="p-4 mb-4">
-                            <div class="d-flex gap-2 mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
+                            <div class="d-flex gap-2 mb-4 align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
                                     <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                                 </svg>
-                                <h2>Review</h2>
-                            </div>    
+                                <h2>Reviews</h2>
+                            </div>
+                            <article>
+                                
+                            </article>
                         </div>
                     </section>
                 </div>

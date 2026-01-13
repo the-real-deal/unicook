@@ -7,8 +7,8 @@ require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "lib/auth.php";
 
-$db = Database::connectDefault();
-$login = LoginSession::autoLoginOrRedirect($db);
+// $db = Database::connectDefault();
+// $login = LoginSession::autoLoginOrRedirect($db);
 PageOpening("Recipes",["style.css"]);
 
 $tags = [
