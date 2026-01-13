@@ -6,7 +6,7 @@ require_once "lib/core/files.php";
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
-    $id = $req->parseID($_GET["id"]);
+    $id = $req->parseStringNonEmpty($_GET["id"]);
     if ($id === false) {
         $res->dieWithError(HTTPCode::BadRequest, "Invalid or missing id");
     }

@@ -231,46 +231,44 @@ PageOpening("About",["style.css"]);
             <div class="container">
                 <div class="text-center mb-5">
                     <h2 class="fw-bold mb-2">Meet the Team</h2>
-                    <p>Students and recent grads who understand the struggle</p>
+                    <p>Students who understand the struggle</p>
                 </div>
 
                 <div class="row g-4">
 
-                    <!-- Alex -->
+                    <!-- Spita -->
                     <div class="team-user col-md-4 text-center ">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Alex+Chen">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Ludovico+Spitaleri">
                         </div>
-                        <h3 class="mb-1">Alex Chen</h3>
-                        <p class="text-success ">Founder & Recipe Developer</p>
+                        <h3 class="mb-1">Ludovico Spitaleri</h3>
+                        <p class="text-success ">Founder & Developer</p>
                         <p>
-                            Started Unicook after struggling to eat well during freshman year.
+                            Powered by pasta, cannoli, and very questionable portions.
                         </p>
                     </div>
 
-                    <!-- Maya -->
+                    <!-- Gio -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover"
-                                src="https://nintendon.it/wp-content/uploads/2020/04/Gabibbo-NintendOn.jpg">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Gioele+Foschi">
                         </div>
-                        <h3 class="mb-1">Maya Johnson</h3>
-                        <p class="text-success ">Nutrition Advisor</p>
+                        <h3 class="mb-1">Gioele Foschi</h3>
+                        <p class="text-success ">Founder & Developer</p>
                         <p>
-                            Dietitian focused on accessible nutrition. Ensures every recipe is balanced.
+                            Meal prep is my cardio, protein shakes are my fuel, spreadsheets are my therapy.
                         </p>
                     </div>
 
-                    <!-- Jordan -->
+                    <!-- Tonno -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover"
-                                src="https://nintendon.it/wp-content/uploads/2020/04/Gabibbo-NintendOn.jpg">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Matteo+Tonelli">
                         </div>
-                        <h3 class="mb-1">Jordan Lee</h3>
-                        <p class="text-success ">Community Manager</p>
+                        <h3 class="mb-1">Matteo Tonelli</h3>
+                        <p class="text-success ">Founder & Developer</p>
                         <p>
-                            Connects with student cooks worldwide and gathers recipe ideas.
+                            Codes with the calm of the trulli and the crunch of tarallini.
                         </p>
                     </div>
 
