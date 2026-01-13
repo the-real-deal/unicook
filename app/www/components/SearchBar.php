@@ -1,5 +1,5 @@
 <?php 
-require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
 function SearchBar(string $id, int $width = 75){
 // <?php if($center){echo "justify-content-center";}?\>

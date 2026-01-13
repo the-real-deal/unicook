@@ -1,5 +1,5 @@
 <?php
-require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/utils.php";
 
 define("MYSQL_DATETIME_FORMAT", "Y-m-d H:i:s");
@@ -59,7 +59,7 @@ enum SqlValueType {
             case self::Bool:
                 return "i";
             case self::Float:
-                return 'd';
+                return "d";
             case self::String:
             case self::Datetime:
                 return "s";
@@ -253,12 +253,12 @@ class Database implements Closeable {
 
     public static function connectDefault(): self {
         return new self(
-            host: envValue('DB_HOST') ?? 'localhost',
-            username: envValue('DB_USER') ?? 'unicook_appuser',
+            host: envValue("DB_HOST") ?? "localhost",
+            username: envValue("DB_USER") ?? "unicook_appuser",
             // clear password for demo
-            password: envValue('DB_PASSWORD') ?? 'unicook_app_user_passwd!', 
-            dbname: envValue('DB_NAME') ?? 'UniCook', 
-            port: intval(envValue('DB_PORT') ?? "3306"),
+            password: envValue("DB_PASSWORD") ?? "unicook_app_user_passwd!", 
+            dbname: envValue("DB_NAME") ?? "UniCook", 
+            port: intval(envValue("DB_PORT") ?? "3306"),
         );
     }
 

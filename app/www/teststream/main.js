@@ -1,13 +1,13 @@
-let currentResponse = ''
-const form = document.getElementById('chatForm')
-const prompt = document.getElementById('prompt')
-const responseDiv = document.getElementById('response')
-const statusDiv = document.getElementById('status')
-const sendBtn = document.getElementById('sendBtn')
+let currentResponse = ""
+const form = document.getElementById("chatForm")
+const prompt = document.getElementById("prompt")
+const responseDiv = document.getElementById("response")
+const statusDiv = document.getElementById("status")
+const sendBtn = document.getElementById("sendBtn")
 
 // Allow Enter key to send (Shift+Enter for new line)
-prompt.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+prompt.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault()
         form.requestSubmit()
     }
@@ -22,13 +22,13 @@ form.addEventListener("submit", async (e) => {
     e.preventDefault()
 
     // Reset
-    currentResponse = ''
-    responseDiv.textContent = ''
-    statusDiv.textContent = 'Connecting...'
+    currentResponse = ""
+    responseDiv.textContent = ""
+    statusDiv.textContent = "Connecting..."
     sendBtn.disabled = true
     let dataFinished = false
     let dotInterval = null
-    let displayedText = ''
+    let displayedText = ""
 
     try {
         const response = await fetch(form.action, {
@@ -40,11 +40,11 @@ form.addEventListener("submit", async (e) => {
             throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        statusDiv.textContent = 'Streaming response...'
+        statusDiv.textContent = "Streaming response..."
         const reader = response.body.getReader()
         const decoder = new TextDecoder()
 
-        let pendingText = ''
+        let pendingText = ""
         let isAnimating = false
         let dotsCount = 0
 
@@ -71,7 +71,7 @@ form.addEventListener("submit", async (e) => {
                     dotsCount = 0
                     clearInterval(dotInterval)
                     displayResponse(displayedText)
-                    statusDiv.textContent = 'Streaming complete!'
+                    statusDiv.textContent = "Streaming complete!"
                     sendBtn.disabled = false
                     return
                 }
@@ -103,7 +103,7 @@ form.addEventListener("submit", async (e) => {
         }
         dataFinished = true
     } catch (error) {
-        console.error('Error:', error)
+        console.error("Error:", error)
         statusDiv.textContent = `Error: ${error.message}`
         sendBtn.disabled = false
     } finally {

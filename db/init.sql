@@ -94,8 +94,8 @@ CREATE TABLE `Reviews` (
     CHECK (`rating` >= 0 AND `rating` <= 5)
 );
 
-DROP TABLE IF EXISTS `RecipeLikes`;
-CREATE TABLE `RecipeLikes` (
+DROP TABLE IF EXISTS `RecipeSaves`;
+CREATE TABLE `RecipeSaves` (
     `recipeId` CHAR(36) NOT NULL,
     `userId` CHAR(36) NOT NULL,
     `deleted` BIT NOT NULL DEFAULT false,
@@ -119,9 +119,9 @@ ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
 ALTER TABLE `Reviews`
 ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
 
-ALTER TABLE `RecipeLikes`
+ALTER TABLE `RecipeSaves`
 ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
-ALTER TABLE `RecipeLikes`
+ALTER TABLE `RecipeSaves`
 ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
 
 ALTER TABLE `RecipeTags`
