@@ -42,7 +42,7 @@ $resultNumber = 4;
                     <?php SearchBar("recipes-search",50)?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
-                            <select name="difficulty" id="dif" class="w-100 px-2 py-1 mx-2">
+                            <select name="difficulty" id="dif" class="w-100 p-2 mx-2">
                                 <option value="">Any Difficulty</option>
                                 <option value="0">Easy</option>
                                 <option value="1">Medium</option>
@@ -50,7 +50,7 @@ $resultNumber = 4;
                             </select>
                         </div>
                         <div class="col-lg-4 my-3">
-                            <select name="time" id="time" class="w-100 px-2 py-1 mx-2">
+                            <select name="time" id="time" class="w-100 p-2 mx-2">
                                 <option value="">Any Time</option>
                                 <option value="0">Quick</option>
                                 <option value="1">Medium</option>
@@ -58,7 +58,7 @@ $resultNumber = 4;
                             </select>
                         </div>
                         <div class="col-lg-4 my-3">
-                            <select name="price" id="prc" class="w-100 px-2 py-1 mx-2">
+                            <select name="price" id="prc" class="w-100 p-2 mx-2">
                                 <option value="">Any Price</option>
                                 <option value="0">Cheap</option>
                                 <option value="1">Medium</option>
@@ -70,7 +70,7 @@ $resultNumber = 4;
                                 $counter = 0;
                                 foreach($tags as $tag){
                             ?>   
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
                                 <input type="checkbox" id="tag<?php echo $counter?>" name="tag<?php echo $counter?>" value="<?php echo  strtolower($tag)?>">
                                 <label for="tag<?php echo $counter?>"><?php echo $tag?></label>
                             </li>
