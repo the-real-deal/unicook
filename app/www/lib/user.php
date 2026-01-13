@@ -65,7 +65,9 @@ readonly class User extends DBTable {
         
         $key = uuidv4();
         $keyHash = password_hash($key, PASSWORD_DEFAULT);
-        
+        // TODO: key hashes not matching????
+        debug($key);
+        debug($keyHash);
         $ok = $query->bind(
             SqlValueType::String->createParam($keyHash),
             SqlValueType::String->createParam($this->id),

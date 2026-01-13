@@ -60,6 +60,8 @@ readonly class AuthSession extends DBTable {
             return false;
         }
         $keyMatches = password_verify($key, $auth->keyHash);
+        debug($key);
+        debug($keyMatches);
         if ($keyMatches) {
             return $auth;
         } else {
