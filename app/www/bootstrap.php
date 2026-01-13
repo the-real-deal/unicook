@@ -1,6 +1,8 @@
 <?php
 
 define("SESSION_NAME", "unicook_session");
+
+// start or resume session
 session_name(SESSION_NAME);
 // https://www.php.net/manual/en/session.security.ini.php
 session_start([
@@ -23,6 +25,7 @@ set_include_path(implode(PATH_SEPARATOR, $includePathSplit));
 // set UTC as default timezone
 date_default_timezone_set('UTC');
 
+// debug function
 function debug(mixed ...$values) {
     echo "<pre>";
     foreach ($values as $val) {

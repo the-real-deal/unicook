@@ -17,21 +17,29 @@ readonly class AuthSession extends DBTable {
         public bool $forceExpired,
     ) {}
 
-    public function expired(): bool {
-        $now = new DateTime();
-        $seconds = self::SESSION_VALIDITY_SECS;
-        // https://www.php.net/manual/en/dateinterval.construct.php
-        $secondsInterval = new DateInterval("PT{$seconds}S");
-        return $this->forceExpired || $this->createdAt->add($secondsInterval) <= $now;
-    }
-
     public static function sqlValidityCheck(?string $alias): string {
         $table = self::tableAliasPrefix($alias);
         $seconds = self::SESSION_VALIDITY_SECS;
         return <<<sql
-        NOT $table`forceExpired` 
+        $table`forceExpired` = 0
         AND date_add($table`createdAt`, INTERVAL $seconds SECOND) > now()
         sql;
+    }
+
+    public function expired(Database $db): bool {
+        $validityCheck = AuthSession::sqlValidityCheck("s");
+        $query = $db->createStatement(<<<sql
+            SELECT s.*
+            FROM `AuthSessions` s
+            WHERE s.`id` = ?
+                AND $validityCheck
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return $result->totalRows == 0;
     }
 
     public static function fromKey(Database $db, string $key): self|false {
@@ -213,20 +221,24 @@ readonly class LoginSession {
     public static function autoLogin(Database $db): self|false {
         $serializedLogin = $_SESSION[self::LOGIN_SESSION_ATTR] ?? null;
         if ($serializedLogin !== null) {
-            return unserialize($serializedLogin);
+            $login = unserialize($serializedLogin);
+            if (!$login->auth->expired($db)) {
+                return $login;
+            }
         }
 
         $authSessionKey = $_COOKIE[self::AUTH_KEY_COOKIE_ATTR] ?? null;
         if ($authSessionKey === null) {
             return false;
         }
-
+        
         $login = self::fromAuthSessionKey($db, $authSessionKey);
-        if ($login === false) {
+        if ($login === false || $login->auth->expired($db)) {
             return false;
+        } else {
+            $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
+            return $login;
         }
-        $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
-        return $login;
     }
 
     public static function autoLoginOrRedirect(Database $db, string $redirect = "/login/"): self {
@@ -234,8 +246,9 @@ readonly class LoginSession {
         if ($login === false) {
             $res = new ApiResponse();
             $res->redirect($redirect);
+        } else {
+            return $login;
         }
-        return $login;
     }
 }
 
