@@ -1,0 +1,35 @@
+article.review {
+    border-radius: var(--card-radius);
+    background-color: var(--bg-dark);
+    border: var(--border-card);
+    margin-bottom: 15px;
+}
+
+article.review span {
+    color: var(--text-muted);
+}
+
+article.review h3 {
+    color: var(--text);
+    font-size: medium;
+    font-weight: 500;
+    margin: 0px;
+}
+
+article.review time {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+article.review p {
+    margin-block: 5px;
+}
+
+article.review>div {
+    color: var(--text-muted);
+}
+
+article.review>div:first-of-type>div {
+    color: var(--primary);
+}

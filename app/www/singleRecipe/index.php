@@ -3,6 +3,7 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
+require_once "components/Review.php";
 
 $id = $_GET['id'] ?? null;
 
@@ -213,9 +214,6 @@ PageOpening("Recipe",["style.css"]);
                     <section id="reviews">
                         <div class="p-4 mb-4">
                             <div class="d-flex gap-2 mb-4 align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" stroke="black" stroke-width="1" fill="currentColor" class="bi bi-chat-left" viewBox="-1 -1 18 18">
-                                    <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                                </svg>
                                 <h2>Reviews</h2>
                                 <div class="rating">
                                     <input type="radio" name="rating" id="r1" hidden>
@@ -254,9 +252,9 @@ PageOpening("Recipe",["style.css"]);
                                     </label>
                                 </div>
                             </div>
-                            <article>
-                                
-                            </article>
+                            <?php Review("1", "Username", 4, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
+                            <?php Review("1", "Username", 3, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
+                            <?php Review("1", "Username", 5, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
                         </div>
                     </section>
                 </div>

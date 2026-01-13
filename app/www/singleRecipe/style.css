@@ -88,6 +88,7 @@ div {
     border-radius: 16px;
     background-color: var(--bg-light);
     box-shadow: var(--shadow-combined);
+    border: var(--border-card);
 }
 
 #aside label {
