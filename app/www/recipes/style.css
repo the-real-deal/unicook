@@ -10,8 +10,7 @@ main>:not(:first-child)>* {
 }
 
 select {
-    border: 1px;
-    border-color: var(--bg-light);
+    border: 1px solid var(--border-muted);
     background-color: var(--bg-light);
     border-radius: var(--radius);
     outline: none;
@@ -20,26 +19,9 @@ select {
 
 select:focus {
     outline: none;
-    border-width: 2px;
-    border-color: var(--secondary);
-    box-shadow: 0 0 0 5px var(--secondary-shade);
-}
-
-select {
-    border-width: 2px;
-    border-color: var(--bg-light);
-    background-color: var(--bg-light);
-    border-radius: var(--radius);
+    border: 1px solid var(--border-focused);
     outline: none;
-    box-shadow: var(--shadow-light);
-    transition: var(--default-transition-timing-function);
-}
-
-select:focus {
-    outline: none;
-    border-width: 2px;
-    border-color: var(--tertiary);
-    box-shadow: 0 0 0 5px var(--secondary-shade);
+    box-shadow: var(--shadow-focus);
 }
 
 form>div:last-child {
@@ -49,8 +31,8 @@ form>div:last-child {
 }
 
 input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     appearance: none;
     /* -webkit-appearance: none;
     -moz-appearance: none; */
@@ -69,18 +51,8 @@ input[type="checkbox"]:checked {
     transition: transform var(--default-transition-timing-function);
 }
 
-/* Add a check mark when checked */
-input[type="checkbox"]:checked::after {
-    content: "";
-    position: absolute;
-    left: 6px;
-    top: 2px;
-    width: 6px;
-    height: 12px;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-    border-color: white;
-    border-style: solid;
+form ul li:has(>input[type="checkbox"]:checked) {
+    border: solid 1px var(--primary);
 }
 
 label {
@@ -91,11 +63,9 @@ form ul {
     list-style: none;
 }
 
-form ul li:not(:last-child) {
-    padding-right: 15px;
-    margin-right: 15px;
-    margin-top: 10px;
-    border-right: solid 1px var(--border-muted);
+form ul li {
+    border-radius: var(--card-radius);
+    border: solid 1px var(--border-muted);
 }
 
 main>:not(:first-child) {
