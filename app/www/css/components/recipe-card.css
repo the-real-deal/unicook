@@ -115,14 +115,14 @@
     right: 10px;
 }
 
-/* .recipe-card>article>button:last-of-type {
+.recipe-card>article>button:last-of-type {
     top: 10px;
     left: 10px;
 }
 
 .recipe-card>article>button:last-of-type:hover {
     color: var(--danger);
-} */
+}
 
 .recipe-card article>:not(:first-child, :last-child) {
     margin-inline: 7%;

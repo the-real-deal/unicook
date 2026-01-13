@@ -14,6 +14,10 @@ function saveRecipe(btnId, recipeId) {
     }
 }
 
-function deleteRecipe(id) {
-    const card = document.getElementById(id).parentNode();
+function deleteRecipe(recipeId, elementId) {
+    const recipeCard = document.getElementById(elementId);
+    if (recipeCard) {
+        recipeCard.remove();
+        // history.back();
+    }
 }
