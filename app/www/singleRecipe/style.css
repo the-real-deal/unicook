@@ -30,10 +30,10 @@ div {
     position: relative;
 }
 
-#recipe-info div:has(>form) {
+#recipe-info form {
     position: absolute;
-    top: 20px;
     right: 20px;
+    top: 20px;
 }
 
 #recipe-info svg {

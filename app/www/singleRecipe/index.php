@@ -4,6 +4,10 @@ require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 
+$id = $_GET['id'] ?? null;
+
+
+
 PageOpening("Recipe",["style.css"]);
 ?>
 
@@ -19,18 +23,33 @@ PageOpening("Recipe",["style.css"]);
                 <div class="my-4 position-relative">
                     <img src="https://images.unsplash.com/photo-1676300184847-4ee4030409c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXN0YSUyMGRpc2glMjBmb29kfGVufDF8fHx8MTc2MzA4MTc4MHww&ixlib=rb-4.1.0&q=80&w=1080"
                         class="object-fit-cover w-100" alt="Students cooking together" />
-                    <div>
-                        <form>
-                            <input type="checkbox" id="save_btn" hidden>
-                            <label for="save_btn" class="d-flex align-items-center justify-content-center p-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="lucide lucide-bookmark w-5 h-5" aria-hidden="true">
-                                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                                </svg>
-                            </label>
-                        </form>
-                    </div>
+                    <form class="d-flex gap-3">
+                        <input type="checkbox" id="save_btn" hidden>
+                        <label for="save_btn" class="d-flex align-items-center justify-content-center p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-bookmark w-5 h-5" aria-hidden="true">
+                                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                            </svg>
+                        </label>
+                        <input type="button" id="save_btn" hidden>
+                        <label for="save_btn" class="d-flex align-items-center justify-content-center p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-bookmark w-5 h-5" aria-hidden="true">
+                                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                            </svg>
+                        </label>
+                        <input type="button" id="save_btn" hidden>
+                        <label for="save_btn" class="d-flex align-items-center justify-content-center p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-bookmark w-5 h-5" aria-hidden="true">
+                                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                            </svg>
+                        </label>
+                    </form>
+                    
                 </div>
 
                 <div class="d-flex flex-wrap">
