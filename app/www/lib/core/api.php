@@ -1,33 +1,7 @@
 <?php
-require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
-require_once "files.php";
-
-enum HTTPHeader: string {
-    case ContentType = "Content-Type";
-    case ContentLength = "Content-Length";
-    case Location = "Location";
-
-    public function checkData(mixed $data): bool {
-        return match ($this) {
-            self::ContentType => $data instanceof MimeType,
-            self::ContentLength => is_int($data) && $data >= 0,
-            default => true,
-        };
-    }
-}
-
-enum HTTPCode: int {
-    case NotFound = 404;
-    case BadRequest = 400;
-    case MethodNotAllowed = 405;
-    case InternalServerError = 500;
-    case OK = 200;
-}
-
-enum HTTPMethod: string {
-    case GET = "GET";
-    case POST = "POST";
-}
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
+require_once "lib/core/http.php";
+require_once "lib/utils.php";
 
 class InvalidHTTPHeaderDataException extends Exception {}
 
@@ -35,7 +9,10 @@ class InvalidHTTPHeaderDataException extends Exception {}
 class ApiRequest {
     public function __construct() {}
 
-    public function parseID(string $value): string|false {
+    public function parseStringNonEmpty(?string $value): string|false {
+        if ($value === null) {
+            return false;
+        }
         $value = htmlspecialchars($value);
         return filter_var(
             $value, 
@@ -59,7 +36,7 @@ class ApiResponse {
                 "Invalid value $data for header $headerName",
             );
         }
-        if ($data instanceof \UnitEnum) {
+        if (isEnum($data)) {
             $data = $data->value;
         }
         header("$headerName: $data");

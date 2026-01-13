@@ -1,36 +1,16 @@
 <?php
-require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/uuid.php";
+require_once "lib/core/mime.php";
 require_once "lib/utils.php";
 
 // $_FILES[<filename>] keys reference:
 // https://www.php.net/manual/en/features.file-upload.post-method.php
 
-define("UPLOAD_DIR", "{$_SERVER['DOCUMENT_ROOT']}/uploads");
+define("UPLOAD_DIR", "{$_SERVER["DOCUMENT_ROOT"]}/uploads");
 if (!file_exists(UPLOAD_DIR) || !is_dir(UPLOAD_DIR)) {
     // upload directory must be created manually to add access permissions (e.g. .htaccess file)
     throw new ErrorException("Upload directory " . UPLOAD_DIR . " does not exist");
-}
-
-enum MimeType: string {
-    case JPEG = "image/jpeg";
-    case PNG = "image/png";
-    case GIF = "image/gif";
-    case WEBP = "image/webp";
-    case JSON = "application/json";
-    case JavaScript = "text/javascript";
-    case PlainText = "text/plain";
-
-    public function preferredExtension(): string {
-        return match ($this) {
-            self::JPEG => "jpeg",
-            self::PNG => "png",
-            self::GIF => "gif",
-            self::WEBP => "webp",
-            self::JavaScript => "js",
-            self::PlainText => "txt",
-        };
-    }
 }
 
 enum FileType: string {
@@ -67,7 +47,8 @@ readonly class UploadFile {
     ) {}
 
     private static function createUploadPath(string $id, MimeType $mime, string $path): string {
-        return UPLOAD_DIR . "/$path/$id.{$mime->preferredExtension()}";
+        $extension = $mime->preferredExtension();
+        return UPLOAD_DIR . "/$path/$id" . ($extension === null ? "" : ".$extension");
     }
 
     private static function createMetadataPath(string $id, string $path): string {
