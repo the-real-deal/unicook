@@ -3,6 +3,7 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
 require_once "lib/core/api.php";
 require_once "lib/core/uuid.php";
+require_once "lib/users.php";
 
 readonly class AuthSession extends DBTable {
     public const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
