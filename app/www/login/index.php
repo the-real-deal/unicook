@@ -1,10 +1,10 @@
 <?php
-require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 
-PageOpening("Login",["/css/loginRegister.css"]);
+PageOpening("Login", [ "/css/loginRegister.css" ]);
 ?>
 <body>
     <?php 
@@ -12,7 +12,7 @@ PageOpening("Login",["/css/loginRegister.css"]);
     ?>
         <main>
             <div class="d-flex justify-content-center">
-                <form class="w-100 mx-4 p-5">
+                <form id="loginForm" action="/api/auth/login.php" method="POST" class="w-100 mx-4 p-5">
                     <div class="d-flex align-items-center justify-content-center mx-auto" id="logoApp">
                         <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none"
                             stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -37,7 +37,7 @@ PageOpening("Login",["/css/loginRegister.css"]);
                             <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
                             <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                         </svg>
-                        <input type="email" id="email" placeholder="email" class="w-100" required />
+                        <input type="email" id="email" name="email" placeholder="email" class="w-100" required />
                     </div>
 
                     <label for="password" class="mt-4 mb-1">Password</label>
@@ -49,7 +49,7 @@ PageOpening("Login",["/css/loginRegister.css"]);
                             <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
-                        <input type="password" id="password" placeholder="password" class="w-100" required />
+                        <input type="password" id="password" name="password" placeholder="password" class="w-100" required />
                     </div>
 
                     <label for="login" hidden>submit the login</label>
@@ -65,4 +65,5 @@ PageOpening("Login",["/css/loginRegister.css"]);
     <?php 
     Footer();
     ?>
+    <script type="module" src="main.js"></script>
 </body>

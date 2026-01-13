@@ -12,6 +12,10 @@ function searchEnum(mixed $cases, mixed $value): string|int|false {
     return array_search($value, $enumValues, true);
 }
 
+function isEnum(mixed $value): bool {
+    return $value instanceof \UnitEnum;
+}
+
 function envValue(string $key): ?string {
     $value = getenv($key);
     return $value === false ? null : $value;

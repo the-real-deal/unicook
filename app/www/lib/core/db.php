@@ -1,5 +1,5 @@
 <?php
-require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/utils.php";
 
 define("MYSQL_DATETIME_FORMAT", "Y-m-d H:i:s");
@@ -37,6 +37,21 @@ enum SqlValueType {
         }
     }
 
+    public static function fromValue(mixed $value): ?self {
+        if (is_int($value)) {
+            return self::Int;
+        } else if (is_bool($value)) {
+            return self::Bool;
+        } else if (is_float($value)) {
+            return self::Float;
+        } else if (is_string($value)) {
+            return self::Float;
+        } else if ($value instanceof DateTime) {
+            return self::DateTime;
+        }
+        return null;
+    }
+
     // https://www.php.net/manual/en/mysqli-stmt.bind-param.php
     public function typeString(): string  {
         switch ($this) {
@@ -44,7 +59,7 @@ enum SqlValueType {
             case self::Bool:
                 return "i";
             case self::Float:
-                return 'd';
+                return "d";
             case self::String:
             case self::Datetime:
                 return "s";
@@ -115,7 +130,8 @@ class QueryRow extends ArrayObject {
         $data = [];
         foreach ($row as $key => $value) {
             assert($fields[$key] instanceof SqlValueType);
-            $data[$key] = $fields[$key]->valueFromField($value);
+            $value = $fields[$key]->valueFromField($value);
+            $data[$key] = $value;
         }
         return new self($data);
     }
@@ -237,12 +253,12 @@ class Database implements Closeable {
 
     public static function connectDefault(): self {
         return new self(
-            host: envValue('DB_HOST') ?? 'localhost',
-            username: envValue('DB_USER') ?? 'unicook_appuser',
+            host: envValue("DB_HOST") ?? "localhost",
+            username: envValue("DB_USER") ?? "unicook_appuser",
             // clear password for demo
-            password: envValue('DB_PASSWORD') ?? 'unicook_app_user_passwd!', 
-            dbname: envValue('DB_NAME') ?? 'UniCook', 
-            port: intval(envValue('DB_PORT') ?? "3306"),
+            password: envValue("DB_PASSWORD") ?? "unicook_app_user_passwd!", 
+            dbname: envValue("DB_NAME") ?? "UniCook", 
+            port: intval(envValue("DB_PORT") ?? "3306"),
         );
     }
 
@@ -262,7 +278,15 @@ readonly abstract class DBTable {
         $reflection = new ReflectionClass(static::class);
         $params = [];
         foreach ($reflection->getConstructor()->getParameters() as $param) {
-            $params[] = $row[$param->getName()];
+            $value = $row[$param->getName()];
+            $type = $param->getType();
+            if ($type !== null && $type instanceof ReflectionNamedType && !$type->isBuiltin()) {
+                $enumClass = new ReflectionClass($type->getName());
+                if ($enumClass->isEnum()) {
+                    $value = $enumClass::from($value);
+                }
+            }
+            array_push($params, $value);
         }
         return new static(...$params);
     }
