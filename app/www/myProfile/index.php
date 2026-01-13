@@ -50,8 +50,9 @@ PageOpening("My Profile", ["style.css"]);
                 </button>
             </div>
         </div>
-        <hr/>
-        <div class="container mb-2 mx-auto p-4">
+    </section>
+    <section id="recipes-section" class="container my-5 mx-auto">
+        <div class="container-fluid mb-2 mx-auto p-4">
             <h3 class="col-12 col-md-4 text-center mb-3"><strong>My Recipes</strong></h3>
             <div class="row">
                 <?php RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
@@ -60,7 +61,7 @@ PageOpening("My Profile", ["style.css"]);
                 <?php RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
             </div>
         </div>
-        <div class="container-fluid mb-2 mx-auto p-4">
+        <div class="container-fluid  mb-2 mx-auto p-4">
             <h3 class="col-12 col-md-4 text-center mb-3"><strong>Saved Recipes</strong></h3>
             <div class="row ">
                 <?php RecipeCard("5", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
@@ -68,6 +69,7 @@ PageOpening("My Profile", ["style.css"]);
                 <?php RecipeCard("7", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
                 <?php RecipeCard("8", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
             </div>
+            
         </div>
     </section>
 </main> 
