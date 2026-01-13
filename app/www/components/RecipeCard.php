@@ -1,5 +1,5 @@
 <?php
-require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
 function RecipeCard(string $elementId, string $recipeId, string $recipeTitle, array $tags, int $timeRequired, string $cost) {
 ?>
