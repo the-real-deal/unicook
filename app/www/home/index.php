@@ -8,9 +8,6 @@ require_once "components/CategoryCard.php";
 require_once "components/SearchBar.php";
 require_once "lib/auth.php";
 
-// $db = Database::connectDefault();
-// $login = LoginSession::autoLoginOrRedirect($db);
-
 PageOpening("Home",["style.css"]);
 ?>
 <body>
@@ -81,7 +78,4 @@ PageOpening("Home",["style.css"]);
     <?php Footer();?>
 
     <script src="/js/recipeCard.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
 </body>

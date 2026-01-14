@@ -62,12 +62,8 @@ readonly class User extends DBTable {
         $query = $db->createStatement(<<<sql
             INSERT INTO `AuthSessions`(`keyHash`, `userId`) VALUES (?, ?)
             sql);
-        
         $key = uuidv4();
-        $keyHash = password_hash($key, PASSWORD_DEFAULT);
-        // TODO: key hashes not matching????
-        debug($key);
-        debug($keyHash);
+        $keyHash = hash(AuthSession::KEY_HASH_ALGO, $key);
         $ok = $query->bind(
             SqlValueType::String->createParam($keyHash),
             SqlValueType::String->createParam($this->id),

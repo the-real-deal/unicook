@@ -7,6 +7,7 @@ require_once "lib/users.php";
 
 readonly class AuthSession extends DBTable {
     public const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
+    public const KEY_HASH_ALGO = 'sha256';
 
     protected function __construct(
         public string $id,
@@ -46,9 +47,11 @@ readonly class AuthSession extends DBTable {
         $query = $db->createStatement(<<<sql
             SELECT s.*
             FROM `AuthSessions` s
-            WHERE $validityCheck
+            WHERE s.`keyHash` = ?
+                AND $validityCheck
             sql);
-        $ok = $query->execute();
+        $keyHash = hash(self::KEY_HASH_ALGO, $key);
+        $ok = $query->bind(SqlValueType::String->createParam($keyHash))->execute();
         if (!$ok) {
             return false;
         }
@@ -59,14 +62,8 @@ readonly class AuthSession extends DBTable {
         $auth = self::fromTableRow($result->fetchOne());
         if ($auth === false) {
             return false;
-        }
-        $keyMatches = password_verify($key, $auth->keyHash);
-        debug($key);
-        debug($keyMatches);
-        if ($keyMatches) {
-            return $auth;
         } else {
-            return false;
+            return $auth;
         }
     }
 }
