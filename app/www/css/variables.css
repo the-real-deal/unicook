@@ -18,10 +18,10 @@
     --tertiary: oklch(0.9265 0.0263 72.99);
     --tertiary-shade: oklch(0.9453 0.0175 71.28);
     --tertiary-text: oklch(46.742% 0.02362 69.59);
-    --danger: oklch(0.5 0.05 30);
-    --warning: oklch(0.5 0.05 100);
-    --success: oklch(0.5 0.05 160);
-    --info: oklch(0.5 0.05 260);
+    --danger: oklch(53.463% 0.2194 29.223);
+    --warning: oklch(67.459% 0.13553 75.656);
+    --success: oklch(64.864% 0.1656 151.631);
+    --info: oklch(57.237% 0.14464 259.639);
 
     --border-card: solid 1px var(--border-muted);
     --border-top: solid 0px;
