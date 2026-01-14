@@ -91,6 +91,8 @@ div {
     border: var(--border-card);
 }
 
+
+
 #aside label {
     word-wrap: break-word;
     display: inline-block;
@@ -126,31 +128,56 @@ body {
     background-color: var(--bg);
 }
 
-.rating {
+.stars {
     display: flex;
     flex-direction: row-reverse;
     /* Importante! */
     justify-content: flex-end;
-    gap: 0.25rem;
 }
 
-.rating label svg {
+.stars label svg {
     cursor: pointer;
     fill: none;
-    stroke: var(--primary);
+    stroke: var(--text);
     transition: color 0.2s ease;
+
 }
 
-.rating label:hover svg,
-.rating label:hover~label svg {
+.stars label:hover svg,
+.stars label:hover~label svg {
     fill: var(--primary);
+    stroke: var(--primary);
 }
 
-.rating input[type="radio"]:checked~label svg {
+.stars input[type="radio"]:checked~label svg {
     fill: var(--primary);
+    stroke: var(--primary);
 }
 
-.rating label svg {
+.stars label svg {
     width: 24px;
     height: 24px;
+}
+
+form:has(.stars) {
+    background-color: var(--bg);
+    border-radius: var(--card-radius);
+    border: var(--border-card);
+}
+
+#review-text-area {
+    border-radius: var(--radius);
+    transition: var(--default-transition-timing-function);
+    outline: none;
+    border: 1px solid var(--border-muted);
+    min-height: auto;
+    width: 100%;
+    overflow: auto;
+    resize: none;
+}
+
+#review-text-area:focus {
+    border: 1px solid var(--border-focused);
+    outline: none;
+    box-shadow: var(--shadow-focus);
 }

@@ -213,45 +213,59 @@ PageOpening("Recipe",["style.css"]);
                     </section>
                     <section id="reviews">
                         <div class="p-4 mb-4">
-                            <div class="d-flex gap-2 mb-4 align-items-center">
-                                <h2>Reviews</h2>
-                                <div class="rating">
-                                    <input type="radio" name="rating" id="r1" hidden>
-                                    <label for="r1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
-                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                        </svg>
-                                    </label>
-
-                                    <input type="radio" name="rating" id="r2" hidden>
-                                    <label for="r2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
-                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                        </svg>
-                                    </label>
-
-                                    <input type="radio" name="rating" id="r3" hidden>
-                                    <label for="r3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
-                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                        </svg>
-                                    </label>
-
-                                    <input type="radio" name="rating" id="r4" hidden>
-                                    <label for="r4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
-                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                        </svg>
-                                    </label>
-
-                                    <input type="radio" name="rating" id="r5" hidden>
-                                    <label for="r5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                        </svg>
-                                    </label>
+                            <h2>Reviews</h2>
+                            <form class="p-3 mb-3">
+                                <div class="mb-3">
+                                    <label class="mb-2">Your Rating</label>
+                                    <div class="stars">
+                                        <input type="radio" name="stars" id="r1" value="1" hidden/>
+                                        <label for="r1" class="pe-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        </label>
+                                        <input type="radio" name="stars" id="r2" value="2" hidden/>
+                                        <label for="r2" class="pe-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        </label>
+                                        <input type="radio" name="stars" id="r3" value="3" hidden/>
+                                        <label for="r3" class="pe-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        </label>
+                                        <input type="radio" name="stars" id="r4" value="4" hidden/>
+                                        <label for="r4" class="pe-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        </label>
+                                        <input type="radio" name="stars" id="r5" value="5" hidden/>
+                                        <label for="r5" class="pe-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="mb-3">
+                                    <label for="review-text-area" hidden>Your Review</label>
+                                    <textarea 
+                                        id="review-text-area"
+                                        placeholder="Share your thoughts about this recipe..." 
+                                        rows="3"
+                                        resize="none"
+                                        class="p-2"
+                                        required
+                                    ></textarea>
+                                </div>
+
+                                <label for="submit_review" hidden>Submit Review</label>
+                                <button type="submit" class="btn btn-success">Submit Review</button>
+                            </form>
                             <?php Review("1", "Username", 4, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
                             <?php Review("1", "Username", 3, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
                             <?php Review("1", "Username", 5, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
@@ -264,4 +278,5 @@ PageOpening("Recipe",["style.css"]);
     <?php   
     Footer();
     ?>
+<script src="main.js"></script>
 </body>
