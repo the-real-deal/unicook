@@ -12,8 +12,8 @@
     background-color: var(--bg-light);
     overflow: hidden;
     border-bottom: var(--border-card);
-    border-top: var(--border-top);
     position: relative;
+    border-top: 0px;
 }
 
 .recipe-card article>h3 {

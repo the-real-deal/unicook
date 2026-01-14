@@ -13,6 +13,7 @@ body {
 
 :heading {
     color: var(--text);
+    font-weight: 400;
 }
 
 :heading+p {

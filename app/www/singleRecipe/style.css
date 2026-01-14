@@ -1,5 +1,5 @@
 div {
-    max-width: 1300px !important;
+    max-width: 1000px !important;
 }
 
 #recipe-info {
@@ -83,13 +83,15 @@ div {
 
 #aside>div,
 #instruction>div,
-#student-tips>div,
-#nutrition-info>div {
+#reviews>div {
     /* border: 2px solid #E6D3B3; */
     border-radius: 16px;
     background-color: var(--bg-light);
     box-shadow: var(--shadow-combined);
+    border: var(--border-card);
 }
+
+
 
 #aside label {
     word-wrap: break-word;
@@ -120,14 +122,62 @@ div {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-weight: bold;
 }
-
-#nutrition-info dl {
-    list-style-type: none;
-}
-
 
 body {
     background-color: var(--bg);
+}
+
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    /* Importante! */
+    justify-content: flex-end;
+}
+
+.stars label svg {
+    cursor: pointer;
+    fill: none;
+    stroke: var(--text);
+    transition: color 0.2s ease;
+
+}
+
+.stars label:hover svg,
+.stars label:hover~label svg {
+    fill: var(--primary);
+    stroke: var(--primary);
+}
+
+.stars input[type="radio"]:checked~label svg {
+    fill: var(--primary);
+    stroke: var(--primary);
+}
+
+.stars label svg {
+    width: 24px;
+    height: 24px;
+}
+
+form:has(.stars) {
+    background-color: var(--bg);
+    border-radius: var(--card-radius);
+    border: var(--border-card);
+}
+
+#review-text-area {
+    border-radius: var(--radius);
+    transition: var(--default-transition-timing-function);
+    outline: none;
+    border: 1px solid var(--border-muted);
+    min-height: auto;
+    width: 100%;
+    overflow: auto;
+    resize: none;
+}
+
+#review-text-area:focus {
+    border: 1px solid var(--border-focused);
+    outline: none;
+    box-shadow: var(--shadow-focus);
 }
