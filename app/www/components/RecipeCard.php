@@ -9,7 +9,7 @@ function RecipeCard(string $elementId,
                     string $cost, 
                     bool $saved=false) {
 ?>
-<div class="p-0 col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?php echo $elementId ?>">
+<div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?php echo $elementId ?>">
     <article class="my-2 pb-2">
         <div>
             <img class="card-img-top img-fluid" src="/assets/penne.jpg" alt="">

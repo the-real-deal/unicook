@@ -57,7 +57,7 @@
 }
 
 .recipe-card article:hover div>img {
-    transform: scale(1.03);
+    transform: scale(1.1);
 }
 
 .recipe-card article>ul>li {
