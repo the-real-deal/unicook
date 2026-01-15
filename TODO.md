@@ -65,3 +65,24 @@
 
 - [ ] send message
 - [ ] clear
+
+## Pages
+- [ ] COLORS 
+- [ ] 
+### Home
+- [ ] switch pages when searching
+    - [ ] search
+    - [ ] tag
+- [ ] random recipe
+#### Single Recipe
+- [ ] open single recipe
+    - [ ] link on all the card surface
+- [ ] getting card from db 
+
+### About
+- [ ] add useless API
+
+### Recipes
+- [ ] add search
+- [ ] hide/show filters instead of search button
+- [ ] ajax (maybe) --> accessibility
