@@ -29,7 +29,7 @@ $totalRecipes = 13;
 $resultNumber = 4;
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <?= PageHead("Recipes", [ "style.css" ]) ?>
 <body>
     <?= Navbar() ?>
@@ -43,6 +43,7 @@ $resultNumber = 4;
                     <?= SearchBar("recipes-search",50) ?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
+                            <label for="dif" hidden>difficulty level selector</label>
                             <select name="difficulty" id="dif" class="w-100 p-2 mx-2">
                                 <option value="">Any Difficulty</option>
                                 <option value="0">Easy</option>
@@ -51,6 +52,7 @@ $resultNumber = 4;
                             </select>
                         </div>
                         <div class="col-lg-4 my-3">
+                            <label for="prc" hidden>price level selector</label>
                             <select name="price" id="prc" class="w-100 p-2 mx-2">
                                 <option value="">Any Price</option>
                                 <option value="0">Cheap</option>
@@ -59,6 +61,7 @@ $resultNumber = 4;
                             </select>
                         </div>
                         <div class="col-lg-4 my-3">
+                            <label for="time" hidden>time level selector</label>
                             <select name="time" id="time" class="w-100 p-2 mx-2">
                                 <option value="">Any Time</option>
                                 <option value="0">Quick</option>

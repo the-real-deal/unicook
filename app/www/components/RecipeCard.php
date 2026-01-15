@@ -36,7 +36,7 @@ function RecipeCard(string $elementId,
                     <path
                         d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
                 </svg>
-                <span aria-label="Time Required"><?php echo $timeRequired ?> min</span>
+                <span><?php echo $timeRequired ?> min</span>
             </div>
             <div class="pe-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -45,7 +45,7 @@ function RecipeCard(string $elementId,
                     <line x1="12" x2="12" y1="2" y2="22"></line>
                     <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                 </svg>
-                <span aria-label="Cost"><?php echo $cost ?></span>
+                <span><?php echo $cost ?></span>
             </div>
         </div>
         <a href="/singleRecipe?id=<?php echo $recipeId?>" >More...</a> <!-- add link to recipe id -->

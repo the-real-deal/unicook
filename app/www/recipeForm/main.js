@@ -1,4 +1,4 @@
-let newIngredientIndex = 1;
+let newIngredientIndex = 2;
 function addIngredientSlot() {
     const ingredientsList = document.getElementById('ingredients');
     const newIndex = newIngredientIndex++;
@@ -89,7 +89,7 @@ function removeTag(button) {
     button.parentElement.remove();
 }
 
-let newStepIndex = 1;
+let newStepIndex = 2;
 function addStepSlot() {
     const stepsList = document.getElementById('steps');
     const newIndex = newStepIndex++;

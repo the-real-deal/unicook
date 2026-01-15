@@ -31,10 +31,9 @@ function floorPlus($var) {
     <!-- ABOUT PAGE-->
     <main>
         <!-- HERO SECTION -->
-        <section class="py-5" id="hero-section">
+        <div class="py-5" id="hero-section">
             <div class="container-fluid text-center">
                 <div class="d-inline-flex align-items-center mb-4 gap-2 py-2 px-3">
-                    <!-- chef-hat icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <path
@@ -56,7 +55,7 @@ function floorPlus($var) {
                 </div>
 
             </div>
-        </section>
+        </div>
 
         <!-- MISSION SECTION -->
         <section class="py-5" id="mission-section">
@@ -256,7 +255,7 @@ function floorPlus($var) {
                     <!-- Spita -->
                     <div class="team-user col-md-4 text-center ">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Ludovico+Spitaleri">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Ludovico+Spitaleri" alt="">
                         </div>
                         <h3 class="mb-1">Ludovico Spitaleri</h3>
                         <p class="text-success ">Founder & Developer</p>
@@ -268,7 +267,7 @@ function floorPlus($var) {
                     <!-- Gio -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Gioele+Foschi">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Gioele+Foschi" alt="">
                         </div>
                         <h3 class="mb-1">Gioele Foschi</h3>
                         <p class="text-success ">Founder & Developer</p>
@@ -280,7 +279,7 @@ function floorPlus($var) {
                     <!-- Tonno -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Matteo+Tonelli">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Matteo+Tonelli" alt="">
                         </div>
                         <h3 class="mb-1">Matteo Tonelli</h3>
                         <p class="text-success ">Founder & Developer</p>

@@ -7,7 +7,7 @@ require_once "components/FileInput.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?= PageHead("Create Recipe", ["style.css"]) ?>
+<?= PageHead("Form", ["style.css"]) ?>
 <body>
     <?=  Navbar() ?>
     <main>
@@ -70,24 +70,35 @@ require_once "components/FileInput.php";
             <hr>
 
             <div class="d-flex justify-content-between align-items-center">
-                <label for="ingredients">Ingredients *</label>
+                <span>Ingredients *</span>
                 <label for="add-ingredients-slot" hidden>Preparation Steps *</label>
                 <button type="button" id="add-ingredients-slot">Add Ingredient</button>
             </div>
             <ul id="ingredients">
+                <li class="d-flex justify-content-between mb-2 align-items-center gap-2">
+                    <label for="ingredientQuantity-2" class="d-none" hidden="">enter the quantity of the next ingredient</label>
+                    <input id="ingredientQuantity-2" type="text" name="ingredientsQuantity[]" class="p-2 col-md-2" placeholder="Quantity">
+                    <label for="ingredientName-2" class="d-none" hidden="">enter the next ingredient</label>
+                    <input id="ingredientName-2" type="text" name="ingredientsName[]" class="p-2 flex-grow-1" placeholder="Add ingredient">
+                    <button type="button" class="p-2 flex-shrink-0" onclick="this.parentElement.remove()">&#128473;</button>
+                </li>
             </ul>
             <hr>
 
             <div class="d-flex justify-content-between align-items-center">
-                <label for="steps">Preparation Steps *</label>
+                <span>Preparation Steps *</span>
                 <label for="add-step-slot" hidden>Add Step</label>
                 <button type="button" id="add-step-slot">Add Step</button>
             </div>
             <ul id="steps">
+                <li class="d-flex justify-content-between mb-2 align-items-center gap-2">
+                    <label for="step-1" class="d-none" hidden="">enter the recipe step</label>
+                    <textarea id="step-1" name="steps[]" class="p-2 flex-grow-1" placeholder="Describe the step" style="resize: none;"></textarea>
+                    <button type="button" class="p-2 flex-shrink-0" onclick="this.parentElement.remove()">&#128473;</button>
+                </li>
             </ul>
-            
             <hr>
-            <input type="submit" id="add-step-slot"></input>
+            <input type="submit" value="Publish"></input>
         </form>
     </main>
     <?php 
