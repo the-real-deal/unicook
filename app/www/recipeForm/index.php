@@ -48,8 +48,8 @@ PageOpening("Create Recipe", ["style.css"]);
                     </select>
                 </div>
                 <div class="col-md-6 d-flex flex-column ps-2 py-2 gap-2">
-                    <label for="prep_time">Preparation Time *</label>
-                    <select name="prep_time" id="prep_time" class="p-2" required>
+                    <label for="prepTime">Preparation Time *</label>
+                    <select name="prepTime" id="prepTime" class="p-2" required>
                         <option disabled selected value style="display:none"> -- select an option -- </option>
                         <option value="0">Fast</option>
                         <option value="1">Normal</option>
@@ -66,8 +66,8 @@ PageOpening("Create Recipe", ["style.css"]);
                     </select>
                 </div>
                 <div class="col-md-6 d-flex flex-column ps-2 py-2 gap-2">
-                    <label for="serving_size">Servings *</label>
-                    <input type="number" id="serving_size" name="serving_size" class="p-2" min="1" value="1" required />
+                    <label for="servings">Servings *</label>
+                    <input type="number" id="servings" name="servings" class="p-2" min="1" value="1" required />
                 </div>
             </div>
             <hr>
@@ -88,6 +88,9 @@ PageOpening("Create Recipe", ["style.css"]);
             </div>
             <ul id="steps">
             </ul>
+            
+            <hr>
+            <input type="submit" id="add-step-slot"></input>
         </form>
     </main>
     <?php 
