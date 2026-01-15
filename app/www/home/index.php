@@ -62,7 +62,7 @@ PageOpening("Home",["style.css"]);
             </ul>
         </section>
 
-        <section class="py-3">
+        <section class="row">
             <div class="p-5 text-center">
                 <h2 class="mb-3">Ready to Start Cooking?</h2>
                 <p class="lead mb-4 w-75 mx-auto">

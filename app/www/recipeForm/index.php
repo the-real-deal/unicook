@@ -20,9 +20,8 @@ PageOpening("Create Recipe", ["style.css"]);
             <label for="description">Description *</label>
             <input type="text" id="description" class="p-2" placeholder="Describe your recipe..." required />
 
-            <label for="image_URL">Image (optional)</label>
-            <!-- <input type="image" id="image_URL" class="p-2" /> -->
-            <?php FileInput("image_URL", FileType::Image); ?>
+            <label for="image">Image (optional)</label>
+            <?php FileInput("image", FileType::Image); ?>
 
             <hr>
             <label for="tags">Tags</label>

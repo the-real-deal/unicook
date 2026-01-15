@@ -46,16 +46,8 @@ $resultNumber = 4;
                             <select name="difficulty" id="dif" class="w-100 p-2 mx-2">
                                 <option value="">Any Difficulty</option>
                                 <option value="0">Easy</option>
-                                <option value="1">Medium</option>
+                                <option value="1">Moderate</option>
                                 <option value="2">Hard</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-4 my-3">
-                            <select name="time" id="time" class="w-100 p-2 mx-2">
-                                <option value="">Any Time</option>
-                                <option value="0">Quick</option>
-                                <option value="1">Medium</option>
-                                <option value="2">Long</option>
                             </select>
                         </div>
                         <div class="col-lg-4 my-3">
@@ -64,6 +56,14 @@ $resultNumber = 4;
                                 <option value="0">Cheap</option>
                                 <option value="1">Medium</option>
                                 <option value="2">Expensive</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 my-3">
+                            <select name="time" id="time" class="w-100 p-2 mx-2">
+                                <option value="">Any Time</option>
+                                <option value="0">Quick</option>
+                                <option value="1">Medium</option>
+                                <option value="2">Long</option>
                             </select>
                         </div>
                         <ul class="col-12 d-flex mt-3 flex-wrap">
