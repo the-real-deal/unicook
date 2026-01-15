@@ -14,7 +14,7 @@ function addIngredientSlot() {
     const inputQuantity = document.createElement('input');
     inputQuantity.id = `ingredientQuantity-${newIngredientIndex}`;
     inputQuantity.type = 'text';
-    inputQuantity.name = 'ingredientQuantity[]';
+    inputQuantity.name = 'ingredientsQuantity[]';
     inputQuantity.className = 'p-2 col-md-2';
     inputQuantity.placeholder = 'Quantity';
 
@@ -27,7 +27,7 @@ function addIngredientSlot() {
     const inputName = document.createElement('input');
     inputName.id = `ingredientName-${newIngredientIndex}`;
     inputName.type = 'text';
-    inputName.name = 'ingredientName[]';
+    inputName.name = 'ingredientsName[]';
     inputName.className = 'p-2 flex-grow-1';
     inputName.placeholder = 'Add ingredient';
 

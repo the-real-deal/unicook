@@ -9,6 +9,7 @@ require_once "components/SearchBar.php";
 require_once "lib/auth.php";
 
 PageOpening("Home",["style.css"]);
+Database::connectDefault();
 ?>
 <body>
     <?php Navbar(); ?>

@@ -57,10 +57,10 @@ nav li a:hover {
 /* BOTTONE LOGIN */
 nav div.navbar-nav>a:last-child {
     background: var(--primary);
-    color: white;
     font-weight: 600;
     text-decoration: none;
     border-radius: 50px;
+    min-width: fit-content;
 }
 
 nav div.navbar-nav>a:last-child:hover {
