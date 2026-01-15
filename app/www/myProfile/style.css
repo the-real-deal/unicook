@@ -27,3 +27,11 @@ section {
 #profile-section label:hover {
     color: var(--shadow-dark);
 }
+
+svg text {
+    display: none;
+}
+
+svg:hover text {
+    display: block;
+}

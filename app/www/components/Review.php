@@ -1,7 +1,7 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
-function Review(string $id, string $username, int $rating, string $date, string $text) {
+function Review(string $id, string $username, int $rating, DateTime $date, string $text) {
 ?>
 <article class="review p-3">
     <div class="d-flex justify-content-between">
@@ -29,7 +29,7 @@ function Review(string $id, string $username, int $rating, string $date, string 
             ?>
         </div>
     </div>
-    <time><?php echo $date?></time>
+    <time datetime="<?= $date->format('Y-m-d') ?>"><?= $date->format('d/m/Y') ?></time>
     <p><?php echo $text?></p>
 </article>
 <?php } ?>

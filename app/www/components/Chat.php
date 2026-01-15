@@ -23,10 +23,10 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
                         <div id="chat-title" class="d-flex align-items-center p-3 gap-2">
                             <button data-bs-dismiss="modal">&#128473;</button>
                             <img class="object-fit-cover"
-                                src="https://nintendon.it/wp-content/uploads/2020/04/Gabibbo-NintendOn.jpg"
+                                src="/assets/chefStecchino.png"
                                 alt="profile picture">
                             <div class="ms-3">
-                                <h1>Chef Scintilla</h1>
+                                <h1>Chef Stecchino</h1>
                                 <h2>disponibile</h2>
                             </div>
                         </div>

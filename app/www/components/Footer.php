@@ -8,7 +8,6 @@
 
             <div class="row px-12">
 
-                <!-- BRAND -->
                 <div class="col-lg-3 col-md-6">
                     <a class="d-flex align-items-center gap-2 mb-3">
                         <div class="d-flex align-items-center justify-content-center">
@@ -19,7 +18,7 @@
                                 <path d="M6 17h12"></path>
                             </svg>
                         </div>
-                        <h5>Unicook</h5>
+                        <span class="logo">Unicook</span>
                     </a>
 
                     <p>
@@ -76,8 +75,6 @@
                 </div>
             </div>
             <hr>
-
-            <!-- COPYRIGHT -->
             <div class="text-center text-muted mt-4">
                 2025 Unicook. Made with &hearts; for students.
             </div>

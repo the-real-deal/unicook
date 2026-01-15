@@ -56,10 +56,14 @@ div {
 }
 
 
-#recipe-info dl>div>div,
+#recipe-info ul>li>div,
 #recipe-info li:has(>a) {
     background-color: var(--bg-dark);
     border-radius: var(--card-radius);
+}
+
+#recipe-info ul h2 {
+    font-size: 1rem;
 }
 
 #aside {

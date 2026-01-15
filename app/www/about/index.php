@@ -4,8 +4,22 @@ require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Chat.php";
+    
+$recipesCount = floorPlus(145);
+$studentsCount = floorPlus(298);
+$universitiesCount = floorPlus(400);
+$averageRating = floorPlus(86);
+
+function floorPlus($var) {
+    if ($var >100) {
+        $var = (floor($var / 100) * 100);
+        return strval($var)."+";
+    }
+    return strval($var);
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?= PageHead("About", [ "style.css", "/css/components/chat.css" ]) ?>
@@ -291,22 +305,22 @@ require_once "components/Chat.php";
                 <div class="row text-center g-4">
 
                     <div class="col-6 col-md-3">
-                        <span>400+</span>
+                        <span><?= $recipesCount ?></span>
                         <p>Recipes</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span>50K+</span>
+                        <span><?= $studentsCount ?></span>
                         <p>Students</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span>100+</span>
+                        <span><?= $universitiesCount ?></span>
                         <p>Universities</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span>4.9 &#9733;</span>
+                        <span><?= $averageRating ?></span>
                         <p>Average Rating</p>
                     </div>
 
