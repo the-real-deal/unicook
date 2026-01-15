@@ -7,7 +7,13 @@ require_once "components/Review.php";
 
 $id = $_GET['id'] ?? null;
 
-
+$ingredients = array(
+    'spaggetts' => '200gr',
+    'spaggettys' => '200gr',
+    'spaggetty' => '200gr',
+    'spageto' => '200gr',
+    'glorb' => '200gr'
+); 
 
 PageOpening("Recipe",["style.css"]);
 ?>
@@ -155,30 +161,20 @@ PageOpening("Recipe",["style.css"]);
                     <div class="p-4 mb-4">
                         <h2 class="mb-4">Ingredients</h2>
                         <ul>
-                            <li class="d-flex flex-wrap my-3">
-                                <input id="ingredients1" type="checkbox" class="me-2" />
-                                <label for="ingredients1">
-                                    200g sp aghetti
-                                </label>
-                            </li>
-                            <li class="d-flex flex-wrap my-3">
-                                <input id="ingredients1" type="checkbox" class="me-2" />
-                                <label for="ingredients1">
-                                    200g spaghetti
-                                </label>
-                            </li>
-                            <li class="d-flex flex-wrap my-3">
-                                <input id="ingredients1" type="checkbox" class="me-2" />
-                                <label for="ingredients1">
-                                    200g spaghetti
-                                </label>
-                            </li>
-                            <li class="d-flex flex-wrap my-3">
-                                <input id="ingredients1" type="checkbox" class="me-2" />
-                                <label for="ingredients1">
-                                    200g spaghetti
-                                </label>
-                            </li>
+                            <?php 
+                                $i = 0;
+                                foreach ($ingredients as $ingredient => $quantity) {
+                            ?>
+                                <li class="d-flex flex-wrap my-3">
+                                    <input id="ingredients<?php echo $i ?>" type="checkbox" class="me-2" />
+                                    <label for="ingredients<?php echo $i ?>">
+                                        <?php echo $quantity." ".$ingredient?>
+                                    </label>
+                                </li>
+                            <?php
+                                    $i += 1;
+                                }
+                            ?>
                         </ul>
                     </div>
                 </aside>
@@ -254,7 +250,7 @@ PageOpening("Recipe",["style.css"]);
                                 <div class="mb-3">
                                     <label for="reviewText" hidden>Your Review</label>
                                     <textarea 
-                                        id="eviewText"
+                                        id="reviewText"
                                         placeholder="Share your thoughts about this recipe..." 
                                         rows="3"
                                         resize="none"
