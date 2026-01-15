@@ -1,6 +1,7 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
+require_once "lib/core/uuid.php";
 require_once "lib/recipes.php";
 
 readonly class User extends DBTable {
@@ -14,6 +15,32 @@ readonly class User extends DBTable {
         public DateTime $createdAt,
         public bool $deleted,
     ) {}
+
+    public static function register(
+        Database $db, 
+        string $username, 
+        string $email, 
+        string $password,
+    ): string|false {
+        $query = $db->createStatement(<<<sql
+            INSERT INTO `Users`(`id`, `username`, `email`, `passwordHash`, `avatarId`) 
+            VALUES (?, ?, ?, ?, ?)
+            sql);
+        $id = uuidv4();
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($id),
+            SqlValueType::String->createParam($username),
+            SqlValueType::String->createParam($email),
+            SqlValueType::String->createParam($passwordHash),
+            SqlValueType::String->createParam(null),
+        )->execute();
+        if ($ok) {
+            return $id;
+        } else {
+            return false;
+        }
+    }
 
     public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
         $query = $db->createStatement(<<<sql
@@ -60,11 +87,13 @@ readonly class User extends DBTable {
 
     public function createAuthSession(Database $db): string|false {
         $query = $db->createStatement(<<<sql
-            INSERT INTO `AuthSessions`(`keyHash`, `userId`) VALUES (?, ?)
+            INSERT INTO `AuthSessions`(`id`, `keyHash`, `userId`) VALUES (?, ?, ?)
             sql);
+        $sessionId = uuidv4();
         $key = uuidv4();
         $keyHash = hash(AuthSession::KEY_HASH_ALGO, $key);
         $ok = $query->bind(
+            SqlValueType::String->createParam($sessionId),
             SqlValueType::String->createParam($keyHash),
             SqlValueType::String->createParam($this->id),
         )->execute();

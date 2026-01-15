@@ -78,6 +78,15 @@ readonly class LoginSession {
         public User $user,
     ) {}
 
+    public static function register(
+        Database $db, 
+        string $username, 
+        string $email, 
+        string $password
+    ): self|false {
+        // TODO: call User::create, reuse login logic
+    }
+
     public static function login(Database $db, string $email, string $password): self|false {
         $user = User::fromEmailAndPassword($db, $email, $password);
         if ($user === false) {

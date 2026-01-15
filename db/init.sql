@@ -18,7 +18,7 @@ SET time_zone = '+00:00';
 
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
-    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `id` CHAR(36) PRIMARY KEY,
     `username` VARCHAR(255) UNIQUE NOT NULL,
     `email` VARCHAR(255) UNIQUE NOT NULL,
     `passwordHash` CHAR(128) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `Users` (
 
 DROP TABLE IF EXISTS `AuthSessions`;
 CREATE TABLE `AuthSessions` (
-    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `id` CHAR(36) PRIMARY KEY,
     `keyHash` CHAR(128) UNIQUE NOT NULL,
     `userId` CHAR(36) NOT NULL,
     `createdAt` DATETIME NOT NULL DEFAULT now(),
@@ -39,13 +39,13 @@ CREATE TABLE `AuthSessions` (
 
 DROP TABLE IF EXISTS `Tags`;
 CREATE TABLE `Tags` (
-    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `id` CHAR(36) PRIMARY KEY,
     `name` VARCHAR(20) NOT NULL
 );
 
 DROP TABLE IF EXISTS `Recipes`;
 CREATE TABLE `Recipes` (
-    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `id` CHAR(36) PRIMARY KEY,
     `title` VARCHAR(50) NOT NULL,
     `description` TEXT,
     `photoId` CHAR(36),
@@ -84,7 +84,7 @@ CREATE TABLE `RecipeTags` (
 
 DROP TABLE IF EXISTS `Reviews`;
 CREATE TABLE `Reviews` (
-    `id` CHAR(36) PRIMARY KEY DEFAULT (uuid()),
+    `id` CHAR(36) PRIMARY KEY,
     `userId` CHAR(36) NOT NULL,
     `recipeId` CHAR(36) NOT NULL,
     `rating` INT NOT NULL,

@@ -75,7 +75,7 @@ require_once "components/Footer.php";
                 <input type="submit" id="register" class="w-100 my-4 py-3" value="Sign Up" />
                 <div class="d-flex justify-content-between align-items-center gap-4">
                     <a href="javascript:history.back()" class="text-decoration-none">&#8592; Back</a>
-                    <a href="/register" class="text-decoration-none">Log in &#8594;</a>
+                    <a href="/login/" class="text-decoration-none">Log in &#8594;</a>
                 </div>
 
             </form>
