@@ -4,7 +4,7 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
     function Chat() {
         ?>
         
-    <label for="chat-open-button" hidden>Apri la chat</label>
+    <label for="chat-open-button" hidden>Open the chat</label>
     <button type="button" data-bs-toggle="modal" data-bs-target="#chatModal" id="chat-open-button">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="40" height="40" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"  >
             <g>
@@ -22,20 +22,20 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
                         <div id="chat-title" class="d-flex align-items-center p-3 gap-2">
                             <button type="button" data-bs-dismiss="modal" >&#128473;</button>
                             <img class="object-fit-cover"
-                                src="/assets/chefStecchino.png"
+                                src="/assets/ilSussurroDeiFornelli.png"
                                 alt="profile picture">
                             <div class="ms-3">
-                                <h1>Chef Stecchino</h1>
-                                <h2>disponibile</h2>
+                                <h1>The whispers of the burner</h1>
+                                <h2>Available</h2>
                             </div>
                         </div>
 
                         <div id="chat-content" class="d-flex py-4">
                             <div class="user d-flex justify-content-end w-100 pe-3">
-                                <p class="py-2 px-3 my-2  ">Vorrei una ricetta per la cena</p>
+                                <p class="py-2 px-3 my-2  ">Bazavula</p>
                             </div>
                             <div class="other d-flex w-100 ps-3">
-                                <p class="py-2 px-3 my-2">Eccotela</p>
+                                <p class="py-2 px-3 my-2">Vazabula</p>
                             </div>
 
                         </div>
