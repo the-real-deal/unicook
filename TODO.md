@@ -68,7 +68,7 @@
 
 ## Pages
 - [ ] COLORS 
-- [ ] 
+- [ ] admin page + logged modify
 ### Home
 - [ ] switch pages when searching
     - [ ] search

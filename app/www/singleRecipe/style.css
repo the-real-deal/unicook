@@ -165,7 +165,7 @@ form:has(.stars) {
     border: var(--border-card);
 }
 
-#review-text-area {
+#reviewText {
     border-radius: var(--radius);
     transition: var(--default-transition-timing-function);
     outline: none;
@@ -176,7 +176,7 @@ form:has(.stars) {
     resize: none;
 }
 
-#review-text-area:focus {
+#reviewText:focus {
     border: 1px solid var(--border-focused);
     outline: none;
     box-shadow: var(--shadow-focus);
