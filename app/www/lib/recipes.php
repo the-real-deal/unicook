@@ -32,7 +32,7 @@ readonly class Recipe extends DBTable {
         public string $id,
         public string $title,
         public ?string $description,
-        public string $photoId,
+        public ?string $photoId,
         public RecipeDifficulty $difficulty,
         public int $cookingTime,
         public int $servings,

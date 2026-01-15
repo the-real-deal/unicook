@@ -3,13 +3,15 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "components/PageOpening.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
+require_once "components/Chat.php";
 
-PageOpening("About",["style.css"]);
+PageOpening("About",["style.css","/css/components/chat.css"]);
 ?>
 
 <body id="about-page">
     <?php 
     Navbar();
+    Chat();
     ?>
     <!-- ABOUT PAGE-->
     <main>

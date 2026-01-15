@@ -1,119 +1,67 @@
-# Ricettario per fuori sede
+# To-Do
 
-## Requisiti funzionali
+## API
 
-Utenti
-- Admin: gestire utenti, post altrui
-- Utente: CRUD di sue ricette e i suoi dati
+### Recipes
 
-Sistema di recensioni
+#### GET
 
-Creazione di menù (giornalieri/settimanali/etc...) in base ai gusti, recensioni, prezzo delle ricette, tempo di esecuzione e altri tag vari (valori nutrizionali).
-- Integrazione con gusti dell'utente e decisione sul momento
-- Generazione automatica della lista della spesa in base al menù creato
+- [ ] random recipe 
+- [ ] n best recipes 
+- [ ] total of tag 
+- [ ] recipe search (text, min/max time (number or enum range), difficulty, cost, tags)
+- [ ] get recipe 
+- [ ] get recipe image 
 
-### DB (accenni)
-#### Utenti
-> User
-- Username
-- Email
-- Password
-- Gusti 
-- Lista di Ricette Salvate
+#### POST
+- [ ] create recipe (title, description, image, tags[], difficulty, prepTime, cost, servings, ingredientsQuantity[], ingredientsName[], steps[])
+- [ ] update recipe (if creator or admin)
 
-#### Gusti
-[TODO] Refine Concept
-> Gusto
-- Tipologia
-- Positivo/Negativo
+### Users
 
-Tipologie di Gusti
-- Carne
-- Pesce
-- Verdure
-- Piccante
-#### Ricette
->Ricetta
-- Nome
-- Descrizione
-- Tempo di Preparazione (veloce-media durata-lungo)
-- Numero di Persone Target
-- Serie di ingredienti
-- Procedimento a step
+#### GET
 
-> Ingrediente
-- Nome
-- Quantità
-- Eventuale Codice a barre (per API).
+- [ ] login
+- [ ] get user
+- [ ] get user image 
+- [ ] get user saves
+- [ ] get user recipes
 
-> Step procedimento
-- Descrizione
-- Ordine (progressivo)
+#### POST
+- [ ] logout
+- [ ] register (username, email, password)
+- [ ] update image (if logged user)
+- [ ] make admin (if admin) ?
+- [ ] delete user (if admin) ?
 
-#### Tag
-##### Scelta Singola
-> Prezzo
-- Low       $
-- Medium    $$
-- High      $$$
+### Reviews
 
-> Tempo
-- Short     <15 min
-- Medium    15 min< x < 30 min
-- Long      > 30 min
+#### GET
 
-> Difficoltà
-- Easy
-- Medium
-- Hard
+- [ ] recipe reviews
 
-##### Scelta Multipla
-> Tag
-- Carne
-- Pesce
-- Verdure
-- Piccante
-- Diet
-- Breakfast
-- Launch
-- Dinner
-- Snack
+#### POST
 
-#### Recensioni
-> Recensione
-- Rating (1-5)
-- Commento
-- Data
-
-## Idee
-- Filtri per tempo di preparazione
-- Filtri per difficoltà
-- Possibilità di salvare ricette preferite
-- Notifiche per nuove ricette o menù basati sui gusti dell'utente
-- Funzione di ricerca avanzata con parole chiave, ingredienti, e categorie
-- Chatbot per chiedere consigli culinari o suggerimenti di ricette (WOW?)
-- Funzione di calcolo delle porzioni in base al numero di persone
-- Sezione dedicata alle ricette per intolleranze alimentari con opzioni sicure
-
-# Piattaforma per pubblicazione e condivisione di appunti universitari
-
-## Requisiti funzionali
-
-3 Livelli di categorizzazione dei post, gerarchici:
-1. Facoltà (es. Matematica, Informatica, Economia)
-2. Materia (es. Analisi Matematica, Fisica 1, Microeconomia)
-3. Argomento (es. Integrali, Leggi di Newton, Domanda e Offerta)
-
-3 livelli di utenti:
-1. Admin: potere assoluto
-2. Studente: utente normale che può leggere, pubblicare, aggiornare (?) ed eliminare (i suoi post) 
-3. Verificatore: può validare i post pubblicati dagli studenti in una **MATERIA** di competenza
-4. Professore: può validare i post pubblicati dagli studenti in una **FACOLTÀ** di competenza
-
-Possibilità di fare review.
+- [ ] create reviews (userId, recipeId, reviewText, rating)
+- [ ] delete review (if creator or admin)
 
 
-## Idee
-- Preview se non registrato
+### About
 
+#### GET
 
+- [ ] total users
+- [ ] total recipes
+- [ ] total avg rating
+- [ ] one
+
+### Chat
+
+#### GET
+
+- [ ] get messages
+
+#### POST
+
+- [ ] send message
+- [ ] clear
