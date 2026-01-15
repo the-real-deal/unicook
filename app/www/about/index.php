@@ -1,13 +1,14 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
-require_once "components/PageOpening.php";
+require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Chat.php";
 
-PageOpening("About",["style.css","/css/components/chat.css"]);
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
+<?= PageHead("About", [ "style.css", "/css/components/chat.css" ]) ?>
 <body id="about-page">
     <?php 
     Navbar();
@@ -335,6 +336,7 @@ PageOpening("About",["style.css","/css/components/chat.css"]);
         </section>
     </main>
 
-    <?php Footer();?>
-    <script type="module" src="main.js"></script>
+    <?= Footer() ?>
+    <script type="module" src="/js/bootstrap.js"></script>
 </body>
+</html>

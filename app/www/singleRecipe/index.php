@@ -1,6 +1,6 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
-require_once "components/PageOpening.php";
+require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Review.php";
@@ -15,18 +15,16 @@ $ingredients = array(
     'glorb' => '200gr'
 ); 
 
-PageOpening("Recipe",["style.css"]);
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
+<?= PageHead("Recipe", [ "style.css" ]) ?>
 <body>
-    <?php 
-    Navbar();
-    ?>
-        <main>
+    <?= Navbar() ?>
+    <main>
         <section id="recipe-info" class="d-flex justify-content-center">
             <div class="mx-auto px-4 py-4">
                 <a href="/recipes" class="p-2"> &#8592; Back to Recipes</a>
-
                 <div class="my-4 position-relative">
                     <img src="https://images.unsplash.com/photo-1676300184847-4ee4030409c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXN0YSUyMGRpc2glMjBmb29kfGVufDF8fHx8MTc2MzA4MTc4MHww&ixlib=rb-4.1.0&q=80&w=1080"
                         class="object-fit-cover w-100" alt="Students cooking together" />
@@ -166,9 +164,9 @@ PageOpening("Recipe",["style.css"]);
                                 foreach ($ingredients as $ingredient => $quantity) {
                             ?>
                                 <li class="d-flex flex-wrap my-3">
-                                    <input id="ingredients<?php echo $i ?>" type="checkbox" class="me-2" />
-                                    <label for="ingredients<?php echo $i ?>">
-                                        <?php echo $quantity." ".$ingredient?>
+                                    <input id="ingredients<?= $i ?>" type="checkbox" class="me-2" />
+                                    <label for="ingredients<?= $i ?>">
+                                        <?= $quantity." ".$ingredient ?>
                                     </label>
                                 </li>
                             <?php
@@ -182,7 +180,7 @@ PageOpening("Recipe",["style.css"]);
                     <!--https://stackoverflow.com/questions/23610151/can-you-style-ordered-list-numbers-->
                     <section id="instruction">
                         <div class="p-4 mb-4">
-                            <h2 class=" mb-4">Instruction</h2>
+                            <h2 class="mb-4">Instruction</h2>
                             <ol>
                                 <li class="d-flex flex-start">
                                     Cook pasta according to package directions. Reserve 1 cup pasta water before
@@ -262,17 +260,17 @@ PageOpening("Recipe",["style.css"]);
                                 <label for="submit_review" hidden>Submit Review</label>
                                 <button type="submit" class="btn btn-success">Submit Review</button>
                             </form>
-                            <?php Review("1", "Username", 4, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
-                            <?php Review("1", "Username", 3, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
-                            <?php Review("1", "Username", 5, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
+                            <?= Review("1", "Username", 4, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
+                            <?= Review("1", "Username", 3, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
+                            <?= Review("1", "Username", 5, "02/08/1980", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
                         </div>
                     </section>
                 </div>
             </div>
         </div>
     </main>
-    <?php   
-    Footer();
-    ?>
-<script src="main.js"></script>
+    <?= Footer() ?>
+    <script type="module" src="/js/bootstrap.js"></script>
+    <script src="main.js"></script>
 </body>
+</html>

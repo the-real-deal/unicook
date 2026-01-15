@@ -1,16 +1,15 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
-require_once "components/PageOpening.php";
+require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
-
-PageOpening("Login",["/css/loginRegister.css"]);
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<?= PageHead("Login", [ "/css/loginRegister.css" ]) ?>
 <body>
-    <?php 
-    Navbar();
-    ?>
-        <main>
+    <?= Navbar() ?>
+    <main>
         <div class="d-flex justify-content-center">
             <form class="w-100 mx-4 p-5">
                 <div class="d-flex align-items-center justify-content-center mx-auto" id="logoApp">
@@ -82,7 +81,7 @@ PageOpening("Login",["/css/loginRegister.css"]);
             </form>
         </div>
     </main>
-    <?php   
-    Footer();
-    ?>
+    <?= Footer() ?>
+    <script type="module" src="/js/bootstrap.js"></script>
 </body>
+</html>

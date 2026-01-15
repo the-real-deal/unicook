@@ -1,17 +1,15 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
-require_once "components/PageOpening.php";
+require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/FileInput.php";
-
-PageOpening("Create Recipe", ["style.css"]);
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
+<?= PageHead("Create Recipe", ["style.css"]) ?>
 <body>
-    <?php 
-    Navbar();
-    ?>
+    <?=  Navbar() ?>
     <main>
         <form class="d-flex flex-column p-4 gap-3 mx-auto my-2">
             <label for="title">Recipe Title *</label>
@@ -21,7 +19,7 @@ PageOpening("Create Recipe", ["style.css"]);
             <input type="text" id="description" class="p-2" placeholder="Describe your recipe..." required />
 
             <label for="image">Image (optional)</label>
-            <?php FileInput("image", FileType::Image); ?>
+            <?= FileInput("image", FileType::Image) ?>
 
             <hr>
             <label for="tags">Tags</label>
@@ -95,5 +93,7 @@ PageOpening("Create Recipe", ["style.css"]);
     <?php 
     Footer();
     ?>
+    <script type="module" src="/js/bootstrap.js"></script>
     <script type="module" src="main.js"></script>
 </body>
+</html>

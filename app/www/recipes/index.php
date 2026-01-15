@@ -1,13 +1,11 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
-require_once "components/PageOpening.php";
+require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "lib/auth.php";
-
-PageOpening("Recipes",["style.css"]);
 
 $tags = [
     "Vegan",
@@ -30,17 +28,19 @@ $tags = [
 $totalRecipes = 13;
 $resultNumber = 4;
 ?>
-
+<!DOCTYPE html>
+<html>
+<?= PageHead("Recipes", [ "style.css" ]) ?>
 <body>
-    <?php Navbar(); ?>
+    <?= Navbar() ?>
     <main class="container-fluid p-0 overflow-x-hidden" id="home-page">
         <header class="p-5">
             <h1>All Recipes</h1>
-            <p>Discover <?php echo $totalRecipes?> delicious recipes for students</p>
+            <p>Discover <?= $totalRecipes ?> delicious recipes for students</p>
             <div class="row">
                 <form class="w-100">
                     <!-- SEARCH BAR -->
-                    <?php SearchBar("recipes-search",50)?>
+                    <?= SearchBar("recipes-search",50) ?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
                             <select name="difficulty" id="dif" class="w-100 p-2 mx-2">
@@ -72,8 +72,8 @@ $resultNumber = 4;
                                 foreach($tags as $tag){
                             ?>   
                             <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
-                                <input type="checkbox" id="tag<?php echo $counter?>" name="tag<?php echo $counter?>" value="<?php echo  strtolower($tag)?>">
-                                <label for="tag<?php echo $counter?>"><?php echo $tag?></label>
+                                <input type="checkbox" id="tag<?= $counter ?>" name="tag<?= $counter ?>" value="<?= strtolower($tag) ?>">
+                                <label for="tag<?= $counter ?>"><?= $tag ?></label>
                             </li>
                             <?php 
                                     $counter++;
@@ -87,19 +87,21 @@ $resultNumber = 4;
         <div>
             <section class="row">
                 <h2>Results</h2>
-                <p>Showing <?php echo $resultNumber ?> recipes</p>
+                <p>Showing <?= $resultNumber ?> recipes</p>
                 
-                <?php RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?php RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?php RecipeCard("3", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?php RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?php RecipeCard("5", "5", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?php RecipeCard("6", "6", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?php RecipeCard("7", "7", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?php RecipeCard("8", "8", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("3", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("5", "5", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("6", "6", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("7", "7", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= RecipeCard("8", "8", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
             </section>
         </div>
     </main>
-    <?php Footer();?>
+    <?= Footer();?>
+    <script src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
 </body>
+</html>
