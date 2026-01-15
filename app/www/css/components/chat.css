@@ -1,8 +1,12 @@
-.modal-dialog,
 .modal-content {
     width: fit-content;
     background-color: transparent;
     border: none;
+}
+
+.modal-dialog {
+    width: fit-content;
+    margin-inline: auto;
 }
 
 #chat-open-button {
@@ -23,7 +27,7 @@
 }
 
 #chat-container {
-    width: 448px;
+    max-width: 548px;
     height: 90vh;
     background: var(--bg);
     border-radius: var(--card-radius);
@@ -32,7 +36,7 @@
 
 #chat-title {
     border-radius: var(--card-radius) var(--card-radius) 0 0;
-    border: var(--border-muted);
+    border-bottom: var(--border-card);
     background: var(--bg-dark);
 }
 
@@ -104,7 +108,7 @@
 #message-box {
     background: var(--bg-dark);
     border-radius: 0 0 var(--card-radius) var(--card-radius);
-    border: var(--border-muted);
+    border-top: var(--border-card);
 }
 
 #message-box textarea {
@@ -120,26 +124,24 @@
     border-radius: var(--radius);
     transition: var(--default-transition-timing-function);
     outline: none;
-    border: 1px solid transparent;
+    border: var(--border-card);
 }
 
 #message-box div:has(textarea:focus) {
-    border: var(--border-focused);
     outline: none;
-    box-shadow: var(--shadow-focus);
 }
 
-#message-box input[type="submit"] {
+#message-box input[type="button"] {
     background: var(--primary-text);
     border: none;
     color: var(--bg);
     cursor: pointer;
-    border-radius: var(--card-radius);
+    border-radius: 0 var(--radius) var(--radius) 0;
     transition: var(--default-transition-timing-function);
     box-shadow: var(--shadow-combined);
 }
 
-#message-box input[type="submit"]:hover {
+#message-box input[type="button"]:hover {
     transform: translateY(-2px);
 }
 

@@ -50,7 +50,7 @@ function floorPlus($var) {
                 </p>
 
                 <div class="ratio ratio-16x9 mt-4 mx-auto">
-                    <img src="https://images.unsplash.com/photo-1671725501632-3980b640f420?auto=format&q=80&w=1080"
+                    <img src="/assets/homepage.png"
                         class="object-fit-cover shadow" alt="Students cooking together">
                 </div>
 

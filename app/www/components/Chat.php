@@ -18,14 +18,13 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="chat-container" class="d-flex flex-column">
-                    <form id="chat-container" class="d-flex flex-column">
                         <div id="chat-title" class="d-flex align-items-center p-3 gap-2">
                             <button type="button" data-bs-dismiss="modal" >&#128473;</button>
                             <img class="object-fit-cover"
                                 src="/assets/ilSussurroDeiFornelli.png"
                                 alt="profile picture">
                             <div class="ms-3">
-                                <h1>The whispers of the burner</h1>
+                                <h1>The whisper of the burners</h1>
                                 <h2>Available</h2>
                             </div>
                         </div>
@@ -41,17 +40,15 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
                         </div>
 
                         <div id="message-box" class=" container py-2">
-                            <div class="row mx-auto p-2">
+                            <div class="row mx-auto">
                                 <label for="message-text-area" hidden>Scrivi un messaggio</label>
-                                <textarea id="message-text-area" placeholder="Scrivi un messaggio..." class="col-10 "
+                                <textarea id="message-text-area" placeholder="Scrivi un messaggio..." class="col-9 "
                                     rows="1"></textarea>
 
                                 <label for="message-send-button" hidden>Invia il messaggio</label>
-                                <input id="message-send-button" type="submit" value="Invia" class="col-2" />
+                                <input id="message-send-button" type="button" value="Invia" class="col-3 py-3 px-4" />
                             </div>
                         </div>
-
-                    </form>
                 </form>
             </div>
         </div>
