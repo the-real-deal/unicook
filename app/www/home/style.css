@@ -16,22 +16,22 @@ main>:first-child p {
 }
 
 
-main header form:last-of-type>input[type=submit] {
+main header a {
     border-width: 1px;
     border-radius: var(--card-radius);
     border-color: var(--border-muted);
     background-color: var(--bg-light);
     border-style: solid;
-    outline: none;
-    background-image: url('/assets/random.svg');
-    background-position: 10% 50%;
-    background-size: 10%;
-    background-repeat: no-repeat;
-    padding-inline: 6% 2%;
+    text-decoration: none;
+    color: var(--text);
     transition: var(--default-transition-timing-function);
 }
 
-main header form:last-of-type>input[type=submit]:hover {
+main header a>svg {
+    margin-inline: 4%;
+}
+
+main header a:hover {
     background-color: var(--secondary);
     border-color: var(--secondary-text);
 }
