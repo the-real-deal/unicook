@@ -4,11 +4,11 @@ function saveRecipe(btnId, recipeId) {
     console.log(btn.querySelector("svg").attributes.fill.value == "transparent");
     if (btn.querySelector("svg").attributes.fill.value == "transparent") {
         // add to db recipeId
-        btn.style.color = "var(--primary)";
+        // btn.style.color = "var(--primary)";
         btn.querySelector("svg").attributes.fill.value = "currentColor";
     }
     else {
-        btn.style.color = "var(--text)";
+        // btn.style.color = "var(--text)";
         btn.querySelector("svg").attributes.fill.value = "transparent";
         // rm from db recipeId
     }

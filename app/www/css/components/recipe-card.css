@@ -115,14 +115,13 @@
     right: 10px;
 }
 
-/* .recipe-card>article>button:last-of-type {
-    top: 10px;
-    left: 10px;
+.recipe-card>article:last-child [fill="currentColor"] {
+    color: var(--primary);
 }
 
-.recipe-card>article>button:last-of-type:hover {
-    color: var(--danger);
-} */
+.recipe-card>article:last-child [fill="transparent"] {
+    color: var(--text);
+}
 
 .recipe-card article>:not(:first-child, :last-child) {
     margin-inline: 7%;
