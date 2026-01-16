@@ -172,25 +172,6 @@ readonly class User extends DBTable {
         }
     }
 
-    public function createAuthSession(Database $db): string|false {
-        $query = $db->createStatement(<<<sql
-            INSERT INTO `AuthSessions`(`id`, `keyHash`, `userId`) VALUES (?, ?, ?)
-            sql);
-        $sessionId = uuidv4();
-        $key = uuidv4();
-        $keyHash = hash(AuthSession::KEY_HASH_ALGO, $key);
-        $ok = $query->bind(
-            SqlValueType::String->createParam($sessionId),
-            SqlValueType::String->createParam($keyHash),
-            SqlValueType::String->createParam($this->id),
-        )->execute();
-        if ($ok) {
-            return $key;
-        } else {
-            return false;
-        }
-    }
-
     public function getSavedRecipes(Database $db): Generator|false {
         $query = $db->createStatement(<<<sql
             SELECT r.*

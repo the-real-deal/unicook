@@ -7,11 +7,11 @@ require_once "lib/users.php";
 
 readonly class AuthSession extends DBTable {
     public const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
-    public const KEY_HASH_ALGO = 'sha256';
+    private const KEY_HASH_ALGO = 'sha256';
 
     protected function __construct(
         public string $id,
-        public string $keyHash,
+        private string $keyHash,
         public string $userId,
         public DateTime $createdAt,
         public bool $forceExpired,
@@ -72,6 +72,27 @@ readonly class AuthSession extends DBTable {
             return $auth;
         }
     }
+
+    public static function createUserSession(Database $db, string $userId): string|false {
+        $userId = User::validateId($userId);
+
+        $query = $db->createStatement(<<<sql
+            INSERT INTO `AuthSessions`(`id`, `keyHash`, `userId`) VALUES (?, ?, ?)
+            sql);
+        $id = uuidv4();
+        $key = uuidv4();
+        $keyHash = hash(self::KEY_HASH_ALGO, $key);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($id),
+            SqlValueType::String->createParam($keyHash),
+            SqlValueType::String->createParam($userId),
+        )->execute();
+        if ($ok) {
+            return $key;
+        } else {
+            return false;
+        }
+    }
 }
 
 readonly class LoginSession {
@@ -105,7 +126,7 @@ readonly class LoginSession {
         if ($user === false) {
             return false;
         }
-        $authKey = $user->createAuthSession($db);
+        $authKey = AuthSession::createUserSession($db, $user->id);
         if ($authKey === false) {
             return false;
         }
