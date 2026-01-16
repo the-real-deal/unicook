@@ -42,8 +42,12 @@ readonly class Recipe extends DBTable {
         public bool $deleted,
     ) {}
 
+    public static function validateId(string $id): string {
+        return validateUUID($id);
+    }
+
     public static function fromId(Database $db, string $id): self|false {
-        $id = validateUUID($id);
+        $id = self::validateId($id);
         
         $query = $db->createStatement(<<<sql
             SELECT r.*

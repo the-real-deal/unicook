@@ -17,6 +17,10 @@ readonly class AuthSession extends DBTable {
         public bool $forceExpired,
     ) {}
 
+    public static function validateKey(string $key): string {
+        return validateUUID($key, "key");
+    }
+
     public static function sqlValidityCheck(?string $alias): string {
         $table = self::tableAliasPrefix($alias);
         $seconds = self::SESSION_VALIDITY_SECS;
@@ -43,7 +47,7 @@ readonly class AuthSession extends DBTable {
     }
 
     public static function fromKey(Database $db, string $key): self|false {
-        $key = validateUUID($key);
+        $key = self::validateKey($key);
 
         $validityCheck = AuthSession::sqlValidityCheck("s");
         $query = $db->createStatement(<<<sql

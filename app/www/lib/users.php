@@ -4,6 +4,7 @@ require_once "lib/core/db.php";
 require_once "lib/core/uuid.php";
 require_once "lib/recipes.php";
 require_once "lib/utils.php";
+require_once "lib/auth.php";
 
 readonly class User extends DBTable {
     public const PASSWORD_REGEX = <<<regex
@@ -24,7 +25,11 @@ readonly class User extends DBTable {
         public bool $deleted,
     ) {}
 
-    private static function validateUsername(string $username): string {
+    public static function validateId(string $id): string {
+        return validateUUID($id);
+    }
+
+    public static function validateUsername(string $username): string {
         if (filter_var_regex($username, self::USERNAME_REGEX) === false) {
             throw new InvalidArgumentException(<<<end
             Username must be between 5 and 50 characters
@@ -33,14 +38,14 @@ readonly class User extends DBTable {
         return $username;
     }
 
-    private static function validateEmail(string $email): string {
+    public static function validateEmail(string $email): string {
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             throw new InvalidArgumentException("Invalid email");
         }
         return $email;
     }
 
-    private static function validatePassword(string $password): string {
+    public static function validatePassword(string $password): string {
         if (filter_var_regex($password, self::PASSWORD_REGEX) === false) {
             throw new InvalidArgumentException(<<<end
             Password must be between 8 and 50 characters, with at least 1 symbol and 1 number
@@ -80,7 +85,7 @@ readonly class User extends DBTable {
     }
 
     public static function fromId(Database $db, string $id): self|false {
-        $id = validateUUID($id);
+        $id = self::validateId($id);
         
         $query = $db->createStatement(<<<sql
             SELECT u.*
@@ -100,7 +105,7 @@ readonly class User extends DBTable {
     }
 
     public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
-        $sessionId = validateUUID($sessionId);
+        $sessionId = AuthSession::validateId($sessionId);
         
         $query = $db->createStatement(<<<sql
             SELECT u.*
