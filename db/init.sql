@@ -257,7 +257,7 @@ INSERT INTO `Users`(
 
 INSERT INTO `Tags`(`id`, `name`) VALUES
 ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'Italian'),
-('c9bf9e57-1685-4c89-bafb-ff5af830be8a', 'Quick'),
+('c9bf9e57-1685-4c89-bafb-ff5af830be8a', 'Few Ingredients'),
 ('6ba7b810-9dad-11d1-80b4-00c04fd430c8', 'Vegetarian'),
 ('7c9e6679-7425-40de-944b-e07fc1f90ae7', 'Pasta'),
 ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Healthy'),
@@ -265,7 +265,9 @@ INSERT INTO `Tags`(`id`, `name`) VALUES
 ('8f7e6d5c-4b3a-2918-7654-fedcba098765', 'Comfort Food'),
 ('1e2d3c4b-5a69-4f8e-9d7c-6b5a4e3d2c1b', 'Gluten-Free'),
 ('9b8a7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d', 'Vegan'),
-('4d3e2f1a-0b9c-8d7e-6f5a-4b3c2d1e0f9a', 'Low-Carb');
+('4d3e2f1a-0b9c-8d7e-6f5a-4b3c2d1e0f9a', 'Low-Carb'),
+('61655a70-6f83-45cd-bf00-2ac8a9789e0c', 'International'),
+('fd01cc1f-6f1a-4d01-bd38-4ec70349840c', 'Night Snacks');
 
 INSERT INTO `Recipes`(
     `id`, 

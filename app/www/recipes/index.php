@@ -7,26 +7,34 @@ require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "lib/auth.php";
 
+class TagTmp{
+    public string $id;
+    public string $name;
+
+    public function __construct($id, $name) {
+        $this->id = $id;
+        $this->name = $name;
+    }
+}
+
 $tags = [
-    "Vegan",
-    "Sweet",
-    "Sour",
-    "Salty",
-    "Spicy",
-    "Umami",
-    "Gluten-Free",
-    "Organic",
-    "Low Fat",
-    "Low Sugar",
-    "Dairy-Free",
-    "Raw",
-    "Fermented",
-    "Grilled",
-    "Pickled",
-    "Smoked"
+    new TagTmp("1","Vegan"),
+    new TagTmp("2","Night Snacks"),
+    new TagTmp("3","International"),
+    new TagTmp("4","Few Ingredients"),
+    new TagTmp("5","Pasta"),
+    new TagTmp("6","Dessert"),
+    new TagTmp("7","Salty")
 ];
+
+if(isset($_GET['tag']))
+    $selectedTag = $_GET['tag'];
+else
+    $selectedTag = null;
+
 $totalRecipes = 13;
 $resultNumber = 4;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,16 +78,18 @@ $resultNumber = 4;
                             </select>
                         </div>
                         <ul class="col-12 d-flex mt-3 flex-wrap">
-                            <?php 
-                                $counter = 0;
+                            <?php
                                 foreach($tags as $tag){
                             ?>   
                             <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
-                                <input type="checkbox" id="tag<?= $counter ?>" name="tag<?= $counter ?>" value="<?= strtolower($tag) ?>">
-                                <label for="tag<?= $counter ?>"><?= $tag ?></label>
+                                <input type="checkbox" 
+                                       id="<?= $tag->id ?>" 
+                                       name="<?= $tag->id ?>" 
+                                       value="<?= strtolower($tag->name)?>" 
+                                       <?php echo isset($selectedTag) && $selectedTag == $tag->id ? "checked" : ""; ?>>
+                                <label for="<?= $tag->id ?>"><?= $tag->name ?></label>
                             </li>
                             <?php 
-                                    $counter++;
                                 }
                             ?>
                         </ul>
