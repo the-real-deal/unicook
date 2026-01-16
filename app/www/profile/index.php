@@ -1,38 +1,46 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/bootstrap.php";
 require_once "components/PageHead.php";
+require_once "components/ErrorNotification.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/FileInput.php";
 require_once "components/RecipeCard.php";
+require_once "lib/core/api.php";
+require_once "lib/core/db.php";
 require_once "lib/users.php";
 
+$user = false;
 
-$class = new ReflectionClass(User::class);
-$constructor = $class->getConstructor();
-$constructor->setAccessible(true);
-$user = $class->newInstanceWithoutConstructor();
-$constructor->invoke($user, '1','Ludovico Spitaleri','maria@email.it','psw',null,'1',new DateTime(),'0');
+$server = new ApiServer();
+$server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
+    global $user;
+
+    $userId = $req->expectParam($res, "userId");
+
+    $db = Database::connectDefault();
+    try {
+        $user = User::fromId($db, $userId);
+        if ($user === false) {
+            $res->dieWithError(HTTPCode::NotFound, "User not found");
+        }
+    } catch (InvalidArgumentException $e) {
+        $res->dieWithError(HTTPCode::BadRequest, $e);
+    }
+});
+$server->respond();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?= PageHead("Profile", ["style.css"]) ?>
+<?= PageHead("Profile", [ "style.css" ]) ?>
 <body>
+    <?= ErrorNotification() ?>
     <?= Navbar() ?>
     <main>
         <section id="profile-section" class="container my-5 mx-auto">
             <div class="row align-items-center justify-content-center p-5">
                 <div class="col-12 col-md-4 text-center mb-3">
-                    <img 
-                        <?php 
-                            if ($user->avatarId == null) { 
-                        ?>
-                                src="https://ui-avatars.com/api/?name=<?= $user->username?>&size=256"
-                        <?php 
-                            } else {
-                                //[TO-DO] add image upload
-                            }
-                        ?>
+                    <img id="avatarImage" 
                         class="rounded-circle img-fluid shadow"
                         alt="profile picture"
                         style="max-width:180px"
@@ -53,8 +61,9 @@ $constructor->invoke($user, '1','Ludovico Spitaleri','maria@email.it','psw',null
                     </h3>
                     <p class="fw-semibold mb-0"><?= $user->email?></p>
                     <p><small>created at <?= $user->createdAt->format('d/m/Y')?>.</small></p>
-                    <form class="mt-4 d-flex align-items-center justify-content-center justify-content-md-start gap-2 mx-auto mx-md-0">
-                        <label for="image_URL" >
+                    <form id="imageForm" action="/api/users/image/upload.php" method="POST"
+                        class="mt-4 d-flex align-items-center justify-content-center justify-content-md-start gap-2 mx-auto mx-md-0">
+                        <label for="image" >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="CurrentColor">
                             <rect x="0" fill="none" width="24" height="24"/>
                             <g>
@@ -63,8 +72,7 @@ $constructor->invoke($user, '1','Ludovico Spitaleri','maria@email.it','psw',null
                         </svg>
                             Add Image
                         </label>
-                        <!-- <input type="image" id="image_URL" class="p-2" /> -->
-                        <?= FileInput("image_URL", FileType::Image, hidden: true) ?>
+                        <?= FileInput("image", FileType::Image, hidden: true) ?>
                     </form>
                     <button id="logout-button" class="mt-4 d-flex align-items-center justify-content-center justify-content-md-start gap-2 mx-auto mx-md-0 p-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none" stroke="CurrentColor">
@@ -79,7 +87,7 @@ $constructor->invoke($user, '1','Ludovico Spitaleri','maria@email.it','psw',null
         </section>
         <section id="recipes-section" class="container my-5 mx-auto">
             <div class="container-fluid mb-2 mx-auto p-4">
-                <h3 class="col-12 col-md-4 text-center mb-3"><strong>My Recipes</strong></h3>
+                <h3 class="col-12 col-md-4 text-center mb-3"><strong>Published Recipes</strong></h3>
                 <div class="row">
                     <?= RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
                     <?= RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
@@ -100,7 +108,7 @@ $constructor->invoke($user, '1','Ludovico Spitaleri','maria@email.it','psw',null
         </section>
     </main> 
     <?= Footer() ?>
-    <script src="/js/bootstrap.js"></script>
+    <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
     <script type="module" src="main.js"></script>
 </body>

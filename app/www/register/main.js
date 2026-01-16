@@ -14,13 +14,12 @@ form.addEventListener("submit", async (e) => {
     }
     data.delete("confirmPassword")
 
-    const result = await fetch(form.action, {
+    const res = await fetch(form.action, {
         method: form.method,
         body: data,
-    })
-        .then(rejectApiError)
-        .then((res) => res.json())
-    if (result.ok) {
+    }).then(rejectApiError)
+
+    if (res.ok) {
         window.location = "/"
     }
 })

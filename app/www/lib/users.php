@@ -2,29 +2,36 @@
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
 require_once "lib/core/uuid.php";
+require_once "lib/core/files.php";
 require_once "lib/recipes.php";
 require_once "lib/utils.php";
+require_once "lib/auth.php";
 
 readonly class User extends DBTable {
-    public const PASSWORD_REGEX = <<<regex
+    private const PASSWORD_REGEX = <<<regex
     /^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/
     regex;
-    public const USERNAME_REGEX = <<<regex
+    private const USERNAME_REGEX = <<<regex
     /^.{3,50}$/
     regex;
+    private const IMAGES_UPLOAD_PATH = "users";
 
     protected function __construct(
         public string $id,
         public string $username,
         public string $email,
-        public string $passwordHash,
+        private string $passwordHash,
         public ?string $avatarId,
         public bool $isAdmin,
         public DateTime $createdAt,
         public bool $deleted,
     ) {}
 
-    private static function validateUsername(string $username): string {
+    public static function validateId(string $id): string {
+        return validateUUID($id);
+    }
+
+    public static function validateUsername(string $username): string {
         if (filter_var_regex($username, self::USERNAME_REGEX) === false) {
             throw new InvalidArgumentException(<<<end
             Username must be between 5 and 50 characters
@@ -33,14 +40,14 @@ readonly class User extends DBTable {
         return $username;
     }
 
-    private static function validateEmail(string $email): string {
+    public static function validateEmail(string $email): string {
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             throw new InvalidArgumentException("Invalid email");
         }
         return $email;
     }
 
-    private static function validatePassword(string $password): string {
+    public static function validatePassword(string $password): string {
         if (filter_var_regex($password, self::PASSWORD_REGEX) === false) {
             throw new InvalidArgumentException(<<<end
             Password must be between 8 and 50 characters, with at least 1 symbol and 1 number
@@ -79,8 +86,28 @@ readonly class User extends DBTable {
         }
     }
 
+    public static function fromId(Database $db, string $id): self|false {
+        $id = self::validateId($id);
+        
+        $query = $db->createStatement(<<<sql
+            SELECT u.*
+            FROM `Users` u
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($id))->execute();
+        if (!$ok) {
+            return false;
+        }
+
+        $result = $query->expectResult();
+        if ($result->totalRows === 0) {
+            return false;
+        }
+        return self::fromTableRow($result->fetchOne());
+    }
+
     public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
-        $sessionId = validateUUID($sessionId);
+        $sessionId = AuthSession::validateId($sessionId);
         
         $query = $db->createStatement(<<<sql
             SELECT u.*
@@ -147,22 +174,78 @@ readonly class User extends DBTable {
         }
     }
 
-    public function createAuthSession(Database $db): string|false {
+    public function uploadImage(Database $db, array $fileArray): UploadFile|false {
+        $image = UploadFile::uploadFileArray($fileArray, FileType::Image, self::IMAGES_UPLOAD_PATH);
+        if ($image === false) {
+            return false;
+        }
+
         $query = $db->createStatement(<<<sql
-            INSERT INTO `AuthSessions`(`id`, `keyHash`, `userId`) VALUES (?, ?, ?)
+            UPDATE `Users` u
+            SET u.`avatarId` = ?
+            WHERE u.`id` = ?
             sql);
-        $sessionId = uuidv4();
-        $key = uuidv4();
-        $keyHash = hash(AuthSession::KEY_HASH_ALGO, $key);
         $ok = $query->bind(
-            SqlValueType::String->createParam($sessionId),
-            SqlValueType::String->createParam($keyHash),
+            SqlValueType::String->createParam($image->id),
             SqlValueType::String->createParam($this->id),
         )->execute();
-        if ($ok) {
-            return $key;
-        } else {
+        if (!$ok) {
             return false;
+        } else {
+            $prevImage = $this->getImage();
+            if ($this->avatarId !== null) {
+                $this->deleteImageUpload();
+            }
+            return $image;
+        }
+    }
+
+    public function getImage(): UploadFile|false {
+        if ($this->avatarId === null) {
+            return false;
+        }
+        return UploadFile::fromId($this->avatarId, self::IMAGES_UPLOAD_PATH);
+    }
+
+    private function deleteImageUpload(): bool {
+        $image = $this->getImage();
+        if ($image === false) {
+            return false;
+        }
+        return $image->delete();
+    }
+
+    public function deleteImage(Database $db): bool {
+        $query = $db->createStatement(<<<sql
+            UPDATE `Users` u
+            SET u.`avatarId` = ?
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam(null),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
+        if (!$ok) {
+            return false;
+        } else {
+            return $this->deleteImageUpload();
+        }
+    }
+
+    public function getPublishedRecipes(Database $db): Generator|false {
+        $query = $db->createStatement(<<<sql
+            SELECT r.*
+            FROM `Recipes` r
+                JOIN `Users` u on r.`userId` = u.`id`
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        foreach ($result->iterate() as $row) {
+            yield Recipe::fromTableRow($row);
         }
     }
 

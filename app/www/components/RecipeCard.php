@@ -1,5 +1,6 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
+require_once "lib/recipes.php";
 
 function RecipeCard(string $elementId,
                     string $recipeId, 

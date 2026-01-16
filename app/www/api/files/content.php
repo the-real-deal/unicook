@@ -11,7 +11,7 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
         $res->dieWithError(HTTPCode::BadRequest, "Invalid or missing id");
     }
 
-    $file = UploadFile::fromId($id, "testupload");
+    $file = File::fromId($id, "testupload");
     if ($file === false) {
         $res->dieWithError(HTTPCode::NotFound);
     }

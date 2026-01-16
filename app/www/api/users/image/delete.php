@@ -9,13 +9,13 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     $db = Database::connectDefault();
     $login = LoginSession::autoLogin($db);
     if ($login === false) {
-        $res->dieWithError(HTTPCode::BadRequest, "Not logged in");
+        $res->dieWithError(HTTPCode::Unauthorized, "Not logged in");
     }
-    $ok = $login->logout($db);
-    if (!$ok) {
-        $res->dieWithError(HTTPCode::InternalServerError, "Failed to logout");
+    $ok = $login->user->deleteImage($db);
+    if ($ok === false) {
+        $res->dieWithError(HTTPCode::InternalServerError, "Delete failed");
     }
-    $res->sendJson([ "ok" => true ]);
+    $res->sendJSON([ "ok" => true ]);
 });
 
 $server->respond();

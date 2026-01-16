@@ -17,14 +17,14 @@ function uuidv4(string $data = null): string {
     return vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
 }
 
-function validateUUID(string $uuid): string {
+function validateUUID(string $uuid, string $fieldName = "id"): string {
     $uuid = htmlspecialchars($uuid);
     $uuid = filter_var(
         $uuid, 
         options: FILTER_REQUIRE_SCALAR | FILTER_FLAG_EMPTY_STRING_NULL
     );
     if ($uuid === false) {
-        throw new InvalidArgumentException("Invalid uuid");
+        throw new InvalidArgumentException("Invalid $fieldName");
     }
     return $uuid;
 }

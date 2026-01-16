@@ -7,15 +7,23 @@ require_once "lib/users.php";
 
 readonly class AuthSession extends DBTable {
     public const SESSION_VALIDITY_SECS = 10 * 24 * 60 * 60; // 10 days
-    public const KEY_HASH_ALGO = 'sha256';
+    private const KEY_HASH_ALGO = 'sha256';
 
     protected function __construct(
         public string $id,
-        public string $keyHash,
+        private string $keyHash,
         public string $userId,
         public DateTime $createdAt,
         public bool $forceExpired,
     ) {}
+
+    public static function validateId(string $key): string {
+        return validateUUID($key);
+    }
+
+    public static function validateKey(string $key): string {
+        return validateUUID($key, "key");
+    }
 
     public static function sqlValidityCheck(?string $alias): string {
         $table = self::tableAliasPrefix($alias);
@@ -43,7 +51,7 @@ readonly class AuthSession extends DBTable {
     }
 
     public static function fromKey(Database $db, string $key): self|false {
-        $key = validateUUID($key);
+        $key = self::validateKey($key);
 
         $validityCheck = AuthSession::sqlValidityCheck("s");
         $query = $db->createStatement(<<<sql
@@ -68,12 +76,32 @@ readonly class AuthSession extends DBTable {
             return $auth;
         }
     }
+
+    public static function createUserSession(Database $db, string $userId): string|false {
+        $userId = User::validateId($userId);
+
+        $query = $db->createStatement(<<<sql
+            INSERT INTO `AuthSessions`(`id`, `keyHash`, `userId`) VALUES (?, ?, ?)
+            sql);
+        $id = uuidv4();
+        $key = uuidv4();
+        $keyHash = hash(self::KEY_HASH_ALGO, $key);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($id),
+            SqlValueType::String->createParam($keyHash),
+            SqlValueType::String->createParam($userId),
+        )->execute();
+        if ($ok) {
+            return $key;
+        } else {
+            return false;
+        }
+    }
 }
 
 readonly class LoginSession {
     private const AUTH_KEY_COOKIE_ATTR = "auth_key";
     private const AUTH_KEY_COOKIE_PATH = "/";
-    private const LOGIN_SESSION_ATTR = "login";
 
     public function __construct(
         public AuthSession $auth,
@@ -101,7 +129,7 @@ readonly class LoginSession {
         if ($user === false) {
             return false;
         }
-        $authKey = $user->createAuthSession($db);
+        $authKey = AuthSession::createUserSession($db, $user->id);
         if ($authKey === false) {
             return false;
         }
@@ -111,7 +139,6 @@ readonly class LoginSession {
         }
 
         $login = new self(auth: $auth, user: $user);
-        $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
         setcookie(
             self::AUTH_KEY_COOKIE_ATTR,
             $authKey,
@@ -131,7 +158,6 @@ readonly class LoginSession {
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
         if ($ok) {
-            unset($_SESSION[self::LOGIN_SESSION_ATTR]);
             unset($_COOKIE[self::AUTH_KEY_COOKIE_ATTR]);
             setcookie(
                 self::AUTH_KEY_COOKIE_ATTR,
@@ -160,14 +186,6 @@ readonly class LoginSession {
     }
 
     public static function autoLogin(Database $db): self|false {
-        $serializedLogin = $_SESSION[self::LOGIN_SESSION_ATTR] ?? null;
-        if ($serializedLogin !== null) {
-            $login = unserialize($serializedLogin);
-            if (!$login->auth->expired($db)) {
-                return $login;
-            }
-        }
-
         $authSessionKey = $_COOKIE[self::AUTH_KEY_COOKIE_ATTR] ?? null;
         if ($authSessionKey === null) {
             return false;
@@ -177,7 +195,6 @@ readonly class LoginSession {
         if ($login === false || $login->auth->expired($db)) {
             return false;
         } else {
-            $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
             return $login;
         }
     }
