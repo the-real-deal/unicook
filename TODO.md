@@ -22,7 +22,7 @@
 #### GET
 
 - [x] login
-- [ ] get user
+- [x] get user
 - [ ] get user image 
 - [ ] get user saves
 - [ ] get user recipes
