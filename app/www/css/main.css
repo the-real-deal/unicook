@@ -1,7 +1,12 @@
 @import 'variables.css';
 @import 'layout.css';
+
+/* TODO: components here or manually each page? */
+/* TODO: components css file names named like the components? */
+/* TODO: components root css class */
 @import 'components/chat.css';
 @import 'components/category-card.css';
 @import 'components/recipe-card.css';
 @import 'components/searchbar.css';
-@import 'components/review.css'
+@import 'components/review.css';
+@import 'components/error-notification.css';

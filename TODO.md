@@ -21,15 +21,15 @@
 
 #### GET
 
-- [ ] login
+- [x] login
 - [ ] get user
 - [ ] get user image 
 - [ ] get user saves
 - [ ] get user recipes
 
 #### POST
-- [ ] logout
-- [ ] register (username, email, password)
+- [x] logout
+- [x] register (username, email, password)
 - [ ] update image (if logged user)
 - [ ] make admin (if admin) ?
 - [ ] delete user (if admin) ?

@@ -1,6 +1,7 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
+require_once "lib/core/uuid.php";
 require_once "lib/tags.php";
 
 enum RecipeDifficulty: int {
@@ -42,6 +43,8 @@ readonly class Recipe extends DBTable {
     ) {}
 
     public static function fromId(Database $db, string $id): self|false {
+        $id = validateUUID($id);
+        
         $query = $db->createStatement(<<<sql
             SELECT r.*
             FROM `Recipes` r

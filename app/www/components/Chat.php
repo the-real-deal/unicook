@@ -1,62 +1,57 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
-    function Chat() {
-        ?>
-        
-    <label for="chat-open-button" hidden>Open the chat</label>
-    <button type="button" data-bs-toggle="modal" data-bs-target="#chatModal" id="chat-open-button">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="40" height="40" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"  >
-            <g>
-                <path d="m87.019 45.176-3.686-1.842C83.333 24.922 68.408 10 50 10c-18.41 0-33.334 14.922-33.334 33.334l-3.684 1.842C11.342 45.996 10 48.168 10 50v6.667c0 1.832 1.342 4.004 2.982 4.824l3.684 1.842h5V43.334C21.666 27.709 34.377 15 50 15c15.622 0 28.333 12.709 28.333 28.334V70c0 8.284-6.715 15-15 15h-10v-5h-6.667v10h16.667c11.045 0 20-8.955 20-20v-6.667l3.686-1.842c1.64-.82 2.981-2.992 2.981-4.824V50c0-1.832-1.341-4.004-2.981-4.824z" fill="#ffffff" opacity="1" data-original="#000000" class=""/>
-                <path d="M63.333 35H52.5v-7.084c1.966-.67 3.333-2.09 3.333-3.75C55.833 21.865 53.223 20 50 20s-5.834 1.865-5.834 4.166c0 1.66 1.367 3.084 3.334 3.75V35H36.666c-5.52 0-10 4.479-10 10v13.333C26.666 67.532 34.135 75 43.334 75h13.333c9.199 0 16.666-7.468 16.666-16.667V45c0-5.521-4.479-10-10-10zM38.334 51.667v-3.333a3.333 3.333 0 1 1 6.666 0v3.333A3.331 3.331 0 0 1 41.666 55a3.33 3.33 0 0 1-3.332-3.333zM58.333 65l-6.666 1.667h-3.333L41.666 65v-3.333h16.667zm3.334-13.333A3.331 3.331 0 0 1 58.333 55 3.33 3.33 0 0 1 55 51.667v-3.333a3.333 3.333 0 1 1 6.667 0z" fill="#ffffff" opacity="1" data-original="#000000" class=""/>
-            </g>
-        </svg>
-    </button>
+function Chat() {
+?>       
+<label for="chat-open-button" hidden>Open the chat</label>
+<button type="button" data-bs-toggle="modal" data-bs-target="#chatModal" id="chat-open-button">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="40" height="40" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"  >
+        <g>
+            <path d="m87.019 45.176-3.686-1.842C83.333 24.922 68.408 10 50 10c-18.41 0-33.334 14.922-33.334 33.334l-3.684 1.842C11.342 45.996 10 48.168 10 50v6.667c0 1.832 1.342 4.004 2.982 4.824l3.684 1.842h5V43.334C21.666 27.709 34.377 15 50 15c15.622 0 28.333 12.709 28.333 28.334V70c0 8.284-6.715 15-15 15h-10v-5h-6.667v10h16.667c11.045 0 20-8.955 20-20v-6.667l3.686-1.842c1.64-.82 2.981-2.992 2.981-4.824V50c0-1.832-1.341-4.004-2.981-4.824z" fill="#ffffff" opacity="1" data-original="#000000" class=""/>
+            <path d="M63.333 35H52.5v-7.084c1.966-.67 3.333-2.09 3.333-3.75C55.833 21.865 53.223 20 50 20s-5.834 1.865-5.834 4.166c0 1.66 1.367 3.084 3.334 3.75V35H36.666c-5.52 0-10 4.479-10 10v13.333C26.666 67.532 34.135 75 43.334 75h13.333c9.199 0 16.666-7.468 16.666-16.667V45c0-5.521-4.479-10-10-10zM38.334 51.667v-3.333a3.333 3.333 0 1 1 6.666 0v3.333A3.331 3.331 0 0 1 41.666 55a3.33 3.33 0 0 1-3.332-3.333zM58.333 65l-6.666 1.667h-3.333L41.666 65v-3.333h16.667zm3.334-13.333A3.331 3.331 0 0 1 58.333 55 3.33 3.33 0 0 1 55 51.667v-3.333a3.333 3.333 0 1 1 6.667 0z" fill="#ffffff" opacity="1" data-original="#000000" class=""/>
+        </g>
+    </svg>
+</button>
 
-    <div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="chat-container" class="d-flex flex-column">
-                    <form id="chat-container" class="d-flex flex-column">
-                        <div id="chat-title" class="d-flex align-items-center p-3 gap-2">
-                            <button type="button" data-bs-dismiss="modal" >&#128473;</button>
-                            <img class="object-fit-cover"
-                                src="/assets/ilSussurroDeiFornelli.png"
-                                alt="profile picture">
-                            <div class="ms-3">
-                                <h1>The whispers of the burner</h1>
-                                <h2>Available</h2>
-                            </div>
+<div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="chat-container" class="d-flex flex-column">
+                    <div id="chat-title" class="d-flex align-items-center p-3 gap-2">
+                        <button type="button" data-bs-dismiss="modal" >&#128473;</button>
+                        <img class="object-fit-cover"
+                            src="/assets/ilSussurroDeiFornelli.png"
+                            alt="profile picture">
+                        <div class="ms-3">
+                            <h1>The whisper of the burners</h1>
+                            <h2>Available</h2>
+                        </div>
+                    </div>
+
+                    <div id="chat-content" class="d-flex py-4">
+                        <div class="user d-flex justify-content-end w-100 pe-3">
+                            <p class="py-2 px-3 my-2  ">Bazavula</p>
+                        </div>
+                        <div class="other d-flex w-100 ps-3">
+                            <p class="py-2 px-3 my-2">Vazabula</p>
                         </div>
 
-                        <div id="chat-content" class="d-flex py-4">
-                            <div class="user d-flex justify-content-end w-100 pe-3">
-                                <p class="py-2 px-3 my-2  ">Bazavula</p>
-                            </div>
-                            <div class="other d-flex w-100 ps-3">
-                                <p class="py-2 px-3 my-2">Vazabula</p>
-                            </div>
+                    </div>
 
+                    <div id="message-box" class=" container py-2">
+                        <div class="row mx-auto">
+                            <label for="message-text-area" hidden>Scrivi un messaggio</label>
+                            <textarea id="message-text-area" placeholder="Scrivi un messaggio..." class="col-9 "
+                                rows="1"></textarea>
+
+                            <label for="message-send-button" hidden>Invia il messaggio</label>
+                            <input id="message-send-button" type="button" value="Invia" class="col-3 py-3 px-4" />
                         </div>
-
-                        <div id="message-box" class=" container py-2">
-                            <div class="row mx-auto p-2">
-                                <label for="message-text-area" hidden>Scrivi un messaggio</label>
-                                <textarea id="message-text-area" placeholder="Scrivi un messaggio..." class="col-10 "
-                                    rows="1"></textarea>
-
-                                <label for="message-send-button" hidden>Invia il messaggio</label>
-                                <input id="message-send-button" type="submit" value="Invia" class="col-2" />
-                            </div>
-                        </div>
-
-                    </form>
-                </form>
-            </div>
+                    </div>
+            </form>
         </div>
     </div>
-
+</div>
 <?php } ?>
 
 

@@ -6,18 +6,43 @@ require_once "lib/utils.php";
 class InvalidHTTPHeaderDataException extends Exception {}
 
 // https://www.php.net/manual/en/filter.constants.php#filter.constants.flags.generic
-class ApiRequest {
-    public function __construct() {}
+readonly class ApiRequest {
+    private ?array $params;
+    private ?array $files;
 
-    public function parseStringNonEmpty(?string $value): string|false {
+    public function __construct(
+        HTTPMethod $method,
+    ) {
+        $this->params = $method->paramsArray();
+        $this->files = $method->filesArray();
+    }
+
+    public function getParam(string $key): array|string|null {
+        assert($this->params !== null);
+        return $this->params[$key] ?? null;
+    }
+
+    public function getFile(string $key): array|null {
+        assert($this->files !== null);
+        return $this->files[$key] ?? null;
+    }
+
+    public function expectParam(ApiResponse $res, string $key): array|string {
+        $value = $this->getParam($key);
         if ($value === null) {
-            return false;
+            $res->dieWithError(HTTPCode::BadRequest, "Missing param $key");
+        } else {
+            return $value;
         }
-        $value = htmlspecialchars($value);
-        return filter_var(
-            $value, 
-            options: FILTER_REQUIRE_SCALAR | FILTER_FLAG_EMPTY_STRING_NULL
-        );
+    }
+
+    public function expectFile(ApiResponse $res, string $key): array {
+        $value = $this->getFile($key);
+        if ($value === null) {
+            $res->dieWithError(HTTPCode::BadRequest, "Missing file $key");
+        } else {
+            return $value;
+        }
     }
 }
 
@@ -93,9 +118,6 @@ class ApiServer {
     }
 
     public function respond() {
-        $req = new ApiRequest();
-        $res = new ApiResponse();
-
         $allowedHttpMethods = HTTPMethod::cases();
         $methodIndex = searchEnum(
             $allowedHttpMethods,
@@ -106,6 +128,9 @@ class ApiServer {
         }
         
         $method = $allowedHttpMethods[$methodIndex];
+
+        $req = new ApiRequest(method: $method);
+        $res = new ApiResponse();
         $callback = $this->callbacks[$method->value] 
             ?? $res->dieWithError(HTTPCode::MethodNotAllowed);
         

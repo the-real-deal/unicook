@@ -28,6 +28,21 @@ enum HTTPCode: int {
 enum HTTPMethod: string {
     case GET = "GET";
     case POST = "POST";
+
+    public function paramsArray(): ?array {
+        return match ($this) {
+            self::GET => $_GET,
+            self::POST => $_POST,
+            default => null,
+        };
+    }
+
+    public function filesArray(): ?array {
+        return match ($this) {
+            self::POST => $_FILES,
+            default => null,
+        };
+    }
 }
 
 ?>

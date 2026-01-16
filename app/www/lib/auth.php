@@ -43,6 +43,8 @@ readonly class AuthSession extends DBTable {
     }
 
     public static function fromKey(Database $db, string $key): self|false {
+        $key = validateUUID($key);
+
         $validityCheck = AuthSession::sqlValidityCheck("s");
         $query = $db->createStatement(<<<sql
             SELECT s.*
@@ -77,6 +79,22 @@ readonly class LoginSession {
         public AuthSession $auth,
         public User $user,
     ) {}
+
+    public static function register(
+        Database $db, 
+        string $username, 
+        string $email, 
+        string $password
+    ): self|false {
+        if (User::searchEmail($db, $email)) {
+            throw new InvalidArgumentException("User already exists");
+        }
+        $user = User::create($db, $username, $email, $password);
+        if ($user === false) {
+            return false;
+        }
+        return self::login($db, $email, $password);
+    }
 
     public static function login(Database $db, string $email, string $password): self|false {
         $user = User::fromEmailAndPassword($db, $email, $password);

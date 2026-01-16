@@ -1,0 +1,8 @@
+#errorToast,
+#errorToast .toast-header {
+    background-color: var(--danger);
+}
+
+#errorToast * {
+    color: var(--highlight) !important;
+}
