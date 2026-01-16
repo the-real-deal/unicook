@@ -23,14 +23,14 @@
 
 - [x] login
 - [x] get user
-- [ ] get user image 
+- [x] get user image 
 - [ ] get user saves
 - [ ] get user recipes
 
 #### POST
 - [x] logout
 - [x] register (username, email, password)
-- [ ] update image (if logged user)
+- [x] update image (if logged user)
 - [ ] make admin (if admin) ?
 - [ ] delete user (if admin) ?
 
