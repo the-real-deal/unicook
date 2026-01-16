@@ -77,8 +77,8 @@
 - [ ] random recipe
 #### Single Recipe
 - [ ] open single recipe
-    - [ ] link on all the card surface
-- [ ] getting card from db 
+    - [x] link on all the card surface (only title)
+- [ ] getting card from db
 
 ### About
 - [ ] add useless API
