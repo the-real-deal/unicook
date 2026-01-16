@@ -65,7 +65,7 @@ readonly class Recipe extends DBTable {
         return self::fromTableRow($result->fetchOne());
     }
 
-    public function getSteps(Database $db): Generator|false {
+    public function getSteps(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT rs.*
             FROM `RecipeSteps` rs
@@ -76,12 +76,10 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        foreach ($result->iterate() as $row) {
-            yield RecipeStep::fromTableRow($row);
-        }
+        return array_map(RecipeStep::fromTableRow, $result->fetchAll());
     }
 
-    public function getIngredients(Database $db): Generator|false {
+    public function getIngredients(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT ri.*
             FROM `RecipeIngredients` ri
@@ -92,12 +90,10 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        foreach ($result->iterate() as $row) {
-            yield RecipeIngredient::fromTableRow($row);
-        }
+        return array_map(RecipeIngredient::fromTableRow, $result->fetchAll());
     }
 
-    public function getTags(Database $db): Generator|false {
+    public function getTags(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT t.*
             FROM `RecipeTags` rt
@@ -109,12 +105,10 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        foreach ($result->iterate() as $row) {
-            yield Tags::fromTableRow($row);
-        }
+        return array_map(Tags::fromTableRow, $result->fetchAll());
     }
 
-    public function getReviews(Database $db): Generator|false {
+    public function getReviews(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT r.*
             FROM `Reviews` r
@@ -127,9 +121,7 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        foreach ($result->iterate() as $row) {
-            yield Review::fromTableRow($row);
-        }
+        return array_map(Review::fromTableRow, $result->fetchAll());
     }
 }
 

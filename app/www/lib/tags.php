@@ -32,7 +32,7 @@ readonly class Tag extends DBTable {
         return self::fromTableRow($result->fetchOne());
     }
 
-    public static function getAllTags(Database $db): Generator|false {
+    public static function getAllTags(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT t.*
             FROM `Tags` t
@@ -42,12 +42,7 @@ readonly class Tag extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        if ($result->totalRows === 0) {
-            return false;
-        }
-        foreach ($result->iterate() as $row) {
-            yield self::fromTableRow($row);
-        }
+        return array_map(self::fromTableRow, $result->fetchAll());
     }
 }
 ?>

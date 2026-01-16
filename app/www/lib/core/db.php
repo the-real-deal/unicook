@@ -37,21 +37,6 @@ enum SqlValueType {
         }
     }
 
-    public static function fromValue(mixed $value): ?self {
-        if (is_int($value)) {
-            return self::Int;
-        } else if (is_bool($value)) {
-            return self::Bool;
-        } else if (is_float($value)) {
-            return self::Float;
-        } else if (is_string($value)) {
-            return self::Float;
-        } else if ($value instanceof DateTime) {
-            return self::DateTime;
-        }
-        return null;
-    }
-
     // https://www.php.net/manual/en/mysqli-stmt.bind-param.php
     public function typeString(): string  {
         switch ($this) {
@@ -141,7 +126,6 @@ class QueryResult implements Closeable {
     use AutoCloseable;
 
     private array $fields;
-    private int $position = 0;
     readonly public int $totalRows;
 
     public function __construct(private mysqli_result $result) {
@@ -160,21 +144,6 @@ class QueryResult implements Closeable {
         $this->result->close();
     }
 
-    public function getPosition() {
-        return $this->position;
-    }
-
-    public function setPosition(int $position): bool {
-        if ($position < 0 || $position >= $this->totalRows) {
-            return false;
-        }
-        if (!$this->result->data_seek($position)) {
-            return false;
-        }
-        $this->position = $position;
-        return true;
-    }
-
     public function fetchOne(): ?QueryRow {
         $row = $this->result->fetch_assoc();
         if ($row === null) {
@@ -185,22 +154,12 @@ class QueryResult implements Closeable {
         return QueryRow::fromArray($row, $this->fields);
     }
     
-    public function fetchMany(int $max): array {
-        $result = [];
-        for ($i=0; $i < $max; $i++) { 
-            $value = $this->fetchOne();
-            if ($value === null) {
-                break;
-            }
-            array_push($result, $value);
-        }
-        return $result;
-    }
-
-    public function iterate(): Generator {
-        for ($i=0; $i < $this->totalRows; $i++) { 
-            yield $this->fetchOne();
-        }
+    public function fetchAll(): array {
+        $rows = $this->result->fetch_all();
+        return array_map(
+            fn (array $row) => QueryRow::fromArray($row, $this->fields),
+            $rows,
+        );
     }
 }
 
