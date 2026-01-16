@@ -7,7 +7,7 @@ main {
 main>:first-child,
 main>:not(:first-child)>* {
     max-width: 1250px;
-    margin-block: 10px;
+    margin-top: 10px;
     margin-inline: auto !important;
 }
 

@@ -40,9 +40,10 @@ function Footer() {
             <div class="col-lg-3 col-md-6">
                 <span>Categories</span>
                 <ul class="list-unstyled mt-2 ">
-                    <li class="mb-2"><a href="#">Budget Friendly</a></li>
-                    <li class="mb-2"><a href="#">Vegan</a></li>
-                    <li class="mb-2"><a href="#">Late-Night Snacks</a></li>
+                    <!-- TODO: Update tags dynamically -->
+                    <li class="mb-2"><a href="/recipes?tag=1">Budget Friendly</a></li>
+                    <li class="mb-2"><a href="/recipes?tag=2">Vegan</a></li>
+                    <li class="mb-2"><a href="/recipes?tag=3">Late-Night Snacks</a></li>
                 </ul>
             </div>
 
@@ -66,7 +67,7 @@ function Footer() {
                             </svg>
                             <span hidden>linkedin link</span>
                         </a></li>
-                    <li><a href="#" target="_blank">
+                    <li><a href="https://github.com/the-real-deal/unicook" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                                 class="bi bi-instagram" viewBox="0 0 16 16">
                                 <path
