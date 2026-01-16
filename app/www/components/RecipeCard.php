@@ -9,19 +9,19 @@ function RecipeCard(string $elementId,
                     string $cost, 
                     bool $saved=false) {
 ?>
-<div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?php echo $elementId ?>">
+<div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?= $elementId ?>">
     <article class="my-2 pb-2">
         <div>
             <img class="card-img-top img-fluid" src="/assets/penne.jpg" alt="">
         </div>
         <div class="d-flex flex-column">
-            <h3 onclick="changePage(<?= $recipeId ?>)" class="order-2"><?php echo $recipeTitle ?></h3>
+            <h3 onclick="changePage(<?= $recipeId ?>)" class="order-2"><?= $recipeTitle ?></h3>
             <ul class="order-1 w-100">
                 <?php 
                     foreach($tags as $tag){
                 ?>
                 <li>
-                    <?php echo $tag ?>
+                    <?= $tag ?>
                 </li>
                 <?php 
                     }
@@ -38,7 +38,7 @@ function RecipeCard(string $elementId,
                     <path
                         d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
                 </svg>
-                <span><?php echo $timeRequired ?> min</span>
+                <span><?= $timeRequired ?> min</span>
             </div>
             <div class="pe-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -47,12 +47,12 @@ function RecipeCard(string $elementId,
                     <line x1="12" x2="12" y1="2" y2="22"></line>
                     <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                 </svg>
-                <span><?php echo $cost ?></span>
+                <span><?= $cost ?></span>
             </div>
         </div>
-        <a href="/singleRecipe?id=<?php echo $recipeId?>" >More...</a> <!-- add link to recipe id -->
-        <button id="btn-<?php echo $elementId?>" class="d-flex justify-content-center align-items-center" onclick="saveRecipe('btn-<?php echo $elementId ?>','<?php echo $recipeId?>')" type="button" title="<?= $saved?"remove from saved":"save" ?>">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?php echo $saved?"currentColor":"transparent" ?>" stroke="currentColor" class="bi bi-bookmark-fill flex-shrink-0" viewBox="-1 -1 18 18">
+        <a href="/singleRecipe?id=<?= $recipeId?>" >More...</a> <!-- add link to recipe id -->
+        <button id="btn-<?= $elementId?>" class="d-flex justify-content-center align-items-center" onclick="saveRecipe('btn-<?= $elementId ?>','<?= $recipeId?>')" type="button" title="<?= $saved?"remove from saved":"save" ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?= $saved?"currentColor":"transparent" ?>" stroke="currentColor" class="bi bi-bookmark-fill flex-shrink-0" viewBox="-1 -1 18 18">
                 <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
             </svg>
         </button>

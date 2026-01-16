@@ -86,7 +86,7 @@ $resultNumber = 4;
                                        id="<?= $tag->id ?>" 
                                        name="<?= $tag->id ?>" 
                                        value="<?= strtolower($tag->name)?>" 
-                                       <?php echo isset($selectedTag) && $selectedTag == $tag->id ? "checked" : ""; ?>>
+                                       <?= isset($selectedTag) && $selectedTag == $tag->id ? "checked" : ""; ?>>
                                 <label for="<?= $tag->id ?>"><?= $tag->name ?></label>
                             </li>
                             <?php 

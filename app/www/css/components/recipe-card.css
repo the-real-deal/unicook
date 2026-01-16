@@ -70,23 +70,20 @@
     display: inline-block;
     padding: 1px 3%;
     border-radius: 500px;
-    background-color: var(--primary-shade);
     text-align: center;
+    color: var(--text);
 }
 
 .recipe-card article ul>li:nth-child(3n) {
-    background-color: var(--primary);
-    color: var(--text);
+    background-color: var(--tertiary);
 }
 
 .recipe-card article ul>li:nth-child(3n+2) {
     background-color: var(--secondary);
-    color: var(--text);
 }
 
 .recipe-card article ul>li:nth-child(3n+1) {
-    background-color: var(--tertiary);
-    color: var(--text);
+    background-color: var(--primary);
 }
 
 .recipe-card article span {

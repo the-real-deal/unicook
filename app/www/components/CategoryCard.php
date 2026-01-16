@@ -6,10 +6,10 @@ function CategoryCard(string $categoryId, string $title, int $nRecipes, string $
 <li class="col-6 col-md-4 col-lg-2 category-card py-1">
     <a href="/recipes?tag=<?= $categoryId?>" class="my-1">
         <div class="d-flex justify-content-center align-items-center">
-            <img src="/assets/<?php echo $path?>" alt="" class="w-50">
+            <img src="/assets/<?= $path?>" alt="" class="w-50">
         </div>
-        <?php echo $title?>
-        <p><?php echo $nRecipes?> Recipes</p>
+        <?= $title?>
+        <p><?= $nRecipes?> Recipes</p>
     </a>
 </li>
 <?php } ?>

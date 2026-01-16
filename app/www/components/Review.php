@@ -5,9 +5,9 @@ function Review(string $id, string $username, int $rating, DateTime $date, strin
 ?>
 <article class="review p-3">
     <div class="d-flex justify-content-between">
-        <h3><?php echo $username ?></h3>
+        <h3><?= $username ?></h3>
         <div>
-            <span>(<?php echo $rating?>)</span>
+            <span>(<?= $rating?>)</span>
             <?php
                 $rating = min(5 ,$rating);
                 for ($i = 0; $i < $rating; $i++) {
@@ -30,6 +30,6 @@ function Review(string $id, string $username, int $rating, DateTime $date, strin
         </div>
     </div>
     <time datetime="<?= $date->format('Y-m-d') ?>"><?= $date->format('d/m/Y') ?></time>
-    <p><?php echo $text?></p>
+    <p><?= $text?></p>
 </article>
 <?php } ?>
