@@ -232,7 +232,7 @@ readonly class User extends DBTable {
         }
     }
 
-    public function getPublishedRecipes(Database $db): Generator|false {
+    public function getPublishedRecipes(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT r.*
             FROM `Recipes` r
@@ -244,12 +244,10 @@ readonly class User extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        foreach ($result->iterate() as $row) {
-            yield Recipe::fromTableRow($row);
-        }
+        return array_map(Recipe::fromTableRow, $result->fetchAll());
     }
 
-    public function getSavedRecipes(Database $db): Generator|false {
+    public function getSavedRecipes(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT r.*
             FROM `RecipeSaves` rs
@@ -261,9 +259,7 @@ readonly class User extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        foreach ($result->iterate() as $row) {
-            yield Recipe::fromTableRow($row);
-        }
+        return array_map(Recipe::fromTableRow, $result->fetchAll());
     }
 }
 ?>
