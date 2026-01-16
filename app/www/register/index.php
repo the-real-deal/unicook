@@ -6,7 +6,7 @@ require_once "components/Footer.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?= PageHead("Login", [ "/css/loginRegister.css" ]) ?>
+<?= PageHead("Register", [ "/css/loginRegister.css" ]) ?>
 <body>
     <?= Navbar() ?>
     <main>

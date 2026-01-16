@@ -27,10 +27,6 @@ main header a {
     transition: var(--default-transition-timing-function);
 }
 
-main header a>svg {
-    margin-inline: 4%;
-}
-
 main header a:hover {
     background-color: var(--secondary);
     border-color: var(--secondary-text);

@@ -11,7 +11,8 @@ form {
     box-shadow: var(--shadow-dark);
 }
 
-label {
+label,
+span {
     font-weight: 600;
     font-size: 0.95rem;
 }
@@ -74,6 +75,8 @@ ul[id="steps"] {
     margin: 0;
     padding: 0;
 }
+
+
 
 #tag-list li {
     background: var(--bg-dark);

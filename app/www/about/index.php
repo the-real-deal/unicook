@@ -4,8 +4,22 @@ require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Chat.php";
+    
+$recipesCount = floorPlus(145);
+$studentsCount = floorPlus(298);
+$universitiesCount = floorPlus(400);
+$averageRating = floorPlus(86);
+
+function floorPlus($var) {
+    if ($var >100) {
+        $var = (floor($var / 100) * 100);
+        return strval($var)."+";
+    }
+    return strval($var);
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?= PageHead("About", [ "style.css", "/css/components/chat.css" ]) ?>
@@ -17,10 +31,9 @@ require_once "components/Chat.php";
     <!-- ABOUT PAGE-->
     <main>
         <!-- HERO SECTION -->
-        <section class="py-5" id="hero-section">
+        <div class="py-5" id="hero-section">
             <div class="container-fluid text-center">
                 <div class="d-inline-flex align-items-center mb-4 gap-2 py-2 px-3">
-                    <!-- chef-hat icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <path
@@ -37,12 +50,12 @@ require_once "components/Chat.php";
                 </p>
 
                 <div class="ratio ratio-16x9 mt-4 mx-auto">
-                    <img src="https://images.unsplash.com/photo-1671725501632-3980b640f420?auto=format&q=80&w=1080"
+                    <img src="/assets/homepage.png"
                         class="object-fit-cover shadow" alt="Students cooking together">
                 </div>
 
             </div>
-        </section>
+        </div>
 
         <!-- MISSION SECTION -->
         <section class="py-5" id="mission-section">
@@ -242,7 +255,7 @@ require_once "components/Chat.php";
                     <!-- Spita -->
                     <div class="team-user col-md-4 text-center ">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Ludovico+Spitaleri">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Ludovico+Spitaleri" alt="">
                         </div>
                         <h3 class="mb-1">Ludovico Spitaleri</h3>
                         <p class="text-success ">Founder & Developer</p>
@@ -254,7 +267,7 @@ require_once "components/Chat.php";
                     <!-- Gio -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Gioele+Foschi">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Gioele+Foschi" alt="">
                         </div>
                         <h3 class="mb-1">Gioele Foschi</h3>
                         <p class="text-success ">Founder & Developer</p>
@@ -266,7 +279,7 @@ require_once "components/Chat.php";
                     <!-- Tonno -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
-                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Matteo+Tonelli">
+                            <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Matteo+Tonelli" alt="">
                         </div>
                         <h3 class="mb-1">Matteo Tonelli</h3>
                         <p class="text-success ">Founder & Developer</p>
@@ -291,22 +304,22 @@ require_once "components/Chat.php";
                 <div class="row text-center g-4">
 
                     <div class="col-6 col-md-3">
-                        <span>400+</span>
+                        <span><?= $recipesCount ?></span>
                         <p>Recipes</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span>50K+</span>
+                        <span><?= $studentsCount ?></span>
                         <p>Students</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span>100+</span>
+                        <span><?= $universitiesCount ?></span>
                         <p>Universities</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span>4.9 &#9733;</span>
+                        <span><?= $averageRating ?></span>
                         <p>Average Rating</p>
                     </div>
 
