@@ -31,6 +31,7 @@
 - [x] logout
 - [x] register (username, email, password)
 - [x] update image (if logged user)
+- [x] delete image (if logged user)
 - [ ] make admin (if admin) ?
 - [ ] delete user (if admin) ?
 
@@ -86,3 +87,8 @@
 - [ ] add search
 - [ ] hide/show filters instead of search button
 - [ ] ajax (maybe) --> accessibility
+
+### Profile
+- [ ] delete image?
+- [ ] fix image input (missing submit)
+- [ ] handle generic/logged user difference

@@ -73,7 +73,6 @@ $server->respond();
                             Add Image
                         </label>
                         <?= FileInput("image", FileType::Image, hidden: true) ?>
-                        <input type="submit" value="Upload image" />
                     </form>
                     <button id="logout-button" class="mt-4 d-flex align-items-center justify-content-center justify-content-md-start gap-2 mx-auto mx-md-0 p-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none" stroke="CurrentColor">
