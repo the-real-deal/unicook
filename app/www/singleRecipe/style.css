@@ -1,3 +1,5 @@
+@import '/css/components/review.css';
+
 div {
     max-width: 1000px !important;
 }
