@@ -9,7 +9,7 @@ function RecipeCard(string $elementId,
                     string $cost, 
                     bool $saved=false) {
 ?>
-<div class="p-0 col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?php echo $elementId ?>">
+<div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?php echo $elementId ?>">
     <article class="my-2 pb-2">
         <div>
             <img class="card-img-top img-fluid" src="/assets/penne.jpg" alt="">
@@ -49,7 +49,7 @@ function RecipeCard(string $elementId,
             </div>
         </div>
         <a href="/singleRecipe?id=<?php echo $recipeId?>" >More...</a> <!-- add link to recipe id -->
-        <button id="btn-<?php echo $elementId?>" class="d-flex justify-content-center align-items-center" onclick="saveRecipe('btn-<?php echo $elementId ?>','<?php echo $recipeId?>')" type="button" title="tmp">
+        <button id="btn-<?php echo $elementId?>" class="d-flex justify-content-center align-items-center" onclick="saveRecipe('btn-<?php echo $elementId ?>','<?php echo $recipeId?>')" type="button" title="<?= $saved?"remove from saved":"save" ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?php echo $saved?"currentColor":"transparent" ?>" stroke="currentColor" class="bi bi-bookmark-fill flex-shrink-0" viewBox="-1 -1 18 18">
                 <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
             </svg>

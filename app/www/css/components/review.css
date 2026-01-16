@@ -31,5 +31,5 @@ article.review>div {
 }
 
 article.review>div:first-of-type>div {
-    color: var(--primary);
+    color: var(--secondary-text);
 }

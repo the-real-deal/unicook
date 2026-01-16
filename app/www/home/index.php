@@ -69,8 +69,8 @@ Database::connectDefault();
                 <?= CategoryCard("2", "Night Snacks", 34, "moon.svg") ?>
                 <?= CategoryCard("3", "International", 34, "international.svg") ?>
                 <?= CategoryCard("4", "Few Ingredients", 34, "lowIngredients.svg") ?>
-                <?= CategoryCard("5", "Quick Meals", 34, "quick.svg") ?>
-                <?= CategoryCard("6", "Budget-Friendly", 34, "budget.svg") ?>
+                <?= CategoryCard("5", "Pasta", 34, "pasta.svg") ?>
+                <?= CategoryCard("6", "Dessert", 34, "dessert.svg") ?>
             </ul>
         </section>
 

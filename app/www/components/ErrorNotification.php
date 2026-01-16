@@ -3,7 +3,7 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
 function ErrorNotification() {
 ?>       
-<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
   <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
       <strong class="me-auto">Error</strong>

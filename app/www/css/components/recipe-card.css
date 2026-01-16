@@ -57,7 +57,7 @@
 }
 
 .recipe-card article:hover div>img {
-    transform: scale(1.03);
+    transform: scale(1.1);
 }
 
 .recipe-card article>ul>li {
@@ -115,11 +115,11 @@
     right: 10px;
 }
 
-.recipe-card>article:last-child [fill="currentColor"] {
+.recipe-card>article>:last-child [fill="currentColor"] {
     color: var(--primary);
 }
 
-.recipe-card>article:last-child [fill="transparent"] {
+.recipe-card>article>:last-child [fill="transparent"] {
     color: var(--text);
 }
 

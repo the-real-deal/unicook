@@ -1,3 +1,6 @@
+@import '/css/components/category-card.css';
+@import '/css/components/searchbar.css';
+
 body {
     margin-top: 0px;
 }

@@ -1,3 +1,5 @@
+@import '/css/components/review.css';
+
 div {
     max-width: 1000px !important;
 }
@@ -143,19 +145,22 @@ body {
     cursor: pointer;
     fill: none;
     stroke: var(--text);
-    transition: color 0.2s ease;
+    transition: var(--default-transition-timing-function);
+}
 
+.stars label:hover svg {
+    transform: scale(1.15);
 }
 
 .stars label:hover svg,
 .stars label:hover~label svg {
-    fill: var(--primary);
-    stroke: var(--primary);
+    fill: var(--secondary-text);
+    stroke: var(--secondary-text);
 }
 
 .stars input[type="radio"]:checked~label svg {
-    fill: var(--primary);
-    stroke: var(--primary);
+    fill: var(--secondary-text);
+    stroke: var(--secondary-text);
 }
 
 .stars label svg {
