@@ -13,42 +13,43 @@ enum SqlValueType {
 
     public static function fromField(object $field): self {
         // https://www.php.net/manual/en/mysqli.constants.php
-        switch ($field->type) {
-            case MYSQLI_TYPE_TINY:
-            case MYSQLI_TYPE_SHORT:
-            case MYSQLI_TYPE_LONG:
-            case MYSQLI_TYPE_LONGLONG:
-            case MYSQLI_TYPE_INT24:
-            case MYSQLI_TYPE_CHAR:
-                return self::Int;
-            case MYSQLI_TYPE_BIT:
-                return self::Bool;
-            case MYSQLI_TYPE_DECIMAL:
-            case MYSQLI_TYPE_NEWDECIMAL:
-            case MYSQLI_TYPE_FLOAT:
-            case MYSQLI_TYPE_DOUBLE:
-                return self::Float;
-            case MYSQLI_TYPE_VAR_STRING:
-            case MYSQLI_TYPE_STRING:
-                return self::String;
-            case MYSQLI_TYPE_TIMESTAMP:
-            case MYSQLI_TYPE_DATETIME:
-                return self::Datetime;
-        }
+        return match ($field->type) {
+            MYSQLI_TYPE_TINY,
+            MYSQLI_TYPE_SHORT,
+            MYSQLI_TYPE_LONG,
+            MYSQLI_TYPE_LONGLONG,
+            MYSQLI_TYPE_INT24,
+            MYSQLI_TYPE_CHAR => self::Int,
+            
+            MYSQLI_TYPE_BIT => self::Bool,
+
+            MYSQLI_TYPE_DECIMAL,
+            MYSQLI_TYPE_NEWDECIMAL,
+            MYSQLI_TYPE_FLOAT,
+            MYSQLI_TYPE_DOUBLE => self::Float,
+            
+            MYSQLI_TYPE_VAR_STRING,
+            MYSQLI_TYPE_STRING,
+            MYSQLI_TYPE_TINY_BLOB,
+            MYSQLI_TYPE_MEDIUM_BLOB,
+            MYSQLI_TYPE_LONG_BLOB,
+            MYSQLI_TYPE_BLOB => self::String,
+
+            MYSQLI_TYPE_TIMESTAMP,
+            MYSQLI_TYPE_DATETIME => self::Datetime,
+
+            default => throw new RuntimeException("Invalid field type {$field->type}")
+        };
     }
 
     // https://www.php.net/manual/en/mysqli-stmt.bind-param.php
     public function typeString(): string  {
-        switch ($this) {
-            case self::Int:
-            case self::Bool:
-                return "i";
-            case self::Float:
-                return "d";
-            case self::String:
-            case self::Datetime:
-                return "s";
-        }
+        return match ($this) {
+            self::Int, self::Bool => "i",
+            self::Float => "d",
+            self::String,
+            self::Datetime => "s",
+        };
     }
 
     public function valueFromField(null|int|float|string|false $value): mixed {
@@ -242,7 +243,8 @@ readonly abstract class DBTable {
             if ($type !== null && $type instanceof ReflectionNamedType && !$type->isBuiltin()) {
                 $enumClass = new ReflectionClass($type->getName());
                 if ($enumClass->isEnum()) {
-                    $value = $enumClass::from($value);
+                    $enumClassName = $enumClass->getName();
+                    $value = $enumClassName::from($value);
                 }
             }
             array_push($params, $value);

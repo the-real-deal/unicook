@@ -65,6 +65,24 @@ readonly class Recipe extends DBTable {
         return self::fromTableRow($result->fetchOne());
     }
 
+    public static function getRandom(Database $db): self|false {
+        $query = $db->createStatement(<<<sql
+            SELECT r.*
+            FROM `Recipes` r
+            WHERE r.`deleted` = 0
+            ORDER BY RAND()
+            sql);
+        $ok = $query->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        if ($result->totalRows === 0) {
+            return false;
+        }
+        return self::fromTableRow($result->fetchOne());
+    }
+
     public function getSteps(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT rs.*

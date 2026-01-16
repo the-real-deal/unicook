@@ -9,16 +9,15 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
     $userId = $req->expectParam($res, "userId");
     
     $db = Database::connectDefault();
-    $user = false;
     try {
         $user = User::fromId($db, $userId);
+        if ($user === false) {
+            $res->dieWithError(HTTPCode::NotFound, "User not found");
+        }
+        $res->sendJSON($user);
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);
     }
-    if ($user === false) {
-        $res->dieWithError(HTTPCode::NotFound, "User not found");
-    }
-    $res->sendJSON($user);
 });
 
 $server->respond();
