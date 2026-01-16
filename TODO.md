@@ -71,8 +71,8 @@
 - [ ] COLORS 
 - [ ] admin page + logged modify
 ### Home
-- [ ] switch pages when searching
-    - [ ] search
+- [x] switch pages when searching
+    - [x] search
     - [x] tag
 - [ ] random recipe
 #### Single Recipe
