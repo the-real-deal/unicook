@@ -6,12 +6,12 @@ require_once "lib/users.php";
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
-    $id = $req->expectParam($res, "id");
+    $userId = $req->expectParam($res, "userId");
     
     $db = Database::connectDefault();
     $user = false;
     try {
-        $user = User::fromId($db, $id);
+        $user = User::fromId($db, $userId);
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);
     }

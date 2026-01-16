@@ -2,17 +2,19 @@
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
 require_once "lib/core/uuid.php";
+require_once "lib/core/files.php";
 require_once "lib/recipes.php";
 require_once "lib/utils.php";
 require_once "lib/auth.php";
 
 readonly class User extends DBTable {
-    public const PASSWORD_REGEX = <<<regex
+    private const PASSWORD_REGEX = <<<regex
     /^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/
     regex;
-    public const USERNAME_REGEX = <<<regex
+    private const USERNAME_REGEX = <<<regex
     /^.{3,50}$/
     regex;
+    private const IMAGES_UPLOAD_PATH = "users";
 
     protected function __construct(
         public string $id,
@@ -169,6 +171,81 @@ readonly class User extends DBTable {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public function uploadImage(Database $db, array $fileArray): UploadFile|false {
+        $image = UploadFile::uploadFileArray($fileArray, FileType::Image, self::IMAGES_UPLOAD_PATH);
+        if ($image === false) {
+            return false;
+        }
+
+        $query = $db->createStatement(<<<sql
+            UPDATE `Users` u
+            SET u.`avatarId` = ?
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($image->id),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
+        if (!$ok) {
+            return false;
+        } else {
+            $prevImage = $this->getImage();
+            if ($this->avatarId !== null) {
+                $this->deleteImageUpload();
+            }
+            return $image;
+        }
+    }
+
+    public function getImage(): UploadFile|false {
+        if ($this->avatarId === null) {
+            return false;
+        }
+        return UploadFile::fromId($this->avatarId, self::IMAGES_UPLOAD_PATH);
+    }
+
+    private function deleteImageUpload(): bool {
+        $image = $this->getImage();
+        if ($image === false) {
+            return false;
+        }
+        return $image->delete();
+    }
+
+    public function deleteImage(Database $db): bool {
+        $query = $db->createStatement(<<<sql
+            UPDATE `Users` u
+            SET u.`avatarId` = ?
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam(null),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
+        if (!$ok) {
+            return false;
+        } else {
+            return $this->deleteImageUpload();
+        }
+    }
+
+    public function getPublishedRecipes(Database $db): Generator|false {
+        $query = $db->createStatement(<<<sql
+            SELECT r.*
+            FROM `Recipes` r
+                JOIN `Users` u on r.`userId` = u.`id`
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        foreach ($result->iterate() as $row) {
+            yield Recipe::fromTableRow($row);
         }
     }
 

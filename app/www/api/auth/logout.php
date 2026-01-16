@@ -9,7 +9,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     $db = Database::connectDefault();
     $login = LoginSession::autoLogin($db);
     if ($login === false) {
-        $res->dieWithError(HTTPCode::BadRequest, "Failed to verify login");
+        $res->dieWithError(HTTPCode::BadRequest, "Not logged in");
     }
     $ok = $login->logout($db);
     if (!$ok) {

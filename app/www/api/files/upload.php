@@ -7,7 +7,7 @@ $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     try {
-        $file = UploadFile::uploadFileArray(
+        $file = File::uploadFileArray(
             $_FILES["fileToUpload"],
             FileType::Image,
             "testupload"

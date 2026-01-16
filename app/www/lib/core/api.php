@@ -1,6 +1,8 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/http.php";
+require_once "lib/core/mime.php";
+require_once "lib/core/files.php";
 require_once "lib/utils.php";
 
 class InvalidHTTPHeaderDataException extends Exception {}
@@ -11,7 +13,7 @@ readonly class ApiRequest {
     private ?array $files;
 
     public function __construct(
-        HTTPMethod $method,
+        HTTPMethod $method = HTTPMethod::GET,
     ) {
         $this->params = $method->paramsArray();
         $this->files = $method->filesArray();
@@ -83,11 +85,15 @@ class ApiResponse {
         return $this;
     }
 
-    public function sendFile(UploadFile $file): self {
-        $this->setHeader(HTTPHeader::ContentType, $file->mime)
-            ->setHeader(HTTPHeader::ContentLength, $file->size);
-        readfile($file->uploadPath());
+    public function sendFile(string $path, int $size, MimeType $mime): self {
+        $this->setHeader(HTTPHeader::ContentType, $mime)
+            ->setHeader(HTTPHeader::ContentLength, $size);
+        readfile($path);
         return $this;
+    }
+    
+    public function sendUpload(UploadFile $upload): self {
+        return $this->sendFile($upload->uploadPath(), $upload->size, $upload->mime);
     }
 
     public function dieWithError(

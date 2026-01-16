@@ -114,7 +114,7 @@ $resultNumber = 4;
         </div>
     </main>
     <?= Footer();?>
-    <script src="/js/bootstrap.js"></script>
+    <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
 </body>
 </html>

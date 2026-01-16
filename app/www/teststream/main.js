@@ -31,9 +31,10 @@ form.addEventListener("submit", async (e) => {
     let displayedText = ""
 
     try {
+        const data = new FormData(form)
         const response = await fetch(form.action, {
             method: form.method,
-            body: new FormData(form)
+            body: data
         })
 
         if (!response.ok) {

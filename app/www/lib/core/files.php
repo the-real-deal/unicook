@@ -38,7 +38,7 @@ class BadFileException extends Exception {}
 class UploadErrorException extends Exception {}
 
 readonly class UploadFile {
-    public function __construct(
+    private function __construct(
         private string $path,
         public string $id,
         public FileType $type,
@@ -80,7 +80,7 @@ readonly class UploadFile {
         );
     }
 
-    public static function uploadFileArray(array $file, FileType $type, string $path): self {
+    public static function uploadFileArray(array $file, FileType $type, string $path): self|false {
         // https://www.php.net/manual/en/features.file-upload.php
         $error = $file["error"];
 
@@ -134,10 +134,10 @@ readonly class UploadFile {
         createMissingDir($uploadPath);
         $moveOk = move_uploaded_file($tmpName, $uploadPath);
         if ($moveOk === false) {
-            throw new RuntimeException("Failed to upload file");
+            return false;
         }
 
-        $result = new UploadFile(
+        $result = new self(
             path: $path,
             id: $id,
             type: $type,
@@ -148,14 +148,22 @@ readonly class UploadFile {
         $metadataPath = self::createMetadataPath($id, $path);
         createMissingDir($metadataPath);
         $metadataFile = fopen($metadataPath, "w");
+        if ($metadataFile === false) {
+            return false;
+        }
+
         $resultJson = json_encode($result);
         if ($resultJson === false) {
-            throw new RuntimeException("Failed to upload metadata");
+            return false;
         }
         
         try {
-            fwrite($metadataFile, $resultJson);
-            return $result;
+            $ok = fwrite($metadataFile, $resultJson);
+            if ($ok === false) {
+                return false;
+            } else {
+                return $result;
+            }
         } finally {
             fclose($metadataFile);
         }
@@ -167,6 +175,12 @@ readonly class UploadFile {
 
     public function metadataPath(): string {
         return self::createMetadataPath($this->id, $this->path);
+    }
+
+    public function delete(): bool {
+        $uploadPath = $this->uploadPath();
+        $metadataPath = $this->uploadPath();
+        return unlink($uploadPath) && unlink($metadataPath);
     }
 }
 

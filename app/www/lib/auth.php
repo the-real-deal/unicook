@@ -17,6 +17,10 @@ readonly class AuthSession extends DBTable {
         public bool $forceExpired,
     ) {}
 
+    public static function validateId(string $key): string {
+        return validateUUID($key);
+    }
+
     public static function validateKey(string $key): string {
         return validateUUID($key, "key");
     }
@@ -98,7 +102,6 @@ readonly class AuthSession extends DBTable {
 readonly class LoginSession {
     private const AUTH_KEY_COOKIE_ATTR = "auth_key";
     private const AUTH_KEY_COOKIE_PATH = "/";
-    private const LOGIN_SESSION_ATTR = "login";
 
     public function __construct(
         public AuthSession $auth,
@@ -136,7 +139,6 @@ readonly class LoginSession {
         }
 
         $login = new self(auth: $auth, user: $user);
-        $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
         setcookie(
             self::AUTH_KEY_COOKIE_ATTR,
             $authKey,
@@ -156,7 +158,6 @@ readonly class LoginSession {
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
         if ($ok) {
-            unset($_SESSION[self::LOGIN_SESSION_ATTR]);
             unset($_COOKIE[self::AUTH_KEY_COOKIE_ATTR]);
             setcookie(
                 self::AUTH_KEY_COOKIE_ATTR,
@@ -185,14 +186,6 @@ readonly class LoginSession {
     }
 
     public static function autoLogin(Database $db): self|false {
-        $serializedLogin = $_SESSION[self::LOGIN_SESSION_ATTR] ?? null;
-        if ($serializedLogin !== null) {
-            $login = unserialize($serializedLogin);
-            if (!$login->auth->expired($db)) {
-                return $login;
-            }
-        }
-
         $authSessionKey = $_COOKIE[self::AUTH_KEY_COOKIE_ATTR] ?? null;
         if ($authSessionKey === null) {
             return false;
@@ -202,7 +195,6 @@ readonly class LoginSession {
         if ($login === false || $login->auth->expired($db)) {
             return false;
         } else {
-            $_SESSION[self::LOGIN_SESSION_ATTR] = serialize($login);
             return $login;
         }
     }

@@ -4,13 +4,13 @@ const form = document.getElementById("loginForm")
 form.addEventListener("submit", async (e) => {
     e.preventDefault()
 
-    const result = await fetch(form.action, {
+    const data = new FormData(form)
+    const res = await fetch(form.action, {
         method: form.method,
-        body: new FormData(form),
-    })
-        .then(rejectApiError)
-        .then((res) => res.json())
-    if (result.ok) {
+        body: data,
+    }).then(rejectApiError)
+
+    if (res.ok) {
         window.location = "/"
     }
 })

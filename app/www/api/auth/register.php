@@ -11,17 +11,15 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     $password = $req->expectParam($res, "password");
     
     $db = Database::connectDefault();
-    $login = false;
     try {
         $login = LoginSession::register($db, $username, $email, $password);
+        if ($login === false) {
+            $res->dieWithError(HTTPCode::Unauthorized, "Registration failed");
+        }
+        $res->sendJSON([ "ok" => true ]);
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);
     }
-    if ($login === false) {
-        $res->dieWithError(HTTPCode::Unauthorized, "Registration failed");
-    }
-
-    $res->sendJSON([ "ok" => true ]);
 });
 
 $server->respond();
