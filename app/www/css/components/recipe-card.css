@@ -74,10 +74,6 @@
     text-align: center;
 }
 
-/* .recipe-card article ul>li:first-child {
-    background-color: var(--secondary-shade);
-} */
-
 .recipe-card article ul>li:nth-child(3n) {
     background-color: var(--primary);
     color: var(--text);
