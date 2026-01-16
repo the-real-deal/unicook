@@ -16,7 +16,7 @@
     border-top: 0px;
 }
 
-.recipe-card article>h3 {
+.recipe-card article h3 {
     transition: var(--default-transition-timing-function);
     padding: 5px 0%;
     margin-block: 0px;
@@ -25,12 +25,12 @@
 }
 
 /* .recipe-card article span, */
-.recipe-card article>ul {
+.recipe-card article ul {
     padding: 5px 0%;
-    margin-bottom: 0px;
+    margin-bottom: 5px;
 }
 
-.recipe-card article>ul>li {
+.recipe-card article ul>li {
     margin-bottom: 0px;
     margin-top: 5px;
     padding: 0px 0%;
@@ -40,7 +40,7 @@
     color: var(--text);
 }
 
-.recipe-card article>div>img {
+.recipe-card article div>img {
     transition: var(--default-transition-timing-function);
 }
 
@@ -56,11 +56,15 @@
     color: var(--primary-text);
 }
 
+.recipe-card h3:hover {
+    cursor: pointer;
+}
+
 .recipe-card article:hover div>img {
     transform: scale(1.1);
 }
 
-.recipe-card article>ul>li {
+.recipe-card article ul>li {
     margin: 5px, 0%;
     padding: 10px 0%;
     display: inline-block;
@@ -70,8 +74,23 @@
     text-align: center;
 }
 
-.recipe-card article>ul>li:first-child {
+/* .recipe-card article ul>li:first-child {
     background-color: var(--secondary-shade);
+} */
+
+.recipe-card article ul>li:nth-child(3n) {
+    background-color: var(--primary);
+    color: var(--text);
+}
+
+.recipe-card article ul>li:nth-child(3n+2) {
+    background-color: var(--secondary);
+    color: var(--text);
+}
+
+.recipe-card article ul>li:nth-child(3n+1) {
+    background-color: var(--tertiary);
+    color: var(--text);
 }
 
 .recipe-card article span {
@@ -84,6 +103,7 @@
     text-decoration: underline;
     font-size: medium;
     font-weight: 400;
+    margin-top: auto;
     color: var(--text);
     transition: var(--default-transition-timing-function);
 }
@@ -123,9 +143,12 @@
     color: var(--text);
 }
 
+.recipe-card article>:not(:first-child, :last-child, :nth-child(2)) {
+    margin-bottom: 10px;
+}
+
 .recipe-card article>:not(:first-child, :last-child) {
     margin-inline: 7%;
-    margin-bottom: 10px;
 }
 
 @media (min-width: 576px) and (max-width: 768px) {

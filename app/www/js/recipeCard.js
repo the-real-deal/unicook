@@ -22,3 +22,7 @@ function deleteRecipe(recipeId, elementId) {
         // history.back();
     }
 }
+
+function changePage(recipeID) {
+    window.location = "/singleRecipe?id=" + recipeID;
+}

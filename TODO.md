@@ -72,7 +72,7 @@
 ### Home
 - [ ] switch pages when searching
     - [ ] search
-    - [ ] tag
+    - [x] tag
 - [ ] random recipe
 #### Single Recipe
 - [ ] open single recipe

@@ -14,18 +14,20 @@ function RecipeCard(string $elementId,
         <div>
             <img class="card-img-top img-fluid" src="/assets/penne.jpg" alt="">
         </div>
-        <h3><?php echo $recipeTitle ?></h3>
-        <ul>
-            <?php 
-                foreach($tags as $tag){
-            ?>
-            <li>
-                <?php echo $tag ?>
-            </li>
-            <?php 
-                }
-            ?>
-        </ul>
+        <div class="d-flex flex-column">
+            <h3 onclick="changePage(<?= $recipeId ?>)" class="order-2"><?php echo $recipeTitle ?></h3>
+            <ul class="order-1 w-100">
+                <?php 
+                    foreach($tags as $tag){
+                ?>
+                <li>
+                    <?php echo $tag ?>
+                </li>
+                <?php 
+                    }
+                ?>
+            </ul>
+        </div>
         <div class="d-flex">
             <div class="pe-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
