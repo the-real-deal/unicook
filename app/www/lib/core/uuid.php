@@ -1,4 +1,6 @@
 <?php
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
+require_once "lib/utils.php";
 
 // https://www.uuidgenerator.net/dev-corner/php
 function uuidv4(string $data = null): string {
@@ -13,6 +15,18 @@ function uuidv4(string $data = null): string {
 
     // Output the 36 character UUID.
     return vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
+}
+
+function validateUUID(string $uuid): string {
+    $uuid = htmlspecialchars($uuid);
+    $uuid = filter_var(
+        $uuid, 
+        options: FILTER_REQUIRE_SCALAR | FILTER_FLAG_EMPTY_STRING_NULL
+    );
+    if ($uuid === false) {
+        throw new InvalidArgumentException("Invalid uuid");
+    }
+    return $uuid;
 }
 
 ?>

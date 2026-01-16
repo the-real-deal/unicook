@@ -12,4 +12,4 @@ function SearchBar(string $id, int $width = 75){
     <input id="btn-<?php echo $id?>" type="submit" class="px-4 w-auto" value="Search" />
 </div>
 
-<?php }?>
+<?php } ?>

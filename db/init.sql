@@ -19,8 +19,8 @@ SET time_zone = '+00:00';
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
     `id` CHAR(36) PRIMARY KEY,
-    `username` VARCHAR(255) UNIQUE NOT NULL,
     `email` VARCHAR(255) UNIQUE NOT NULL,
+    `username` VARCHAR(255) NOT NULL,
     `passwordHash` CHAR(128) NOT NULL,
     `avatarId` CHAR(36),
     `isAdmin` BIT NOT NULL DEFAULT false,
@@ -136,8 +136,8 @@ ADD FOREIGN KEY (`tagId`) REFERENCES `Tags`(`id`);
 -- e.g. mario.rossi@gmail.com => mario.rossi123!
 INSERT INTO `Users`(
     `id`, 
-    `username`, 
     `email`, 
+    `username`, 
     `passwordHash`, 
     `avatarId`, 
     `isAdmin`, 
@@ -146,8 +146,8 @@ INSERT INTO `Users`(
 ) VALUES
 (
     'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f', 
-    'Marco Rossi', 
     'marco.rossi@email.it', 
+    'Marco Rossi', 
     '$2y$10$Ns2nFX4rYeGH5ylRi7Hb6e6AUr6IemUimByopvZL.caKfkOXQzQgm', 
     '9e37fb91-8aed-45f3-89f2-7c33a54bbdac', 
     true, 
@@ -156,8 +156,8 @@ INSERT INTO `Users`(
 ),
 (
     'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f', 
-    'Giulia Bianchi', 
     'giulia.bianchi@posta.it', 
+    'Giulia Bianchi', 
     '$2y$10$JSXkD94ndydfeD/YPlGhHO00nICiIPiWKrzWtLhC7ospvpr9Qo9fS', 
     '7c7da984-a24d-4934-9283-00cedff31138', 
     false, 
@@ -166,8 +166,8 @@ INSERT INTO `Users`(
 ),
 (
     '1f2e3d4c-5b6a-7f8e-9d0c-1b2a3f4e5d6c', 
-    'Luca Ferrari', 
     'luca.ferrari@libero.it', 
+    'Luca Ferrari', 
     '$2y$10$wjHMd743r6EBhXnY9WVsDOtycuxkNvzz1uCk.U91ZF1a.QBeIowwq', 
     NULL, 
     false, 
@@ -176,8 +176,8 @@ INSERT INTO `Users`(
 ),
 (
     '9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b', 
-    'Alessandra Romano', 
     'alessandra.romano@gmail.com', 
+    'Alessandra Romano', 
     '$2y$10$0aiDlSjIIs//jGwLrrSIKus8drgqtmTYj3nO9COAzsA0al6o7GziS', 
     NULL, 
     false, 
@@ -186,8 +186,8 @@ INSERT INTO `Users`(
 ),
 (
     '6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a', 
-    'Francesco Colombo', 
     'f.colombo@virgilio.it', 
+    'Francesco Colombo', 
     '$2y$10$5xsF1dxomLUUKwmg9ZJGbOGl6X0ifL3LYfF/7UcEEzV/XjRtESiwq', 
     NULL, 
     false, 
@@ -196,8 +196,8 @@ INSERT INTO `Users`(
 ),
 (
     '4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e', 
-    'Sara Ricci', 
     'sara.ricci@hotmail.it', 
+    'Sara Ricci', 
     '$2y$10$e6UbdAaouJeQ7vPZc6F8fO4fsg/TZqF4uiGgomkFpoeUduXiICxvu', 
     NULL, 
     false, 
@@ -206,8 +206,8 @@ INSERT INTO `Users`(
 ),
 (
     '2e3f4a5b-6c7d-8e9f-0a1b-2c3d4e5f6a7b', 
-    'Andrea Moretti', 
     'andrea.moretti@email.it', 
+    'Andrea Moretti', 
     '$2y$10$T83iELMalutiYeWiyqcfOO0FswdYO492MWfuv/UEe2VSrkj65Oc8a', 
     NULL, 
     false, 
@@ -216,8 +216,8 @@ INSERT INTO `Users`(
 ),
 (
     '8d9e0f1a-2b3c-4d5e-6f7a-8b9c0d1e2f3a', 
-    'Chiara Gallo', 
     'chiara.gallo@tiscali.it', 
+    'Chiara Gallo', 
     '$2y$10$eGkPiTKjm0CdQKQQfexTY.l0fkE0oC9jLQMeZKqkvwsh.dkfmy4ZC', 
     NULL, 
     false, 
@@ -226,8 +226,8 @@ INSERT INTO `Users`(
 ),
 (
     '0f1a2b3c-4d5e-6f7a-8b9c-0d1e2f3a4b5c', 
-    'Matteo Conti', 
     'matteo.conti@alice.it', 
+    'Matteo Conti', 
     '$2y$10$KJx0D5SrTIG9QrMOSqUJzutF6sN6kky1Q9z9YY.3yoT4wfv56xWB.', 
     NULL, 
     false, 
@@ -236,8 +236,8 @@ INSERT INTO `Users`(
 ),
 (
     '7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d', 
-    'Elena Greco', 
     'elena.greco@yahoo.it', 
+    'Elena Greco', 
     '$2y$10$do4df7cUbVISo7nTtNxgqeNwjAvKxOpbajLCrmowZODGsNP9Iawly', 
     NULL, 
     false, 
@@ -246,8 +246,8 @@ INSERT INTO `Users`(
 ),
 (
     '5c6d7e8f-9a0b-1c2d-3e4f-5a6b7c8d9e0f', 
-    'Davide Bruno', 
     'davide.bruno@outlook.it', 
+    'Davide Bruno', 
     '$2y$10$PWtFPggoNrYcUqullnJNMeJHip4hX80pysKKP0k24zSlVna91lFZW', 
     NULL, 
     false, 

@@ -3,8 +3,16 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
 require_once "lib/core/uuid.php";
 require_once "lib/recipes.php";
+require_once "lib/utils.php";
 
 readonly class User extends DBTable {
+    public const PASSWORD_REGEX = <<<regex
+    /^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/
+    regex;
+    public const USERNAME_REGEX = <<<regex
+    /^.{3,50}$/
+    regex;
+
     protected function __construct(
         public string $id,
         public string $username,
@@ -16,12 +24,41 @@ readonly class User extends DBTable {
         public bool $deleted,
     ) {}
 
-    public static function register(
+    private static function validateUsername(string $username): string {
+        if (filter_var_regex($username, self::USERNAME_REGEX) === false) {
+            throw new InvalidArgumentException(<<<end
+            Username must be between 5 and 50 characters
+            end);
+        }
+        return $username;
+    }
+
+    private static function validateEmail(string $email): string {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            throw new InvalidArgumentException("Invalid email");
+        }
+        return $email;
+    }
+
+    private static function validatePassword(string $password): string {
+        if (filter_var_regex($password, self::PASSWORD_REGEX) === false) {
+            throw new InvalidArgumentException(<<<end
+            Password must be between 8 and 50 characters, with at least 1 symbol and 1 number
+            end);
+        }
+        return $password;
+    }
+
+    public static function create(
         Database $db, 
         string $username, 
         string $email, 
         string $password,
     ): string|false {
+        $username = self::validateUsername($username);
+        $email = self::validateEmail($email);
+        $password = self::validatePassword($password);
+
         $query = $db->createStatement(<<<sql
             INSERT INTO `Users`(`id`, `username`, `email`, `passwordHash`, `avatarId`) 
             VALUES (?, ?, ?, ?, ?)
@@ -43,6 +80,8 @@ readonly class User extends DBTable {
     }
 
     public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
+        $sessionId = validateUUID($sessionId);
+        
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
@@ -62,6 +101,9 @@ readonly class User extends DBTable {
     }
 
     public static function fromEmailAndPassword(Database $db, string $email, string $password): self|false {
+        self::validateEmail($email);
+        self::validatePassword($password);
+        
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
@@ -82,6 +124,26 @@ readonly class User extends DBTable {
             return $user;
         } else {
             return false;
+        }
+    }
+
+    public static function searchEmail(Database $db, string $email): bool {
+        self::validateEmail($email);
+        
+        $query = $db->createStatement(<<<sql
+            SELECT u.`email`
+            FROM `Users` u
+            WHERE u.`email` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($email))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        if ($result->totalRows === 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 

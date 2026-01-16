@@ -5,23 +5,19 @@ require_once "lib/auth.php";
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
-    $username = $req->parseStringNonEmpty($_POST["username"] ?? null);
-    if ($username === false) {
-        $res->dieWithError(HTTPCode::BadRequest, "Invalid or missing username");
-    }
-    $email = $req->parseStringNonEmpty($_POST["email"] ?? null);
-    if ($email === false) {
-        $res->dieWithError(HTTPCode::BadRequest, "Invalid or missing email");
-    }
-    $password = $req->parseStringNonEmpty($_POST["password"] ?? null);
-    if ($password === false) {
-        $res->dieWithError(HTTPCode::BadRequest, "Invalid or missing password");
-    }
+    $username = $req->expectParam($res, "username");
+    $email = $req->expectParam($res, "email");
+    $password = $req->expectParam($res, "password");
     
     $db = Database::connectDefault();
-    $login = LoginSession::login($db, $email, $password);
+    $login = false;
+    try {
+        $login = LoginSession::register($db, $username, $email, $password);
+    } catch (InvalidArgumentException $e) {
+        $res->dieWithError(HTTPCode::BadRequest, $e);
+    }
     if ($login === false) {
-        $res->dieWithError(HTTPCode::Unauthorized, "Login failed");
+        $res->dieWithError(HTTPCode::Unauthorized, "Registration failed");
     }
 
     $res->sendJSON([ "ok" => true ]);

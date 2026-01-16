@@ -1,6 +1,7 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
+require_once "lib/core/uuid.php";
 
 readonly class Tag extends DBTable {
     protected function __construct(
@@ -9,6 +10,8 @@ readonly class Tag extends DBTable {
     ) {}
 
     public static function fromId(Database $db, string $id): self|false {
+        $id = validateUUID($id);
+
         $query = $db->createStatement(<<<sql
             SELECT t.*
             FROM `Tags` t

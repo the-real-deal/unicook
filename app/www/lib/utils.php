@@ -1,4 +1,5 @@
 <?php
+require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
 function createMissingDir(string $path) {
     $path = is_dir($path) ? $path : dirname($path);
@@ -39,6 +40,18 @@ function using(Closeable $value, callable $callback) {
     } finally {
         $value->close();
     }
+}
+
+function filter_var_regex(string $value, string $regexp): mixed {
+    return filter_var(
+        $value, 
+        FILTER_VALIDATE_REGEXP,
+        [
+            "options" => [
+                "regexp" => $regexp,
+            ],
+        ]
+    );
 }
 
 ?>
