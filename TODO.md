@@ -6,7 +6,7 @@
 
 #### GET
 
-- [ ] random recipe 
+- [x] random recipe 
 - [ ] n best recipes 
 - [ ] total of tag 
 - [ ] recipe search (text, min/max time (number or enum range), difficulty, cost, tags)
