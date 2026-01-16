@@ -25,7 +25,7 @@ Database::connectDefault();
                         cooking with confidence
                         today!
                     </p>
-                    <form class="w-100">
+                    <form class="w-100" id="home-search-form">
                         <!-- SEARCH BAR -->
                         <?= SearchBar("home-search") ?>
                     </form>
@@ -89,6 +89,7 @@ Database::connectDefault();
 
     <?= Footer();?>
 
+    <script type="module" src="main.js"></script>
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
 </body>

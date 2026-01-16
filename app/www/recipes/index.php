@@ -32,6 +32,11 @@ if(isset($_GET['tag']))
 else
     $selectedTag = null;
 
+if(isset($_GET['text']))
+    $searchText = $_GET['text'];
+else
+    $searchText = null;
+
 $totalRecipes = 13;
 $resultNumber = 4;
 
@@ -48,7 +53,7 @@ $resultNumber = 4;
             <div class="row">
                 <form class="w-100">
                     <!-- SEARCH BAR -->
-                    <?= SearchBar("recipes-search",50) ?>
+                    <?= SearchBar("recipes-search",50, isset($searchText) ? $searchText : "") ?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
                             <label for="dif" hidden>difficulty level selector</label>

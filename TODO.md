@@ -71,14 +71,14 @@
 - [ ] COLORS 
 - [ ] admin page + logged modify
 ### Home
-- [ ] switch pages when searching
-    - [ ] search
+- [x] switch pages when searching
+    - [x] search
     - [x] tag
 - [ ] random recipe
 #### Single Recipe
 - [ ] open single recipe
-    - [ ] link on all the card surface
-- [ ] getting card from db 
+    - [x] link on all the card surface (only title)
+- [ ] getting card from db
 
 ### About
 - [ ] add useless API
