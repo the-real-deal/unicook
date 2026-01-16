@@ -29,7 +29,7 @@
 
 #### POST
 - [x] logout
-- [ ] register (username, email, password)
+- [x] register (username, email, password)
 - [ ] update image (if logged user)
 - [ ] make admin (if admin) ?
 - [ ] delete user (if admin) ?
