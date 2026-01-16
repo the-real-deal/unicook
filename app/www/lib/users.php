@@ -79,6 +79,26 @@ readonly class User extends DBTable {
         }
     }
 
+    public static function fromId(Database $db, string $id): self|false {
+        $id = validateUUID($id);
+        
+        $query = $db->createStatement(<<<sql
+            SELECT u.*
+            FROM `Users` u
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($id))->execute();
+        if (!$ok) {
+            return false;
+        }
+
+        $result = $query->expectResult();
+        if ($result->totalRows === 0) {
+            return false;
+        }
+        return self::fromTableRow($result->fetchOne());
+    }
+
     public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
         $sessionId = validateUUID($sessionId);
         
