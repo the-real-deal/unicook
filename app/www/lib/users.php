@@ -17,7 +17,7 @@ readonly class User extends DBTable {
         public string $id,
         public string $username,
         public string $email,
-        public string $passwordHash,
+        private string $passwordHash,
         public ?string $avatarId,
         public bool $isAdmin,
         public DateTime $createdAt,
