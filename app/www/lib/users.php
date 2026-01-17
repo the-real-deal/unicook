@@ -7,14 +7,6 @@ require_once "lib/recipes.php";
 require_once "lib/utils.php";
 require_once "lib/auth.php";
 
-readonly class RecipeSave extends DBTable {
-    protected function __construct(
-        public string $recipeId,
-        public string $userId,
-        public bool $deleted,
-    ) {}
-}
-
 readonly class User extends DBTable {
     private const IMAGES_UPLOAD_PATH = "users";
 
@@ -26,7 +18,6 @@ readonly class User extends DBTable {
         public ?string $avatarId,
         public bool $isAdmin,
         public DateTime $createdAt,
-        public bool $deleted,
     ) {}
 
     public static function validateId(string $id): string {
@@ -90,7 +81,7 @@ readonly class User extends DBTable {
 
     public static function fromId(Database $db, string $id): self|false {
         $id = self::validateId($id);
-        
+
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
@@ -108,14 +99,16 @@ readonly class User extends DBTable {
         return self::fromTableRow($result->fetchOne());
     }
 
-    public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
+    public static function fromAuthSessionId(Database $db, string $sessionId, bool $valid = true): self|false {
         $sessionId = AuthSession::validateId($sessionId);
-        
+
+        $validityCheck = $valid ? AuthSession::sqlValidityCheck("s") : "1";
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
                 JOIN `AuthSessions` s ON u.`id` = s.`userId`
             WHERE s.`id` = ?
+                AND $validityCheck
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($sessionId))->execute();
         if (!$ok) {
@@ -132,7 +125,7 @@ readonly class User extends DBTable {
     public static function fromEmailAndPassword(Database $db, string $email, string $password): self|false {
         self::validateEmail($email);
         self::validatePassword($password);
-        
+
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
@@ -158,7 +151,7 @@ readonly class User extends DBTable {
 
     public static function searchEmail(Database $db, string $email): bool {
         self::validateEmail($email);
-        
+
         $query = $db->createStatement(<<<sql
             SELECT u.`email`
             FROM `Users` u
@@ -255,7 +248,6 @@ readonly class User extends DBTable {
             FROM `RecipeSaves` rs
                 JOIN `Recipes` r on rs.`recipeId` = r.`id`
             WHERE rs.`userId` = ?
-                AND rs.`deleted` = 0
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
         if (!$ok) {
@@ -265,7 +257,7 @@ readonly class User extends DBTable {
         return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
     }
 
-    private function getSavedRecipe(Database $db, string $recipeId): RecipeSave|null|false {
+    private function getSavedRecipe(Database $db, string $recipeId): string|null|false {
         $recipeId = Recipe::validateId($recipeId);
 
         $query = $db->createStatement(<<<sql
@@ -287,63 +279,37 @@ readonly class User extends DBTable {
 
     public function saveRecipe(Database $db, string $recipeId): bool {
         $recipeSave = $this->getSavedRecipe($db, $recipeId);
-        if ($recipeSave === false) {
+        if ($recipeSave === false || $recipeSave !== null) {
             return false;
         }
         
-        $query = null;
-        if ($recipeSave === null) {
-            $query = $db->createStatement(<<<sql
-                INSERT INTO `RecipeSaves`(`recipeId`, `userId`)
-                VALUES (?, ?)
-                sql)
-                ->bind(
-                    SqlValueType::String->createParam($recipeId),
-                    SqlValueType::String->createParam($this->id),
-                );
-        } else {
-            if (!$recipeSave->deleted) {
-                return false;
-            }
-            $query = $db->createStatement(<<<sql
-                UPDATE `RecipeSaves` rs
-                SET rs.`deleted` = 0
-                WHERE rs.`recipeId` = ?
-                    AND rs.`userId` = ?
-                sql)
-                ->bind(
-                    SqlValueType::String->createParam($recipeId),
-                    SqlValueType::String->createParam($this->id),
-                );
-        }
-
-        $ok = $query->execute();
+        $query = $db->createStatement(<<<sql
+            INSERT INTO `RecipeSaves`(`recipeId`, `userId`)
+            VALUES (?, ?)
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
         return $ok;
     }
 
     public function unsaveRecipe(Database $db, string $recipeId): bool {
         $recipeSave = $this->getSavedRecipe($db, $recipeId);
-        if ($recipeSave === false) {
+        if ($recipeSave === false || $recipeSave === null) {
             return false;
         }
         
-        $query = null;
-        if ($recipeSave === null || $recipeSave->deleted) {
-            return false;
-        } else {
-            $query = $db->createStatement(<<<sql
-                UPDATE `RecipeSaves` rs
-                SET rs.`deleted` = 1
-                WHERE rs.`recipeId` = ?
-                    AND rs.`userId` = ?
-                sql)
-                ->bind(
-                    SqlValueType::String->createParam($recipeId),
-                    SqlValueType::String->createParam($this->id),
-                );
-        }
+        $query = $db->createStatement(<<<sql
+            DELETE FROM `RecipeSaves` rs
+            WHERE rs.`recipeId` = ?
+                AND rs.`userId` = ?
+            sql);
 
-        $ok = $query->execute();
+        $ok = $query->bind(
+            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
         return $ok;
     }
 }

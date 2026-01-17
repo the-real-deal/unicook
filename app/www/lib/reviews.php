@@ -13,7 +13,6 @@ readonly class Review extends DBTable {
         public int $rating,
         public ?string $body,
         public DateTime $createdAt,
-        public bool $deleted,
     ) {}
 
     public static function validateId(string $id): string {

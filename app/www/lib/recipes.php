@@ -50,7 +50,6 @@ readonly class Recipe extends DBTable {
         public int $servings,
         public string $userId,
         public DateTime $createdAt,
-        public bool $deleted,
     ) {}
 
     public static function validateId(string $id): string {
@@ -307,7 +306,6 @@ readonly class Recipe extends DBTable {
         $query = $db->createStatement(<<<sql
             SELECT r.*
             FROM `Recipes` r
-            WHERE r.`deleted` = 0
             ORDER BY RAND()
             sql);
         $ok = $query->execute();
@@ -341,6 +339,7 @@ readonly class Recipe extends DBTable {
             SELECT ri.*
             FROM `RecipeIngredients` ri
             WHERE ri.`recipeId` = ?
+            ORDER BY ri.`ingredientId` ASC
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
         if (!$ok) {
@@ -367,11 +366,10 @@ readonly class Recipe extends DBTable {
 
     public function getReviews(Database $db): array|false {
         $query = $db->createStatement(<<<sql
-            SELECT r.*
-            FROM `Reviews` r
-                JOIN `Recipes` rr on r.`reviewId` = rr.`id`
-            WHERE rr.`id` = ?
-                AND rr.`deleted` = 0
+            SELECT rr.*
+            FROM `Reviews` rr
+                JOIN `Recipes` r on rr.`reviewId` = r.`id`
+            WHERE r.`id` = ?
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
         if (!$ok) {

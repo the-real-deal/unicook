@@ -14,7 +14,6 @@ readonly class AuthSession extends DBTable {
         private string $keyHash,
         public string $userId,
         public DateTime $createdAt,
-        public bool $forceExpired,
     ) {}
 
     public static function validateId(string $key): string {
@@ -29,13 +28,12 @@ readonly class AuthSession extends DBTable {
         $table = self::tableAliasPrefix($alias);
         $seconds = self::SESSION_VALIDITY_SECS;
         return <<<sql
-        $table`forceExpired` = 0
-        AND date_add($table`createdAt`, INTERVAL $seconds SECOND) > now()
+        date_add($table`createdAt`, INTERVAL $seconds SECOND) > now()
         sql;
     }
 
     public function expired(Database $db): bool {
-        $validityCheck = AuthSession::sqlValidityCheck("s");
+        $validityCheck = self::sqlValidityCheck("s");
         $query = $db->createStatement(<<<sql
             SELECT s.*
             FROM `AuthSessions` s
@@ -50,10 +48,10 @@ readonly class AuthSession extends DBTable {
         return $result->totalRows == 0;
     }
 
-    public static function fromKey(Database $db, string $key): self|false {
+    public static function fromKey(Database $db, string $key, bool $valid = true): self|false {
         $key = self::validateKey($key);
 
-        $validityCheck = AuthSession::sqlValidityCheck("s");
+        $validityCheck = $valid ? self::sqlValidityCheck("s") : "1";
         $query = $db->createStatement(<<<sql
             SELECT s.*
             FROM `AuthSessions` s
@@ -152,8 +150,7 @@ readonly class LoginSession {
 
     public function logout(Database $db): bool {
         $query = $db->createStatement(<<<sql
-            UPDATE `AuthSessions` s
-            SET s.`forceExpired` = true
+            DELETE FROM `AuthSessions` s
             WHERE s.`id` = ?
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
@@ -171,8 +168,8 @@ readonly class LoginSession {
         return $ok;
     }
 
-    private static function fromAuthSessionKey(Database $db, string $key): self|false {
-        $auth = AuthSession::fromKey($db, $key);
+    private static function fromAuthSessionKey(Database $db, string $key, bool $valid = true): self|false {
+        $auth = AuthSession::fromKey($db, $key, $valid);
         if ($auth === false) {
             return false;
         }
@@ -192,7 +189,7 @@ readonly class LoginSession {
         }
         
         $login = self::fromAuthSessionKey($db, $authSessionKey);
-        if ($login === false || $login->auth->expired($db)) {
+        if ($login === false) {
             return false;
         } else {
             return $login;
