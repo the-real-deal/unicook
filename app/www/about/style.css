@@ -2,7 +2,13 @@ div {
     max-width: 1300px !important;
 }
 
-section:nth-child(odd) {
+#hero-section {
+    width: 100%;
+    margin-inline: auto;
+}
+
+section:nth-child(odd),
+#hero-section {
     background-color: var(--bg);
 }
 

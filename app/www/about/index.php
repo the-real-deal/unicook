@@ -32,7 +32,7 @@ function floorPlus($var) {
     <main>
         <!-- HERO SECTION -->
         <div class="py-5" id="hero-section">
-            <div class="container-fluid text-center">
+            <div class="container text-center">
                 <div class="d-inline-flex align-items-center mb-4 gap-2 py-2 px-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
