@@ -42,7 +42,7 @@ readonly class Tag extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(self::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
     }
 }
 ?>

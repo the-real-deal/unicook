@@ -152,9 +152,9 @@ readonly class LoginSession {
 
     public function logout(Database $db): bool {
         $query = $db->createStatement(<<<sql
-            UPDATE `AuthSessions`
-            SET `forceExpired` = true
-            WHERE `id` = ?
+            UPDATE `AuthSessions` s
+            SET s.`forceExpired` = true
+            WHERE s.`id` = ?
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
         if ($ok) {

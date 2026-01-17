@@ -24,7 +24,7 @@
 - [x] login
 - [x] get user
 - [x] get user image 
-- [ ] get user saves
+- [x] get user saves
 - [ ] get user recipes
 
 #### POST
@@ -32,6 +32,8 @@
 - [x] register (username, email, password)
 - [x] update image (if logged user)
 - [x] delete image (if logged user)
+- [x] save recipe (if logged user)
+- [x] unsave recipe (if logged user)
 - [ ] make admin (if admin) ?
 - [ ] delete user (if admin) ?
 

@@ -94,7 +94,7 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(RecipeStep::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => RecipeStep::fromTableRow($row), $result->fetchAll());
     }
 
     public function getIngredients(Database $db): array|false {
@@ -108,7 +108,7 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(RecipeIngredient::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => RecipeIngredient::fromTableRow($row), $result->fetchAll());
     }
 
     public function getTags(Database $db): array|false {
@@ -123,7 +123,7 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(Tags::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => Tags::fromTableRow($row), $result->fetchAll());
     }
 
     public function getReviews(Database $db): array|false {
@@ -139,7 +139,7 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(Review::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => Review::fromTableRow($row), $result->fetchAll());
     }
 }
 

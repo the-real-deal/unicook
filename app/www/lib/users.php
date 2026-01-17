@@ -7,6 +7,14 @@ require_once "lib/recipes.php";
 require_once "lib/utils.php";
 require_once "lib/auth.php";
 
+readonly class RecipeSave extends DBTable {
+    protected function __construct(
+        public string $recipeId,
+        public string $userId,
+        public bool $deleted,
+    ) {}
+}
+
 readonly class User extends DBTable {
     private const PASSWORD_REGEX = <<<regex
     /^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/
@@ -244,7 +252,7 @@ readonly class User extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(Recipe::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
     }
 
     public function getSavedRecipes(Database $db): array|false {
@@ -253,13 +261,96 @@ readonly class User extends DBTable {
             FROM `RecipeSaves` rs
                 JOIN `Recipes` r on rs.`recipeId` = r.`id`
             WHERE rs.`userId` = ?
+                AND rs.`deleted` = 0
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
         if (!$ok) {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(Recipe::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
+    }
+
+    private function getSavedRecipe(Database $db, string $recipeId): RecipeSave|null|false {
+        $recipeId = Recipe::validateId($recipeId);
+
+        $query = $db->createStatement(<<<sql
+            SELECT rs.*
+            FROM `RecipeSaves` rs
+            WHERE rs.`recipeId` = ?
+                AND rs.`userId` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($this->id),
+            )->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return RecipeSave::fromOptionalTableRow($result->fetchOne());
+    }
+
+    public function saveRecipe(Database $db, string $recipeId): bool {
+        $recipeSave = $this->getSavedRecipe($db, $recipeId);
+        if ($recipeSave === false) {
+            return false;
+        }
+        
+        $query = null;
+        if ($recipeSave === null) {
+            $query = $db->createStatement(<<<sql
+                INSERT INTO `RecipeSaves`(`recipeId`, `userId`)
+                VALUES (?, ?)
+                sql)
+                ->bind(
+                    SqlValueType::String->createParam($recipeId),
+                    SqlValueType::String->createParam($this->id),
+                );
+        } else {
+            if (!$recipeSave->deleted) {
+                return false;
+            }
+            $query = $db->createStatement(<<<sql
+                UPDATE `RecipeSaves` rs
+                SET rs.`deleted` = 0
+                WHERE rs.`recipeId` = ?
+                    AND rs.`userId` = ?
+                sql)
+                ->bind(
+                    SqlValueType::String->createParam($recipeId),
+                    SqlValueType::String->createParam($this->id),
+                );
+        }
+
+        $ok = $query->execute();
+        return $ok;
+    }
+
+    public function unsaveRecipe(Database $db, string $recipeId): bool {
+        $recipeSave = $this->getSavedRecipe($db, $recipeId);
+        if ($recipeSave === false) {
+            return false;
+        }
+        
+        $query = null;
+        if ($recipeSave === null || $recipeSave->deleted) {
+            return false;
+        } else {
+            $query = $db->createStatement(<<<sql
+                UPDATE `RecipeSaves` rs
+                SET rs.`deleted` = 1
+                WHERE rs.`recipeId` = ?
+                    AND rs.`userId` = ?
+                sql)
+                ->bind(
+                    SqlValueType::String->createParam($recipeId),
+                    SqlValueType::String->createParam($this->id),
+                );
+        }
+
+        $ok = $query->execute();
+        return $ok;
     }
 }
 ?>

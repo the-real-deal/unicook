@@ -156,9 +156,9 @@ class QueryResult implements Closeable {
     }
     
     public function fetchAll(): array {
-        $rows = $this->result->fetch_all();
+        $rows = $this->result->fetch_all(MYSQLI_ASSOC);
         return array_map(
-            fn (array $row) => QueryRow::fromArray($row, $this->fields),
+            fn ($row) => QueryRow::fromArray($row, $this->fields),
             $rows,
         );
     }

@@ -23,7 +23,7 @@ function validateUUID(string $uuid, string $fieldName = "id"): string {
         $uuid, 
         options: FILTER_REQUIRE_SCALAR | FILTER_FLAG_EMPTY_STRING_NULL
     );
-    if ($uuid === false) {
+    if ($uuid === false || $uuid === null) {
         throw new InvalidArgumentException("Invalid $fieldName");
     }
     return $uuid;

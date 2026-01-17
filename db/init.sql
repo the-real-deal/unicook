@@ -714,3 +714,60 @@ INSERT INTO `Reviews`(
     '2024-07-20 12:00:00',
     false
 );
+
+INSERT INTO `RecipeSaves`(`recipeId`, `userId`, `deleted`) VALUES
+-- Marco Rossi saves
+(
+    '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', -- Caprese Salad
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f', -- Marco Rossi
+    false
+),
+(
+    '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', -- Quinoa Buddha Bowl
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f', -- Marco Rossi
+    false
+),
+(
+    '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', -- Pesto Pasta
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f', -- Marco Rossi
+    false
+),
+-- Giulia Bianchi saves
+(
+    '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', -- Spaghetti Carbonara
+    'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f', -- Giulia Bianchi
+    false
+),
+(
+    '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', -- Tiramisu
+    'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f', -- Giulia Bianchi
+    false
+),
+-- Luca Ferrari saves
+(
+    '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', -- Margherita Pizza
+    '1f2e3d4c-5b6a-7f8e-9d0c-1b2a3f4e5d6c', -- Luca Ferrari
+    false
+),
+(
+    '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', -- Pesto Pasta
+    '1f2e3d4c-5b6a-7f8e-9d0c-1b2a3f4e5d6c', -- Luca Ferrari
+    false
+),
+-- Alessandra Romano saves
+(
+    '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', -- Caprese Salad
+    '9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b', -- Alessandra Romano
+    false
+),
+(
+    '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', -- Quinoa Buddha Bowl
+    '9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b', -- Alessandra Romano
+    false
+),
+-- Francesco Colombo saves
+(
+    '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', -- Tiramisu
+    '6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a', -- Francesco Colombo
+    false
+);
