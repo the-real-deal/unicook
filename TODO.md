@@ -25,7 +25,7 @@
 - [x] get user
 - [x] get user image 
 - [x] get user saves
-- [ ] get user recipes
+- [x] get user recipes
 
 #### POST
 - [x] logout

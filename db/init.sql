@@ -301,7 +301,7 @@ INSERT INTO `Recipes`(
     0,
     10,
     2,
-    'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f',
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f',
     '2024-02-15 11:20:00',
     false
 ),
