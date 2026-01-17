@@ -1,3 +1,4 @@
 <Files "bootstrap.php">
     Deny from all
 </Files>
+ErrorDocument 404 /404/

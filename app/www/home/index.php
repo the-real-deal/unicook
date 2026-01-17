@@ -86,11 +86,10 @@ Database::connectDefault();
             </div>
         </section>
     </main>
-
     <?= Footer();?>
 
-    <script type="module" src="main.js"></script>
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

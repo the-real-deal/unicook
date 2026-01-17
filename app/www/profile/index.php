@@ -16,13 +16,16 @@ $server = new ApiServer();
 $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
     global $user;
 
-    $userId = $req->expectParam($res, "userId");
+    $userId = $req->getParam("userId");
+    if ($userId === null) {
+        $res->redirect("/404/");
+    }
 
     $db = Database::connectDefault();
     try {
         $user = User::fromId($db, $userId);
         if ($user === false) {
-            $res->dieWithError(HTTPCode::NotFound, "User not found");
+            $res->redirect("/404/");
         }
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);
