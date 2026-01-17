@@ -17,7 +17,7 @@ readonly class Review extends DBTable {
     ) {}
 
     public static function validateId(string $id): string {
-        return validateUUID($id);
+        return validateUUID($id, "Review id");
     }
 
     public static function fromId(Database $db, string $id): self|false {

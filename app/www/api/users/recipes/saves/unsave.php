@@ -7,7 +7,7 @@ require_once "lib/users.php";
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
-    $recipeId = $req->expectParam($res, "recipeId");
+    $recipeId = $req->expectScalar($res, "recipeId");
     
     $db = Database::connectDefault();
     try {

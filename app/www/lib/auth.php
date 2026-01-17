@@ -18,11 +18,11 @@ readonly class AuthSession extends DBTable {
     ) {}
 
     public static function validateId(string $key): string {
-        return validateUUID($key);
+        return validateUUID($key, "Auth session id");
     }
 
     public static function validateKey(string $key): string {
-        return validateUUID($key, "key");
+        return validateUUID($key, "Auth session key");
     }
 
     public static function sqlValidityCheck(?string $alias): string {
@@ -100,8 +100,8 @@ readonly class AuthSession extends DBTable {
 }
 
 readonly class LoginSession {
-    private const AUTH_KEY_COOKIE_ATTR = "auth_key";
-    private const AUTH_KEY_COOKIE_PATH = "/";
+    public const AUTH_KEY_COOKIE_ATTR = "auth_key";
+    public const AUTH_KEY_COOKIE_PATH = "/";
 
     public function __construct(
         public AuthSession $auth,
@@ -113,7 +113,7 @@ readonly class LoginSession {
         string $username, 
         string $email, 
         string $password
-    ): self|false {
+    ): string|false {
         if (User::searchEmail($db, $email)) {
             throw new InvalidArgumentException("User already exists");
         }
@@ -124,7 +124,7 @@ readonly class LoginSession {
         return self::login($db, $email, $password);
     }
 
-    public static function login(Database $db, string $email, string $password): self|false {
+    public static function login(Database $db, string $email, string $password): string|false {
         $user = User::fromEmailAndPassword($db, $email, $password);
         if ($user === false) {
             return false;
@@ -147,7 +147,7 @@ readonly class LoginSession {
                 "path" => self::AUTH_KEY_COOKIE_PATH,
             ],
         );
-        return $login;
+        return $authKey;
     }
 
     public function logout(Database $db): bool {

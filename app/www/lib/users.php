@@ -16,12 +16,6 @@ readonly class RecipeSave extends DBTable {
 }
 
 readonly class User extends DBTable {
-    private const PASSWORD_REGEX = <<<regex
-    /^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/
-    regex;
-    private const USERNAME_REGEX = <<<regex
-    /^.{3,50}$/
-    regex;
     private const IMAGES_UPLOAD_PATH = "users";
 
     protected function __construct(
@@ -36,11 +30,11 @@ readonly class User extends DBTable {
     ) {}
 
     public static function validateId(string $id): string {
-        return validateUUID($id);
+        return validateUUID($id, "User id");
     }
 
     public static function validateUsername(string $username): string {
-        if (filter_var_regex($username, self::USERNAME_REGEX) === false) {
+        if (filter_var_regex($username, '/^.{3,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
             Username must be between 5 and 50 characters
             end);
@@ -56,7 +50,7 @@ readonly class User extends DBTable {
     }
 
     public static function validatePassword(string $password): string {
-        if (filter_var_regex($password, self::PASSWORD_REGEX) === false) {
+        if (filter_var_regex($password, '/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
             Password must be between 8 and 50 characters, with at least 1 symbol and 1 number
             end);

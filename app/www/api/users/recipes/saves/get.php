@@ -6,7 +6,7 @@ require_once "lib/users.php";
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
-    $userId = $req->expectParam($res, "userId");
+    $userId = $req->expectScalar($res, "userId");
     
     $db = Database::connectDefault();
     try {

@@ -1,4 +1,4 @@
-import { rejectApiError, showError } from "/js/errors.js"
+import { rejectApiError } from "/js/errors.js"
 
 const form = document.getElementById("imageForm")
 const avatarImage = document.getElementById("avatarImage")

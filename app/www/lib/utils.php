@@ -8,9 +8,12 @@ function createMissingDir(string $path) {
     }
 }
 
+function enumValues(mixed $cases): array {
+    return array_map(fn($m) => $m->value, $cases);
+}
+
 function searchEnum(mixed $cases, mixed $value): string|int|false {
-    $enumValues = array_map(fn($m) => $m->value, $cases);
-    return array_search($value, $enumValues, true);
+    return array_search($value, enumValues($cases), true);
 }
 
 function isEnum(mixed $value): bool {

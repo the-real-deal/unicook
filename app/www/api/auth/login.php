@@ -6,16 +6,16 @@ require_once "lib/auth.php";
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
-    $email = $req->expectParam($res, "email");
-    $password = $req->expectParam($res, "password");
-    
+    $email = $req->expectScalar($res, "email");
+    $password = $req->expectScalar($res, "password");
+
     $db = Database::connectDefault();
     try {
-        $login = LoginSession::login($db, $email, $password);
-        if ($login === false) {
+        $authKey = LoginSession::login($db, $email, $password);
+        if ($authKey === false) {
             $res->dieWithError(HTTPCode::Unauthorized, "Login failed");
         }
-        $res->sendJSON([ "ok" => true ]);
+        $res->sendJSON([ LoginSession::AUTH_KEY_COOKIE_ATTR => $authKey ]);
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);
     }

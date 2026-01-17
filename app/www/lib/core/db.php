@@ -222,9 +222,21 @@ class Database implements Closeable {
         );
     }
 
+    public function beginTransaction(int $flags = MYSQLI_TRANS_START_READ_WRITE): bool {
+        return $this->conn->begin_transaction($flags);
+    }
+
     public function createStatement(string $query): QueryStatement {
         $statement = $this->conn->prepare($query);
         return new QueryStatement($statement);
+    }
+
+    public function commit(): bool {
+        return $this->conn->commit();
+    }
+    
+    public function rollback(): bool {
+        return $this->conn->rollback();
     }
 
     public function close() {

@@ -7,8 +7,8 @@ $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     $file = $req->expectFile($res, "file");
-    $type = $req->expectParam($res, "type");
-    $path = $req->expectParam($res, "path");
+    $type = $req->expectScalar($res, "type");
+    $path = $req->expectScalar($res, "path");
 
     try {
         $file = UploadFile::uploadFileArray(

@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `Recipes`;
 CREATE TABLE `Recipes` (
     `id` CHAR(36) PRIMARY KEY,
     `title` VARCHAR(50) NOT NULL,
-    `description` TEXT,
+    `description` TEXT NOT NULL,
     `photoId` CHAR(36) NOT NULL,
     `difficulty` INT NOT NULL,
     `prepTime` INT NOT NULL,
@@ -340,7 +340,7 @@ INSERT INTO `Recipes`(
     'Margherita Pizza',
     'The classic Neapolitan pizza with tomato sauce, fresh mozzarella, basil, and extra virgin olive oil.',
     '67828596-42a6-460d-9c7f-a9602d52c188',
-    1,
+    2,
     30,
     0,
     4,
@@ -366,136 +366,137 @@ INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
 -- Spaghetti Carbonara
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    1,
+    0,
     'Bring a large pot of salted water to boil. Cook spaghetti according to package directions until al dente.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    2,
+    1,
     'While pasta cooks, cut guanciale into small strips. Cook in a large pan over medium heat until crispy, about 8-10 minutes.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    3,
+    2,
     'In a bowl, whisk together eggs, grated Pecorino Romano, and freshly ground black pepper.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    4,
+    3,
     'Reserve 1 cup of pasta water, then drain the spaghetti. Add hot pasta to the pan with guanciale.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    5,
+    4,
     'Remove from heat and quickly mix in the egg mixture, tossing continuously. Add pasta water as needed to create a creamy sauce. Serve immediately.'
 ),
 -- Caprese Salad
 (
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
-    1,
+    0,
     'Slice tomatoes and mozzarella into 1/4 inch thick rounds.'
 ),
 (
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
-    2,
+    1,
     'Arrange tomato and mozzarella slices alternately on a serving plate.'
 ),
 (
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
-    3,
+    2,
     'Tuck fresh basil leaves between the slices. Drizzle with extra virgin olive oil and balsamic glaze. Season with salt and pepper to taste.'
 ),
 -- Tiramisù
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    1,
+    0,
     'Brew strong espresso and let it cool to room temperature. Add a splash of coffee liqueur if desired.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    2,
+    1,
     'Separate eggs. Whisk egg yolks with sugar until pale and creamy. Add mascarpone and mix until smooth.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    3,
+    2,
     'Beat egg whites until stiff peaks form. Gently fold into mascarpone mixture.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    4,
+    3,
     'Quickly dip ladyfinger cookies into espresso and arrange in a single layer in a dish.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    5,
+    4,
     'Spread half of the mascarpone cream over the ladyfingers. Repeat with another layer. Refrigerate for at least 4 hours.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    6,
+    5,
     'Before serving, dust generously with cocoa powder.'
 ),
 -- Quinoa Buddha Bowl
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    1,
+    0,
     'Rinse quinoa thoroughly. Cook in vegetable broth according to package directions.'
 ),
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    2,
+    1,
     'Preheat oven to 400°F (200°C). Toss sweet potato, chickpeas, and broccoli with olive oil, salt, and pepper. Roast for 25-30 minutes.'
 ),
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    3,
+    2,
     'Make tahini dressing by whisking tahini, lemon juice, garlic, and water until smooth.'
 ),
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    4,
+    3,
     'Assemble bowls with quinoa, roasted vegetables, sliced avocado, and mixed greens. Drizzle with tahini dressing.'
 ),
 -- Margherita Pizza
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    1,
+    0,
     'Preheat oven to 475°F (245°C) with a pizza stone inside for at least 30 minutes.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    2,
+    1,
     'Stretch pizza dough into a 12-inch round. Place on parchment paper.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    3,
+    2,
     'Spread tomato sauce evenly, leaving a 1-inch border. Top with torn mozzarella pieces.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    4,
+    3,
     'Transfer pizza (with parchment) to the hot stone. Bake for 10-12 minutes until crust is golden and cheese is bubbly.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    5,
+    4,
     'Remove from oven, top with fresh basil leaves and drizzle with olive oil. Let rest 2 minutes before slicing.'
 ),
+-- Pesto Pasta
 (
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
-    1,
+    0,
     'Cook pasta in salted boiling water until al dente. Reserve 1 cup pasta water before draining.'
 ),
 (
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
-    2,
+    1,
     'In a food processor, blend basil, pine nuts, garlic, and Parmesan with olive oil until smooth.'
 ),
 (
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
-    3,
+    2,
     'Toss hot pasta with pesto, adding pasta water as needed to create a silky sauce. Serve with extra Parmesan.'
 );
 
