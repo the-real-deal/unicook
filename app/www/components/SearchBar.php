@@ -2,7 +2,6 @@
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
 function SearchBar(string $id, int $width = 75, string $value = ""){
-// <?php if($center){echo "justify-content-center";}?\>
 ?>
 
 <div class=" d-flex align-items-center mb-5 w-100">

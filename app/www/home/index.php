@@ -27,7 +27,7 @@ Database::connectDefault();
                     </p>
                     <form class="w-100" id="home-search-form">
                         <!-- SEARCH BAR -->
-                        <?= SearchBar("home-search") ?>
+                        <?= SearchBar("home") ?>
                     </form>
                     <a href="/singleRecipe?id=<?= $randomRecipeId ?>" class="px-2 py-1 d-inline-flex justify-content-center align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
