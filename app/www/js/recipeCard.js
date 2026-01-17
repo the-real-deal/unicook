@@ -1,7 +1,6 @@
 function saveRecipe(btnId, recipeId) {
 
     const btn = document.getElementById(btnId);
-    console.log(btn.querySelector("svg").attributes.fill.value == "transparent");
     if (btn.querySelector("svg").attributes.fill.value == "transparent") {
         // add to db recipeId
         btn.title = "remove from saved";

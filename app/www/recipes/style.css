@@ -79,3 +79,7 @@ main>:not(:first-child) {
 main>:nth-child(2) {
     border-top: 1px solid var(--border-muted);
 }
+
+#recipe-template {
+    display: none;
+}

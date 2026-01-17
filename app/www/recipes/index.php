@@ -103,23 +103,28 @@ $resultNumber = 4;
             </div>
         </header>
         <div>
-            <section class="row">
+            <section id="recipe-container" class="row">
                 <h2>Results</h2>
                 <p>Showing <?= $resultNumber ?> recipes</p>
                 
-                <?= RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?= RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?= RecipeCard("3", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?= RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?= RecipeCard("5", "5", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?= RecipeCard("6", "6", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?= RecipeCard("7", "7", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                <?= RecipeCard("8", "8", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("3", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("5", "5", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("6", "6", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("7", "7", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <?= ""//RecipeCard("8", "8", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+                <div id="recipe-template">
+                    <?= RecipeCard("{template}", "{recipeId}", "{recipeTitle}", [], 20, "{cost}") ?>
+                </div>
             </section>
         </div>
     </main>
+    <button type="button" id="clickme">CLICK</button>
     <?= Footer();?>
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

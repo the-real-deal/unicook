@@ -1,0 +1,52 @@
+document.getElementById('clickme').addEventListener('click', () => { addRecipeFromTemplate() });
+
+let index = 0;
+
+let recipeData = {
+    'recipeID': '1',
+    'recipeTitle': 'Recipe Title',
+    'tags': ["Tag#1", "Tag#2", "Tag#3"],
+    'timeRequired': 20,
+    'cost': 'cheap',
+    'saved': true
+}
+
+function addRecipeFromTemplate() {
+    const template = document.getElementById("{template}");
+    const clone = template.cloneNode(true);
+
+    console.log(recipeData);
+
+    const newID = "recipe-" + index++;
+
+    clone.id = newID;
+
+    // clone.querySelector('img').src = "link";
+    const title = clone.querySelector('h3');
+    title.textContent = recipeData.recipeTitle;
+    title.setAttribute('onclick', `changePage('${newID}')`);
+
+    const tags = clone.querySelector('ul');
+
+    recipeData.tags.forEach(element => {
+        const li = document.createElement('li');
+        li.textContent = element;
+        tags.appendChild(li);
+    });
+
+    const link = clone.querySelector('a');
+    link.setAttribute('href', `/singleRecipe?id=${recipeData.recipeID}`);
+
+    const button = clone.querySelector('button');
+    button.id = "btn-" + newID;
+    button.setAttribute('onclick', `saveRecipe('${"btn-" + newID}', '${recipeData.recipeID}')`);
+
+    clone.querySelector('.pe-3:first-of-type span').textContent = recipeData.timeRequired + " min";
+    clone.querySelector('.pe-3:last-of-type span').textContent = recipeData.cost;
+
+    if (recipeData.saved) {
+        clone.querySelector('button>svg').setAttribute('fill', 'currentColor');
+    }
+
+    document.getElementById('recipe-container').appendChild(clone);
+}

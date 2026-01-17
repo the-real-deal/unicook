@@ -21,9 +21,7 @@ function RecipeCard(string $elementId,
                 <?php 
                     foreach($tags as $tag){
                 ?>
-                <li>
-                    <?= $tag ?>
-                </li>
+                <li><?= $tag ?></li>
                 <?php 
                     }
                 ?>
