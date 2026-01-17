@@ -5,16 +5,10 @@ CREATE DATABASE `UniCook`;
 
 USE `UniCook`;
 
-DROP USER IF EXISTS 'unicook_appuser'@'%';
-CREATE USER 'unicook_appuser'@'%' IDENTIFIED BY 'unicook_app_user_passwd!';
-GRANT SELECT, INSERT, UPDATE ON * TO 'unicook_appuser'@'%';
-
 -- set timezone to UTC
 SET time_zone = '+00:00';
 
 -- tables
-
--- the deleted field is present to not give delete permissions to the user
 
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
@@ -24,8 +18,7 @@ CREATE TABLE `Users` (
     `passwordHash` CHAR(128) NOT NULL,
     `avatarId` CHAR(36),
     `isAdmin` BIT NOT NULL DEFAULT false,
-    `createdAt` DATETIME NOT NULL DEFAULT now(),
-    `deleted` BIT NOT NULL DEFAULT false
+    `createdAt` DATETIME NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS `AuthSessions`;
@@ -33,8 +26,7 @@ CREATE TABLE `AuthSessions` (
     `id` CHAR(36) PRIMARY KEY,
     `keyHash` CHAR(128) UNIQUE NOT NULL,
     `userId` CHAR(36) NOT NULL,
-    `createdAt` DATETIME NOT NULL DEFAULT now(),
-    `forceExpired` BIT NOT NULL DEFAULT false
+    `createdAt` DATETIME NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS `Tags`;
@@ -47,14 +39,14 @@ DROP TABLE IF EXISTS `Recipes`;
 CREATE TABLE `Recipes` (
     `id` CHAR(36) PRIMARY KEY,
     `title` VARCHAR(50) NOT NULL,
-    `description` TEXT,
-    `photoId` CHAR(36),
+    `description` TEXT NOT NULL,
+    `photoId` CHAR(36) NOT NULL,
     `difficulty` INT NOT NULL,
-    `cookingTime` INT NOT NULL,
+    `prepTime` INT NOT NULL,
+    `cost` INT NOT NULL,
     `servings` INT NOT NULL,
     `userId` CHAR(36) NOT NULL,
-    `createdAt` DATETIME NOT NULL DEFAULT now(),
-    `deleted` BIT NOT NULL DEFAULT false
+    `createdAt` DATETIME NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS `RecipeSteps`;
@@ -90,7 +82,6 @@ CREATE TABLE `Reviews` (
     `rating` INT NOT NULL,
     `body` TEXT,
     `createdAt` DATETIME NOT NULL DEFAULT now(),
-    `deleted` BIT NOT NULL DEFAULT false,
     CHECK (`rating` >= 0 AND `rating` <= 5)
 );
 
@@ -98,36 +89,46 @@ DROP TABLE IF EXISTS `RecipeSaves`;
 CREATE TABLE `RecipeSaves` (
     `recipeId` CHAR(36) NOT NULL,
     `userId` CHAR(36) NOT NULL,
-    `deleted` BIT NOT NULL DEFAULT false,
     PRIMARY KEY (`recipeId`, `userId`)
 );
 
+-- TODO: real delete
 ALTER TABLE `AuthSessions`
-ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE `Recipes`
-ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE `RecipeSteps`
-ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE `RecipeIngredients`
-ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE `Reviews`
-ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE `Reviews`
-ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE `RecipeSaves`
-ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
+ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE `RecipeSaves`
-ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE `RecipeTags`
-ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`);
+ADD FOREIGN KEY (`recipeId`) REFERENCES `Recipes`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE `RecipeTags`
-ADD FOREIGN KEY (`tagId`) REFERENCES `Tags`(`id`);
+ADD FOREIGN KEY (`tagId`) REFERENCES `Tags`(`id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- data
 
@@ -141,8 +142,7 @@ INSERT INTO `Users`(
     `passwordHash`, 
     `avatarId`, 
     `isAdmin`, 
-    `createdAt`, 
-    `deleted`
+    `createdAt`
 ) VALUES
 (
     'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f', 
@@ -151,8 +151,7 @@ INSERT INTO `Users`(
     '$2y$10$Ns2nFX4rYeGH5ylRi7Hb6e6AUr6IemUimByopvZL.caKfkOXQzQgm', 
     '9e37fb91-8aed-45f3-89f2-7c33a54bbdac', 
     true, 
-    '2024-01-15 10:30:00', 
-    false
+    '2024-01-15 10:30:00'
 ),
 (
     'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f', 
@@ -161,8 +160,7 @@ INSERT INTO `Users`(
     '$2y$10$JSXkD94ndydfeD/YPlGhHO00nICiIPiWKrzWtLhC7ospvpr9Qo9fS', 
     '7c7da984-a24d-4934-9283-00cedff31138', 
     false, 
-    '2024-02-20 14:45:00', 
-    false
+    '2024-02-20 14:45:00'
 ),
 (
     '1f2e3d4c-5b6a-7f8e-9d0c-1b2a3f4e5d6c', 
@@ -171,8 +169,7 @@ INSERT INTO `Users`(
     '$2y$10$wjHMd743r6EBhXnY9WVsDOtycuxkNvzz1uCk.U91ZF1a.QBeIowwq', 
     NULL, 
     false, 
-    '2024-03-10 09:15:00', 
-    false
+    '2024-03-10 09:15:00'
 ),
 (
     '9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b', 
@@ -181,8 +178,7 @@ INSERT INTO `Users`(
     '$2y$10$0aiDlSjIIs//jGwLrrSIKus8drgqtmTYj3nO9COAzsA0al6o7GziS', 
     NULL, 
     false, 
-    '2024-04-05 16:20:00', 
-    false
+    '2024-04-05 16:20:00'
 ),
 (
     '6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a', 
@@ -191,8 +187,7 @@ INSERT INTO `Users`(
     '$2y$10$5xsF1dxomLUUKwmg9ZJGbOGl6X0ifL3LYfF/7UcEEzV/XjRtESiwq', 
     NULL, 
     false, 
-    '2024-05-12 11:00:00', 
-    false
+    '2024-05-12 11:00:00'
 ),
 (
     '4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e', 
@@ -201,8 +196,7 @@ INSERT INTO `Users`(
     '$2y$10$e6UbdAaouJeQ7vPZc6F8fO4fsg/TZqF4uiGgomkFpoeUduXiICxvu', 
     NULL, 
     false, 
-    '2024-06-18 08:30:00', 
-    false
+    '2024-06-18 08:30:00'
 ),
 (
     '2e3f4a5b-6c7d-8e9f-0a1b-2c3d4e5f6a7b', 
@@ -211,8 +205,7 @@ INSERT INTO `Users`(
     '$2y$10$T83iELMalutiYeWiyqcfOO0FswdYO492MWfuv/UEe2VSrkj65Oc8a', 
     NULL, 
     false, 
-    '2024-07-22 13:45:00', 
-    false
+    '2024-07-22 13:45:00'
 ),
 (
     '8d9e0f1a-2b3c-4d5e-6f7a-8b9c0d1e2f3a', 
@@ -221,8 +214,7 @@ INSERT INTO `Users`(
     '$2y$10$eGkPiTKjm0CdQKQQfexTY.l0fkE0oC9jLQMeZKqkvwsh.dkfmy4ZC', 
     NULL, 
     false, 
-    '2024-08-30 15:10:00', 
-    false
+    '2024-08-30 15:10:00'
 ),
 (
     '0f1a2b3c-4d5e-6f7a-8b9c-0d1e2f3a4b5c', 
@@ -231,8 +223,7 @@ INSERT INTO `Users`(
     '$2y$10$KJx0D5SrTIG9QrMOSqUJzutF6sN6kky1Q9z9YY.3yoT4wfv56xWB.', 
     NULL, 
     false, 
-    '2024-09-14 10:25:00', 
-    false
+    '2024-09-14 10:25:00'
 ),
 (
     '7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d', 
@@ -241,8 +232,7 @@ INSERT INTO `Users`(
     '$2y$10$do4df7cUbVISo7nTtNxgqeNwjAvKxOpbajLCrmowZODGsNP9Iawly', 
     NULL, 
     false, 
-    '2024-10-08 12:50:00', 
-    false
+    '2024-10-08 12:50:00'
 ),
 (
     '5c6d7e8f-9a0b-1c2d-3e4f-5a6b7c8d9e0f', 
@@ -251,8 +241,7 @@ INSERT INTO `Users`(
     '$2y$10$PWtFPggoNrYcUqullnJNMeJHip4hX80pysKKP0k24zSlVna91lFZW', 
     NULL, 
     false, 
-    '2024-11-20 09:40:00', 
-    true
+    '2024-11-20 09:40:00'
 );
 
 INSERT INTO `Tags`(`id`, `name`) VALUES
@@ -275,219 +264,220 @@ INSERT INTO `Recipes`(
     `description`, 
     `photoId`, 
     `difficulty`, 
-    `cookingTime`, 
+    `prepTime`, 
+    `cost`, 
     `servings`, 
     `userId`, 
-    `createdAt`, 
-    `deleted`
+    `createdAt`
 ) VALUES
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
     'Spaghetti Carbonara',
     'A traditional Roman pasta dish made with eggs, cheese, guanciale, and black pepper. Simple ingredients come together to create a creamy, delicious meal.',
-    NULL,
+    'e9db1b6f-b5c2-4d09-8508-f364e33dcd87',
     1,
     25,
+    1,
     4,
     'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f',
-    '2024-01-20 14:30:00',
-    false
+    '2024-01-20 14:30:00'
 ),
 (
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
     'Caprese Salad',
     'A fresh and vibrant Italian salad featuring ripe tomatoes, creamy mozzarella, fresh basil, and a drizzle of extra virgin olive oil.',
-    NULL,
+    'e4144f13-3d8b-46a3-a8ad-0e1a6a0eb3d8',
     0,
     10,
+    0,
     2,
-    'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f',
-    '2024-02-15 11:20:00',
-    false
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f',
+    '2024-02-15 11:20:00'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
     'Tiramisù',
     'The iconic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream, dusted with cocoa powder.',
-    NULL,
+    '4d3e2efe-6d27-4bc6-b094-3fd5374fa1a9',
     2,
     45,
+    1,
     8,
     '1f2e3d4c-5b6a-7f8e-9d0c-1b2a3f4e5d6c',
-    '2024-03-12 16:45:00',
-    false
+    '2024-03-12 16:45:00'
 ),
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
     'Quinoa Buddha Bowl',
     'A nutritious and colorful bowl packed with quinoa, roasted vegetables, chickpeas, avocado, and tahini dressing.',
-    NULL,
+    'c29effc1-29d1-4fed-bbb1-d6ef07f17382',
     1,
     35,
     2,
+    2,
     '9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b',
-    '2024-04-08 13:15:00',
-    false
+    '2024-04-08 13:15:00'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
     'Margherita Pizza',
     'The classic Neapolitan pizza with tomato sauce, fresh mozzarella, basil, and extra virgin olive oil.',
-    NULL,
-    1,
+    '67828596-42a6-460d-9c7f-a9602d52c188',
+    2,
     30,
+    0,
     4,
     '6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a',
-    '2024-05-20 18:00:00',
-    false
+    '2024-05-20 18:00:00'
 ),
 (
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
     'Pesto Pasta',
     'Quick and flavorful pasta tossed with homemade basil pesto, pine nuts, garlic, and Parmesan cheese.',
-    NULL,
+    '3b8a7b59-094a-49db-b432-bc21394f4cf6',
     0,
     20,
+    0,
     4,
     '4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e',
-    '2024-06-25 12:30:00',
-    false
+    '2024-06-25 12:30:00'
 );
 
 INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
 -- Spaghetti Carbonara
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    1,
+    0,
     'Bring a large pot of salted water to boil. Cook spaghetti according to package directions until al dente.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    2,
+    1,
     'While pasta cooks, cut guanciale into small strips. Cook in a large pan over medium heat until crispy, about 8-10 minutes.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    3,
+    2,
     'In a bowl, whisk together eggs, grated Pecorino Romano, and freshly ground black pepper.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    4,
+    3,
     'Reserve 1 cup of pasta water, then drain the spaghetti. Add hot pasta to the pan with guanciale.'
 ),
 (
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
-    5,
+    4,
     'Remove from heat and quickly mix in the egg mixture, tossing continuously. Add pasta water as needed to create a creamy sauce. Serve immediately.'
 ),
 -- Caprese Salad
 (
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
-    1,
+    0,
     'Slice tomatoes and mozzarella into 1/4 inch thick rounds.'
 ),
 (
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
-    2,
+    1,
     'Arrange tomato and mozzarella slices alternately on a serving plate.'
 ),
 (
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
-    3,
+    2,
     'Tuck fresh basil leaves between the slices. Drizzle with extra virgin olive oil and balsamic glaze. Season with salt and pepper to taste.'
 ),
 -- Tiramisù
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    1,
+    0,
     'Brew strong espresso and let it cool to room temperature. Add a splash of coffee liqueur if desired.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    2,
+    1,
     'Separate eggs. Whisk egg yolks with sugar until pale and creamy. Add mascarpone and mix until smooth.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    3,
+    2,
     'Beat egg whites until stiff peaks form. Gently fold into mascarpone mixture.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    4,
+    3,
     'Quickly dip ladyfinger cookies into espresso and arrange in a single layer in a dish.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    5,
+    4,
     'Spread half of the mascarpone cream over the ladyfingers. Repeat with another layer. Refrigerate for at least 4 hours.'
 ),
 (
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
-    6,
+    5,
     'Before serving, dust generously with cocoa powder.'
 ),
 -- Quinoa Buddha Bowl
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    1,
+    0,
     'Rinse quinoa thoroughly. Cook in vegetable broth according to package directions.'
 ),
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    2,
+    1,
     'Preheat oven to 400°F (200°C). Toss sweet potato, chickpeas, and broccoli with olive oil, salt, and pepper. Roast for 25-30 minutes.'
 ),
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    3,
+    2,
     'Make tahini dressing by whisking tahini, lemon juice, garlic, and water until smooth.'
 ),
 (
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
-    4,
+    3,
     'Assemble bowls with quinoa, roasted vegetables, sliced avocado, and mixed greens. Drizzle with tahini dressing.'
 ),
 -- Margherita Pizza
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    1,
+    0,
     'Preheat oven to 475°F (245°C) with a pizza stone inside for at least 30 minutes.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    2,
+    1,
     'Stretch pizza dough into a 12-inch round. Place on parchment paper.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    3,
+    2,
     'Spread tomato sauce evenly, leaving a 1-inch border. Top with torn mozzarella pieces.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    4,
+    3,
     'Transfer pizza (with parchment) to the hot stone. Bake for 10-12 minutes until crust is golden and cheese is bubbly.'
 ),
 (
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
-    5,
+    4,
     'Remove from oven, top with fresh basil leaves and drizzle with olive oil. Let rest 2 minutes before slicing.'
 ),
+-- Pesto Pasta
 (
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
-    1,
+    0,
     'Cook pasta in salted boiling water until al dente. Reserve 1 cup pasta water before draining.'
 ),
 (
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
-    2,
+    1,
     'In a food processor, blend basil, pine nuts, garlic, and Parmesan with olive oil until smooth.'
 ),
 (
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
-    3,
+    2,
     'Toss hot pasta with pesto, adding pasta water as needed to create a silky sauce. Serve with extra Parmesan.'
 );
 
@@ -570,8 +560,7 @@ INSERT INTO `Reviews`(
     `recipeId`, 
     `rating`, 
     `body`, 
-    `createdAt`, 
-    `deleted`
+    `createdAt`
 ) VALUES
 -- Spaghetti Carbonara
 (
@@ -580,8 +569,7 @@ INSERT INTO `Reviews`(
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
     5,
     'Absolutely delicious! The carbonara turned out perfectly creamy. My family loved it!',
-    '2024-01-25 19:30:00',
-    false
+    '2024-01-25 19:30:00'
 ),
 (
     'e8a3b5c7-2d4f-4e8a-9b1c-3d5e7f9a2b4c',
@@ -589,8 +577,7 @@ INSERT INTO `Reviews`(
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
     4,
     'Great recipe! I used pancetta instead of guanciale and it was still amazing.',
-    '2024-02-01 14:20:00',
-    false
+    '2024-02-01 14:20:00'
 ),
 (
     'b9c1d3e5-4f7a-4b8c-9d0e-1f2a3b4c5d6e',
@@ -598,8 +585,7 @@ INSERT INTO `Reviews`(
     '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3',
     3,
     'Good recipe but a bit tricky to get the sauce consistency right. Took me a couple tries.',
-    '2024-08-12 15:40:00',
-    false
+    '2024-08-12 15:40:00'
 ),
 -- Caprese Salad
 (
@@ -608,8 +594,7 @@ INSERT INTO `Reviews`(
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
     5,
     'So fresh and simple! Perfect for summer. The quality of ingredients really matters here.',
-    '2024-02-20 12:45:00',
-    false
+    '2024-02-20 12:45:00'
 ),
 (
     'a7b9c1d3-4e5f-4a6b-7c8d-9e0f1a2b3c4d',
@@ -617,8 +602,7 @@ INSERT INTO `Reviews`(
     '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d',
     4,
     'Quick and easy appetizer. I added a bit of sea salt flakes on top - highly recommend!',
-    '2024-03-05 18:15:00',
-    false
+    '2024-03-05 18:15:00'
 ),
 -- Tiramisù
 (
@@ -627,8 +611,7 @@ INSERT INTO `Reviews`(
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
     5,
     'Best tiramisu recipe ever! I made it for a dinner party and everyone asked for the recipe.',
-    '2024-03-18 21:00:00',
-    false
+    '2024-03-18 21:00:00'
 ),
 (
     'c5d7e9f1-3a4b-4c5d-6e7f-8a9b0c1d2e3f',
@@ -636,8 +619,7 @@ INSERT INTO `Reviews`(
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
     4,
     'Delicious dessert! Make sure to let it chill for the full time - it makes a big difference.',
-    '2024-04-02 16:30:00',
-    false
+    '2024-04-02 16:30:00'
 ),
 (
     'f5a7b9c1-4d3e-4f5a-6b7c-8d9e0f1a2b3c',
@@ -645,8 +627,7 @@ INSERT INTO `Reviews`(
     '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e',
     5,
     'Incredible! This tastes just like the tiramisu I had in Rome. Thank you for sharing!',
-    '2024-09-22 17:50:00',
-    false
+    '2024-09-22 17:50:00'
 ),
 -- Quinoa Buddha Bowl
 (
@@ -655,8 +636,7 @@ INSERT INTO `Reviews`(
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
     5,
     'Such a healthy and filling meal! I meal prep these bowls every Sunday now.',
-    '2024-04-15 13:20:00',
-    false
+    '2024-04-15 13:20:00'
 ),
 (
     'b1c3d5e7-4f8a-4b9c-0d1e-2f3a4b5c6d7e',
@@ -664,8 +644,7 @@ INSERT INTO `Reviews`(
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
     4,
     'Great combination of flavors. I added some hemp seeds for extra protein.',
-    '2024-05-10 11:50:00',
-    false
+    '2024-05-10 11:50:00'
 ),
 (
     'c7d9e1f3-4a5b-4c6d-7e8f-9a0b1c2d3e4f',
@@ -673,8 +652,7 @@ INSERT INTO `Reviews`(
     '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f',
     5,
     'Love this bowl! So colorful and nutritious. The tahini dressing is amazing!',
-    '2024-09-01 13:25:00',
-    false
+    '2024-09-01 13:25:00'
 ),
 -- Margherita Pizza
 (
@@ -683,8 +661,7 @@ INSERT INTO `Reviews`(
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
     5,
     'Perfect pizza! The crust was crispy and the toppings were spot on. Will make again!',
-    '2024-05-28 20:15:00',
-    false
+    '2024-05-28 20:15:00'
 ),
 (
     'd5e7f9a1-3b4c-4d5e-6f7a-8b9c0d1e2f3a',
@@ -692,8 +669,7 @@ INSERT INTO `Reviews`(
     '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b',
     5,
     'Classic Margherita done right! The simplicity really lets the quality ingredients shine.',
-    '2024-06-10 19:45:00',
-    false
+    '2024-06-10 19:45:00'
 ),
 -- Pesto Pasta
 (
@@ -702,8 +678,7 @@ INSERT INTO `Reviews`(
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
     5,
     'So quick and flavorful! This is my go-to weeknight dinner now.',
-    '2024-07-05 18:30:00',
-    false
+    '2024-07-05 18:30:00'
 ),
 (
     'e1f3a5b7-4c9d-4e0f-1a2b-3c4d5e6f7a8b',
@@ -711,6 +686,52 @@ INSERT INTO `Reviews`(
     '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c',
     4,
     'Really good pesto! I toasted the pine nuts first which added a nice depth of flavor.',
-    '2024-07-20 12:00:00',
-    false
+    '2024-07-20 12:00:00'
+);
+
+INSERT INTO `RecipeSaves`(`recipeId`, `userId`) VALUES
+-- Marco Rossi saves
+(
+    '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', -- Caprese Salad
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f'
+),
+(
+    '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', -- Quinoa Buddha Bowl
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f'
+),
+(
+    '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', -- Pesto Pasta
+    'a3f5c8d1-4b2e-4a1c-9f3d-7e8b2c4a6d1f'
+),
+-- Giulia Bianchi saves
+(
+    '2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', -- Spaghetti Carbonara
+    'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f'
+),
+(
+    '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', -- Tiramisu
+    'c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f'
+),
+-- Luca Ferrari saves
+(
+    '4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', -- Margherita Pizza
+    '1f2e3d4c-5b6a-7f8e-9d0c-1b2a3f4e5d6c'
+),
+(
+    '7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', -- Pesto Pasta
+    '1f2e3d4c-5b6a-7f8e-9d0c-1b2a3f4e5d6c'
+),
+-- Alessandra Romano saves
+(
+    '5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', -- Caprese Salad
+    '9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b'
+),
+(
+    '1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', -- Quinoa Buddha Bowl
+    '9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b'
+),
+-- Francesco Colombo saves
+(
+    '8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', -- Tiramisu
+    '6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a'
 );

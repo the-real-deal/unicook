@@ -14,28 +14,26 @@ readonly class AuthSession extends DBTable {
         private string $keyHash,
         public string $userId,
         public DateTime $createdAt,
-        public bool $forceExpired,
     ) {}
 
     public static function validateId(string $key): string {
-        return validateUUID($key);
+        return validateUUID($key, "Auth session id");
     }
 
     public static function validateKey(string $key): string {
-        return validateUUID($key, "key");
+        return validateUUID($key, "Auth session key");
     }
 
     public static function sqlValidityCheck(?string $alias): string {
         $table = self::tableAliasPrefix($alias);
         $seconds = self::SESSION_VALIDITY_SECS;
         return <<<sql
-        $table`forceExpired` = 0
-        AND date_add($table`createdAt`, INTERVAL $seconds SECOND) > now()
+        date_add($table`createdAt`, INTERVAL $seconds SECOND) > now()
         sql;
     }
 
     public function expired(Database $db): bool {
-        $validityCheck = AuthSession::sqlValidityCheck("s");
+        $validityCheck = self::sqlValidityCheck("s");
         $query = $db->createStatement(<<<sql
             SELECT s.*
             FROM `AuthSessions` s
@@ -50,10 +48,10 @@ readonly class AuthSession extends DBTable {
         return $result->totalRows == 0;
     }
 
-    public static function fromKey(Database $db, string $key): self|false {
+    public static function fromKey(Database $db, string $key, bool $valid = true): self|false {
         $key = self::validateKey($key);
 
-        $validityCheck = AuthSession::sqlValidityCheck("s");
+        $validityCheck = $valid ? self::sqlValidityCheck("s") : "1";
         $query = $db->createStatement(<<<sql
             SELECT s.*
             FROM `AuthSessions` s
@@ -100,8 +98,8 @@ readonly class AuthSession extends DBTable {
 }
 
 readonly class LoginSession {
-    private const AUTH_KEY_COOKIE_ATTR = "auth_key";
-    private const AUTH_KEY_COOKIE_PATH = "/";
+    public const AUTH_KEY_COOKIE_ATTR = "auth_key";
+    public const AUTH_KEY_COOKIE_PATH = "/";
 
     public function __construct(
         public AuthSession $auth,
@@ -113,7 +111,7 @@ readonly class LoginSession {
         string $username, 
         string $email, 
         string $password
-    ): self|false {
+    ): string|false {
         if (User::searchEmail($db, $email)) {
             throw new InvalidArgumentException("User already exists");
         }
@@ -124,7 +122,7 @@ readonly class LoginSession {
         return self::login($db, $email, $password);
     }
 
-    public static function login(Database $db, string $email, string $password): self|false {
+    public static function login(Database $db, string $email, string $password): string|false {
         $user = User::fromEmailAndPassword($db, $email, $password);
         if ($user === false) {
             return false;
@@ -147,14 +145,13 @@ readonly class LoginSession {
                 "path" => self::AUTH_KEY_COOKIE_PATH,
             ],
         );
-        return $login;
+        return $authKey;
     }
 
     public function logout(Database $db): bool {
         $query = $db->createStatement(<<<sql
-            UPDATE `AuthSessions`
-            SET `forceExpired` = true
-            WHERE `id` = ?
+            DELETE FROM `AuthSessions` s
+            WHERE s.`id` = ?
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->auth->id))->execute();
         if ($ok) {
@@ -171,8 +168,8 @@ readonly class LoginSession {
         return $ok;
     }
 
-    private static function fromAuthSessionKey(Database $db, string $key): self|false {
-        $auth = AuthSession::fromKey($db, $key);
+    private static function fromAuthSessionKey(Database $db, string $key, bool $valid = true): self|false {
+        $auth = AuthSession::fromKey($db, $key, $valid);
         if ($auth === false) {
             return false;
         }
@@ -192,7 +189,7 @@ readonly class LoginSession {
         }
         
         $login = self::fromAuthSessionKey($db, $authSessionKey);
-        if ($login === false || $login->auth->expired($db)) {
+        if ($login === false) {
             return false;
         } else {
             return $login;

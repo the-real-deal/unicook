@@ -8,12 +8,6 @@ require_once "lib/utils.php";
 require_once "lib/auth.php";
 
 readonly class User extends DBTable {
-    private const PASSWORD_REGEX = <<<regex
-    /^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/
-    regex;
-    private const USERNAME_REGEX = <<<regex
-    /^.{3,50}$/
-    regex;
     private const IMAGES_UPLOAD_PATH = "users";
 
     protected function __construct(
@@ -24,15 +18,14 @@ readonly class User extends DBTable {
         public ?string $avatarId,
         public bool $isAdmin,
         public DateTime $createdAt,
-        public bool $deleted,
     ) {}
 
     public static function validateId(string $id): string {
-        return validateUUID($id);
+        return validateUUID($id, "User id");
     }
 
     public static function validateUsername(string $username): string {
-        if (filter_var_regex($username, self::USERNAME_REGEX) === false) {
+        if (filter_var_regex($username, '/^.{3,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
             Username must be between 5 and 50 characters
             end);
@@ -48,7 +41,7 @@ readonly class User extends DBTable {
     }
 
     public static function validatePassword(string $password): string {
-        if (filter_var_regex($password, self::PASSWORD_REGEX) === false) {
+        if (filter_var_regex($password, '/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
             Password must be between 8 and 50 characters, with at least 1 symbol and 1 number
             end);
@@ -88,7 +81,7 @@ readonly class User extends DBTable {
 
     public static function fromId(Database $db, string $id): self|false {
         $id = self::validateId($id);
-        
+
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
@@ -106,14 +99,16 @@ readonly class User extends DBTable {
         return self::fromTableRow($result->fetchOne());
     }
 
-    public static function fromAuthSessionId(Database $db, string $sessionId): self|false {
+    public static function fromAuthSessionId(Database $db, string $sessionId, bool $valid = true): self|false {
         $sessionId = AuthSession::validateId($sessionId);
-        
+
+        $validityCheck = $valid ? AuthSession::sqlValidityCheck("s") : "1";
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
                 JOIN `AuthSessions` s ON u.`id` = s.`userId`
             WHERE s.`id` = ?
+                AND $validityCheck
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($sessionId))->execute();
         if (!$ok) {
@@ -130,7 +125,7 @@ readonly class User extends DBTable {
     public static function fromEmailAndPassword(Database $db, string $email, string $password): self|false {
         self::validateEmail($email);
         self::validatePassword($password);
-        
+
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
@@ -156,7 +151,7 @@ readonly class User extends DBTable {
 
     public static function searchEmail(Database $db, string $email): bool {
         self::validateEmail($email);
-        
+
         $query = $db->createStatement(<<<sql
             SELECT u.`email`
             FROM `Users` u
@@ -244,7 +239,7 @@ readonly class User extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(Recipe::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
     }
 
     public function getSavedRecipes(Database $db): array|false {
@@ -259,7 +254,63 @@ readonly class User extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(Recipe::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
+    }
+
+    private function getSavedRecipe(Database $db, string $recipeId): string|null|false {
+        $recipeId = Recipe::validateId($recipeId);
+
+        $query = $db->createStatement(<<<sql
+            SELECT rs.*
+            FROM `RecipeSaves` rs
+            WHERE rs.`recipeId` = ?
+                AND rs.`userId` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($this->id),
+            )->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return RecipeSave::fromOptionalTableRow($result->fetchOne());
+    }
+
+    public function saveRecipe(Database $db, string $recipeId): bool {
+        $recipeSave = $this->getSavedRecipe($db, $recipeId);
+        if ($recipeSave === false || $recipeSave !== null) {
+            return false;
+        }
+        
+        $query = $db->createStatement(<<<sql
+            INSERT INTO `RecipeSaves`(`recipeId`, `userId`)
+            VALUES (?, ?)
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
+        return $ok;
+    }
+
+    public function unsaveRecipe(Database $db, string $recipeId): bool {
+        $recipeSave = $this->getSavedRecipe($db, $recipeId);
+        if ($recipeSave === false || $recipeSave === null) {
+            return false;
+        }
+        
+        $query = $db->createStatement(<<<sql
+            DELETE FROM `RecipeSaves` rs
+            WHERE rs.`recipeId` = ?
+                AND rs.`userId` = ?
+            sql);
+
+        $ok = $query->bind(
+            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
+        return $ok;
     }
 }
 ?>

@@ -18,7 +18,7 @@ enum FileType: string {
 
     public function maxSize(): int {
         return match ($this) {
-            self::Image => 500 * 1024, // 500KB
+            self::Image => 1 * 1024 * 1024, // 1MB
         };
     }
 
@@ -26,6 +26,7 @@ enum FileType: string {
         return match ($this) {
             self::Image => [
                 MimeType::JPEG,
+                MimeType::JPG,
                 MimeType::PNG,
                 MimeType::GIF,
                 MimeType::WEBP,
@@ -179,7 +180,7 @@ readonly class UploadFile {
 
     public function delete(): bool {
         $uploadPath = $this->uploadPath();
-        $metadataPath = $this->uploadPath();
+        $metadataPath = $this->metadataPath();
         return unlink($uploadPath) && unlink($metadataPath);
     }
 }

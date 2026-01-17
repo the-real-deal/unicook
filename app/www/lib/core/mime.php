@@ -3,6 +3,7 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
 enum MimeType: string {
     case JPEG = "image/jpeg";
+    case JPG = "image/jpg";
     case PNG = "image/png";
     case GIF = "image/gif";
     case WEBP = "image/webp";
@@ -14,6 +15,7 @@ enum MimeType: string {
     public function preferredExtension(): ?string {
         return match ($this) {
             self::JPEG => "jpeg",
+            self::JPG => "jpg",
             self::PNG => "png",
             self::GIF => "gif",
             self::WEBP => "webp",

@@ -10,7 +10,7 @@ readonly class Tag extends DBTable {
     ) {}
 
     public static function validateId(string $id): string {
-        return validateUUID($id);
+        return validateUUID($id, "Tag id");
     }
 
     public static function fromId(Database $db, string $id): self|false {
@@ -42,7 +42,7 @@ readonly class Tag extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(self::fromTableRow, $result->fetchAll());
+        return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
     }
 }
 ?>

@@ -24,6 +24,24 @@ readonly class ApiRequest {
         return $this->params[$key] ?? null;
     }
 
+    public function getScalar(ApiResponse $res, string $key): string|null {
+        $value = $this->getParam($key);
+        if ($value === null || is_string($value)) {
+            return $value;
+        } else {
+            $res->dieWithError(HTTPCode::BadRequest, "Param $key must be a scalar");
+        }
+    }
+
+    public function getArray(ApiResponse $res, string $key): array|null {
+        $value = $this->getParam($key);
+        if ($value === null || is_array($value)) {
+            return $value;
+        } else {
+            $res->dieWithError(HTTPCode::BadRequest, "Param $key must be an array");
+        }
+    }
+
     public function getFile(string $key): array|null {
         assert($this->files !== null);
         return $this->files[$key] ?? null;
@@ -31,20 +49,72 @@ readonly class ApiRequest {
 
     public function expectParam(ApiResponse $res, string $key): array|string {
         $value = $this->getParam($key);
-        if ($value === null) {
-            $res->dieWithError(HTTPCode::BadRequest, "Missing param $key");
-        } else {
+        if ($value !== null) {
             return $value;
+        } else {
+            $res->dieWithError(HTTPCode::BadRequest, "Missing param $key");
+        }
+    }
+
+    public function expectScalar(ApiResponse $res, string $key): string {
+        $value = $this->getScalar($res, $key);
+        if ($value !== null) {
+            return $value;
+        } else {
+            $res->dieWithError(HTTPCode::BadRequest, "Missing scalar $key");
+        }
+    }
+    
+    public function expectArray(ApiResponse $res, string $key): array {
+        $value = $this->getArray($res, $key);
+        if ($value !== null) {
+            return $value;
+        } else {
+            $res->dieWithError(HTTPCode::BadRequest, "Missing array $key");
         }
     }
 
     public function expectFile(ApiResponse $res, string $key): array {
         $value = $this->getFile($key);
-        if ($value === null) {
-            $res->dieWithError(HTTPCode::BadRequest, "Missing file $key");
-        } else {
+        if ($value !== null) {
             return $value;
+        } else {
+            $res->dieWithError(HTTPCode::BadRequest, "Missing file $key");
         }
+    }
+
+    function validateEnum(ApiResponse $res, string $value, string $enumClass, string $fieldName): object {
+        if (!enum_exists($enumClass)) {
+            throw new InvalidArgumentException("$enumClass is not a valid enum");
+        }
+
+        try {
+            $reflection = new ReflectionEnum($enumClass);
+            if ($reflection->isBacked()) {
+                $backingType = $reflection->getBackingType();
+                
+                if ($backingType->getName() === int::class) {
+                    if (is_numeric($value)) {
+                        $value = (int)$value;
+                    } else {
+                        throw new ValueError();
+                    }
+                }
+            }
+            return $enumClass::from($value);
+        } catch (ValueError $e) {
+            $values = implode(", ", enumValues($enumClass::cases()));
+            $res->dieWithError(HTTPCode::BadRequest, 
+                "$fieldName must be a value between $values"
+            );
+        }
+    }
+    
+    function validateInt(ApiResponse $res, string $value, string $fieldName): int {
+        if (!is_numeric($value)) {
+            $res->dieWithError(HTTPCode::BadRequest, "$fieldName must be an integer");
+        }
+        return (int)$value;
     }
 }
 

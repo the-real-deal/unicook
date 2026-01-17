@@ -14,7 +14,11 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
         if ($user === false) {
             $res->dieWithError(HTTPCode::NotFound, "User not found");
         }
-        $res->sendJSON($user);
+        $recipes = $user->getSavedRecipes($db);
+        if ($recipes === false) {
+            $res->dieWithError(HTTPCode::InternalServerError, "Cannot get user recipes");
+        }
+        $res->sendJSON($recipes);
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);
     }

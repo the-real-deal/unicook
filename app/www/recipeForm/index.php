@@ -1,29 +1,32 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "components/PageHead.php";
+require_once "components/ErrorNotification.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/FileInput.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?= PageHead("Form", ["style.css"]) ?>
+<?= PageHead("Form", [ "style.css" ]) ?>
 <body>
+    <?=  ErrorNotification() ?>
     <?=  Navbar() ?>
     <main>
-        <form class="d-flex flex-column p-4 gap-3 mx-auto my-2">
+        <form id="recipeForm" action="/api/recipes/create.php" method="POST"
+            class="d-flex flex-column p-4 gap-3 mx-auto my-2">
             <label for="title">Recipe Title *</label>
             <input type="text" id="title" name="title" class="p-2" placeholder="e.g. Easy Ramen" required />
 
             <label for="description">Description *</label>
-            <input type="text" id="description" class="p-2" placeholder="Describe your recipe..." required />
+            <input type="text" id="description" name="description" class="p-2" placeholder="Describe your recipe..." required />
 
-            <label for="image">Image (optional)</label>
-            <?= FileInput("image", FileType::Image) ?>
+            <label for="image">Image *</label>
+            <?= FileInput("image", FileType::Image, required: true) ?>
 
             <hr>
             <label for="tags">Tags</label>
-            <select name="tags" id="tags" class="p-2">
+            <select id="tags" class="p-2">
                 <option disabled selected value style="display:none"> -- select an option -- </option>
                 <option value="italiana">Italian</option>
                 <option value="veloce">Quick</option>
@@ -75,6 +78,8 @@ require_once "components/FileInput.php";
                 <button type="button" id="add-ingredients-slot">Add Ingredient</button>
             </div>
             <ul id="ingredients">
+                <!-- TODO: first ingredient and step directly from js? -->
+                <!-- TODO: remove inline js and css -->
                 <li class="d-flex justify-content-between mb-2 align-items-center gap-2">
                     <label for="ingredientQuantity-2" class="d-none" hidden="">enter the quantity of the next ingredient</label>
                     <input id="ingredientQuantity-2" type="text" name="ingredientsQuantity[]" class="p-2 col-md-2" placeholder="Quantity">

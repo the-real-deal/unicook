@@ -17,14 +17,9 @@ function uuidv4(string $data = null): string {
     return vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
 }
 
-function validateUUID(string $uuid, string $fieldName = "id"): string {
-    $uuid = htmlspecialchars($uuid);
-    $uuid = filter_var(
-        $uuid, 
-        options: FILTER_REQUIRE_SCALAR | FILTER_FLAG_EMPTY_STRING_NULL
-    );
-    if ($uuid === false) {
-        throw new InvalidArgumentException("Invalid $fieldName");
+function validateUUID(string $uuid, string $fieldName = "Id"): string {
+    if (filter_var_regex($uuid, '/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/') === false) {
+        throw new InvalidArgumentException("$fieldName must be a valid UUIDv4");
     }
     return $uuid;
 }
