@@ -15,7 +15,7 @@
 - [x] get recipe image 
 - [x] get recipe steps
 - [x] get recipe ingredients
-- [ ] get recipe tags
+- [x] get recipe tags
 
 #### POST
 - [x] create recipe (title, description, image, tags[], difficulty, prepTime, cost, servings, ingredientsQuantity[], ingredientsName[], steps[])

@@ -388,7 +388,7 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(fn ($row) => Tags::fromTableRow($row), $result->fetchAll());
+        return array_map(fn ($row) => Tag::fromTableRow($row), $result->fetchAll());
     }
 
     public function getReviews(Database $db): array|false {
