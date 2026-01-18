@@ -22,6 +22,12 @@ function deleteRecipe(recipeId, elementId) {
     }
 }
 
+Array.from(document.getElementsByClassName('recipe-card-title')).forEach(element => {
+    element.addEventListener('click', () => {
+        changePage(element.dataset.recipeId);
+    })
+});
+
 function changePage(recipeID) {
     window.location = "/singleRecipe?id=" + recipeID;
 }

@@ -2,6 +2,8 @@ import { rejectApiError } from "/js/errors.js"
 
 const form = document.getElementById("imageForm")
 const avatarImage = document.getElementById("avatarImage")
+const uploadButton = document.getElementById("upload-button")
+const imageInput = document.getElementById('image')
 
 async function getUser() {
     const params = new URLSearchParams(document.location.search)
@@ -16,8 +18,8 @@ function getFallbackSrc(user) {
     return `https://ui-avatars.com/api/?name=${user.username}&size=256`
 }
 
-function getImageSrc(user) {
-    return `/api/users/image/content.php?userId=${user.id}`
+function getImageSrc(user, noCache = false) {
+    return `/api/users/image/content.php?userId=${user.id}${noCache ? `&t=${Date.now()}` : ""}`
 }
 
 form.addEventListener("submit", async (e) => {
@@ -31,7 +33,9 @@ form.addEventListener("submit", async (e) => {
 
     if (res.ok) {
         const user = await getUser()
-        avatarImage.src = getImageSrc(user)
+        avatarImage.src = getImageSrc(user, true)
+        form.reset()
+        uploadButton.style.visibility = 'hidden'
     }
 })
 
@@ -44,11 +48,11 @@ avatarImage.addEventListener("error", _ => {
 avatarImage.src = getImageSrc(user)
 
 
-document.getElementById('image').addEventListener('change', function () {
+imageInput.addEventListener('change', function () {
     if (this.files && this.files.length > 0) {
-        document.getElementById('upload-button').style.visibility = 'visible'
+        uploadButton.style.visibility = 'visible'
     } else {
-        document.getElementById('upload-button').style.visibility = 'hidden'
+        uploadButton.style.visibility = 'hidden'
     }
 })
 
