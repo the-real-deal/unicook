@@ -163,8 +163,8 @@ $ingredients = array(
                         <ul>
                             <?php 
                                 $i = 0;
-                                foreach ($ingredients as $ingredient => $quantity) {
-                            ?>
+                                foreach ($ingredients as $ingredient => $quantity) { 
+                                    ?>
                                 <li class="d-flex flex-wrap my-3">
                                     <input id="ingredients<?= $i ?>" type="checkbox" class="me-2" />
                                     <label for="ingredients<?= $i ?>">
@@ -210,6 +210,13 @@ $ingredients = array(
                     <section id="reviews">
                         <div class="p-4 mb-4">
                             <h2>Reviews</h2>
+                            <?php if ($login === false) { ?>
+                            <div id="login-adv" class="p-3 mb-3 text-center">
+                                <p class="mb-4">Want to leave a review?
+                                </p>
+                                <a href="/login/" class="py-2 px-3 m-3" >Log in </a>
+                            </div>
+                            <?php } else { ?>
                             <form class="p-3 mb-3">
                                 <fieldset class="mb-3">
                                     <legend hidden>Star rating</legend>
@@ -267,6 +274,7 @@ $ingredients = array(
                                 <label for="submit_review" hidden>Submit Review</label>
                                 <button id="submit_review" type="submit" class="btn btn-success">Submit Review</button>
                             </form>
+                            <?php } ?>
                             <?= Review("1", "Username", 4, new DateTime(), "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
                             <?= Review("1", "Username", 3, new DateTime(), "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
                             <?= Review("1", "Username", 5, new DateTime(), "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>

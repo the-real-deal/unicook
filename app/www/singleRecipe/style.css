@@ -190,3 +190,27 @@ form:has(.stars) {
     outline: none;
     box-shadow: var(--shadow-focus);
 }
+
+#reviews #login-adv {
+    border-radius: var(--radius);
+    border: 1px solid var(--border-muted);
+    min-height: auto;
+    background-color: var(--bg);
+}
+
+#reviews #login-adv a {
+    font-weight: 600;
+    color: var(--text);
+    border-radius: var(--card-radius);
+    text-decoration: none;
+    background-color: tomato;
+    border: 1px solid var(--border-muted);
+    background-color: var(--bg-light);
+    transition: var(--default-transition-timing-function);
+}
+
+#reviews #login-adv a:hover {
+    color: white;
+    border: 1px solid var(--secondary-text);
+    background-color: var(--secondary);
+}
