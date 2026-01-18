@@ -45,6 +45,7 @@
 
 #### GET
 
+- [x] get review
 - [ ] recipe reviews
 
 #### POST
