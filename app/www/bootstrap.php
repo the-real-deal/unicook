@@ -26,12 +26,11 @@ set_include_path(implode(PATH_SEPARATOR, $includePathSplit));
 date_default_timezone_set("UTC");
 
 // debug function
-function debug(mixed ...$values) {
+function debug(mixed $value): mixed {
     echo "<pre>";
-    foreach ($values as $val) {
-        var_dump($val);
-    }
+    var_dump($value);
     echo "</pre>";
+    return $value;
 }
 
 ?>

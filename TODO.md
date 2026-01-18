@@ -10,7 +10,7 @@
 - [x] n best recipes
 - [x] recipe rating 
 - [x] total of tag 
-- [ ] recipe search (query, minPrepTime, maxPrepTime, difficulty, cost, tags, from, to)
+- [x] recipe search (query, minPrepTime, maxPrepTime, difficulty, cost, tags, from, n)
 - [x] get recipe 
 - [x] get recipe image 
 - [x] get recipe steps
