@@ -17,7 +17,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         }
         $ok = $login->user->saveRecipe($db, $recipeId);
         if (!$ok) {
-            $res->dieWithError(HTTPCode::InternalServerError, "Cannot save recipe");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to save recipe");
         }
         $res->sendJSON([ "ok" => true ]);
     } catch (InvalidArgumentException $e) {

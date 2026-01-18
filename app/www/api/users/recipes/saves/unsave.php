@@ -17,7 +17,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         }
         $ok = $login->user->unsaveRecipe($db, $recipeId);
         if (!$ok) {
-            $res->dieWithError(HTTPCode::InternalServerError, "Cannot unsave recipe");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to unsave recipe");
         }
         $res->sendJSON([ "ok" => true ]);
     } catch (InvalidArgumentException $e) {
