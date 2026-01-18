@@ -36,7 +36,6 @@ if($login !== false){
                         today!
                     </p>
                     <form class="w-100" id="home-search-form">
-                        <!-- SEARCH BAR -->
                         <?= SearchBar("home") ?>
                     </form>
                     <a href="/singleRecipe?id=<?= $randomRecipeId->id ?>" class="px-2 py-1 d-inline-flex justify-content-center align-items-center">

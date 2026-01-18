@@ -89,7 +89,7 @@
     font-size: smaller;
 }
 
-.recipe-card article>a {
+.recipe-card article a {
     text-decoration: underline;
     font-size: medium;
     font-weight: 400;
@@ -98,7 +98,7 @@
     transition: var(--default-transition-timing-function);
 }
 
-.recipe-card article>a:hover {
+.recipe-card article a:hover {
     color: var(--primary-text);
 }
 
