@@ -7,14 +7,18 @@ require_once "components/RecipeCard.php";
 require_once "components/CategoryCard.php";
 require_once "components/SearchBar.php";
 require_once "lib/auth.php";
-require_once "lib/auth.php";
+require_once "lib/recipes.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
 
-$randomRecipeId="1";
+$randomRecipeId=Recipe::getRandom($db);
 Database::connectDefault();
 
+$isLogged = false;
+if($login !== false){
+    $isLogged = true;
+}
 
 ?>
 <!DOCTYPE html>
@@ -59,11 +63,27 @@ Database::connectDefault();
         <section class="row">
             <h2>Featured Recipes</h2>
             <p>Handpicked favorites for busy students</p>
-            
-            <?= RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-            <?= RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-            <?= RecipeCard("3", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-            <?= RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+
+            <?php 
+                $recipes = Recipe::getBest($db, 4);
+                if($recipes === false){
+
+            ?>
+            <?php 
+                }else{
+                    $i = 0;
+                    if($isLogged){
+                        foreach($recipes as $recipe){
+                            RecipeCard("home-".$i, $recipe->id, $recipe->title, $recipe->getTags($db), $recipe->prepTime, $recipe->cost->value, false, true);
+                        }
+                    } else{
+                        foreach($recipes as $recipe){
+                            RecipeCard("home-".$i, $recipe->id, $recipe->title, $recipe->getTags($db), $recipe->prepTime, $recipe->cost->value, isLogged:true);
+                        }
+                        
+                    }
+                }       
+            ?>
         </section>
 
         <!-- Categories -->

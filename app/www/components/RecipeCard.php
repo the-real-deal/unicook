@@ -8,16 +8,13 @@ string $recipeTitle,
 array $tags, 
 int $timeRequired, 
 string $cost,
-string $imgID,
 bool $saved=false,
 bool $isLogged=false) {
-    
-    $imgageSrc = "";
 ?>
 <div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?= $elementId ?>">
     <article class="my-2 pb-2">
         <div>
-            <img class="card-img-top img-fluid" src="/assets/penne.jpg" alt="">
+            <img class="card-img-top img-fluid" src="/api/recipes/image.php?recipeId=<?= $recipeId ?>" alt="">
         </div>
         <div class="d-flex flex-column">
             <h3 class="order-2 recipe-card-title" data-recipe-id="<?= $recipeId?>" ><?= $recipeTitle ?></h3>

@@ -49,7 +49,10 @@ function addRecipeFromTemplate() {
 
     clone.id = newID;
 
-    // clone.querySelector('img').src = "link";
+    // const params = new URLSearchParams(document.location.search)
+    // const userId = params.get("userId")
+
+    clone.querySelector('img').src = `/api/recipes/image.php?recipeId=${user.id}`;
 
     const title = clone.querySelector('h3');
     title.textContent = recipeData.recipeTitle;
