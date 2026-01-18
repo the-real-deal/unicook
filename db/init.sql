@@ -480,50 +480,50 @@ INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
     'Toss hot pasta with pesto, adding pasta water as needed to create a silky sauce. Serve with extra Parmesan.'
 );
 
-INSERT INTO `RecipeIngredients`(`recipeId`, `ingredientId`, `name`, `quantity`, `barcode`) VALUES
+INSERT INTO `RecipeIngredients`(`recipeId`, `ingredientId`, `name`, `quantity`) VALUES
 -- Spaghetti Carbonara
-('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 1, 'Spaghetti', '400g', '8076809513609'),
-('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 2, 'Guanciale', '150g', NULL),
-('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 3, 'Eggs', '4 large', '0001111234567'),
-('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 4, 'Pecorino Romano cheese', '100g', NULL),
-('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 5, 'Black pepper', 'to taste', NULL),
+('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 1, 'Spaghetti', '400g'),
+('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 2, 'Guanciale', '150g'),
+('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 3, 'Eggs', '4 large'),
+('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 4, 'Pecorino Romano cheese', '100g'),
+('2f8e3a1b-9c4d-4e5f-a6b7-c8d9e0f1a2b3', 5, 'Black pepper', 'to taste'),
 -- Caprese Salad
-('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 1, 'Fresh tomatoes', '3 large', NULL),
-('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 2, 'Fresh mozzarella', '250g', NULL),
-('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 3, 'Fresh basil', '1 bunch', NULL),
-('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 4, 'Extra virgin olive oil', '3 tbsp', NULL),
-('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 5, 'Balsamic glaze', '2 tbsp', NULL),
-('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 6, 'Salt', 'to taste', NULL),
+('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 1, 'Fresh tomatoes', '3 large'),
+('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 2, 'Fresh mozzarella', '250g'),
+('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 3, 'Fresh basil', '1 bunch'),
+('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 4, 'Extra virgin olive oil', '3 tbsp'),
+('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 5, 'Balsamic glaze', '2 tbsp'),
+('5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 6, 'Salt', 'to taste'),
 -- Tiramisù
-('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 1, 'Ladyfinger cookies', '300g', '8001120130396'),
-('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 2, 'Mascarpone cheese', '500g', NULL),
-('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 3, 'Eggs', '6 large', '0001111234567'),
-('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 4, 'Sugar', '150g', NULL),
-('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 5, 'Espresso coffee', '300ml', NULL),
-('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 6, 'Cocoa powder', 'for dusting', NULL),
-('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 7, 'Coffee liqueur', '2 tbsp (optional)', NULL),
+('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 1, 'Ladyfinger cookies', '300g'),
+('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 2, 'Mascarpone cheese', '500g'),
+('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 3, 'Eggs', '6 large'),
+('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 4, 'Sugar', '150g'),
+('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 5, 'Espresso coffee', '300ml'),
+('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 6, 'Cocoa powder', 'for dusting'),
+('8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e', 7, 'Coffee liqueur', '2 tbsp (optional)'),
 -- Quinoa Buddha Bowl
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 1, 'Quinoa', '1 cup', NULL),
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 2, 'Sweet potato', '1 large', NULL),
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 3, 'Chickpeas', '1 can (400g)', '5000112648846'),
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 4, 'Broccoli', '1 head', NULL),
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 5, 'Avocado', '1 ripe', NULL),
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 6, 'Mixed greens', '2 cups', NULL),
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 7, 'Tahini', '3 tbsp', NULL),
-('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 8, 'Lemon juice', '2 tbsp', NULL),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 1, 'Quinoa', '1 cup'),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 2, 'Sweet potato', '1 large'),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 3, 'Chickpeas', '1 can (400g)'),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 4, 'Broccoli', '1 head'),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 5, 'Avocado', '1 ripe'),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 6, 'Mixed greens', '2 cups'),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 7, 'Tahini', '3 tbsp'),
+('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 8, 'Lemon juice', '2 tbsp'),
 -- Margherita Pizza
-('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 1, 'Pizza dough', '500g', NULL),
-('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 2, 'Tomato sauce', '200ml', NULL),
-('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 3, 'Fresh mozzarella', '250g', NULL),
-('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 4, 'Fresh basil', '1 bunch', NULL),
-('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 5, 'Extra virgin olive oil', '2 tbsp', NULL),
+('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 1, 'Pizza dough', '500g'),
+('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 2, 'Tomato sauce', '200ml'),
+('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 3, 'Fresh mozzarella', '250g'),
+('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 4, 'Fresh basil', '1 bunch'),
+('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 5, 'Extra virgin olive oil', '2 tbsp'),
 -- Pesto Pasta
-('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 1, 'Pasta (fusilli or penne)', '400g', '8076809513609'),
-('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 2, 'Fresh basil', '2 cups packed', NULL),
-('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 3, 'Pine nuts', '50g', NULL),
-('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 4, 'Garlic', '2 cloves', NULL),
-('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 5, 'Parmesan cheese', '80g', NULL),
-('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 6, 'Extra virgin olive oil', '100ml', NULL);
+('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 1, 'Pasta (fusilli or penne)', '400g'),
+('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 2, 'Fresh basil', '2 cups packed'),
+('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 3, 'Pine nuts', '50g'),
+('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 4, 'Garlic', '2 cloves'),
+('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 5, 'Parmesan cheese', '80g'),
+('7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c', 6, 'Extra virgin olive oil', '100ml');
 
 INSERT INTO `RecipeTags`(`recipeId`, `tagId`) VALUES
 -- Spaghetti Carbonara: Italian, Pasta, Comfort Food

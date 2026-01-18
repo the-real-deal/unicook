@@ -14,7 +14,7 @@
 - [x] get recipe 
 - [x] get recipe image 
 - [x] get recipe steps
-- [ ] get recipe ingredients
+- [x] get recipe ingredients
 - [ ] get recipe tags
 
 #### POST
