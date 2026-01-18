@@ -340,6 +340,24 @@ readonly class Recipe extends DBTable {
         return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
     }
 
+    public function getRating(Database $db): int|false {
+        $query = $db->createStatement(<<<sql
+            SELECT AVG(rr.`rating`) AS rating
+            FROM `Reviews` rr
+                JOIN `Recipes` r on rr.`recipeId` = r.`id`
+            WHERE r.`id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        if ($result->totalRows === 0) {
+            return 0; // no reviews
+        }
+        return $result->fetchOne()["rating"];
+    }
+
     public function getSteps(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT rs.*
