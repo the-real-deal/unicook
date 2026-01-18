@@ -16,7 +16,7 @@ function RecipeCard(string $elementId,
             <img class="card-img-top img-fluid" src="/assets/penne.jpg" alt="">
         </div>
         <div class="d-flex flex-column">
-            <h3 onclick="changePage(<?= $recipeId ?>)" class="order-2"><?= $recipeTitle ?></h3>
+            <h3 class="order-2 recipe-card-title" data-recipe-id="<?= $recipeId?>" ><?= $recipeTitle ?></h3>
             <ul class="order-1 w-100">
                 <!--
                 <?php 
@@ -51,7 +51,7 @@ function RecipeCard(string $elementId,
                 <span><?= $cost ?></span>
             </div>
         </div>
-        <a href="/singleRecipe?id=<?= $recipeId?>" >More...</a> <!-- add link to recipe id -->
+        <a href="/singleRecipe?id=<?= $recipeId?>" >More...</a>
         <button id="btn-<?= $elementId?>" class="d-flex justify-content-center align-items-center" onclick="saveRecipe('btn-<?= $elementId ?>','<?= $recipeId?>')" type="button" title="<?= $saved?"remove from saved":"save" ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?= $saved?"currentColor":"transparent" ?>" stroke="currentColor" class="bi bi-bookmark-fill flex-shrink-0" viewBox="-1 -1 18 18">
                 <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>

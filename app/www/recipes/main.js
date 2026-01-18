@@ -15,16 +15,18 @@ function addRecipeFromTemplate() {
     const template = document.getElementById("{template}");
     const clone = template.cloneNode(true);
 
-    console.log(recipeData);
-
     const newID = "recipe-" + index++;
 
     clone.id = newID;
 
     // clone.querySelector('img').src = "link";
+
     const title = clone.querySelector('h3');
     title.textContent = recipeData.recipeTitle;
-    title.setAttribute('onclick', `changePage('${newID}')`);
+    title.setAttribute('data-recipe-id', `${recipeData.recipeID}`);
+    title.addEventListener('click', () => {
+        changePage(recipeData.recipeID);
+    })
 
     const tags = clone.querySelector('ul');
 
