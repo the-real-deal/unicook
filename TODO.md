@@ -50,7 +50,7 @@
 
 #### POST
 
-- [ ] create reviews (userId, recipeId, body, rating)
+- [x] create reviews (userId, recipeId, body, rating)
 - [ ] delete review (if creator or admin)
 
 

@@ -82,7 +82,7 @@ CREATE TABLE `Reviews` (
     `rating` INT NOT NULL,
     `body` TEXT NOT NULL,
     `createdAt` DATETIME NOT NULL DEFAULT now(),
-    CHECK (`rating` >= 0 AND `rating` <= 5)
+    CHECK (`rating` >= 1 AND `rating` <= 5)
 );
 
 DROP TABLE IF EXISTS `RecipeSaves`;
