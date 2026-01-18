@@ -50,6 +50,7 @@ nav li a {
     color: var(--text);
     font-size: 17px;
     border-radius: var(--card-radius);
+    min-width: fit-content;
 }
 
 nav li a:hover {
