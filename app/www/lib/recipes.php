@@ -5,6 +5,7 @@ require_once "lib/core/files.php";
 require_once "lib/core/uuid.php";
 require_once "lib/tags.php";
 require_once "lib/users.php";
+require_once "lib/reviews.php";
 
 enum RecipeDifficulty: int {
     case Easy = 0;
@@ -395,7 +396,7 @@ readonly class Recipe extends DBTable {
         $query = $db->createStatement(<<<sql
             SELECT rr.*
             FROM `Reviews` rr
-                JOIN `Recipes` r on rr.`reviewId` = r.`id`
+                JOIN `Recipes` r on rr.`recipeId` = r.`id`
             WHERE r.`id` = ?
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
