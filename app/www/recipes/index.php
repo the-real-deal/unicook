@@ -8,6 +8,17 @@ require_once "components/SearchBar.php";
 require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
 
+// require_once "lib/auth.php";
+
+// $db = Database::connectDefault();
+// $login = LoginSession::autoLogin($db);
+
+// if ($login === false) {
+//     // non sono loggato
+// } else {
+//     // sono loggato
+// }
+
 class TagTmp{
     public string $id;
     public string $name;
@@ -105,11 +116,14 @@ $resultNumber = 4;
             </div>
         </header>
         <div>
-            <section id="recipe-container" class="row">
+            <section id="recipe-result" class="row">
                 <h2>Results</h2>
-                <p>Showing <?= $resultNumber ?> recipes</p>
+                <p id="recipeCount">Showing 3 recipes</p>
                 <div id="recipe-template">
                     <?= RecipeCard("{template}", "{recipeId}", "{recipeTitle}", [], 20, "{cost}") ?>
+                </div>
+                <div id="recipe-container" class="row">
+
                 </div>
             </section>
         </div>

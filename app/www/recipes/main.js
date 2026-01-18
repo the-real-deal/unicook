@@ -24,7 +24,8 @@ document.getElementById('search-recipes').addEventListener('keyup', (e) => {
 });
 
 function handleFormChange(event) {
-
+    removeAllChilds();
+    // call query
     console.log('Form changed!', e.target.name, e.target.value);
 }
 
@@ -83,4 +84,10 @@ function addRecipeFromTemplate() {
 
 
     document.getElementById('recipe-container').appendChild(clone);
+}
+
+function removeAllChilds() {
+    document.getElementById('recipe-container').innerHTML = '';
+    nRecipes = 0;
+    lastBatchCount = -1;
 }
