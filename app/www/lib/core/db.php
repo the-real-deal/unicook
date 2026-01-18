@@ -58,14 +58,14 @@ enum SqlValueType {
         }
         switch ($this) {
             case self::Int:
-                assert(is_int($value));
-                return $value;
+                assert(is_numeric($value));
+                return (int)$value;
             case self::Bool:
-                assert(is_int($value));
-                return boolval($value);
+                assert(is_numeric($value));
+                return (bool)$value;
             case self::Float:
-                assert(is_float($value));
-                return $value;
+                assert(is_numeric($value));
+                return (float)$value;
             case self::String:
                 assert(is_string($value));
                 return $value;

@@ -26,20 +26,18 @@ readonly class ApiRequest {
 
     public function getScalar(ApiResponse $res, string $key): string|null {
         $value = $this->getParam($key);
-        if ($value === null || is_string($value)) {
-            return $value;
-        } else {
+        if (is_array($value)) {
             $res->dieWithError(HTTPCode::BadRequest, "Param $key must be a scalar");
         }
+        return $value;
     }
 
     public function getArray(ApiResponse $res, string $key): array|null {
         $value = $this->getParam($key);
-        if ($value === null || is_array($value)) {
-            return $value;
-        } else {
+        if (is_string($value)) {
             $res->dieWithError(HTTPCode::BadRequest, "Param $key must be an array");
         }
+        return $value;
     }
 
     public function getFile(string $key): array|null {
@@ -49,38 +47,34 @@ readonly class ApiRequest {
 
     public function expectParam(ApiResponse $res, string $key): array|string {
         $value = $this->getParam($key);
-        if ($value !== null) {
-            return $value;
-        } else {
+        if ($value === null) {
             $res->dieWithError(HTTPCode::BadRequest, "Missing param $key");
         }
+        return $value;
     }
 
     public function expectScalar(ApiResponse $res, string $key): string {
         $value = $this->getScalar($res, $key);
-        if ($value !== null) {
-            return $value;
-        } else {
+        if ($value === null) {
             $res->dieWithError(HTTPCode::BadRequest, "Missing scalar $key");
         }
+        return $value;
     }
     
     public function expectArray(ApiResponse $res, string $key): array {
         $value = $this->getArray($res, $key);
-        if ($value !== null) {
-            return $value;
-        } else {
+        if ($value === null) {
             $res->dieWithError(HTTPCode::BadRequest, "Missing array $key");
         }
+        return $value;
     }
 
     public function expectFile(ApiResponse $res, string $key): array {
         $value = $this->getFile($key);
-        if ($value !== null) {
-            return $value;
-        } else {
+        if ($value === null) {
             $res->dieWithError(HTTPCode::BadRequest, "Missing file $key");
         }
+        return $value;
     }
 
     function validateEnum(ApiResponse $res, string $value, string $enumClass, string $fieldName): object {
@@ -94,11 +88,10 @@ readonly class ApiRequest {
                 $backingType = $reflection->getBackingType();
                 
                 if ($backingType->getName() === int::class) {
-                    if (is_numeric($value)) {
-                        $value = (int)$value;
-                    } else {
+                    if (!is_numeric($value)) {
                         throw new ValueError();
                     }
+                    $value = (int)$value;
                 }
             }
             return $enumClass::from($value);

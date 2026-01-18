@@ -7,15 +7,20 @@
 #### GET
 
 - [x] random recipe 
-- [ ] n best recipes 
-- [ ] total of tag 
+- [x] n best recipes
+- [x] recipe rating 
+- [x] total of tag 
 - [ ] recipe search (text, min/max time (number or enum range), difficulty, cost, tags)
-- [ ] get recipe 
-- [ ] get recipe image 
+- [x] get recipe 
+- [x] get recipe image 
+- [x] get recipe steps
+- [x] get recipe ingredients
+- [x] get recipe tags
 
 #### POST
 - [x] create recipe (title, description, image, tags[], difficulty, prepTime, cost, servings, ingredientsQuantity[], ingredientsName[], steps[])
 - [ ] update recipe (if creator or admin) ?
+- [ ] delete recipe (if creator or admin) ?
 
 ### Users
 
@@ -41,11 +46,12 @@
 
 #### GET
 
-- [ ] recipe reviews
+- [x] get review
+- [x] recipe reviews
 
 #### POST
 
-- [ ] create reviews (userId, recipeId, reviewText, rating)
+- [x] create reviews (userId, recipeId, body, rating)
 - [ ] delete review (if creator or admin)
 
 
@@ -53,10 +59,10 @@
 
 #### GET
 
-- [ ] total users
-- [ ] total recipes
-- [ ] total avg rating
-- [ ] one
+- [x] total users
+- [x] total recipes
+- [x] total avg rating
+- [x] one
 
 ### Chat
 

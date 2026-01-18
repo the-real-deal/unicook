@@ -2,6 +2,7 @@
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/db.php";
 require_once "lib/core/uuid.php";
+require_once "lib/recipes.php";
 
 readonly class Tag extends DBTable {
     protected function __construct(
@@ -43,6 +44,21 @@ readonly class Tag extends DBTable {
         }
         $result = $query->expectResult();
         return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
+    }
+
+    public function getRecipes(Database $db): array|false {
+        $query = $db->createStatement(<<<sql
+            SELECT r.*
+            FROM `RecipeTags` rt
+                JOIN `Recipes` r on rt.`recipeId` = r.`id`
+            WHERE rt.`tagId` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
     }
 }
 ?>

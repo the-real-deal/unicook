@@ -1,22 +1,20 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/api.php";
-require_once "lib/users.php";
+require_once "lib/recipes.php";
 
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
-    $userId = $req->expectScalar($res, "userId");
+    $n = $req->expectScalar($res, "n");
+    
+    $n = $req->validateInt($res, $n, "Number of recipes");
     
     $db = Database::connectDefault();
     try {
-        $user = User::fromId($db, $userId);
-        if ($user === false) {
-            $res->dieWithError(HTTPCode::NotFound, "User not found");
-        }
-        $recipes = $user->getSavedRecipes($db);
+        $recipes = Recipe::getBest($db, $n);
         if ($recipes === false) {
-            $res->dieWithError(HTTPCode::InternalServerError, "Cannot get user recipes");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to get recipes");
         }
         $res->sendJSON($recipes);
     } catch (InvalidArgumentException $e) {

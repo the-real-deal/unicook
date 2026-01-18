@@ -70,14 +70,11 @@ readonly class AuthSession extends DBTable {
         $auth = self::fromTableRow($result->fetchOne());
         if ($auth === false) {
             return false;
-        } else {
-            return $auth;
         }
+        return $auth;
     }
 
-    public static function createUserSession(Database $db, string $userId): string|false {
-        $userId = User::validateId($userId);
-
+    public static function createUserSession(Database $db, User $user): string|false {
         $query = $db->createStatement(<<<sql
             INSERT INTO `AuthSessions`(`id`, `keyHash`, `userId`) VALUES (?, ?, ?)
             sql);
@@ -87,13 +84,12 @@ readonly class AuthSession extends DBTable {
         $ok = $query->bind(
             SqlValueType::String->createParam($id),
             SqlValueType::String->createParam($keyHash),
-            SqlValueType::String->createParam($userId),
+            SqlValueType::String->createParam($user->id),
         )->execute();
-        if ($ok) {
-            return $key;
-        } else {
+        if (!$ok) {
             return false;
         }
+        return $key;
     }
 }
 
@@ -127,7 +123,7 @@ readonly class LoginSession {
         if ($user === false) {
             return false;
         }
-        $authKey = AuthSession::createUserSession($db, $user->id);
+        $authKey = AuthSession::createUserSession($db, $user);
         if ($authKey === false) {
             return false;
         }
@@ -174,11 +170,10 @@ readonly class LoginSession {
             return false;
         }
 
-        $user = User::fromAuthSessionId($db, $auth->id);
+        $user = User::fromAuthSession($db, $auth);
         if ($user === false) {
             return false;
         }
-
         return new self(auth: $auth, user: $user);
     }
 
@@ -191,9 +186,8 @@ readonly class LoginSession {
         $login = self::fromAuthSessionKey($db, $authSessionKey);
         if ($login === false) {
             return false;
-        } else {
-            return $login;
         }
+        return $login;
     }
 
     public static function autoLoginOrRedirect(Database $db, string $redirect = "/login/"): self {
@@ -201,9 +195,8 @@ readonly class LoginSession {
         if ($login === false) {
             $res = new ApiResponse();
             $res->redirect($redirect);
-        } else {
-            return $login;
         }
+        return $login;
     }
 }
 

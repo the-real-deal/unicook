@@ -35,7 +35,7 @@ readonly class User extends DBTable {
 
     public static function validateEmail(string $email): string {
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            throw new InvalidArgumentException("Invalid email");
+            throw new InvalidArgumentException("User email must be a valid email address");
         }
         return $email;
     }
@@ -43,7 +43,7 @@ readonly class User extends DBTable {
     public static function validatePassword(string $password): string {
         if (filter_var_regex($password, '/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Password must be between 8 and 50 characters, with at least 1 symbol and 1 number
+            User password must be between 8 and 50 characters, with at least 1 symbol and 1 number
             end);
         }
         return $password;
@@ -72,11 +72,10 @@ readonly class User extends DBTable {
             SqlValueType::String->createParam($passwordHash),
             SqlValueType::String->createParam(null),
         )->execute();
-        if ($ok) {
-            return $id;
-        } else {
+        if (!$ok) {
             return false;
         }
+        return $id;
     }
 
     public static function fromId(Database $db, string $id): self|false {
@@ -99,18 +98,14 @@ readonly class User extends DBTable {
         return self::fromTableRow($result->fetchOne());
     }
 
-    public static function fromAuthSessionId(Database $db, string $sessionId, bool $valid = true): self|false {
-        $sessionId = AuthSession::validateId($sessionId);
-
-        $validityCheck = $valid ? AuthSession::sqlValidityCheck("s") : "1";
+    public static function fromAuthSession(Database $db, AuthSession $auth): self|false {
         $query = $db->createStatement(<<<sql
             SELECT u.*
             FROM `Users` u
                 JOIN `AuthSessions` s ON u.`id` = s.`userId`
             WHERE s.`id` = ?
-                AND $validityCheck
             sql);
-        $ok = $query->bind(SqlValueType::String->createParam($sessionId))->execute();
+        $ok = $query->bind(SqlValueType::String->createParam($auth->id))->execute();
         if (!$ok) {
             return false;
         }
@@ -142,11 +137,10 @@ readonly class User extends DBTable {
         
         $user = self::fromTableRow($result->fetchOne());
         $passwordMatches = password_verify($password, $user->passwordHash);
-        if ($passwordMatches) {
-            return $user;
-        } else {
+        if (!$passwordMatches) {
             return false;
         }
+        return $user;
     }
 
     public static function searchEmail(Database $db, string $email): bool {
@@ -162,11 +156,7 @@ readonly class User extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        if ($result->totalRows === 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return $result->totalRows > 0;
     }
 
     public function uploadImage(Database $db, array $fileArray): UploadFile|false {
@@ -186,13 +176,13 @@ readonly class User extends DBTable {
         )->execute();
         if (!$ok) {
             return false;
-        } else {
-            $prevImage = $this->getImage();
-            if ($this->avatarId !== null) {
-                $this->deleteImageUpload();
-            }
-            return $image;
         }
+
+        $prevImage = $this->getImage();
+        if ($this->avatarId !== null) {
+            $this->deleteImageUpload();
+        }
+        return $image;
     }
 
     public function getImage(): UploadFile|false {
@@ -222,9 +212,8 @@ readonly class User extends DBTable {
         )->execute();
         if (!$ok) {
             return false;
-        } else {
-            return $this->deleteImageUpload();
         }
+        return $this->deleteImageUpload();
     }
 
     public function getPublishedRecipes(Database $db): array|false {
@@ -257,9 +246,7 @@ readonly class User extends DBTable {
         return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
     }
 
-    private function getSavedRecipe(Database $db, string $recipeId): string|null|false {
-        $recipeId = Recipe::validateId($recipeId);
-
+    private function getSavedRecipe(Database $db, Recipe $recipe): RecipeSave|null|false {
         $query = $db->createStatement(<<<sql
             SELECT rs.*
             FROM `RecipeSaves` rs
@@ -267,7 +254,7 @@ readonly class User extends DBTable {
                 AND rs.`userId` = ?
             sql);
         $ok = $query->bind(
-            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($recipe->id),
             SqlValueType::String->createParam($this->id),
             )->execute();
         if (!$ok) {
@@ -277,8 +264,8 @@ readonly class User extends DBTable {
         return RecipeSave::fromOptionalTableRow($result->fetchOne());
     }
 
-    public function saveRecipe(Database $db, string $recipeId): bool {
-        $recipeSave = $this->getSavedRecipe($db, $recipeId);
+    public function saveRecipe(Database $db, Recipe $recipe): bool {
+        $recipeSave = $this->getSavedRecipe($db, $recipe);
         if ($recipeSave === false || $recipeSave !== null) {
             return false;
         }
@@ -288,14 +275,14 @@ readonly class User extends DBTable {
             VALUES (?, ?)
             sql);
         $ok = $query->bind(
-            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($recipe->id),
             SqlValueType::String->createParam($this->id),
         )->execute();
         return $ok;
     }
 
-    public function unsaveRecipe(Database $db, string $recipeId): bool {
-        $recipeSave = $this->getSavedRecipe($db, $recipeId);
+    public function unsaveRecipe(Database $db, Recipe $recipe): bool {
+        $recipeSave = $this->getSavedRecipe($db, $recipe);
         if ($recipeSave === false || $recipeSave === null) {
             return false;
         }
@@ -307,7 +294,7 @@ readonly class User extends DBTable {
             sql);
 
         $ok = $query->bind(
-            SqlValueType::String->createParam($recipeId),
+            SqlValueType::String->createParam($recipe->id),
             SqlValueType::String->createParam($this->id),
         )->execute();
         return $ok;

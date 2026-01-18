@@ -5,6 +5,7 @@ require_once "lib/core/files.php";
 require_once "lib/core/uuid.php";
 require_once "lib/tags.php";
 require_once "lib/users.php";
+require_once "lib/reviews.php";
 
 enum RecipeDifficulty: int {
     case Easy = 0;
@@ -37,7 +38,7 @@ readonly class RecipeIngredient extends DBTable {
 }
 
 readonly class Recipe extends DBTable {
-    public const IMAGES_PATH = "recipes";
+    public const IMAGES_UPLOAD_PATH = "recipes";
 
     protected function __construct(
         public string $id,
@@ -59,7 +60,7 @@ readonly class Recipe extends DBTable {
     public static function validateTitle(string $title): string {
         if (filter_var_regex($title, '/^.{3,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Title must be between 5 and 50 characters
+            Recipe title must be between 5 and 50 characters
             end);
         }
         return $title;
@@ -68,18 +69,10 @@ readonly class Recipe extends DBTable {
     public static function validateDescription(string $description): string {
         if (filter_var_regex($description, '/^.{3,250}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Description must be between 3 and 250 characters
+            Recipe description must be between 3 and 250 characters
             end);
         }
         return $description;
-    }
-
-    public static function validateTags(array $tags): array {
-        $result = [];
-        foreach ($tags as $tag) {
-            array_push($result, Tag::validateId($tag));
-        }
-        return $result;
     }
 
     public static function validatePrepTime(int $prepTime): int {
@@ -87,7 +80,7 @@ readonly class Recipe extends DBTable {
         $max = 5 * 60;
         if ($prepTime < $min || $prepTime > $max) {
             throw new InvalidArgumentException(<<<end
-            Preparation time must be between $min and $max minutes
+            Recipe preparation time must be between $min and $max minutes
             end);
         }
         return $prepTime;
@@ -98,37 +91,37 @@ readonly class Recipe extends DBTable {
         $max = 10;
         if ($servings < $min || $servings > $max) {
             throw new InvalidArgumentException(<<<end
-            Servings must be between $min and $max
+            Recipe servings must be between $min and $max
             end);
         }
         return $servings;
     }
 
+    public static function validateIngredientName(string $name): string {
+        if (filter_var_regex($name, '/^.{5,30}$/') === false) {
+            throw new InvalidArgumentException(<<<end
+            Recipe ingredient name must be between 5 and 30 characters
+            end);
+        }
+        return $name;
+    }
+    
     public static function validateIngredientQuantity(string $quantity): string {
         if (filter_var_regex($quantity, '/^.{1,20}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Ingredient quantity must be between 1 and 20 characters
+            Recipe ingredient quantity must be between 1 and 20 characters
             end);
         }
         return $quantity;
     }
 
-    public static function validateIngredientName(string $name): string {
-        if (filter_var_regex($name, '/^.{5,30}$/') === false) {
-            throw new InvalidArgumentException(<<<end
-            Ingredient name must be between 5 and 30 characters
-            end);
-        }
-        return $name;
-    }
-
     public static function validateIngredients(array $ingredients): array {
         $result = [];    
         foreach ($ingredients as $ingredient) {
-            [$quantity, $name] = $ingredient;
+            [ "name" => $name, "quantity" => $quantity ] = $ingredient;
             array_push($result, [
-                self::validateIngredientQuantity($quantity),
                 self::validateIngredientName($name),
+                self::validateIngredientQuantity($quantity),
             ]);
         }
         return $result;
@@ -172,10 +165,10 @@ readonly class Recipe extends DBTable {
 
     public static function create(
         Database $db,
-        string $userId,
+        User $user,
         string $title,
         string $description,
-        array $imageFile, 
+        UploadFile $image, 
         array $tags,
         RecipeDifficulty $difficulty,
         int $prepTime, 
@@ -184,22 +177,15 @@ readonly class Recipe extends DBTable {
         array $ingredients,
         array $steps,
     ): string|false {
-        $userId = User::validateId($userId);
         $title = self::validateTitle($title);
         $description = self::validateDescription($description);
-        $tags = self::validateTags($tags);
         $prepTime = self::validatePrepTime($prepTime);
         $servings = self::validateServings($servings);
         $ingredients = self::validateIngredients($ingredients);
         $steps = self::validateSteps($steps);
 
-        $image = UploadFile::uploadFileArray($imageFile, FileType::Image, self::IMAGES_PATH);
-        if ($image === null) {
-            return false;
-        }
-
         $ok = $db->beginTransaction();
-        if ($ok === false) {
+        if (!$ok) {
             return false;
         }
         try {
@@ -227,9 +213,9 @@ readonly class Recipe extends DBTable {
                 SqlValueType::Int->createParam($prepTime),
                 SqlValueType::Int->createParam($cost->value),
                 SqlValueType::Int->createParam($servings),
-                SqlValueType::String->createParam($userId),
+                SqlValueType::String->createParam($user->id),
             )->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe");
             }
 
@@ -244,11 +230,11 @@ readonly class Recipe extends DBTable {
             $ok = $query->bind(...array_merge(...array_map(
                 fn ($tag) => [
                     SqlValueType::String->createParam($id),
-                    SqlValueType::String->createParam($tag),
+                    SqlValueType::String->createParam($tag->id),
                 ],
                 $tags
             )))->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe tags");
             }
 
@@ -264,12 +250,12 @@ readonly class Recipe extends DBTable {
                 fn ($ingredient, $i) => [
                     SqlValueType::String->createParam($id),
                     SqlValueType::Int->createParam($i),
-                    SqlValueType::String->createParam($ingredient[0]),
-                    SqlValueType::String->createParam($ingredient[1]),
+                    SqlValueType::String->createParam($ingredient["name"]),
+                    SqlValueType::String->createParam($ingredient["quantity"]),
                 ],
                 $ingredients, array_keys($ingredients)
             )))->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe ingredients");
             }
 
@@ -289,7 +275,7 @@ readonly class Recipe extends DBTable {
                 ],
                 $steps, array_keys($steps)
             )))->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe steps");
             }
 
@@ -297,7 +283,6 @@ readonly class Recipe extends DBTable {
 
         } catch (\Throwable $th) {
             $db->rollback();
-            $image->delete();
             return false;
         }
     }
@@ -317,6 +302,46 @@ readonly class Recipe extends DBTable {
             return false;
         }
         return self::fromTableRow($result->fetchOne());
+    }
+
+    public static function getBest(Database $db, int $n): array|false {
+        if ($n < 0) {
+            throw new InvalidArgumentException("Number of recipes must be non-negative");
+        }
+
+        $query = $db->createStatement(<<<sql
+            SELECT r.*
+            FROM `Reviews` rr
+                JOIN `Recipes` r on rr.`recipeId` = r.`id`
+            GROUP BY r.`id`
+            ORDER BY AVG(rr.`rating`) DESC
+            LIMIT ?
+            sql);
+        $ok = $query->bind(SqlValueType::Int->createParam($n))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
+    }
+
+    public function getImage(): UploadFile|false {
+        return UploadFile::fromId($this->photoId, self::IMAGES_UPLOAD_PATH);
+    }
+
+    public function getRating(Database $db): int|false {
+        $query = $db->createStatement(<<<sql
+            SELECT COALESCE(AVG(rr.`rating`), 0) AS rating
+            FROM `Reviews` rr
+                JOIN `Recipes` r on rr.`recipeId` = r.`id`
+            WHERE r.`id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $row = $query->expectResult()->fetchOne();
+        return SqlValueType::Int->valueFromField($row["rating"]);
     }
 
     public function getSteps(Database $db): array|false {
@@ -361,14 +386,14 @@ readonly class Recipe extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        return array_map(fn ($row) => Tags::fromTableRow($row), $result->fetchAll());
+        return array_map(fn ($row) => Tag::fromTableRow($row), $result->fetchAll());
     }
 
     public function getReviews(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT rr.*
             FROM `Reviews` rr
-                JOIN `Recipes` r on rr.`reviewId` = r.`id`
+                JOIN `Recipes` r on rr.`recipeId` = r.`id`
             WHERE r.`id` = ?
             sql);
         $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();

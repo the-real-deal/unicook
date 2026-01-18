@@ -16,7 +16,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         }
         $image = $login->user->uploadImage($db, $image);
         if ($image === false) {
-            $res->dieWithError(HTTPCode::InternalServerError, "Upload failed");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to upload image");
         }
         $res->sendJSON($image);
     } catch (InvalidArgumentException | UploadErrorException | BadFileException $e) {
