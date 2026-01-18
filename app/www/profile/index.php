@@ -10,6 +10,10 @@ require_once "lib/core/api.php";
 require_once "lib/core/db.php";
 require_once "lib/users.php";
 require_once "lib/auth.php";
+require_once "lib/auth.php";
+
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
 
 $user = false;
 
@@ -41,7 +45,7 @@ $server->respond();
 <?= PageHead("Profile", [ "style.css" ]) ?>
 <body>
     <?= ErrorNotification() ?>
-    <?= Navbar() ?>
+    <?= Navbar($login) ?>
     <main>
         <section id="profile-section" class="container my-5 mx-auto">
             <div class="row align-items-center justify-content-center p-5">

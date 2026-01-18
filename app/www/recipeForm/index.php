@@ -5,13 +5,17 @@ require_once "components/ErrorNotification.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/FileInput.php";
+require_once "lib/auth.php";
+
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?= PageHead("Form", [ "style.css" ]) ?>
 <body>
     <?=  ErrorNotification() ?>
-    <?=  Navbar() ?>
+    <?=  Navbar($login) ?>
     <main>
         <form id="recipeForm" action="/api/recipes/create.php" method="POST"
             class="d-flex flex-column p-4 gap-3 mx-auto my-2">

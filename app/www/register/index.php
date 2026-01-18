@@ -4,13 +4,17 @@ require_once "components/PageHead.php";
 require_once "components/ErrorNotification.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
+require_once "lib/auth.php";
+
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?= PageHead("Register", [ "/css/loginRegister.css" ]) ?>
 <body>
     <?= ErrorNotification() ?>
-    <?= Navbar() ?>
+    <?= Navbar($login) ?>
     <main>
         <div class="d-flex justify-content-center">
             <form id="registerForm" action="/api/auth/register.php" method="POST" class="w-100 mx-4 p-5">

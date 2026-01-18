@@ -7,15 +7,21 @@ require_once "components/RecipeCard.php";
 require_once "components/CategoryCard.php";
 require_once "components/SearchBar.php";
 require_once "lib/auth.php";
+require_once "lib/auth.php";
+
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
 
 $randomRecipeId="1";
 Database::connectDefault();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?= PageHead("Home",["style.css"]) ?>
 <body>
-    <?= Navbar() ?>
+    <?= Navbar($login) ?>
     <main class="container-fluid p-0 overflow-x-hidden" id="home-page">
         <div><!-- Presentational Purposes Only -->
             <header class="row pt-5 px-5">
