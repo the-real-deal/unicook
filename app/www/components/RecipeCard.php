@@ -3,12 +3,16 @@ require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/recipes.php";
 
 function RecipeCard(string $elementId,
-                    string $recipeId, 
-                    string $recipeTitle, 
-                    array $tags, 
-                    int $timeRequired, 
-                    string $cost, 
-                    bool $saved=false) {
+string $recipeId, 
+string $recipeTitle, 
+array $tags, 
+int $timeRequired, 
+string $cost,
+string $imgID,
+bool $saved=false,
+bool $isLogged=false) {
+    
+    $imgageSrc = "";
 ?>
 <div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?= $elementId ?>">
     <article class="my-2 pb-2">
@@ -51,12 +55,18 @@ function RecipeCard(string $elementId,
                 <span><?= $cost ?></span>
             </div>
         </div>
-        <a href="/singleRecipe?id=<?= $recipeId?>" >More...</a>
+        <a href="/singleRecipe?id=<?= $recipeId?>" class="recipeLink">More...</a>
+        <?php 
+            if($isLogged){
+        ?>
         <button id="btn-<?= $elementId?>" class="d-flex justify-content-center align-items-center" onclick="saveRecipe('btn-<?= $elementId ?>','<?= $recipeId?>')" type="button" title="<?= $saved?"remove from saved":"save" ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?= $saved?"currentColor":"transparent" ?>" stroke="currentColor" class="bi bi-bookmark-fill flex-shrink-0" viewBox="-1 -1 18 18">
                 <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
             </svg>
         </button>
+        <?php
+            }
+        ?>
     </article>
 </div>
 <?php } ?>

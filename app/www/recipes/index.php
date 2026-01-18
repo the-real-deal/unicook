@@ -7,17 +7,16 @@ require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
+require_once "lib/auth.php";
 
-// require_once "lib/auth.php";
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
 
-// $db = Database::connectDefault();
-// $login = LoginSession::autoLogin($db);
+$_isLogged = false;
 
-// if ($login === false) {
-//     // non sono loggato
-// } else {
-//     // sono loggato
-// }
+if ($login !== false) {
+    $isLogged = true;
+}
 
 class TagTmp{
     public string $id;
@@ -120,7 +119,7 @@ $resultNumber = 4;
                 <h2>Results</h2>
                 <p id="recipeCount">Showing 3 recipes</p>
                 <div id="recipe-template">
-                    <?= RecipeCard("{template}", "{recipeId}", "{recipeTitle}", [], 20, "{cost}") ?>
+                    <?= RecipeCard("{template}", "{recipeId}", "{recipeTitle}", [], 20, "{cost}", isLogged:$_isLogged) ?>
                 </div>
                 <div id="recipe-container" class="row">
 

@@ -138,6 +138,10 @@
     margin-inline: 7%;
 }
 
+.recipe-card>article>.recipeLink {
+    margin-inline: 7%;
+}
+
 @media (min-width: 576px) and (max-width: 768px) {
     .recipe-card>article>div:last-child {
         width: 5%;
