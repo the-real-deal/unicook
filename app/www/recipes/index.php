@@ -57,7 +57,7 @@ $resultNumber = 4;
 <?= PageHead("Recipes", [ "style.css" ]) ?>
 <body>
     <?=  ErrorNotification() ?>
-    <?= Navbar() ?>
+    <?= Navbar($login) ?>
     <main class="container-fluid p-0 overflow-x-hidden" id="home-page">
         <header class="p-5">
             <h1>All Recipes</h1>
