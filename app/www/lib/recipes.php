@@ -319,6 +319,27 @@ readonly class Recipe extends DBTable {
         return self::fromTableRow($result->fetchOne());
     }
 
+    public static function getBest(Database $db, int $n): array|false {
+        if ($n < 0) {
+            throw new InvalidArgumentException("Number of recipes must be non-negative");
+        }
+
+        $query = $db->createStatement(<<<sql
+            SELECT r.*
+            FROM `Reviews` rr
+                JOIN `Recipes` r on rr.`recipeId` = r.`id`
+            GROUP BY r.`id`
+            ORDER BY AVG(rr.`rating`) DESC
+            LIMIT ?
+            sql);
+        $ok = $query->bind(SqlValueType::Int->createParam($n))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
+    }
+
     public function getSteps(Database $db): array|false {
         $query = $db->createStatement(<<<sql
             SELECT rs.*
