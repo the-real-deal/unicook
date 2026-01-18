@@ -7,7 +7,7 @@ require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
-require_once "lib/auth.php";
+require_once "lib/tags.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
@@ -18,25 +18,7 @@ if ($login !== false) {
     $isLogged = true;
 }
 
-class TagTmp{
-    public string $id;
-    public string $name;
-
-    public function __construct($id, $name) {
-        $this->id = $id;
-        $this->name = $name;
-    }
-}
-
-$tags = [
-    new TagTmp("1","Vegan"),
-    new TagTmp("2","Night Snacks"),
-    new TagTmp("3","International"),
-    new TagTmp("4","Few Ingredients"),
-    new TagTmp("5","Pasta"),
-    new TagTmp("6","Dessert"),
-    new TagTmp("7","Salty")
-];
+$tags = Tag::getAllTags($db);
 
 if(isset($_GET['tag']))
     $selectedTag = $_GET['tag'];
@@ -96,7 +78,8 @@ $resultNumber = 4;
                         </div>
                         <ul class="col-12 d-flex mt-3 flex-wrap">
                             <?php
-                                foreach($tags as $tag){
+                                if($tags !== false){
+                                    foreach($tags as $tag){
                             ?>   
                             <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
                                 <input type="checkbox" 
@@ -107,6 +90,7 @@ $resultNumber = 4;
                                 <label for="<?= $tag->id ?>"><?= $tag->name ?></label>
                             </li>
                             <?php 
+                                    }
                                 }
                             ?>
                         </ul>
