@@ -45,6 +45,9 @@
 
 
 .recipe-card article div>img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
     transition: var(--default-transition-timing-function);
 }
 

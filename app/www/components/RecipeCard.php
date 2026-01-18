@@ -12,7 +12,7 @@ bool $saved=false,
 bool $isLogged=false) {
 ?>
 <div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?= $elementId ?>">
-    <article class="my-2 pb-2">
+    <article class="my-2 pb-2 d-flex flex-column">
         <div>
             <img class="card-img-top img-fluid" src="/api/recipes/image.php?recipeId=<?= $recipeId ?>" alt="">
         </div>
@@ -21,7 +21,9 @@ bool $isLogged=false) {
             <ul class="order-1 w-100">
                 <!--
                 <?php 
+                    $i = 0;
                     foreach($tags as $tag){
+
                 ?>
                 --><li><?= $tag ?></li><!--
                 <?php 
@@ -52,7 +54,7 @@ bool $isLogged=false) {
                 <span><?= $cost ?></span>
             </div>
         </div>
-        <a href="/singleRecipe?id=<?= $recipeId?>" class="recipeLink">More...</a>
+        <a href="/singleRecipe?id=<?= $recipeId?>" class="recipeLink mt-auto">More...</a>
         <?php 
             if($isLogged){
         ?>

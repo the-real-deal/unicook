@@ -39,7 +39,7 @@ if($login !== false){
                         <!-- SEARCH BAR -->
                         <?= SearchBar("home") ?>
                     </form>
-                    <a href="/singleRecipe?id=<?= $randomRecipeId ?>" class="px-2 py-1 d-inline-flex justify-content-center align-items-center">
+                    <a href="/singleRecipe?id=<?= $randomRecipeId->id ?>" class="px-2 py-1 d-inline-flex justify-content-center align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-shuffle w-4 h-4 me-2" aria-hidden="true">
@@ -67,18 +67,18 @@ if($login !== false){
             <?php 
                 $recipes = Recipe::getBest($db, 4);
                 if($recipes === false){
-
             ?>
+                error
             <?php 
                 }else{
                     $i = 0;
                     if($isLogged){
                         foreach($recipes as $recipe){
-                            RecipeCard("home-".$i, $recipe->id, $recipe->title, $recipe->getTags($db), $recipe->prepTime, $recipe->cost->value, false, true);
+                            RecipeCard("home-".$i, $recipe->id, $recipe->title, array_map(fn($t)=>$t->name ,$recipe->getTags($db)), $recipe->prepTime, $recipe->cost->name, $recipe->isSavedFrom($db, $login->user), true);
                         }
                     } else{
                         foreach($recipes as $recipe){
-                            RecipeCard("home-".$i, $recipe->id, $recipe->title, $recipe->getTags($db), $recipe->prepTime, $recipe->cost->value, isLogged:true);
+                            RecipeCard("home-".$i, $recipe->id, $recipe->title, array_map(fn($t)=>$t->name ,$recipe->getTags($db)), $recipe->prepTime, $recipe->cost->name, isLogged:false);
                         }
                         
                     }
