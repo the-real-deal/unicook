@@ -17,7 +17,7 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
         }
         $image = $recipe->getImage();
         if ($image === false) {
-            $res->dieWithError(HTTPCode::NotFound, "Image not found");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to get image");
         }
         $res->sendUpload($image);
     } catch (InvalidArgumentException $e) {

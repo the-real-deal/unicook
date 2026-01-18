@@ -63,7 +63,7 @@ readonly class UploadFile {
         }
         $jsonString = file_get_contents($metadataPath);
         if ($jsonString === false) {
-            throw new RuntimeException("Error reading metadata for $id");
+            return false;
         }
         
         $jsonData = json_decode($jsonString, false);

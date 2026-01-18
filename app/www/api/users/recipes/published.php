@@ -16,7 +16,7 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
         }
         $recipes = $user->getPublishedRecipes($db);
         if ($recipes === false) {
-            $res->dieWithError(HTTPCode::InternalServerError, "Cannot get user recipes");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to get user recipes");
         }
         $res->sendJSON($recipes);
     } catch (InvalidArgumentException $e) {

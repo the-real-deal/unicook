@@ -14,7 +14,7 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
     try {
         $recipes = Recipe::getBest($db, $n);
         if ($recipes === false) {
-            $res->dieWithError(HTTPCode::NotFound, "Recipes not found");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to get best recipes");
         }
         $res->sendJSON($recipes);
     } catch (InvalidArgumentException $e) {

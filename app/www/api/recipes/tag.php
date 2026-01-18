@@ -12,7 +12,7 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
     try {
         $recipes = Recipe::getWithTag($db, $tagId);
         if ($recipes === false) {
-            $res->dieWithError(HTTPCode::NotFound, "Recipes not found");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to get recipes");
         }
         $res->sendJSON($recipes);
     } catch (InvalidArgumentException $e) {
