@@ -16,7 +16,7 @@ bool $isLogged=false) {
         <div>
             <img class="card-img-top img-fluid" src="/api/recipes/image.php?recipeId=<?= $recipeId ?>" alt="">
         </div>
-        <div class="d-flex flex-column h-50">
+    <div class="d-flex flex-column h-50 innerCard">
         <h3 class="order-3 recipe-card-title" data-recipe-id="<?= $recipeId?>"><?= $recipeTitle ?></h3>
         
         <ul class="order-1 w-100">
@@ -53,9 +53,9 @@ bool $isLogged=false) {
                 <span><?= $cost ?></span>
             </div>
         </div>
-    
-    <a href="/singleRecipe?id=<?= $recipeId?>" class="recipeLink order-5 mt-3">More...</a>
-</div>
+        
+        <a href="/singleRecipe?id=<?= $recipeId?>" class="order-5 mt-3">More...</a>
+    </div>
         
         <?php 
             if($isLogged){
