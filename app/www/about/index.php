@@ -4,6 +4,7 @@ require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Chat.php";
+require_once "components/ErrorNotification.php";
     
 $recipesCount = floorPlus(145);
 $studentsCount = floorPlus(298);
@@ -25,6 +26,7 @@ function floorPlus($var) {
 <?= PageHead("About", [ "style.css", "/css/components/chat.css" ]) ?>
 <body id="about-page">
     <?php 
+    ErrorNotification();
     Navbar();
     Chat();
     ?>

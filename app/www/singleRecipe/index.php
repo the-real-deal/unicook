@@ -4,6 +4,7 @@ require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Review.php";
+require_once "components/ErrorNotification.php";
 
 $id = $_GET['id'] ?? null;
 
@@ -21,6 +22,7 @@ $ingredients = array(
 <html lang="en">
 <?= PageHead("Recipe", [ "style.css" ]) ?>
 <body>
+    <?=  ErrorNotification() ?>
     <?= Navbar() ?>
     <main>
         <section id="recipe-info" class="d-flex justify-content-center">
