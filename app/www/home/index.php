@@ -74,10 +74,12 @@ if($login !== false){
                     if($isLogged){
                         foreach($recipes as $recipe){
                             RecipeCard("home-".$i, $recipe->id, $recipe->title, array_map(fn($t)=>$t->name ,$recipe->getTags($db)), $recipe->prepTime, $recipe->cost->name, $recipe->isSavedFrom($db, $login->user), true);
+                            $i++;
                         }
                     } else{
                         foreach($recipes as $recipe){
                             RecipeCard("home-".$i, $recipe->id, $recipe->title, array_map(fn($t)=>$t->name ,$recipe->getTags($db)), $recipe->prepTime, $recipe->cost->name, isLogged:false);
+                            $i++;
                         }
                     }
                 }       

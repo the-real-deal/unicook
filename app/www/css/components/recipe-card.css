@@ -24,7 +24,6 @@
     font-size: 18px;
 }
 
-/* .recipe-card article span, */
 .recipe-card article ul {
     padding: 5px 0%;
     margin-bottom: 5px;
@@ -125,11 +124,11 @@
     right: 10px;
 }
 
-.recipe-card>article>:last-child [fill="currentColor"] {
+.recipe-card>article>button>svg[fill="currentColor"] {
     color: var(--primary);
 }
 
-.recipe-card>article>:last-child [fill="transparent"] {
+.recipe-card>article>button>svg[fill="transparent"] {
     color: var(--text);
 }
 
@@ -143,6 +142,10 @@
 
 .recipe-card>article>.innerCard {
     margin-inline: 7%;
+}
+
+.recipe-card>article>div:has(span) {
+    color: var(--text-muted);
 }
 
 @media (min-width: 576px) and (max-width: 768px) {
