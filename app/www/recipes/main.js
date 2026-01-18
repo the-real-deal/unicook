@@ -1,16 +1,31 @@
 document.getElementById('clickme').addEventListener('click', () => { addRecipeFromTemplate() });
 
-document.getElementById('search-form').addEventListener('change', (e) => {
-    console.log(e.target.name);
-    console.log('search-bar');
-    console.log(e.target.name != 'search-bar');
+const form = document.getElementById('search-form');
+
+form.addEventListener('change', (e) => {
     if (e.target.name != 'search-bar')
         console.log('Form changed!', e.target.name, e.target.value);
 });
 
+let timerID = null;
+
 document.getElementById('search-recipes').addEventListener('keyup', (e) => {
-    console.log('Form changed!', e.target.name, e.target.value);
+    if (timerID)
+        clearTimeout(timerID);
+
+    timerID = setTimeout(() => {
+        console.log('Form changed!', e.target.name, e.target.value);
+        timerID = null;
+    }, 1000);
 });
+
+// document.getElementById('search-form').addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     for (var pair of new FormData(form).entries()) {
+//         console.log(pair[0] + ', ' + pair[1]);
+//     }
+// });
+
 
 let index = 0;
 

@@ -72,6 +72,11 @@ form ul li {
     border: solid 1px var(--border-muted);
 }
 
+form ul li>label:hover {
+    cursor: pointer;
+}
+
+
 main>:not(:first-child) {
     background-color: var(--bg);
 }
