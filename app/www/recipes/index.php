@@ -53,7 +53,7 @@ $resultNumber = 4;
             <div class="row">
                 <form id="search-form" class="w-100">
                     <!-- SEARCH BAR -->
-                    <?= SearchBar("recipes",50, isset($searchText) ? $searchText : "") ?>
+                    <?= SearchBar("recipes", 50, isset($searchText) ? $searchText : "") ?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
                             <label for="dif" hidden>difficulty level selector</label>

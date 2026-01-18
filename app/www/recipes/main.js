@@ -1,6 +1,14 @@
 document.getElementById('clickme').addEventListener('click', () => { addRecipeFromTemplate() });
 
-document.querySelector('search-form').addEventListener('change', (e) => {
+document.getElementById('search-form').addEventListener('change', (e) => {
+    console.log(e.target.name);
+    console.log('search-bar');
+    console.log(e.target.name != 'search-bar');
+    if (e.target.name != 'search-bar')
+        console.log('Form changed!', e.target.name, e.target.value);
+});
+
+document.getElementById('search-recipes').addEventListener('keyup', (e) => {
     console.log('Form changed!', e.target.name, e.target.value);
 });
 
