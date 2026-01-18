@@ -148,7 +148,7 @@ INSERT INTO `Users`(
     'marco.rossi@email.it', 
     'Marco Rossi', 
     '$2y$10$Ns2nFX4rYeGH5ylRi7Hb6e6AUr6IemUimByopvZL.caKfkOXQzQgm', 
-    '881a0c14-14c1-499f-8b7d-2832a0c2a591', 
+    '3a15870e-3634-41c7-8ddc-e1ccf71a9a97', 
     true, 
     '2024-01-15 10:30:00'
 ),
