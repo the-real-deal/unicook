@@ -4,6 +4,10 @@ require_once "components/PageHead.php";
 require_once "components/ErrorNotification.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
+require_once "lib/auth.php";
+
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
 
 ?>
 <!DOCTYPE html>
@@ -11,7 +15,7 @@ require_once "components/Footer.php";
 <?= PageHead("Login", [ "/css/loginRegister.css" ]) ?>
 <body>
     <?= ErrorNotification() ?>
-    <?= Navbar() ?>
+    <?= Navbar($login) ?>
     <main>
         <div class="d-flex justify-content-center">
             <form id="loginForm" action="/api/auth/login.php" method="POST" class="w-100 mx-4 p-5">

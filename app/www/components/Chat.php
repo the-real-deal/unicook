@@ -40,12 +40,12 @@ function Chat() {
 
                     <div id="message-box" class=" container py-2">
                         <div class="row mx-auto">
-                            <label for="message-text-area" hidden>Scrivi un messaggio</label>
-                            <textarea id="message-text-area" placeholder="Scrivi un messaggio..." class="col-9 "
+                            <label for="message-text-area" hidden>Write a message</label>
+                            <textarea id="message-text-area" placeholder="Write a message..." class="col-9 "
                                 rows="1"></textarea>
 
-                            <label for="message-send-button" hidden>Invia il messaggio</label>
-                            <input id="message-send-button" type="button" value="Invia" class="col-3 py-3 px-4" />
+                            <label for="message-send-button" hidden>Send a message</label>
+                            <input id="message-send-button" type="button" value="Send" class="text-center col-3 py-3 px-4" />
                         </div>
                     </div>
             </form>

@@ -4,6 +4,8 @@ require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Chat.php";
+require_once "components/ErrorNotification.php";
+require_once "lib/auth.php";
     
 $recipesCount = floorPlus(145);
 $studentsCount = floorPlus(298);
@@ -18,6 +20,10 @@ function floorPlus($var) {
     return strval($var);
 }
 
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +31,8 @@ function floorPlus($var) {
 <?= PageHead("About", [ "style.css", "/css/components/chat.css" ]) ?>
 <body id="about-page">
     <?php 
-    Navbar();
+    ErrorNotification();
+    Navbar($login);
     Chat();
     ?>
     <!-- ABOUT PAGE-->

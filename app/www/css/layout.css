@@ -50,6 +50,7 @@ nav li a {
     color: var(--text);
     font-size: 17px;
     border-radius: var(--card-radius);
+    min-width: fit-content;
 }
 
 nav li a:hover {
@@ -64,6 +65,15 @@ nav div.navbar-nav>a:last-child {
     text-decoration: none;
     border-radius: 50px;
     min-width: fit-content;
+}
+
+nav div.navbar-nav>a:last-child img {
+    width: 30px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 100%;
+    box-shadow: var(--shadow-dark);
 }
 
 nav div.navbar-nav>a:last-child:hover {

@@ -1,7 +1,7 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
-function Navbar() {
+function Navbar(LoginSession|false $login) {
 ?>
 <nav class="navbar navbar-expand-lg fixed-top px-3 py-2">
     <div class="container-fluid d-flex justify-content-between">
@@ -43,8 +43,20 @@ function Navbar() {
                     <li class="nav-item"><a class="nav-link px-3 py-2" href="/home">Home</a></li>
                     <li class="nav-item"><a class="nav-link px-3 py-2" href="/recipes">Recipes</a></li>
                     <li class="nav-item"><a class="nav-link px-3 py-2" href="/about">About</a></li>
+                    <?php 
+                    if ($login !== false) { 
+                    ?>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center nav-link px-3 py-2" href="/login">
+                                Create
+                            </a>    
+                        </li>
+                    <?php } ?>
                 </ul>
-                <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login">
+                <?php  
+                if ($login === false) { 
+                ?>
+                <a id="login"class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login">
                     <svg class="flex-shrink-0 me-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -53,6 +65,16 @@ function Navbar() {
                     </svg>
                     Login
                 </a>
+                <?php } else { ?>
+                <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/profile/?id=<?= $login->user->id ?>">
+                    <?= $login->user->username ?>
+                    <?php if($login->user->avatarId){ ?>
+                    <img class="ms-2" src="/api/users/image/content.php?userId=<?= $login->user->id ?>">
+                    <?php } else { ?>
+                    <img class="ms-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>">
+                    <?php } ?>
+                </a>
+                <?php }?>
             </div>
 
         </div>
