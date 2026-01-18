@@ -1,5 +1,9 @@
 document.getElementById('clickme').addEventListener('click', () => { addRecipeFromTemplate() });
 
+document.querySelector('search-form').addEventListener('change', (e) => {
+    console.log('Form changed!', e.target.name, e.target.value);
+});
+
 let index = 0;
 
 let recipeData = {
@@ -40,15 +44,18 @@ function addRecipeFromTemplate() {
     link.setAttribute('href', `/singleRecipe?id=${recipeData.recipeID}`);
 
     const button = clone.querySelector('button');
-    button.id = "btn-" + newID;
-    button.setAttribute('onclick', `saveRecipe('${"btn-" + newID}', '${recipeData.recipeID}')`);
+    if (button) {
+        button.id = "btn-" + newID;
+        button.setAttribute('onclick', `saveRecipe('${"btn-" + newID}', '${recipeData.recipeID}')`);
+
+        if (recipeData.saved) {
+            clone.querySelector('button>svg').setAttribute('fill', 'currentColor');
+        }
+    }
 
     clone.querySelector('.pe-3:first-of-type span').textContent = recipeData.timeRequired + " min";
     clone.querySelector('.pe-3:last-of-type span').textContent = recipeData.cost;
 
-    if (recipeData.saved) {
-        clone.querySelector('button>svg').setAttribute('fill', 'currentColor');
-    }
 
     document.getElementById('recipe-container').appendChild(clone);
 }
