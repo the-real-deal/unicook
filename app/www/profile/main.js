@@ -43,3 +43,12 @@ avatarImage.addEventListener("error", _ => {
 
 avatarImage.src = getImageSrc(user)
 
+
+document.getElementById('image').addEventListener('change', function () {
+    if (this.files && this.files.length > 0) {
+        document.getElementById('upload-button').style.visibility = 'visible'
+    } else {
+        document.getElementById('upload-button').style.visibility = 'hidden'
+    }
+})
+

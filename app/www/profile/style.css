@@ -30,6 +30,22 @@ section {
     transition: var(--default-transition-timing-function);
 }
 
+#profile-section input[type="submit"] {
+    background-color: var(--info);
+    color: var(--bg-light);
+    border: 1px solid var(--info);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--default-transition-timing-function);
+    visibility: hidden;
+}
+
+#profile-section input[type="submit"]:hover {
+    background-color: var(--bg-light);
+    color: var(--info);
+}
+
 #profile-section button:hover,
 #profile-section label:hover {
     color: var(--shadow-dark);
