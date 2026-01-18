@@ -13,6 +13,9 @@
 - [ ] recipe search (text, min/max time (number or enum range), difficulty, cost, tags)
 - [x] get recipe 
 - [x] get recipe image 
+- [ ] get recipe steps
+- [ ] get recipe ingredients
+- [ ] get recipe tags
 
 #### POST
 - [x] create recipe (title, description, image, tags[], difficulty, prepTime, cost, servings, ingredientsQuantity[], ingredientsName[], steps[])
