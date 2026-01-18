@@ -331,7 +331,7 @@ readonly class Recipe extends DBTable {
 
     public function getRating(Database $db): int|false {
         $query = $db->createStatement(<<<sql
-            SELECT AVG(rr.`rating`) AS rating
+            SELECT COALESCE(AVG(rr.`rating`), 0) AS rating
             FROM `Reviews` rr
                 JOIN `Recipes` r on rr.`recipeId` = r.`id`
             WHERE r.`id` = ?
@@ -340,11 +340,8 @@ readonly class Recipe extends DBTable {
         if (!$ok) {
             return false;
         }
-        $result = $query->expectResult();
-        if ($result->totalRows === 0) {
-            return 0; // no reviews
-        }
-        return $result->fetchOne()["rating"];
+        $row = $query->expectResult()->fetchOne();
+        return SqlValueType::Int->valueFromField($row["rating"]);
     }
 
     public function getSteps(Database $db): array|false {

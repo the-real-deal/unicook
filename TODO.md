@@ -59,10 +59,10 @@
 
 #### GET
 
-- [ ] total users
-- [ ] total recipes
-- [ ] total avg rating
-- [ ] one
+- [x] total users
+- [x] total recipes
+- [x] total avg rating
+- [x] one
 
 ### Chat
 
