@@ -12,18 +12,19 @@
         <h1>Streaming API Client</h1>
 
         <div class="form-container">
-            <form id="chatForm" action="/api/teststream.php" method="post">
-                <label for="prompt">Your message:</label>
-                <textarea id="prompt" name="prompt" placeholder="Enter your message here...">parlami di te</textarea>
+            <form id="chatForm" action="/api/chat/messages.php" method="post">
+                <label for="content">Your message:</label>
+                <textarea id="content" name="content" placeholder="Enter your message here..."></textarea>
                 <input id="sendBtn" type="submit" value="Send Message" />
             </form>
+            <input id="clearBtn" type="button" value="Clear Chat" />
         </div>
 
         <div class="status" id="status"></div>
 
         <div class="response-container">
             <h3>Response:</h3>
-            <div class="response" id="response"></div>
+            <div class="response" id="chat"></div>
         </div>
     </div>
 
