@@ -1,7 +1,7 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/api.php";
-require_once "lib/recipes.php";
+require_once "lib/tags.php";
 
 $server = new ApiServer();
 
@@ -10,7 +10,11 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
     
     $db = Database::connectDefault();
     try {
-        $recipes = Recipe::getWithTag($db, $tagId);
+        $tag = Tag::fromId($db, $tagId);
+        if ($tag === false) {
+            $res->dieWithError(HTTPCode::NotFound, "Tag not found");
+        }
+        $recipes = $tag->getRecipes($db);
         if ($recipes === false) {
             $res->dieWithError(HTTPCode::InternalServerError, "Failed to get recipes");
         }

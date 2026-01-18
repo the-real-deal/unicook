@@ -340,23 +340,6 @@ readonly class Recipe extends DBTable {
         return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
     }
 
-    public static function getWithTag(Database $db, string $tagId): array|false {
-        $tagId = Tag::validateId($tagId);
-
-        $query = $db->createStatement(<<<sql
-            SELECT r.*
-            FROM `RecipeTags` rt
-                JOIN `Recipes` r on rt.`recipeId` = r.`id`
-            WHERE rt.`tagId` = ?
-            sql);
-        $ok = $query->bind(SqlValueType::String->createParam($tagId))->execute();
-        if (!$ok) {
-            return false;
-        }
-        $result = $query->expectResult();
-        return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
-    }
-
     public function getImage(): UploadFile|false {
         return UploadFile::fromId($this->photoId, self::IMAGES_UPLOAD_PATH);
     }
