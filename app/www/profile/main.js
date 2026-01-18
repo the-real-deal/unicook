@@ -6,7 +6,7 @@ const avatarImage = document.getElementById("avatarImage")
 async function getUser() {
     const params = new URLSearchParams(document.location.search)
     const userId = params.get("userId")
-    const user = await fetch(`/api/users/user.php?userId=${userId}`)
+    const user = await fetch(`/api/users/data.php?userId=${userId}`)
         .then(rejectApiError)
         .then(res => res.json())
     return user

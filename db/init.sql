@@ -148,7 +148,7 @@ INSERT INTO `Users`(
     'marco.rossi@email.it', 
     'Marco Rossi', 
     '$2y$10$Ns2nFX4rYeGH5ylRi7Hb6e6AUr6IemUimByopvZL.caKfkOXQzQgm', 
-    '9e37fb91-8aed-45f3-89f2-7c33a54bbdac', 
+    '881a0c14-14c1-499f-8b7d-2832a0c2a591', 
     true, 
     '2024-01-15 10:30:00'
 ),
@@ -157,7 +157,7 @@ INSERT INTO `Users`(
     'giulia.bianchi@posta.it', 
     'Giulia Bianchi', 
     '$2y$10$JSXkD94ndydfeD/YPlGhHO00nICiIPiWKrzWtLhC7ospvpr9Qo9fS', 
-    '7c7da984-a24d-4934-9283-00cedff31138', 
+    NULL, 
     false, 
     '2024-02-20 14:45:00'
 ),
