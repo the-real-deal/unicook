@@ -12,7 +12,7 @@
 - [x] total of tag 
 - [ ] recipe search (text, min/max time (number or enum range), difficulty, cost, tags)
 - [x] get recipe 
-- [ ] get recipe image 
+- [x] get recipe image 
 
 #### POST
 - [x] create recipe (title, description, image, tags[], difficulty, prepTime, cost, servings, ingredientsQuantity[], ingredientsName[], steps[])

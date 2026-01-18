@@ -37,7 +37,7 @@ readonly class RecipeIngredient extends DBTable {
 }
 
 readonly class Recipe extends DBTable {
-    public const IMAGES_PATH = "recipes";
+    public const IMAGES_UPLOAD_PATH = "recipes";
 
     protected function __construct(
         public string $id,
@@ -193,7 +193,7 @@ readonly class Recipe extends DBTable {
         $ingredients = self::validateIngredients($ingredients);
         $steps = self::validateSteps($steps);
 
-        $image = UploadFile::uploadFileArray($imageFile, FileType::Image, self::IMAGES_PATH);
+        $image = UploadFile::uploadFileArray($imageFile, FileType::Image, self::IMAGES_UPLOAD_PATH);
         if ($image === null) {
             return false;
         }
@@ -355,6 +355,10 @@ readonly class Recipe extends DBTable {
         }
         $result = $query->expectResult();
         return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
+    }
+
+    public function getImage(): UploadFile|false {
+        return UploadFile::fromId($this->photoId, self::IMAGES_UPLOAD_PATH);
     }
 
     public function getRating(Database $db): int|false {
