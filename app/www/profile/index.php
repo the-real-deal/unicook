@@ -49,8 +49,10 @@ $server->respond();
         <section id="profile-section" class="container my-5 mx-auto">
             <div class="row align-items-center justify-content-center p-5">
                 <div class="col-12 col-md-4 text-center mb-3">
-                    <img id="avatarImage" alt="profile picture">
-                    <button id="delete-image-button">&#128473;</button>
+                    <div class="image-wrapper">
+                        <img id="avatarImage" alt="profile picture">
+                        <button id="delete-image-button">&#128473;</button>
+                    </div>
                 </div>
                 <div class="col-12 col-md-8 text-center text-md-start">
                     <h3 class="mb-1 fw-bold">
