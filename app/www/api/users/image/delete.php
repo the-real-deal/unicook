@@ -12,7 +12,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         $res->dieWithError(HTTPCode::Unauthorized, "Not logged in");
     }
     $ok = $login->user->deleteImage($db);
-    if ($ok === false) {
+    if (!$ok) {
         $res->dieWithError(HTTPCode::InternalServerError, "Failed to delete image");
     }
     $res->sendJSON([ "ok" => true ]);

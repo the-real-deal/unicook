@@ -72,11 +72,10 @@ readonly class User extends DBTable {
             SqlValueType::String->createParam($passwordHash),
             SqlValueType::String->createParam(null),
         )->execute();
-        if ($ok) {
-            return $id;
-        } else {
+        if (!$ok) {
             return false;
         }
+        return $id;
     }
 
     public static function fromId(Database $db, string $id): self|false {
@@ -138,11 +137,10 @@ readonly class User extends DBTable {
         
         $user = self::fromTableRow($result->fetchOne());
         $passwordMatches = password_verify($password, $user->passwordHash);
-        if ($passwordMatches) {
-            return $user;
-        } else {
+        if (!$passwordMatches) {
             return false;
         }
+        return $user;
     }
 
     public static function searchEmail(Database $db, string $email): bool {
@@ -158,11 +156,7 @@ readonly class User extends DBTable {
             return false;
         }
         $result = $query->expectResult();
-        if ($result->totalRows === 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return $result->totalRows > 0;
     }
 
     public function uploadImage(Database $db, array $fileArray): UploadFile|false {
@@ -182,13 +176,13 @@ readonly class User extends DBTable {
         )->execute();
         if (!$ok) {
             return false;
-        } else {
-            $prevImage = $this->getImage();
-            if ($this->avatarId !== null) {
-                $this->deleteImageUpload();
-            }
-            return $image;
         }
+
+        $prevImage = $this->getImage();
+        if ($this->avatarId !== null) {
+            $this->deleteImageUpload();
+        }
+        return $image;
     }
 
     public function getImage(): UploadFile|false {
@@ -218,9 +212,8 @@ readonly class User extends DBTable {
         )->execute();
         if (!$ok) {
             return false;
-        } else {
-            return $this->deleteImageUpload();
         }
+        return $this->deleteImageUpload();
     }
 
     public function getPublishedRecipes(Database $db): array|false {

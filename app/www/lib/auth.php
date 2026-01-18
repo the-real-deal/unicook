@@ -70,9 +70,8 @@ readonly class AuthSession extends DBTable {
         $auth = self::fromTableRow($result->fetchOne());
         if ($auth === false) {
             return false;
-        } else {
-            return $auth;
         }
+        return $auth;
     }
 
     public static function createUserSession(Database $db, User $user): string|false {
@@ -87,11 +86,10 @@ readonly class AuthSession extends DBTable {
             SqlValueType::String->createParam($keyHash),
             SqlValueType::String->createParam($user->id),
         )->execute();
-        if ($ok) {
-            return $key;
-        } else {
+        if (!$ok) {
             return false;
         }
+        return $key;
     }
 }
 
@@ -176,7 +174,6 @@ readonly class LoginSession {
         if ($user === false) {
             return false;
         }
-
         return new self(auth: $auth, user: $user);
     }
 
@@ -189,9 +186,8 @@ readonly class LoginSession {
         $login = self::fromAuthSessionKey($db, $authSessionKey);
         if ($login === false) {
             return false;
-        } else {
-            return $login;
         }
+        return $login;
     }
 
     public static function autoLoginOrRedirect(Database $db, string $redirect = "/login/"): self {
@@ -199,9 +195,8 @@ readonly class LoginSession {
         if ($login === false) {
             $res = new ApiResponse();
             $res->redirect($redirect);
-        } else {
-            return $login;
         }
+        return $login;
     }
 }
 

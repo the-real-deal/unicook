@@ -160,11 +160,10 @@ readonly class UploadFile {
         
         try {
             $ok = fwrite($metadataFile, $resultJson);
-            if ($ok === false) {
+            if (!$ok) {
                 return false;
-            } else {
-                return $result;
             }
+            return $result;
         } finally {
             fclose($metadataFile);
         }

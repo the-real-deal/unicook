@@ -185,7 +185,7 @@ readonly class Recipe extends DBTable {
         $steps = self::validateSteps($steps);
 
         $ok = $db->beginTransaction();
-        if ($ok === false) {
+        if (!$ok) {
             return false;
         }
         try {
@@ -215,7 +215,7 @@ readonly class Recipe extends DBTable {
                 SqlValueType::Int->createParam($servings),
                 SqlValueType::String->createParam($user->id),
             )->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe");
             }
 
@@ -234,7 +234,7 @@ readonly class Recipe extends DBTable {
                 ],
                 $tags
             )))->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe tags");
             }
 
@@ -255,7 +255,7 @@ readonly class Recipe extends DBTable {
                 ],
                 $ingredients, array_keys($ingredients)
             )))->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe ingredients");
             }
 
@@ -275,7 +275,7 @@ readonly class Recipe extends DBTable {
                 ],
                 $steps, array_keys($steps)
             )))->execute();
-            if ($ok === false) {
+            if (!$ok) {
                 throw new RuntimeException("Failed to insert recipe steps");
             }
 
