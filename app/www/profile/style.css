@@ -18,7 +18,10 @@ section {
 }
 
 #profile-section img {
-    max-width: 180px;
+    width: 180px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    overflow: hidden;
 }
 
 #profile-section label {

@@ -103,6 +103,6 @@
 - [ ] handle generic/logged user difference
 
 ### pianinator
-- [ ] remove js inline
-- [ ] remove style inline
+- [X] remove js inline
+- [X] remove style inline
 - [ ] check js (pianini)
