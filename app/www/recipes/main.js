@@ -2,9 +2,13 @@ document.getElementById('clickme').addEventListener('click', () => { addRecipeFr
 
 const form = document.getElementById('search-form');
 
+let nRecipes = 0;
+let lastBatchCount = -1;
+const nextBatchCount = 8;
+
 form.addEventListener('change', (e) => {
     if (e.target.name != 'search-bar')
-        console.log('Form changed!', e.target.name, e.target.value);
+        handleFormChange(e);
 });
 
 let timerID = null;
@@ -14,17 +18,15 @@ document.getElementById('search-recipes').addEventListener('keyup', (e) => {
         clearTimeout(timerID);
 
     timerID = setTimeout(() => {
-        console.log('Form changed!', e.target.name, e.target.value);
+        handleFormChange(e);
         timerID = null;
     }, 1000);
 });
 
-// document.getElementById('search-form').addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     for (var pair of new FormData(form).entries()) {
-//         console.log(pair[0] + ', ' + pair[1]);
-//     }
-// });
+function handleFormChange(event) {
+
+    console.log('Form changed!', e.target.name, e.target.value);
+}
 
 
 let index = 0;
@@ -35,7 +37,7 @@ let recipeData = {
     'tags': ["Tag#1", "Tag#2", "Tag#3"],
     'timeRequired': 20,
     'cost': 'cheap',
-    'saved': true
+    'saved': false
 }
 
 function addRecipeFromTemplate() {
