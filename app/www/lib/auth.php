@@ -108,7 +108,7 @@ readonly class LoginSession {
         string $email, 
         string $password
     ): string|false {
-        if (User::searchEmail($db, $email)) {
+        if (User::emailTaken($db, $email)) {
             throw new InvalidArgumentException("User already exists");
         }
         $user = User::create($db, $username, $email, $password);

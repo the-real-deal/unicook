@@ -43,21 +43,20 @@ function Navbar(LoginSession|false $login) {
                     <li class="nav-item"><a class="nav-link px-3 py-2" href="/home">Home</a></li>
                     <li class="nav-item"><a class="nav-link px-3 py-2" href="/recipes">Recipes</a></li>
                     <li class="nav-item"><a class="nav-link px-3 py-2" href="/about">About</a></li>
-                    <?php  
-                    if ($login === false) { 
+                    <?php 
+                    if ($login !== false) { 
                     ?>
                         <li class="nav-item">
                             <a class="d-flex align-items-center nav-link px-3 py-2" href="/login">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-pencil-square flex-shrink-0 me-2" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                </svg>
                                 Create
                             </a>    
                         </li>
                     <?php } ?>
                 </ul>
-                <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login">
+                <?php  
+                if ($login === false) { 
+                ?>
+                <a id="login"class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login">
                     <svg class="flex-shrink-0 me-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -66,6 +65,16 @@ function Navbar(LoginSession|false $login) {
                     </svg>
                     Login
                 </a>
+                <?php } else { ?>
+                <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/profile/?id=<?= $login->user->id ?>">
+                    <?= $login->user->username ?>
+                    <?php if($login->user->avatarId){ ?>
+                    <img class="ms-2" src="/api/users/image/content.php?userId=<?= $login->user->id ?>">
+                    <?php } else { ?>
+                    <img class="ms-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>">
+                    <?php } ?>
+                </a>
+                <?php }?>
             </div>
 
         </div>

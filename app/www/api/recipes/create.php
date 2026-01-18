@@ -4,7 +4,6 @@ require_once "lib/core/api.php";
 require_once "lib/tags.php";
 require_once "lib/recipes.php";
 require_once "lib/auth.php";
-require_once "lib/utils.php";
 
 $server = new ApiServer();
 

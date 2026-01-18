@@ -325,6 +325,93 @@ readonly class Recipe extends DBTable {
         return array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
     }
 
+    private static function validateSearchQuery(string $query): string {
+        if (filter_var_regex($query, '/^.{0,100}$/') === false) {
+            throw new InvalidArgumentException(<<<end
+            Recipe title must be between 0 and 100 characters
+            end);
+        }
+        return $query;
+    }
+
+    public static function search(
+        Database $db,
+        ?string $queryString,
+        ?int $minPrepTime,
+        ?int $maxPrepTime,
+        ?RecipeDifficulty $difficulty,
+        ?RecipeCost $cost,
+        ?array $tags,
+        ?int $from,
+        ?int $n,
+    ): array|false {
+        // I don't care anymore about magic numbers at this point
+        $queryString = self::validateSearchQuery($queryString ?? "");
+        $minPrepTime ??= 0;
+        $maxPrepTime ??= 10 * 60;
+        if (
+            $minPrepTime < 0 || 
+            $minPrepTime > 10 * 60 || 
+            $maxPrepTime < 0 || 
+            $maxPrepTime > 10 * 60 || 
+            $minPrepTime > $maxPrepTime
+        ) {
+            throw new InvalidArgumentException("Invalid preparation time range");
+        }
+        $tags ??= [];
+        $from ??= 0;
+        $n ??= 100;
+        if (
+            $from < 0 || 
+            $n < 0 ||
+            $n > 100
+        ) {
+            throw new InvalidArgumentException("Invalid search results range");
+        }
+
+        $difficultyCheck = ($difficulty === null) ? "1" : "r.`difficulty` = ?";
+        $costCheck = ($cost === null) ? "1" : "r.`cost` = ?";
+        $tagsCheck = (count($tags) === 0) ? "1" : "rt.`tagId` IN (" . implode(", ", array_map(fn ($tag) => "?", $tags)) . ")";
+        $query = $db->createStatement(<<<sql
+            SELECT DISTINCT r.*
+            FROM `Recipes` r
+                LEFT JOIN `RecipeTags` rt on r.`id` = rt.`recipeId`
+            WHERE lower(r.`title`) LIKE ?
+                AND r.`prepTime` BETWEEN ? AND ?
+                AND $difficultyCheck
+                AND $costCheck
+                AND $tagsCheck
+            ORDER BY r.`createdAt` DESC
+            LIMIT ? OFFSET ?
+            sql);
+        $ok = $query->bind(...array_merge(
+            [
+                SqlValueType::String->createParam("%$queryString%"),
+                SqlValueType::Int->createParam($minPrepTime),
+                SqlValueType::Int->createParam($maxPrepTime),
+            ],
+            $difficulty === null ? [] : [SqlValueType::Int->createParam($difficulty->value)],
+            $cost === null ? [] : [SqlValueType::Int->createParam($cost->value)],
+            array_map(fn ($tag) => SqlValueType::String->createParam($tag->id), $tags),
+            [
+                SqlValueType::Int->createParam($n),
+                SqlValueType::Int->createParam($from),
+            ],
+        ))->execute();
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        $recipes = array_map(fn ($row) => self::fromTableRow($row), $result->fetchAll());
+        if (strlen($queryString) > 0) {
+            usort($recipes, fn ($r1, $r2) => 
+                levenshtein(strtolower($r1->title), strtolower($queryString)) -
+                levenshtein(strtolower($r2->title), strtolower($queryString))
+            );
+        }
+        return $recipes;
+    }
+
     public function getImage(): UploadFile|false {
         return UploadFile::fromId($this->photoId, self::IMAGES_UPLOAD_PATH);
     }
@@ -402,6 +489,24 @@ readonly class Recipe extends DBTable {
         }
         $result = $query->expectResult();
         return array_map(fn ($row) => Review::fromTableRow($row), $result->fetchAll());
+    }
+
+    public function isSavedFrom(Database $db, User $user): bool {
+        $query = $db->createStatement(<<<sql
+            SELECT rs.*
+            FROM `RecipeSaves` rs
+            WHERE rs.`recipeId` = ?
+                AND rs.`userId` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($this->id),
+            SqlValueType::String->createParam($user->id)
+        )->execute();    
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return $result->totalRows > 0;
     }
 }
 
