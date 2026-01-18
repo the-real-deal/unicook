@@ -5,6 +5,10 @@ CREATE DATABASE `UniCook`;
 
 USE `UniCook`;
 
+DROP USER IF EXISTS 'unicook_appuser'@'%';
+CREATE USER 'unicook_appuser'@'%' IDENTIFIED BY 'unicook_app_user_passwd!';
+GRANT ALL PRIVILEGES ON * TO 'unicook_appuser'@'%';
+
 -- set timezone to UTC
 SET time_zone = '+00:00';
 

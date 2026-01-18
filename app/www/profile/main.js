@@ -56,3 +56,10 @@ imageInput.addEventListener('change', function () {
     }
 })
 
+document.getElementById('logout-button').addEventListener('click', async (e) => {
+    const res = await fetch('/api/auth/logout.php', { method: 'POST' })
+
+    if (res.ok) {
+        window.location = '/login/'
+    }
+})

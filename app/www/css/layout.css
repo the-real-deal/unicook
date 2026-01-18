@@ -67,6 +67,15 @@ nav div.navbar-nav>a:last-child {
     min-width: fit-content;
 }
 
+nav div.navbar-nav>a:last-child img {
+    width: 30px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 100%;
+    box-shadow: var(--shadow-dark);
+}
+
 nav div.navbar-nav>a:last-child:hover {
     background: var(--primary-text);
 }
