@@ -143,7 +143,7 @@ readonly class User extends DBTable {
         return $user;
     }
 
-    public static function searchEmail(Database $db, string $email): bool {
+    public static function emailTaken(Database $db, string $email): bool {
         self::validateEmail($email);
 
         $query = $db->createStatement(<<<sql
