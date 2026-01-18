@@ -18,13 +18,15 @@ function RecipeCard(string $elementId,
         <div class="d-flex flex-column">
             <h3 onclick="changePage(<?= $recipeId ?>)" class="order-2"><?= $recipeTitle ?></h3>
             <ul class="order-1 w-100">
+                <!--
                 <?php 
                     foreach($tags as $tag){
                 ?>
-                <li><?= $tag ?></li>
+                --><li><?= $tag ?></li><!--
                 <?php 
                     }
                 ?>
+                -->
             </ul>
         </div>
         <div class="d-flex">
