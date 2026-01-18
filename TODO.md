@@ -99,7 +99,7 @@
 
 ### Profile
 - [ ] delete image?
-- [ ] fix image input (missing submit)
+- [X] fix image input (missing submit)
 - [ ] handle generic/logged user difference
 
 ### pianinator

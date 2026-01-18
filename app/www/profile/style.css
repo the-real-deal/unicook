@@ -10,11 +10,12 @@ section {
 }
 
 #profile-section button {
-    background-color: inherit;
+    background-color: transparent;
     color: var(--danger);
     border: none;
     cursor: pointer;
     transition: var(--default-transition-timing-function);
+    height: fit-content;
 }
 
 #profile-section img {
@@ -22,6 +23,32 @@ section {
     aspect-ratio: 1/1;
     object-fit: cover;
     overflow: hidden;
+    border-radius: 100%;
+    box-shadow: var(--shadow-dark);
+}
+
+#profile-section div:has(img) {
+    position: relative;
+}
+
+#delete-image-button:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+}
+
+#profile-section #delete-image-button {
+    position: absolute;
+    bottom: 0px;
+    right: 30%;
+    background-color: var(--danger);
+    color: white;
+    border: 2px solid white;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    box-shadow: var(--shadow-dark);
+    transition: var(--default-transition-timing-function);
 }
 
 #profile-section label {
@@ -30,11 +57,15 @@ section {
     transition: var(--default-transition-timing-function);
 }
 
+#profile-section button:hover,
+#profile-section label:hover {
+    color: var(--shadow-dark);
+}
+
 #profile-section input[type="submit"] {
     background-color: var(--info);
     color: var(--bg-light);
     border: 1px solid var(--info);
-    padding: 0.5rem 1rem;
     border-radius: var(--radius);
     cursor: pointer;
     transition: var(--default-transition-timing-function);
@@ -46,10 +77,6 @@ section {
     color: var(--info);
 }
 
-#profile-section button:hover,
-#profile-section label:hover {
-    color: var(--shadow-dark);
-}
 
 svg text {
     display: none;
