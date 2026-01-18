@@ -490,6 +490,24 @@ readonly class Recipe extends DBTable {
         $result = $query->expectResult();
         return array_map(fn ($row) => Review::fromTableRow($row), $result->fetchAll());
     }
+
+    public function isSavedFrom(Database $db, User $user): bool {
+        $query = $db->createStatement(<<<sql
+            SELECT rs.*
+            FROM `RecipeSaves` rs
+            WHERE rs.`recipeId` = ?
+                AND rs.`userId` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::String->createParam($this->id),
+            SqlValueType::String->createParam($user->id)
+        )->execute();    
+        if (!$ok) {
+            return false;
+        }
+        $result = $query->expectResult();
+        return $result->totalRows > 0;
+    }
 }
 
 ?>
