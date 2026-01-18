@@ -74,7 +74,7 @@ function addTag() {
 
         const hiddenInput = document.createElement('input')
         hiddenInput.type = 'hidden'
-        hiddenInput.name = 'tags[]'
+        hiddenInput.name = 'tagIds[]'
         hiddenInput.value = selectedValue
 
         li.appendChild(textNode)

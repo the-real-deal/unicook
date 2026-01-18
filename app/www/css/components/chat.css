@@ -1,12 +1,31 @@
+body {
+    overflow-y: overlay !important;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.modal-open {
+    padding-right: 0 !important;
+    overflow: hidden;
+}
+
 .modal-content {
-    width: fit-content;
     background-color: transparent;
     border: none;
+    width: 450px;
 }
 
 .modal-dialog {
-    width: fit-content;
-    margin-inline: auto;
+    max-width: 450px;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #chat-open-button {
@@ -15,6 +34,12 @@
     border-radius: 100%;
     aspect-ratio: 1/1;
     transition: var(--default-transition-timing-function);
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    width: 60px;
+    height: 60px;
 }
 
 #chat-open-button:hover {
@@ -27,17 +52,21 @@
 }
 
 #chat-container {
-    max-width: 548px;
-    height: 90vh;
+    width: 450px;
+    height: 550px;
     background: var(--bg);
     border-radius: var(--card-radius);
     box-shadow: var(--shadow-dark);
+    display: flex;
+    flex-direction: column;
 }
 
 #chat-title {
+    min-height: 80px;
     border-radius: var(--card-radius) var(--card-radius) 0 0;
     border-bottom: var(--border-card);
     background: var(--bg-dark);
+    flex-shrink: 0;
 }
 
 #chat-title img {
@@ -45,6 +74,7 @@
     height: 48px;
     overflow: hidden;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 #chat-title button {
@@ -55,6 +85,10 @@
     background-color: transparent;
     cursor: pointer;
     transition: var(--default-transition-timing-function);
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    font-size: 20px;
 }
 
 #chat-title button:hover {
@@ -65,12 +99,14 @@
     font-size: 18px;
     font-weight: 600;
     color: var(--text);
+    margin: 0;
 }
 
 #chat-title h2 {
     font-size: 13px;
     font-weight: 400;
     color: var(--text);
+    margin: 0;
 }
 
 ::-webkit-scrollbar {
@@ -80,9 +116,19 @@
 #chat-content {
     flex: 1;
     overflow-y: auto;
-    flex-direction: column;
     background: var(--bg);
     border: var(--border-muted);
+    padding: 16px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-content>.other {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 12px;
+    margin-bottom: 8px;
 }
 
 #chat-content>.other>p {
@@ -93,6 +139,16 @@
     border-bottom-left-radius: 0;
     box-shadow: var(--shadow-combined);
     word-wrap: break-word;
+    margin: 0;
+    padding: 8px 12px;
+}
+
+#chat-content>.user {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 12px;
+    margin-bottom: 8px;
 }
 
 #chat-content>.user>p {
@@ -103,12 +159,21 @@
     border-bottom-right-radius: 0;
     box-shadow: var(--shadow-combined);
     word-wrap: break-word;
+    margin: 0;
+    padding: 8px 12px;
 }
 
 #message-box {
     background: var(--bg-dark);
     border-radius: 0 0 var(--card-radius) var(--card-radius);
     border-top: var(--border-card);
+    padding: 12px;
+    flex-shrink: 0;
+}
+
+#message-box .row {
+    margin: 0;
+    width: 100%;
 }
 
 #message-box textarea {
@@ -117,12 +182,13 @@
     outline: none;
     border: 1px solid transparent;
     resize: none;
+    padding: 8px 12px;
+    color: var(--text);
 }
 
 #message-box div:has(textarea) {
     background-color: inherit;
     border-radius: var(--radius);
-    transition: var(--default-transition-timing-function);
     outline: none;
     border: var(--border-card);
 }
@@ -139,16 +205,26 @@
     border-radius: 0 var(--radius) var(--radius) 0;
     transition: var(--default-transition-timing-function);
     box-shadow: var(--shadow-combined);
+    height: 100%;
+    font-weight: 600;
 }
 
 #message-box input[type="button"]:hover {
-    transform: translateY(-2px);
+    background: var(--primary-text-hover);
+    color: var(--primary-text);
 }
 
-/* Pulsante chat fixed in basso a destra */
-#chat-open-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1000;
+@media (max-width: 576px) {
+    .modal-dialog {
+        max-width: 95%;
+        width: 95%;
+    }
+
+    .modal-content {
+        width: 100%;
+    }
+
+    #chat-container {
+        width: 100%;
+    }
 }

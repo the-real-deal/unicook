@@ -5,6 +5,7 @@ require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
+require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
 
 class TagTmp{
@@ -45,6 +46,7 @@ $resultNumber = 4;
 <html lang="en">
 <?= PageHead("Recipes", [ "style.css" ]) ?>
 <body>
+    <?=  ErrorNotification() ?>
     <?= Navbar() ?>
     <main class="container-fluid p-0 overflow-x-hidden" id="home-page">
         <header class="p-5">

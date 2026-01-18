@@ -76,7 +76,7 @@
 - [ ] clear
 
 ## Pages
-- [ ] add error notification
+- [ ] add error notification on every page
 - [ ] COLORS 
 - [ ] admin page + logged modify
 ### Home
@@ -99,6 +99,7 @@
 
 ### Profile
 - [ ] delete image?
+    - [X] add delete button
 - [X] fix image input (missing submit)
 - [ ] handle generic/logged user difference
 
