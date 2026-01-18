@@ -80,7 +80,7 @@ CREATE TABLE `Reviews` (
     `userId` CHAR(36) NOT NULL,
     `recipeId` CHAR(36) NOT NULL,
     `rating` INT NOT NULL,
-    `body` TEXT,
+    `body` TEXT NOT NULL,
     `createdAt` DATETIME NOT NULL DEFAULT now(),
     CHECK (`rating` >= 0 AND `rating` <= 5)
 );

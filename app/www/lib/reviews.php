@@ -11,7 +11,7 @@ readonly class Review extends DBTable {
         public string $userId,
         public string $recipeId,
         public int $rating,
-        public ?string $body,
+        public string $body,
         public DateTime $createdAt,
     ) {}
 
