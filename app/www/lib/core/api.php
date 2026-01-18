@@ -119,7 +119,7 @@ class ApiResponse {
         return $this;
     }
 
-    public function setHeader(HTTPHeader $header, mixed $data): self {
+    public function setHeader(HTTPHeader $header, mixed $data, bool $replace = true): self {
         $headerName = $header->value;
         if (!$header->checkData($data)) {
             throw new InvalidHTTPHeaderDataException(
@@ -129,7 +129,7 @@ class ApiResponse {
         if (isEnum($data)) {
             $data = $data->value;
         }
-        header("$headerName: $data");
+        header("$headerName: $data", $replace);
         return $this;
     }
 
