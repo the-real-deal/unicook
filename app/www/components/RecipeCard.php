@@ -16,23 +16,22 @@ bool $isLogged=false) {
         <div>
             <img class="card-img-top img-fluid" src="/api/recipes/image.php?recipeId=<?= $recipeId ?>" alt="">
         </div>
-        <div class="d-flex flex-column">
-            <h3 class="order-2 recipe-card-title" data-recipe-id="<?= $recipeId?>" ><?= $recipeTitle ?></h3>
-            <ul class="order-1 w-100">
-                <!--
-                <?php 
-                    $i = 0;
-                    foreach($tags as $tag){
-
-                ?>
-                --><li><?= $tag ?></li><!--
-                <?php 
-                    }
-                ?>
-                -->
-            </ul>
-        </div>
-        <div class="d-flex">
+        <div class="d-flex flex-column h-50">
+        <h3 class="order-3 recipe-card-title" data-recipe-id="<?= $recipeId?>"><?= $recipeTitle ?></h3>
+        
+        <ul class="order-1 w-100">
+            <?php 
+                $i = 0;
+                foreach($tags as $tag){
+            ?>
+            <li><?= $tag ?></li>
+            <?php 
+                }
+            ?>
+        </ul>
+        
+        <div class="flex-grow-1 order-2"></div>
+        <div class="d-flex order-4">
             <div class="pe-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-clock-history" viewBox="0 0 16 16">
@@ -54,7 +53,10 @@ bool $isLogged=false) {
                 <span><?= $cost ?></span>
             </div>
         </div>
-        <a href="/singleRecipe?id=<?= $recipeId?>" class="recipeLink mt-auto">More...</a>
+    
+    <a href="/singleRecipe?id=<?= $recipeId?>" class="recipeLink order-5 mt-3">More...</a>
+</div>
+        
         <?php 
             if($isLogged){
         ?>

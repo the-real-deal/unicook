@@ -46,7 +46,6 @@ $resultNumber = 4;
             <p>Discover <?= $totalRecipes ?> delicious recipes for students</p>
             <div class="row">
                 <form id="search-form" class="w-100">
-                    <!-- SEARCH BAR -->
                     <?= SearchBar("recipes", 50, isset($searchText) ? $searchText : "", false) ?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">

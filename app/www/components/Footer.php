@@ -2,7 +2,6 @@
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 function Footer() {
 ?>
-<!-- FOOTER -->
 <footer class="footer px-3 py-2">
     <div class="container-fluid py-4">
 
@@ -26,7 +25,6 @@ function Footer() {
                 </p>
             </div>
 
-            <!-- QUICK LINKS -->
             <div class="col-lg-3 col-md-6">
                 <span>Quick Links</span>
                 <ul class="list-unstyled mt-2">
@@ -36,7 +34,6 @@ function Footer() {
                 </ul>
             </div>
 
-            <!-- CATEGORIES -->
             <div class="col-lg-3 col-md-6">
                 <span>Categories</span>
                 <ul class="list-unstyled mt-2 ">
@@ -47,7 +44,6 @@ function Footer() {
                 </ul>
             </div>
 
-            <!-- CONNECT -->
             <div class="col-lg-3 col-md-6">
                 <span>Connect</span>
                 <ul class="list-group list-unstyled list-group-horizontal mt-2 gap-2">

@@ -35,8 +35,6 @@ function Navbar(LoginSession|false $login) {
             </button>
         </div>
 
-
-        <!-- MENU -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <div class="navbar-nav d-flex">
                 <ul class="navbar-nav d-flex gap-2 my-2 mx-1">
