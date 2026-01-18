@@ -6,7 +6,6 @@ function Navbar() {
 <nav class="navbar navbar-expand-lg fixed-top px-3 py-2">
     <div class="container-fluid d-flex justify-content-between">
         <div class="container-fluid d-flex justify-content-between">
-            <!-- BRAND -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="/home">
                 <div class="d-flex align-items-center justify-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="white"
@@ -19,13 +18,11 @@ function Navbar() {
                 <span>Unicook</span>
             </a>
 
-            <!-- TOGGLER -->
             <button id="svgToggle" class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <!-- ICON -->
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                    width="35" height="35" x="0" y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512"
+                    width="35" height="35" x="0" y="0" viewBox="0 0 32 32" 
                     xml:space="preserve" class="">
                     <g
                         transform="matrix(-3.061616997868383e-16,1,1,3.061616997868383e-16,-0.4992274045944214,0.4992274045944214)">

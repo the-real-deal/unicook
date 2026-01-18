@@ -17,6 +17,10 @@ section {
     transition: var(--default-transition-timing-function);
 }
 
+#profile-section img {
+    max-width: 180px;
+}
+
 #profile-section label {
     color: var(--info);
     cursor: pointer;

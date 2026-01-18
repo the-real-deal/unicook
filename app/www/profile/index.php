@@ -46,7 +46,6 @@ $server->respond();
                     <img id="avatarImage" 
                         class="rounded-circle img-fluid shadow"
                         alt="profile picture"
-                        style="max-width:180px"
                     >
                 </div>
                 <div class="col-12 col-md-8 text-center text-md-start">

@@ -44,6 +44,10 @@ select {
     cursor: pointer;
 }
 
+select option:first-child {
+    display: none;
+}
+
 option {
     border-radius: var(--card-radius);
 }
@@ -106,7 +110,8 @@ ul[id="steps"] {
 }
 
 #add-ingredients-slot,
-#add-step-slot {
+#add-step-slot,
+input[type="submit"] {
     background: var(--primary);
     color: var(--bg-light);
     border: none;
@@ -119,7 +124,8 @@ ul[id="steps"] {
 }
 
 #add-ingredients-slot:hover,
-#add-step-slot:hover {
+#add-step-slot:hover,
+input[type="submit"]:hover {
     background: var(--primary-text);
 }
 

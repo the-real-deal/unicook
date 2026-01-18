@@ -70,6 +70,7 @@
 - [ ] clear
 
 ## Pages
+- [ ] add error notification
 - [ ] COLORS 
 - [ ] admin page + logged modify
 ### Home
@@ -94,3 +95,8 @@
 - [ ] delete image?
 - [ ] fix image input (missing submit)
 - [ ] handle generic/logged user difference
+
+### pianinator
+- [ ] remove js inline
+- [ ] remove style inline
+- [ ] check js (pianini)

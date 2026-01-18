@@ -7,6 +7,7 @@ require_once "components/Review.php";
 
 $id = $_GET['id'] ?? null;
 
+
 $ingredients = array(
     'spaggetts' => '200gr',
     'spaggettys' => '200gr',

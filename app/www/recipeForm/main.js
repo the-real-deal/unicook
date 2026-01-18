@@ -3,7 +3,7 @@ import { rejectApiError } from "/js/errors.js"
 let newIngredientIndex = 2
 function addIngredientSlot() {
     const ingredientsList = document.getElementById('ingredients')
-    const newIndex = newIngredientIndex++ // TODO: gradle check, pianini ti osserva
+    newIngredientIndex++ // TODO: gradle check, pianini ti osserva
     const li = document.createElement('li')
     li.classList.add('d-flex', 'justify-content-between', 'mb-2', 'align-items-center', 'gap-2')
 
@@ -130,10 +130,13 @@ function addStepSlot() {
 }
 
 document.getElementById('add-ingredients-slot').addEventListener('click', addIngredientSlot)
+addIngredientSlot()
 document.getElementById('add-step-slot').addEventListener('click', addStepSlot)
+addStepSlot()
 document.getElementById('tags').addEventListener('change', addTag)
 
 const form = document.getElementById("recipeForm")
+
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault()
