@@ -18,15 +18,17 @@ $user = false;
 
 $server = new ApiServer();
 $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
-    global $user;
+    global $user, $login, $db;
 
     $userId = $req->getScalar($res, "userId");
-        
-    $db = Database::connectDefault();
+
     try {
         if ($userId === null) {
-            $login = LoginSession::autoLoginOrRedirect($db);
-            $res->redirect("/profile/?userId={$login->user->id}");
+            if ($login === false) {
+                $res->redirect("/login/");
+            } else {
+                $res->redirect("/profile/?userId={$login->user->id}");
+            }
         } else {
             $user = User::fromId($db, $userId);
             if ($user === false) {
