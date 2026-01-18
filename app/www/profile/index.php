@@ -9,6 +9,7 @@ require_once "components/RecipeCard.php";
 require_once "lib/core/api.php";
 require_once "lib/core/db.php";
 require_once "lib/users.php";
+require_once "lib/auth.php";
 
 $user = false;
 
@@ -16,16 +17,18 @@ $server = new ApiServer();
 $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
     global $user;
 
-    $userId = $req->getParam("userId");
-    if ($userId === null) {
-        $res->redirect("/404/");
-    }
-
+    $userId = $req->getScalar($res, "userId");
+        
     $db = Database::connectDefault();
     try {
-        $user = User::fromId($db, $userId);
-        if ($user === false) {
-            $res->redirect("/404/");
+        if ($userId === null) {
+            $login = LoginSession::autoLoginOrRedirect($db);
+            $res->redirect("/profile/?userId={$login->user->id}");
+        } else {
+            $user = User::fromId($db, $userId);
+            if ($user === false) {
+                $res->redirect("/404/");
+            }
         }
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);

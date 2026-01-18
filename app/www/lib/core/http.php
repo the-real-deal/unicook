@@ -6,12 +6,14 @@ enum HTTPHeader: string {
     case ContentType = "Content-Type";
     case ContentLength = "Content-Length";
     case Location = "Location";
+    case CacheControl = "Cache-Control";
+    case Pragma = "Pragma";
 
     public function checkData(mixed $data): bool {
         return match ($this) {
             self::ContentType => $data instanceof MimeType,
             self::ContentLength => is_int($data) && $data >= 0,
-            default => true,
+            default => is_string($data),
         };
     }
 }
