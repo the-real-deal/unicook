@@ -92,7 +92,6 @@ CREATE TABLE `RecipeSaves` (
     PRIMARY KEY (`recipeId`, `userId`)
 );
 
--- TODO: real delete
 ALTER TABLE `AuthSessions`
 ADD FOREIGN KEY (`userId`) REFERENCES `Users`(`id`)
 ON UPDATE CASCADE ON DELETE CASCADE;
