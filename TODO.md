@@ -11,7 +11,7 @@
 - [x] recipe rating 
 - [x] total of tag 
 - [ ] recipe search (text, min/max time (number or enum range), difficulty, cost, tags)
-- [ ] get recipe 
+- [x] get recipe 
 - [ ] get recipe image 
 
 #### POST
