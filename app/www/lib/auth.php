@@ -75,9 +75,7 @@ readonly class AuthSession extends DBTable {
         }
     }
 
-    public static function createUserSession(Database $db, string $userId): string|false {
-        $userId = User::validateId($userId);
-
+    public static function createUserSession(Database $db, User $user): string|false {
         $query = $db->createStatement(<<<sql
             INSERT INTO `AuthSessions`(`id`, `keyHash`, `userId`) VALUES (?, ?, ?)
             sql);
@@ -87,7 +85,7 @@ readonly class AuthSession extends DBTable {
         $ok = $query->bind(
             SqlValueType::String->createParam($id),
             SqlValueType::String->createParam($keyHash),
-            SqlValueType::String->createParam($userId),
+            SqlValueType::String->createParam($user->id),
         )->execute();
         if ($ok) {
             return $key;
@@ -127,7 +125,7 @@ readonly class LoginSession {
         if ($user === false) {
             return false;
         }
-        $authKey = AuthSession::createUserSession($db, $user->id);
+        $authKey = AuthSession::createUserSession($db, $user);
         if ($authKey === false) {
             return false;
         }
@@ -174,7 +172,7 @@ readonly class LoginSession {
             return false;
         }
 
-        $user = User::fromAuthSessionId($db, $auth->id);
+        $user = User::fromAuthSession($db, $auth);
         if ($user === false) {
             return false;
         }
