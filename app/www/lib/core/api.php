@@ -19,18 +19,18 @@ readonly class ApiRequest {
         $this->files = $method->filesArray();
     }
 
-    public function getParam(string $key): array|string|null {
+    public function getParam(string $key, bool $allowEmpty = false): array|string|null {
         assert($this->params !== null);
         $value = $this->params[$key] ?? null;
-        if (is_string($value) && strlen($value) === 0) {
+        if (!$allowEmpty && is_string($value) && strlen($value) === 0) {
             return null;
         } else {
             return $value;
         }
     }
 
-    public function getScalar(ApiResponse $res, string $key): string|null {
-        $value = $this->getParam($key);
+    public function getScalar(ApiResponse $res, string $key, bool $allowEmpty = false): string|null {
+        $value = $this->getParam($key, $allowEmpty);
         if (is_array($value)) {
             $res->dieWithError(HTTPCode::BadRequest, "Param $key must be a scalar");
         }
@@ -38,7 +38,7 @@ readonly class ApiRequest {
     }
 
     public function getArray(ApiResponse $res, string $key): array|null {
-        $value = $this->getParam($key);
+        $value = $this->getParam($key, allowEmpty: true);
         if (is_string($value)) {
             $res->dieWithError(HTTPCode::BadRequest, "Param $key must be an array");
         }
@@ -47,19 +47,23 @@ readonly class ApiRequest {
 
     public function getFile(string $key): array|null {
         assert($this->files !== null);
-        return $this->files[$key] ?? null;
+        $file = $this->files[$key] ?? null;
+        if ($file === null || $file["error"] === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+        return $file;
     }
 
-    public function expectParam(ApiResponse $res, string $key): array|string {
-        $value = $this->getParam($key);
+    public function expectParam(ApiResponse $res, string $key, bool $allowEmpty = false): array|string {
+        $value = $this->getParam($key, $allowEmpty);
         if ($value === null) {
             $res->dieWithError(HTTPCode::BadRequest, "Missing param $key");
         }
         return $value;
     }
 
-    public function expectScalar(ApiResponse $res, string $key): string {
-        $value = $this->getScalar($res, $key);
+    public function expectScalar(ApiResponse $res, string $key, bool $allowEmpty = false): string {
+        $value = $this->getScalar($res, $key, $allowEmpty);
         if ($value === null) {
             $res->dieWithError(HTTPCode::BadRequest, "Missing scalar $key");
         }

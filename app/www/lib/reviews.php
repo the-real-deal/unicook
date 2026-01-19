@@ -31,9 +31,9 @@ readonly class Review extends DBTable {
     }
 
     public static function validateBody(string $body): string {
-        if (filter_var_regex($body, '/^.{3,250}$/') === false) {
+        if (filter_var_regex($body, '/^.{1,250}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Review body must be between 3 and 250 characters
+            Review body must be between 1 and 250 characters
             end);
         }
         return $body;

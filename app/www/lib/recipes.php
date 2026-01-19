@@ -58,18 +58,18 @@ readonly class Recipe extends DBTable {
     }
 
     public static function validateTitle(string $title): string {
-        if (filter_var_regex($title, '/^.{3,50}$/') === false) {
+        if (filter_var_regex($title, '/^.{1,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Recipe title must be between 5 and 50 characters
+            Recipe title must be between 1 and 50 characters
             end);
         }
         return $title;
     }
 
     public static function validateDescription(string $description): string {
-        if (filter_var_regex($description, '/^.{3,250}$/') === false) {
+        if (filter_var_regex($description, '/^.{1,250}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Recipe description must be between 3 and 250 characters
+            Recipe description must be between 1 and 250 characters
             end);
         }
         return $description;
@@ -98,9 +98,9 @@ readonly class Recipe extends DBTable {
     }
 
     public static function validateIngredientName(string $name): string {
-        if (filter_var_regex($name, '/^.{5,30}$/') === false) {
+        if (filter_var_regex($name, '/^.{1,30}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Recipe ingredient name must be between 5 and 30 characters
+            Recipe ingredient name must be between 1 and 30 characters
             end);
         }
         return $name;
@@ -115,13 +115,20 @@ readonly class Recipe extends DBTable {
         return $quantity;
     }
 
+    public static function validateTags(array $tags): array {
+        $result = [];
+        $tags = array_values(array_unique($tags, SORT_REGULAR));
+        return $tags;
+    }
+
     public static function validateIngredients(array $ingredients): array {
-        $result = [];    
+        $result = [];
+        $ingredients = array_values(array_unique($ingredients, SORT_REGULAR));
         foreach ($ingredients as $ingredient) {
             [ "name" => $name, "quantity" => $quantity ] = $ingredient;
             array_push($result, [
-                self::validateIngredientName($name),
-                self::validateIngredientQuantity($quantity),
+                "name" => self::validateIngredientName($name),
+                "quantity" => self::validateIngredientQuantity($quantity),
             ]);
         }
         return $result;
@@ -138,6 +145,7 @@ readonly class Recipe extends DBTable {
 
     public static function validateSteps(array $steps): array {
         $result = [];
+        $steps = array_values(array_unique($steps, SORT_REGULAR));
         foreach ($steps as $step) {
             array_push($result, self::validateStep($step));
         }
@@ -179,6 +187,7 @@ readonly class Recipe extends DBTable {
     ): string|false {
         $title = self::validateTitle($title);
         $description = self::validateDescription($description);
+        $tags = self::validateTags($tags);
         $prepTime = self::validatePrepTime($prepTime);
         $servings = self::validateServings($servings);
         $ingredients = self::validateIngredients($ingredients);
@@ -219,64 +228,70 @@ readonly class Recipe extends DBTable {
                 throw new RuntimeException("Failed to insert recipe");
             }
 
-            $valueEntries = implode(", ", array_map(
-                fn ($tag) => "(?, ?)",
-                $tags,
-            ));
-            $query = $db->createStatement(<<<sql
-                INSERT INTO `RecipeTags`(`recipeId`, `tagId`) VALUES
-                {$valueEntries}
-                sql);
-            $ok = $query->bind(...array_merge(...array_map(
-                fn ($tag) => [
-                    SqlValueType::String->createParam($id),
-                    SqlValueType::String->createParam($tag->id),
-                ],
-                $tags
-            )))->execute();
-            if (!$ok) {
-                throw new RuntimeException("Failed to insert recipe tags");
+            if (count($tags) > 0) {
+                $valueEntries = implode(", ", array_map(
+                    fn ($tag) => "(?, ?)",
+                    $tags,
+                ));
+                $query = $db->createStatement(<<<sql
+                    INSERT INTO `RecipeTags`(`recipeId`, `tagId`) VALUES
+                    {$valueEntries}
+                    sql);
+                $ok = $query->bind(...array_merge(...array_map(
+                    fn ($tag) => [
+                        SqlValueType::String->createParam($id),
+                        SqlValueType::String->createParam($tag->id),
+                    ],
+                    $tags
+                )))->execute();
+                if (!$ok) {
+                    throw new RuntimeException("Failed to insert recipe tags");
+                }
             }
 
-            $valueEntries = implode(", ", array_map(
-                fn ($ingredient) => "(?, ?, ?, ?)",
-                $ingredients,
-            ));
-            $query = $db->createStatement(<<<sql
-                INSERT INTO `RecipeIngredients`(`recipeId`, `ingredientId`, `name`, `quantity`) VALUES
-                {$valueEntries}
-                sql);
-            $ok = $query->bind(...array_merge(...array_map(
-                fn ($ingredient, $i) => [
-                    SqlValueType::String->createParam($id),
-                    SqlValueType::Int->createParam($i),
-                    SqlValueType::String->createParam($ingredient["name"]),
-                    SqlValueType::String->createParam($ingredient["quantity"]),
-                ],
-                $ingredients, array_keys($ingredients)
-            )))->execute();
-            if (!$ok) {
-                throw new RuntimeException("Failed to insert recipe ingredients");
+            if (count($ingredients) > 0) {
+                $valueEntries = implode(", ", array_map(
+                    fn ($ingredient) => "(?, ?, ?, ?)",
+                    $ingredients,
+                ));
+                $query = $db->createStatement(<<<sql
+                    INSERT INTO `RecipeIngredients`(`recipeId`, `ingredientId`, `name`, `quantity`) VALUES
+                    {$valueEntries}
+                    sql);
+                $ok = $query->bind(...array_merge(...array_map(
+                    fn ($ingredient, $i) => [
+                        SqlValueType::String->createParam($id),
+                        SqlValueType::Int->createParam($i),
+                        SqlValueType::String->createParam($ingredient["name"]),
+                        SqlValueType::String->createParam($ingredient["quantity"]),
+                    ],
+                    $ingredients, array_keys($ingredients)
+                )))->execute();
+                if (!$ok) {
+                    throw new RuntimeException("Failed to insert recipe ingredients");
+                }
             }
 
-            $valueEntries = implode(", ", array_map(
-                fn ($step) => "(?, ?, ?)",
-                $steps,
-            ));
-            $query = $db->createStatement(<<<sql
-                INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
-                {$valueEntries}
-                sql);
-            $ok = $query->bind(...array_merge(...array_map(
-                fn ($step, $i) => [
-                    SqlValueType::String->createParam($id),
-                    SqlValueType::Int->createParam($i),
-                    SqlValueType::String->createParam($step),
-                ],
-                $steps, array_keys($steps)
-            )))->execute();
-            if (!$ok) {
-                throw new RuntimeException("Failed to insert recipe steps");
+            if (count($steps) > 0) {
+                $valueEntries = implode(", ", array_map(
+                    fn ($step) => "(?, ?, ?)",
+                    $steps,
+                ));
+                $query = $db->createStatement(<<<sql
+                    INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
+                    {$valueEntries}
+                    sql);
+                $ok = $query->bind(...array_merge(...array_map(
+                    fn ($step, $i) => [
+                        SqlValueType::String->createParam($id),
+                        SqlValueType::Int->createParam($i),
+                        SqlValueType::String->createParam($step),
+                    ],
+                    $steps, array_keys($steps)
+                )))->execute();
+                if (!$ok) {
+                    throw new RuntimeException("Failed to insert recipe steps");
+                }
             }
 
             return $db->commit() ? $id : false;
@@ -289,36 +304,24 @@ readonly class Recipe extends DBTable {
 
     public function update(
         Database $db,
-        ?string $title,
-        ?string $description,
+        string $title,
+        string $description,
         ?UploadFile $image, 
-        ?array $tags,
-        ?RecipeDifficulty $difficulty,
-        ?int $prepTime, 
-        ?RecipeCost $cost,
-        ?int $servings,
-        ?array $ingredients,
-        ?array $steps,
+        array $tags,
+        RecipeDifficulty $difficulty,
+        int $prepTime, 
+        RecipeCost $cost,
+        int $servings,
+        array $ingredients,
+        array $steps,
     ): bool {
-        $title = self::validateTitle($title ?? $this->title);
-        $description = self::validateDescription($description ?? $this->description);
-        $imageId = $image === null ? $this->photoId : $image->id;
-        $tags ??= $this->getTags($db);
-        $difficulty ??= $this->difficulty;
-        $prepTime = self::validatePrepTime($prepTime ?? $this->prepTime);
-        $cost ??= $this->cost;
-        $servings = self::validateServings($servings ?? $this->servings);
-        $ingredients = self::validateIngredients($ingredients ?? array_map(
-            fn ($ingredient) => [
-                "name" => $ingredient->name,
-                "quantity" => $ingredient->quantity,
-            ],
-            $this->getIngredients($db)
-        ));
-        $steps = self::validateSteps($steps ?? array_map(
-            fn ($step) => $step->instruction,
-            $this->getSteps($db)
-        ));
+        $title = self::validateTitle($title);
+        $description = self::validateDescription($description);
+        $tags = self::validateTags($tags);
+        $prepTime = self::validatePrepTime($prepTime);
+        $servings = self::validateServings($servings);
+        $ingredients = self::validateIngredients($ingredients);
+        $steps = self::validateSteps($steps);
 
         $ok = $db->beginTransaction();
         if (!$ok) {
@@ -337,10 +340,11 @@ readonly class Recipe extends DBTable {
                 WHERE r.`id` = ?
                 sql);
             
+            $imageId = $image === null ? $this->photoId : $image->id;
             $ok = $query->bind(
                 SqlValueType::String->createParam($title),
                 SqlValueType::String->createParam($description),
-                SqlValueType::String->createParam($image === null ? $this->photoId : $image->id),
+                SqlValueType::String->createParam($imageId),
                 SqlValueType::Int->createParam($difficulty->value),
                 SqlValueType::Int->createParam($prepTime),
                 SqlValueType::Int->createParam($cost->value),
@@ -359,23 +363,25 @@ readonly class Recipe extends DBTable {
                 throw new RuntimeException("Failed to delete old recipe tags");
             }
 
-            $valueEntries = implode(", ", array_map(
-                fn ($tag) => "(?, ?)",
-                $tags,
-            ));
-            $query = $db->createStatement(<<<sql
-                INSERT INTO `RecipeTags`(`recipeId`, `tagId`) VALUES
-                {$valueEntries}
-                sql);
-            $ok = $query->bind(...array_merge(...array_map(
-                fn ($tag) => [
-                    SqlValueType::String->createParam($this->id),
-                    SqlValueType::String->createParam($tag->id),
-                ],
-                $tags
-            )))->execute();
-            if (!$ok) {
-                throw new RuntimeException("Failed to insert new recipe tags");
+            if (count($tags) > 0) {
+                $valueEntries = implode(", ", array_map(
+                    fn ($tag) => "(?, ?)",
+                    $tags,
+                ));
+                $query = $db->createStatement(<<<sql
+                    INSERT INTO `RecipeTags`(`recipeId`, `tagId`) VALUES
+                    {$valueEntries}
+                    sql);
+                $ok = $query->bind(...array_merge(...array_map(
+                    fn ($tag) => [
+                        SqlValueType::String->createParam($this->id),
+                        SqlValueType::String->createParam($tag->id),
+                    ],
+                    $tags
+                )))->execute();
+                if (!$ok) {
+                    throw new RuntimeException("Failed to insert new recipe tags");
+                }
             }
 
             $query = $db->createStatement(<<<sql
@@ -386,25 +392,27 @@ readonly class Recipe extends DBTable {
                 throw new RuntimeException("Failed to delete old recipe ingredients");
             }
 
-            $valueEntries = implode(", ", array_map(
-                fn ($ingredient) => "(?, ?, ?, ?)",
-                $ingredients,
-            ));
-            $query = $db->createStatement(<<<sql
-                INSERT INTO `RecipeIngredients`(`recipeId`, `ingredientId`, `name`, `quantity`) VALUES
-                {$valueEntries}
-                sql);
-            $ok = $query->bind(...array_merge(...array_map(
-                fn ($ingredient, $i) => [
-                    SqlValueType::String->createParam($this->id),
-                    SqlValueType::Int->createParam($i),
-                    SqlValueType::String->createParam($ingredient["name"]),
-                    SqlValueType::String->createParam($ingredient["quantity"]),
-                ],
-                $ingredients, array_keys($ingredients)
-            )))->execute();
-            if (!$ok) {
-                throw new RuntimeException("Failed to insert new recipe ingredients");
+            if (count($ingredients) > 0) {
+                $valueEntries = implode(", ", array_map(
+                    fn ($ingredient) => "(?, ?, ?, ?)",
+                    $ingredients,
+                ));
+                $query = $db->createStatement(<<<sql
+                    INSERT INTO `RecipeIngredients`(`recipeId`, `ingredientId`, `name`, `quantity`) VALUES
+                    {$valueEntries}
+                    sql);
+                $ok = $query->bind(...array_merge(...array_map(
+                    fn ($ingredient, $i) => [
+                        SqlValueType::String->createParam($this->id),
+                        SqlValueType::Int->createParam($i),
+                        SqlValueType::String->createParam($ingredient["name"]),
+                        SqlValueType::String->createParam($ingredient["quantity"]),
+                    ],
+                    $ingredients, array_keys($ingredients)
+                )))->execute();
+                if (!$ok) {
+                    throw new RuntimeException("Failed to insert new recipe ingredients");
+                }
             }
 
             $query = $db->createStatement(<<<sql
@@ -415,24 +423,26 @@ readonly class Recipe extends DBTable {
                 throw new RuntimeException("Failed to delete old recipe steps");
             }
 
-            $valueEntries = implode(", ", array_map(
-                fn ($step) => "(?, ?, ?)",
-                $steps,
-            ));
-            $query = $db->createStatement(<<<sql
-                INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
-                {$valueEntries}
-                sql);
-            $ok = $query->bind(...array_merge(...array_map(
-                fn ($step, $i) => [
-                    SqlValueType::String->createParam($this->id),
-                    SqlValueType::Int->createParam($i),
-                    SqlValueType::String->createParam($step),
-                ],
-                $steps, array_keys($steps)
-            )))->execute();
-            if (!$ok) {
-                throw new RuntimeException("Failed to insert new recipe steps");
+            if (count($steps) > 0) {
+                $valueEntries = implode(", ", array_map(
+                    fn ($step) => "(?, ?, ?)",
+                    $steps,
+                ));
+                $query = $db->createStatement(<<<sql
+                    INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
+                    {$valueEntries}
+                    sql);
+                $ok = $query->bind(...array_merge(...array_map(
+                    fn ($step, $i) => [
+                        SqlValueType::String->createParam($this->id),
+                        SqlValueType::Int->createParam($i),
+                        SqlValueType::String->createParam($step),
+                    ],
+                    $steps, array_keys($steps)
+                )))->execute();
+                if (!$ok) {
+                    throw new RuntimeException("Failed to insert new recipe steps");
+                }
             }
 
             return $db->commit();
@@ -514,7 +524,7 @@ readonly class Recipe extends DBTable {
         ) {
             throw new InvalidArgumentException("Invalid preparation time range");
         }
-        $tags ??= [];
+        $tags = $tags === null ? [] : array_values(array_unique($tags, SORT_REGULAR));
         $from ??= 0;
         $n ??= 100;
         if (

@@ -11,14 +11,14 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     $title = $req->expectScalar($res, "title");
     $description = $req->expectScalar($res, "description");
     $imageFile = $req->expectFile($res, "image");
-    $tagIds = $req->expectArray($res, "tagIds");
+    $tagIds = $req->getArray($res, "tagIds") ?? [];
     $difficulty = $req->expectScalar($res, "difficulty");
     $prepTime = $req->expectScalar($res, "prepTime");
     $cost = $req->expectScalar($res, "cost");
     $servings = $req->expectScalar($res, "servings");
-    $ingredientsQuantity = $req->expectArray($res, "ingredientsQuantity");
-    $ingredientsName = $req->expectArray($res, "ingredientsName");
-    $steps = $req->expectArray($res, "steps");
+    $ingredientsQuantity = $req->getArray($res, "ingredientsQuantity") ?? [];
+    $ingredientsName = $req->getArray($res, "ingredientsName") ?? [];
+    $steps = $req->getArray($res, "steps") ?? [];
 
     $db = Database::connectDefault();
     try {
@@ -48,7 +48,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
             $res->dieWithError(HTTPCode::Unauthorized, "Not logged in");
         }
 
-        $image = UploadFile::uploadFileArray($imageFile, FileType::Image, self::IMAGES_UPLOAD_PATH);
+        $image = UploadFile::uploadFileArray($imageFile, FileType::Image, Recipe::IMAGES_UPLOAD_PATH);
         if ($image === false) {
             $res->dieWithError(HTTPCode::InternalServerError, "Failed to upload image");
         }

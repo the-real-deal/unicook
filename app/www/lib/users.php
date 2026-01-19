@@ -27,7 +27,7 @@ readonly class User extends DBTable {
     public static function validateUsername(string $username): string {
         if (filter_var_regex($username, '/^.{3,50}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Username must be between 5 and 50 characters
+            Username must be between 3 and 50 characters
             end);
         }
         return $username;
