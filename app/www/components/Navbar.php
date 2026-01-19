@@ -64,7 +64,7 @@ function Navbar(LoginSession|false $login) {
                             Login
                         </a>
                         <?php } else { ?>
-                        <a class="d-flex align-items-center nav-link px-3 py-2" href="/profile/?id=<?= $login->user->id ?>">
+                        <a class="d-flex align-items-center nav-link px-3 py-2" href="/profile/?userId=<?= $login->user->id ?>">
                             <?= $login->user->username ?>
                             <?php if($login->user->avatarId){ ?>
                             <img class="ms-2 flex-shrink-0  " src="/api/users/image/content.php?userId=<?= $login->user->id ?>">
