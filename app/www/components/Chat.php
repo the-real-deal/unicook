@@ -26,6 +26,7 @@ function Chat() {
                             <h1>The whisper of the burners</h1>
                             <h2 id="status">Available</h2>
                         </div>
+                        <input id="clear-chat" type="button" value="Clear chat" />
                     </div>
 
                     <div id="chat-content" class="d-flex py-4">

@@ -1,42 +1,44 @@
-import { marked } from '/js/marked.js';
-import { rejectApiError } from '/js/errors.js';
+import { marked } from '/js/marked.js'
+import { rejectApiError } from '/js/errors.js'
 
-const chatContent = document.getElementById('chat-content');
-const messageBox = document.getElementById('message-box');
-const messageTextArea = document.getElementById('message-text-area');
-const messageSendButton = document.getElementById('message-send-button');
-const statusDiv = document.getElementById('status');
+const chatOpenButton = document.getElementById('chat-open-button')
+const chatContent = document.getElementById('chat-content')
+const messageBox = document.getElementById('message-box')
+const messageTextArea = document.getElementById('message-text-area')
+const messageSendButton = document.getElementById('message-send-button')
+const statusDiv = document.getElementById('status')
+const clearChatButton = document.getElementById('clear-chat')
 
 //chat --> responseDiv
 
-let responseDiv = null;
+let responseDiv = null
 
 function createMessageDiv(role) {
-    const messageDiv = document.createElement('div');
-    const messageText = document.createElement('p');
-    messageText.classList.add('py-2', 'px-3', 'my-2');
+    const messageDiv = document.createElement('div')
+    const messageText = document.createElement('p')
+    messageText.classList.add('py-2', 'px-3', 'my-2')
 
     if (role === 'user') {
-        messageDiv.classList.add('user', 'd-flex', 'justify-content-end', 'w-100', 'pe-3');
+        messageDiv.classList.add('user', 'd-flex', 'justify-content-end', 'w-100', 'pe-3')
     } else if (role === 'assistant') {
-        messageDiv.classList.add('assistant', 'd-flex', 'w-100', 'ps-3');
+        messageDiv.classList.add('assistant', 'd-flex', 'w-100', 'ps-3')
 
     }
-    messageDiv.appendChild(messageText);
-    chatContent.appendChild(messageDiv);
+    messageDiv.appendChild(messageText)
+    chatContent.appendChild(messageDiv)
     if (role === 'assistant') {
-        responseDiv = messageText;
+        responseDiv = messageText
     }
-    return messageText;
+    return messageText
 }
 
 function uploadChat(messages) {
-    if (!chatContent) return;
-    chatContent.innerHTML = '';
+    if (!chatContent) return
+    chatContent.innerHTML = ''
 
     for (const message of messages) {
-        const messageText = createMessageDiv(message.role);
-        messageText.innerHTML = marked.parse(message.content);
+        const messageText = createMessageDiv(message.role)
+        messageText.innerHTML = marked.parse(message.content)
     }
 }
 
@@ -55,10 +57,9 @@ function displayResponse(displayedText) {
 
 messageBox.addEventListener('submit', async (e) => {
     e.preventDefault()
-    createMessageDiv('user').innerHTML = marked.parse(messageTextArea.value);
-    createMessageDiv('assistant')
     // Reset
-    responseDiv.textContent = ""
+    const userMessageDiv = createMessageDiv('user')
+    userMessageDiv.innerHTML = marked.parse(messageTextArea.value)
     messageSendButton.disabled = true
     let dataFinished = false
     let dotInterval = null
@@ -70,6 +71,14 @@ messageBox.addEventListener('submit', async (e) => {
             method: messageBox.method,
             body: data
         }).then(rejectApiError)
+            .catch(err => {
+                userMessageDiv.remove()
+                return Promise.reject(err)
+            })
+
+        messageTextArea.value = ''
+        createMessageDiv('assistant')
+        messageBox.reset()
 
 
         statusDiv.textContent = "Writing..."
@@ -141,8 +150,26 @@ messageBox.addEventListener('submit', async (e) => {
     } finally {
         dataFinished = true
         clearInterval(dotInterval)
-        displayResponse(displayedText)
     }
-});
+})
 
-uploadChat([{ role: 'user', content: 'Hello' }, { role: 'assistant', content: 'Hi there!' }]);
+chatOpenButton.addEventListener('click', async () => {
+    const response = await fetch('/api/chat/messages.php', {
+        method: 'GET',
+    }).then(rejectApiError)
+
+    if (response.ok) {
+        const messages = await response.json()
+        uploadChat(messages)
+    }
+})
+
+clearChatButton.addEventListener('click', async () => {
+    const response = await fetch('/api/chat/clear.php', {
+        method: 'POST',
+    }).then(rejectApiError)
+
+    if (response.ok) {
+        chatContent.innerHTML = ''
+    }
+})
