@@ -21,7 +21,12 @@ readonly class ApiRequest {
 
     public function getParam(string $key): array|string|null {
         assert($this->params !== null);
-        return $this->params[$key] ?? null;
+        $value = $this->params[$key] ?? null;
+        if (is_string($value) && strlen($value) === 0) {
+            return null;
+        } else {
+            return $value;
+        }
     }
 
     public function getScalar(ApiResponse $res, string $key): string|null {
