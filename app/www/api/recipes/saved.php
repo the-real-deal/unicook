@@ -30,7 +30,7 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
             $res->dieWithError(HTTPCode::NotFound, "Recipe not found");
         }
 
-        $isSaved = $recipe->isSavedFrom($db, $user->id);
+        $isSaved = $recipe->isSavedFrom($db, $user);
         $res->sendJSON([ "saved" => $isSaved ]);
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);
