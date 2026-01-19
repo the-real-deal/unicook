@@ -1,3 +1,5 @@
+import { marked } from "/js/marked.js"
+
 let currentResponse = ""
 const form = document.getElementById("chatForm")
 const content = document.getElementById("content")
