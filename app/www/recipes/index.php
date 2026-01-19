@@ -116,7 +116,7 @@ $resultNumber = 4;
 
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
-    <script src="main.js"></script>
+    <script type="module"  src="main.js"></script>
     <script type="module" src="/js/chat.js"></script>
 </body>
 </html>
