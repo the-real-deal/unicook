@@ -68,12 +68,12 @@
 
 #### GET
 
-- [ ] get messages
+- [x] get messages
 
 #### POST
 
-- [ ] send message
-- [ ] clear
+- [x] send message
+- [x] clear
 
 ## Pages
 - [ ] add error notification on every page
