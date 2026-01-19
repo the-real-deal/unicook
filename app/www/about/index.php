@@ -35,9 +35,7 @@ $login = LoginSession::autoLogin($db);
     Navbar($login);
     Chat();
     ?>
-    <!-- ABOUT PAGE-->
     <main>
-        <!-- HERO SECTION -->
         <div class="py-5" id="hero-section">
             <div class="container text-center">
                 <div class="d-inline-flex align-items-center mb-4 gap-2 py-2 px-3">
@@ -63,12 +61,9 @@ $login = LoginSession::autoLogin($db);
 
             </div>
         </div>
-
-        <!-- MISSION SECTION -->
         <section class="py-5" id="mission-section">
             <div class="container">
                 <div class="row align-items-center">
-                    <!-- Left column -->
                     <div class="col-md-6">
 
                         <div class="d-inline-flex align-items-center px-3 py-2 mb-3 gap-2">
@@ -104,7 +99,6 @@ $login = LoginSession::autoLogin($db);
                         </p>
                     </div>
 
-                    <!-- Right column -->
                     <div class="col-md-6">
                         <div class="p-4">
 
@@ -172,8 +166,6 @@ $login = LoginSession::autoLogin($db);
 
             </div>
         </section>
-
-        <!-- VALUES SECTION -->
         <section class="py-5">
             <div class="container ">
 
@@ -184,11 +176,9 @@ $login = LoginSession::autoLogin($db);
 
                 <div class="row gx-3">
 
-                    <!-- Student First -->
                     <div class="col-md-4 d-flex py-2">
                         <div class="value-card p-4 text-center flex-grow-1">
                             <div class="p-3 d-inline-block mb-3">
-                                <!-- Heart icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-heart w-8 h-8" aria-hidden="true">
@@ -204,12 +194,9 @@ $login = LoginSession::autoLogin($db);
                             </p>
                         </div>
                     </div>
-
-                    <!-- Budget Friendly -->
                     <div class="col-md-4 d-flex py-2">
                         <div class="value-card p-4 text-center flex-grow-1">
                             <div class="p-3 d-inline-block mb-3">
-                                <!-- Dollar -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-dollar-sign w-8 h-8"
@@ -225,11 +212,9 @@ $login = LoginSession::autoLogin($db);
                         </div>
                     </div>
 
-                    <!-- Time Saving -->
                     <div class="col-md-4 d-flex py-2">
                         <div class="value-card p-4 text-center flex-grow-1 ">
                             <div class="p-3 d-inline-block mb-3">
-                                <!-- Clock -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-clock w-8 h-8" aria-hidden="true">
@@ -249,7 +234,6 @@ $login = LoginSession::autoLogin($db);
             </div>
         </section>
 
-        <!-- TEAM SECTION -->
         <section class="py-5">
             <div class="container">
                 <div class="text-center mb-5">
@@ -259,7 +243,6 @@ $login = LoginSession::autoLogin($db);
 
                 <div class="row g-4">
 
-                    <!-- Spita -->
                     <div class="team-user col-md-4 text-center ">
                         <div class="d-flex align-items-center justify-content-center mb-3">
                             <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Ludovico+Spitaleri" alt="">
@@ -271,7 +254,6 @@ $login = LoginSession::autoLogin($db);
                         </p>
                     </div>
 
-                    <!-- Gio -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
                             <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Gioele+Foschi" alt="">
@@ -283,7 +265,6 @@ $login = LoginSession::autoLogin($db);
                         </p>
                     </div>
 
-                    <!-- Tonno -->
                     <div class="team-user col-md-4 text-center">
                         <div class="d-flex align-items-center justify-content-center mb-3">
                             <img class="object-fit-cover" src="https://ui-avatars.com/api/?name=Matteo+Tonelli" alt="">
@@ -300,7 +281,6 @@ $login = LoginSession::autoLogin($db);
             </div>
         </section>
 
-        <!-- STATS SECTION -->
         <section class="pt-3 pb-5" id="stats-section">
             <div class="container text-center">
                 <h2>Why Us?</h2>
@@ -335,7 +315,6 @@ $login = LoginSession::autoLogin($db);
             </div>
         </section>
 
-        <!-- CTA SECTION -->
         <section class="py-5">
             <div class="container">
                 <div class="p-5 text-center" id="section-ending">

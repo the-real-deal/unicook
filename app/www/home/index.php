@@ -7,14 +7,18 @@ require_once "components/RecipeCard.php";
 require_once "components/CategoryCard.php";
 require_once "components/SearchBar.php";
 require_once "lib/auth.php";
-require_once "lib/auth.php";
+require_once "lib/recipes.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
 
-$randomRecipeId="1";
+$randomRecipeId=Recipe::getRandom($db);
 Database::connectDefault();
 
+$isLogged = false;
+if($login !== false){
+    $isLogged = true;
+}
 
 ?>
 <!DOCTYPE html>
@@ -32,10 +36,9 @@ Database::connectDefault();
                         today!
                     </p>
                     <form class="w-100" id="home-search-form">
-                        <!-- SEARCH BAR -->
                         <?= SearchBar("home") ?>
                     </form>
-                    <a href="/singleRecipe?id=<?= $randomRecipeId ?>" class="px-2 py-1 d-inline-flex justify-content-center align-items-center">
+                    <a href="/singleRecipe?id=<?= $randomRecipeId->id ?>" class="px-2 py-1 d-inline-flex justify-content-center align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-shuffle w-4 h-4 me-2" aria-hidden="true">
@@ -59,11 +62,28 @@ Database::connectDefault();
         <section class="row">
             <h2>Featured Recipes</h2>
             <p>Handpicked favorites for busy students</p>
-            
-            <?= RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-            <?= RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-            <?= RecipeCard("3", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-            <?= RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
+
+            <?php 
+                $recipes = Recipe::getBest($db, 4);
+                if($recipes === false){
+            ?>
+                error
+            <?php 
+                }else{
+                    $i = 0;
+                    if($isLogged){
+                        foreach($recipes as $recipe){
+                            RecipeCard("home-".$i, $recipe->id, $recipe->title, array_map(fn($t)=>$t->name ,$recipe->getTags($db)), $recipe->prepTime, $recipe->cost->name, $recipe->isSavedFrom($db, $login->user), true);
+                            $i++;
+                        }
+                    } else{
+                        foreach($recipes as $recipe){
+                            RecipeCard("home-".$i, $recipe->id, $recipe->title, array_map(fn($t)=>$t->name ,$recipe->getTags($db)), $recipe->prepTime, $recipe->cost->name, isLogged:false);
+                            $i++;
+                        }
+                    }
+                }       
+            ?>
         </section>
 
         <!-- Categories -->
@@ -71,12 +91,12 @@ Database::connectDefault();
             <h2>Hand-Picked Categories</h2>
             <p>Find recipes that fit your needs</p>
             <ul class="row text-center px-0 m-auto">
-                <?= CategoryCard("1", "Vegan", 34, "vegan.svg") ?>
-                <?= CategoryCard("2", "Night Snacks", 34, "moon.svg") ?>
-                <?= CategoryCard("3", "International", 34, "international.svg") ?>
-                <?= CategoryCard("4", "Few Ingredients", 34, "lowIngredients.svg") ?>
-                <?= CategoryCard("5", "Pasta", 34, "pasta.svg") ?>
-                <?= CategoryCard("6", "Dessert", 34, "dessert.svg") ?>
+                <?= CategoryCard("9b8a7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d", "Vegan", count(Tag::fromId($db, "9b8a7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d")->getRecipes($db)), "vegan.svg") ?>
+                <?= CategoryCard("fd01cc1f-6f1a-4d01-bd38-4ec70349840c", "Night Snacks", count(Tag::fromId($db, "fd01cc1f-6f1a-4d01-bd38-4ec70349840c")->getRecipes($db)), "moon.svg") ?>
+                <?= CategoryCard("61655a70-6f83-45cd-bf00-2ac8a9789e0c", "International", count(Tag::fromId($db, "61655a70-6f83-45cd-bf00-2ac8a9789e0c")->getRecipes($db)), "international.svg") ?>
+                <?= CategoryCard("c9bf9e57-1685-4c89-bafb-ff5af830be8a", "Few Ingredients", count(Tag::fromId($db, "c9bf9e57-1685-4c89-bafb-ff5af830be8a")->getRecipes($db)), "lowIngredients.svg") ?>
+                <?= CategoryCard("7c9e6679-7425-40de-944b-e07fc1f90ae7", "Pasta", count(Tag::fromId($db, "7c9e6679-7425-40de-944b-e07fc1f90ae7")->getRecipes($db)), "pasta.svg") ?>
+                <?= CategoryCard("3d6f91f4-6e2e-4e5f-8d9a-1c3b5e7f9d2a", "Dessert", count(Tag::fromId($db, "3d6f91f4-6e2e-4e5f-8d9a-1c3b5e7f9d2a")->getRecipes($db)), "dessert.svg") ?>
             </ul>
         </section>
 

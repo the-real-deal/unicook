@@ -1,8 +1,34 @@
 document.getElementById('clickme').addEventListener('click', () => { addRecipeFromTemplate() });
 
-document.querySelector('search-form').addEventListener('change', (e) => {
-    console.log('Form changed!', e.target.name, e.target.value);
+const form = document.getElementById('search-form');
+
+let nRecipes = 0;
+let lastBatchCount = -1;
+const nextBatchCount = 8;
+
+form.addEventListener('change', (e) => {
+    if (e.target.name != 'search-bar')
+        handleFormChange(e);
 });
+
+let timerID = null;
+
+document.getElementById('search-recipes').addEventListener('keyup', (e) => {
+    if (timerID)
+        clearTimeout(timerID);
+
+    timerID = setTimeout(() => {
+        handleFormChange(e);
+        timerID = null;
+    }, 1000);
+});
+
+function handleFormChange(event) {
+    removeAllChilds();
+    // call query
+    console.log('Form changed!', e.target.name, e.target.value);
+}
+
 
 let index = 0;
 
@@ -12,7 +38,7 @@ let recipeData = {
     'tags': ["Tag#1", "Tag#2", "Tag#3"],
     'timeRequired': 20,
     'cost': 'cheap',
-    'saved': true
+    'saved': false
 }
 
 function addRecipeFromTemplate() {
@@ -23,7 +49,10 @@ function addRecipeFromTemplate() {
 
     clone.id = newID;
 
-    // clone.querySelector('img').src = "link";
+    // const params = new URLSearchParams(document.location.search)
+    // const userId = params.get("userId")
+
+    clone.querySelector('img').src = `/api/recipes/image.php?recipeId=${user.id}`;
 
     const title = clone.querySelector('h3');
     title.textContent = recipeData.recipeTitle;
@@ -58,4 +87,10 @@ function addRecipeFromTemplate() {
 
 
     document.getElementById('recipe-container').appendChild(clone);
+}
+
+function removeAllChilds() {
+    document.getElementById('recipe-container').innerHTML = '';
+    nRecipes = 0;
+    lastBatchCount = -1;
 }

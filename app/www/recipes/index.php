@@ -7,26 +7,18 @@ require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
+require_once "lib/tags.php";
 
-class TagTmp{
-    public string $id;
-    public string $name;
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
 
-    public function __construct($id, $name) {
-        $this->id = $id;
-        $this->name = $name;
-    }
+$_isLogged = false;
+
+if ($login !== false) {
+    $isLogged = true;
 }
 
-$tags = [
-    new TagTmp("1","Vegan"),
-    new TagTmp("2","Night Snacks"),
-    new TagTmp("3","International"),
-    new TagTmp("4","Few Ingredients"),
-    new TagTmp("5","Pasta"),
-    new TagTmp("6","Dessert"),
-    new TagTmp("7","Salty")
-];
+$tags = Tag::getAllTags($db);
 
 if(isset($_GET['tag']))
     $selectedTag = $_GET['tag'];
@@ -47,15 +39,14 @@ $resultNumber = 4;
 <?= PageHead("Recipes", [ "style.css" ]) ?>
 <body>
     <?=  ErrorNotification() ?>
-    <?= Navbar() ?>
+    <?= Navbar($login) ?>
     <main class="container-fluid p-0 overflow-x-hidden" id="home-page">
         <header class="p-5">
             <h1>All Recipes</h1>
             <p>Discover <?= $totalRecipes ?> delicious recipes for students</p>
             <div class="row">
                 <form id="search-form" class="w-100">
-                    <!-- SEARCH BAR -->
-                    <?= SearchBar("recipes",50, isset($searchText) ? $searchText : "") ?>
+                    <?= SearchBar("recipes", 50, isset($searchText) ? $searchText : "", false) ?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
                             <label for="dif" hidden>difficulty level selector</label>
@@ -86,7 +77,8 @@ $resultNumber = 4;
                         </div>
                         <ul class="col-12 d-flex mt-3 flex-wrap">
                             <?php
-                                foreach($tags as $tag){
+                                if($tags !== false){
+                                    foreach($tags as $tag){
                             ?>   
                             <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
                                 <input type="checkbox" 
@@ -97,6 +89,7 @@ $resultNumber = 4;
                                 <label for="<?= $tag->id ?>"><?= $tag->name ?></label>
                             </li>
                             <?php 
+                                    }
                                 }
                             ?>
                         </ul>
@@ -105,11 +98,14 @@ $resultNumber = 4;
             </div>
         </header>
         <div>
-            <section id="recipe-container" class="row">
+            <section id="recipe-result" class="row">
                 <h2>Results</h2>
-                <p>Showing <?= $resultNumber ?> recipes</p>
+                <p id="recipeCount">Showing 3 recipes</p>
                 <div id="recipe-template">
-                    <?= RecipeCard("{template}", "{recipeId}", "{recipeTitle}", [], 20, "{cost}") ?>
+                    <?= RecipeCard("{template}", "{recipeId}", "{recipeTitle}", [], 20, "{cost}", isLogged:$_isLogged) ?>
+                </div>
+                <div id="recipe-container" class="row">
+
                 </div>
             </section>
         </div>
