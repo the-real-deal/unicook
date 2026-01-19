@@ -337,5 +337,6 @@ $login = LoginSession::autoLogin($db);
 
     <?= Footer() ?>
     <script type="module" src="/js/bootstrap.js"></script>
+    <script type="module" src="/js/chat.js"></script>
 </body>
 </html>

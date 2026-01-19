@@ -16,7 +16,7 @@ function Chat() {
 <div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="chat-container" class="d-flex flex-column">
+            <div id="chat-container" class="d-flex flex-column">
                     <div id="chat-title" class="d-flex align-items-center p-3 gap-2">
                         <button type="button" data-bs-dismiss="modal" >&#128473;</button>
                         <img class="object-fit-cover"
@@ -24,31 +24,31 @@ function Chat() {
                             alt="profile picture">
                         <div class="ms-3">
                             <h1>The whisper of the burners</h1>
-                            <h2>Available</h2>
+                            <h2 id="status">Available</h2>
                         </div>
                     </div>
 
                     <div id="chat-content" class="d-flex py-4">
-                        <div class="user d-flex justify-content-end w-100 pe-3">
+                        <!-- <div class="user d-flex justify-content-end w-100 pe-3">
                             <p class="py-2 px-3 my-2  ">Bazavula</p>
                         </div>
                         <div class="other d-flex w-100 ps-3">
                             <p class="py-2 px-3 my-2">Vazabula</p>
-                        </div>
+                        </div> -->
 
                     </div>
 
-                    <div id="message-box" class=" container py-2">
+                    <form action="/api/chat/messages.php" method="POST" id="message-box" class=" container py-2">
                         <div class="row mx-auto">
                             <label for="message-text-area" hidden>Write a message</label>
-                            <textarea id="message-text-area" placeholder="Write a message..." class="col-9 "
+                            <textarea id="message-text-area" name="content" placeholder="Write a message..." class="col-9 "
                                 rows="1"></textarea>
 
                             <label for="message-send-button" hidden>Send a message</label>
-                            <input id="message-send-button" type="button" value="Send" class="text-center col-3 py-3 px-4" />
+                            <input id="message-send-button" type="submit" value="Send" class="text-center col-3 py-3 px-4" />
                         </div>
-                    </div>
-            </form>
+                    </form>
+            </div>
         </div>
     </div>
 </div>
