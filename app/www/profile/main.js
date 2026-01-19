@@ -4,6 +4,7 @@ const form = document.getElementById("imageForm")
 const avatarImage = document.getElementById("avatarImage")
 const uploadButton = document.getElementById("upload-button")
 const imageInput = document.getElementById('image')
+const logoutButton = document.getElementById('logout-button')
 
 async function getUser() {
     const params = new URLSearchParams(document.location.search)
@@ -22,7 +23,7 @@ function getImageSrc(user, noCache = false) {
     return `/api/users/image/content.php?userId=${user.id}${noCache ? `&t=${Date.now()}` : ""}`
 }
 
-form.addEventListener("submit", async (e) => {
+form?.addEventListener("submit", async (e) => {
     e.preventDefault()
 
     const data = new FormData(form)
@@ -48,7 +49,7 @@ avatarImage.addEventListener("error", _ => {
 avatarImage.src = getImageSrc(user)
 
 
-imageInput.addEventListener('change', function () {
+imageInput?.addEventListener('change', function () {
     if (this.files && this.files.length > 0) {
         uploadButton.style.visibility = 'visible'
     } else {
@@ -56,7 +57,7 @@ imageInput.addEventListener('change', function () {
     }
 })
 
-document.getElementById('logout-button').addEventListener('click', async (e) => {
+logoutButton?.addEventListener('click', async (e) => {
     const res = await fetch('/api/auth/logout.php', { method: 'POST' })
 
     if (res.ok) {
