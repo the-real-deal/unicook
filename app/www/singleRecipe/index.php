@@ -12,7 +12,7 @@ require_once "lib/recipes.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
-$recipe = null;
+$recipe = false;
 
 $server = new ApiServer();
 
