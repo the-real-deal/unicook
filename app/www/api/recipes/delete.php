@@ -19,9 +19,8 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         if ($login === false) {
             $res->dieWithError(HTTPCode::Unauthorized, "Not logged in");
         }
-        $user = $login->user;
-        if ($user->id !== $recipe->userId && !$user->isAdmin) {
-            $res->dieWithError(HTTPCode::Forbidden, "Permissions insufficient");
+        if ($login->user->id !== $recipe->userId && !$login->user->isAdmin) {
+            $res->dieWithError(HTTPCode::Forbidden, "Insufficient permissions");
         }
             
         $ok = $recipe->delete($db);

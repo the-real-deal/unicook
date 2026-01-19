@@ -118,6 +118,13 @@ readonly class ApiRequest {
         }
         return (int)$value;
     }
+
+    function validateBool(ApiResponse $res, string $value, string $fieldName): bool {
+        if (!is_numeric($value) && $value !== "true" && $value !== "false") {
+            $res->dieWithError(HTTPCode::BadRequest, "$fieldName must be a boolean");
+        }
+        return is_numeric($value) ? (bool)$value : $value === "true";
+    }
 }
 
 class ApiResponse {

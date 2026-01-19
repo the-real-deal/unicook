@@ -78,6 +78,24 @@ readonly class User extends DBTable {
         return $id;
     }
 
+    public function update(
+        Database $db,
+        ?bool $admin,
+    ): bool {
+        $admin ??= $this->isAdmin;
+
+        $query = $db->createStatement(<<<sql
+            UPDATE `Users` u SET 
+                u.`isAdmin` = ?
+            WHERE u.`id` = ?
+            sql);
+        $ok = $query->bind(
+            SqlValueType::Bool->createParam($admin),
+            SqlValueType::String->createParam($this->id),
+        )->execute();
+        return $ok;
+    }
+
     public static function fromId(Database $db, string $id): self|false {
         $id = self::validateId($id);
 

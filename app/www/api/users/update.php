@@ -1,31 +1,40 @@
 <?php
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 require_once "lib/core/api.php";
-require_once "lib/reviews.php";
+require_once "lib/users.php";
 
 $server = new ApiServer();
 
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
-    $reviewId = $req->expectScalar($res, "reviewId");
+    $userId = $req->expectScalar($res, "userId");
+    $admin = $req->getScalar($res, "admin");
     
     $db = Database::connectDefault();
     try {
-        $review = Review::fromId($db, $reviewId);
-        if ($review === false) {
-            $res->dieWithError(HTTPCode::NotFound, "Review not found");
+        $admin = $admin === null ? null : $req->validateBool($res, $admin, "Admin");
+
+        $user = User::fromId($db, $userId);
+        if ($user === false) {
+            $res->dieWithError(HTTPCode::NotFound, "User not found");
         }
 
         $login = LoginSession::autoLogin($db);
         if ($login === false) {
             $res->dieWithError(HTTPCode::Unauthorized, "Not logged in");
         }
-        if ($login->user->id !== $recipe->userId && !$login->user->isAdmin) {
+        if (
+            ($admin !== null && !$login->user->isAdmin) ||
+            ($login->user->id !== $recipe->userId && !$login->user->isAdmin)
+        ) {
             $res->dieWithError(HTTPCode::Forbidden, "Insufficient permissions");
         }
-            
-        $ok = $review->delete($db);
+
+        $ok = $user->update(
+            db: $db,
+            admin: $admin,
+        );
         if (!$ok) {
-            $res->dieWithError(HTTPCode::InternalServerError, "Failed to delete review");
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to update user");
         }
 
         $res->sendJSON([ "ok" => true ]);

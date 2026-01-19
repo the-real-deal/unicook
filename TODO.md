@@ -39,7 +39,7 @@
 - [x] delete image (if logged user)
 - [x] save recipe (if logged user)
 - [x] unsave recipe (if logged user)
-- [ ] make admin (if admin) ?
+- [x] make admin (if admin) ?
 - [ ] delete user (if admin) ?
 
 ### Reviews
