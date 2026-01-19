@@ -120,16 +120,14 @@ class ApiResponse {
     }
 
     public function setHeader(HTTPHeader $header, mixed $data, bool $replace = true): self {
+        $headerString = $header->createString($data);
         $headerName = $header->value;
-        if (!$header->checkData($data)) {
+        if ($headerString === false) {
             throw new InvalidHTTPHeaderDataException(
                 "Invalid value $data for header $headerName",
             );
         }
-        if (isEnum($data)) {
-            $data = $data->value;
-        }
-        header("$headerName: $data", $replace);
+        header($headerString, $replace);
         return $this;
     }
 
@@ -157,6 +155,16 @@ class ApiResponse {
     
     public function sendUpload(UploadFile $upload): self {
         return $this->sendFile($upload->uploadPath(), $upload->size, $upload->mime);
+    }
+
+    public function sendStream(MimeType $mime, Generator $generator) {
+        ini_set("output_buffering", false);
+        ob_implicit_flush(true);
+
+        $this->setHeader(HTTPHeader::ContentType, $mime);
+        foreach ($generator as $chunk) {
+            echo $chunk;
+        }
     }
 
     public function dieWithError(
