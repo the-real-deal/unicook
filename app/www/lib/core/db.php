@@ -177,7 +177,11 @@ class QueryStatement {
     }
 
     public function execute(): bool {
-        return $this->statement->execute();
+        try {
+            return $this->statement->execute();
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     public function getResult(): QueryResult|false {
