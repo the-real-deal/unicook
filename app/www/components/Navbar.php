@@ -50,29 +50,32 @@ function Navbar(LoginSession|false $login) {
                             </a>    
                         </li>
                     <?php } ?>
+                    <li>
+                        <?php  
+                        if ($login === false) { 
+                        ?>
+                        <a id="login"class="d-flex align-items-center nav-link px-3 py-2" href="/login">
+                            <svg class="flex-shrink-0 me-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Login
+                        </a>
+                        <?php } else { ?>
+                        <a class="d-flex align-items-center nav-link px-3 py-2" href="/profile/?id=<?= $login->user->id ?>">
+                            <?= $login->user->username ?>
+                            <?php if($login->user->avatarId){ ?>
+                            <img class="ms-2 flex-shrink-0  " src="/api/users/image/content.php?userId=<?= $login->user->id ?>">
+                            <?php } else { ?>
+                            <img class="ms-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>">
+                            <?php } ?>
+                        </a>
+                        <?php }?>
+                    </li>
                 </ul>
-                <?php  
-                if ($login === false) { 
-                ?>
-                <a id="login"class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/login">
-                    <svg class="flex-shrink-0 me-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    Login
-                </a>
-                <?php } else { ?>
-                <a class="d-flex align-items-center nav-link px-3 py-2 my-2 mx-1 " href="/profile/?id=<?= $login->user->id ?>">
-                    <?= $login->user->username ?>
-                    <?php if($login->user->avatarId){ ?>
-                    <img class="ms-2" src="/api/users/image/content.php?userId=<?= $login->user->id ?>">
-                    <?php } else { ?>
-                    <img class="ms-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>">
-                    <?php } ?>
-                </a>
-                <?php }?>
+                
             </div>
 
         </div>

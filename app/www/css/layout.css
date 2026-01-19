@@ -59,15 +59,17 @@ nav li a:hover {
 }
 
 /* BOTTONE LOGIN */
-nav div.navbar-nav>a:last-child {
+nav div.navbar-nav li:last-child a {
     background: var(--primary);
     font-weight: 600;
     text-decoration: none;
     border-radius: 50px;
     min-width: fit-content;
+    white-space: nowrap;
+    display: inline-block;
 }
 
-nav div.navbar-nav>a:last-child img {
+nav div.navbar-nav li:last-child a img {
     width: 30px;
     aspect-ratio: 1/1;
     object-fit: cover;
@@ -76,7 +78,7 @@ nav div.navbar-nav>a:last-child img {
     box-shadow: var(--shadow-dark);
 }
 
-nav div.navbar-nav>a:last-child:hover {
+nav div.navbar-nav li:last-child a:hover {
     background: var(--primary-text);
 }
 
