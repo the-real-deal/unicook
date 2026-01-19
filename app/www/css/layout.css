@@ -11,12 +11,22 @@ body {
     background-color: var(--bg);
 }
 
-:heading {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--text);
     font-weight: 400;
 }
 
-:heading+p {
+h1+p,
+h2+p,
+h3+p,
+h4+p,
+h5+p,
+h6+p {
     color: var(--text-muted);
 }
 

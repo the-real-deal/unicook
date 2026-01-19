@@ -32,7 +32,7 @@ div {
     position: relative;
 }
 
-#recipe-info form {
+#recipe-info>div>div>div {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -57,11 +57,57 @@ div {
     list-style-type: none;
 }
 
-
 #recipe-info ul>li>div,
-#recipe-info li:has(>a) {
-    background-color: var(--bg-dark);
+#recipe-info ul:first-of-type li {
     border-radius: var(--card-radius);
+}
+
+#recipe-info ul:first-of-type li:nth-child(3n) {
+    background-color: var(--tertiary);
+}
+
+#recipe-info ul:first-of-type li:nth-child(3n+2) {
+    background-color: var(--secondary);
+}
+
+#recipe-info ul:first-of-type li:nth-child(3n+1) {
+    background-color: var(--primary);
+}
+
+#recipe-info ul:last-of-type>li>div>h2 {
+    color: var(--text-muted);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(1)>div {
+    background-color: var(--secondary-shade);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(2)>div {
+    background-color: var(--primary-shade);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(3)>div {
+    background-color: var(--tertiary-shade);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(4)>div {
+    background-color: var(--primary-shade);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(1)>div svg {
+    color: var(--secondary-text);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(2)>div svg {
+    color: var(--primary-text);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(3)>div svg {
+    color: var(--tertiary-text);
+}
+
+#recipe-info ul:last-of-type>li:nth-child(4)>div svg {
+    color: var(--primary-text);
 }
 
 #recipe-info ul h2 {

@@ -7,21 +7,47 @@ require_once "components/Review.php";
 require_once "components/Chat.php";
 require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
+require_once "lib/recipes.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
 
 $id = $_GET['id'] ?? null;
 
+if($id===null){
+    header("Location:/404/");
+}
 
-$ingredients = array(
-    'spaggetts' => '200gr',
-    'spaggettys' => '200gr',
-    'spaggetty' => '200gr',
-    'spageto' => '200gr',
-    'glorb' => '200gr'
-); 
+$recipe = Recipe::fromId($db, $id);
 
+if($recipe === false){
+    header("Location:/404/");
+}
+
+$ingredients = $recipe->getIngredients($db);
+if($ingredients===false){
+    $ingredients = [];
+}
+
+$tags = $recipe->getTags($db);
+if($tags===false){
+    $tags = [];
+}
+
+$reviews = $recipe->getReviews($db);
+if($reviews===false){
+    $reviews = [];
+}
+
+$rating = $recipe->getRating($db);
+if($rating===false){
+    $rating = "No Reviews Yet";
+}
+
+$instructions = $recipe->getSteps($db);
+if($instructions===false){
+    $instructions = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,9 +61,9 @@ $ingredients = array(
             <div class="mx-auto px-4 py-4">
                 <a href="/recipes" class="p-2"> &#8592; Back to Recipes</a>
                 <div class="my-4 position-relative">
-                    <img src="https://images.unsplash.com/photo-1676300184847-4ee4030409c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXN0YSUyMGRpc2glMjBmb29kfGVufDF8fHx8MTc2MzA4MTc4MHww&ixlib=rb-4.1.0&q=80&w=1080"
+                    <img src="/api/recipes/image.php?recipeId=<?= $recipe->id ?>"
                         class="object-fit-cover w-100" alt="Students cooking together" />
-                    <form class="d-flex gap-3">
+                    <div class="d-flex gap-3">
                         <input type="button" id="save_btn" value="save recipe" hidden>
                         <label for="save_btn" class="d-flex align-items-center justify-content-center p-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -60,101 +86,82 @@ $ingredients = array(
                             </svg>
                             <span hidden>modify recipe</span>
                         </label>
-                    </form>
+                    </div>
                     
                 </div>
+                <ul id="tagsUl" class="d-flex px-5">
+                    <?php 
+                        foreach($tags as $tag){
 
-                <div class="d-flex flex-wrap">
-                    <ul>
-                        <li class="d-flex justify-content-center align-items-center px-2 m-2 float-start">
-                            <a>
-                                Quick Meals
-                            </a>
-                        </li>
-                        <li class="d-flex justify-content-center align-items-center px-2 m-2 float-start">
-                            <a>
-                                Easy
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                    ?>
+                    <li class="d-flex justify-content-center align-items-center px-3 mx-1 my-2 float-start">
+                        <!-- <a href=""> -->
+                        <?= $tag->name ?>
+                        <!-- </a> -->
+                    </li>
+                    <?php 
+                        }
+                    ?>
+                </ul>
 
                 <div>
-                    <h1 class="mb-4">Creamy Garlic Pasta</h1>
-                    <p class="d-flex flex-wrap">A rich and creamy garlic pasta that's perfect for a quick
-                        weeknight
-                        dinner. Made with simple
-                        pantry ingredients, this dish comes together in under 20 minutes!</p>
+                    <h1 class="mb-4"><?= $recipe->title ?></h1>
+                    <p class="d-flex flex-wrap"><?= $recipe->description ?></p>
                 </div>
-                <div class="container-fluid">
-                    <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dl#wrapping_name-value_groups_in_div_elements -->
-                    <ul class="row d-flex mt-4">
-                        <li class="text-center col-6 col-lg-3">
-                            <div class="p-2 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="lucide lucide-users w-6 h-6 text-foreground mx-auto mb-2"
-                                        aria-hidden="true">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                        <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
-                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                    </svg>
-                                <h2>Prep Time</h2>
-                                <span>20 min</span>
-                            </div>
-                        </li>
-                        <li class="text-center col-6 col-lg-3">
-                            <div class="p-2 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="lucide lucide-users w-6 h-6 text-foreground mx-auto mb-2"
-                                        aria-hidden="true">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                        <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
-                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                    </svg>
-                                <h2>Prep Time</h2>
-                                <span>20 min</span>
-                            </div>
-                        </li>
-                        <li class="text-center col-6 col-lg-3">
-                            <div class="p-2 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="lucide lucide-users w-6 h-6 text-foreground mx-auto mb-2"
-                                        aria-hidden="true">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                        <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
-                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                    </svg>
-                                <h2>Prep Time</h2>
-                                <span>20 min</span>
-                            </div>
-                        </li>
-                        <li class="text-center col-6 col-lg-3">
-                            <div class="p-2 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="lucide lucide-users w-6 h-6 text-foreground mx-auto mb-2"
-                                        aria-hidden="true">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                        <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
-                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                    </svg>
-                                <h2>Prep Time</h2>
-                                <span>20 min</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+
+                <ul class="row d-flex mt-4 container-fluid">
+                    <li class="text-center col-6 col-lg-3">
+                        <div class="p-2 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-dollar-sign w-8 h-8 mb-2" aria-hidden="true">
+                                <line x1="12" x2="12" y1="2" y2="22"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            <h2>Cost</h2>
+                            <span><?= $recipe->cost->name ?></span>
+                        </div>
+                    </li>
+                    <li class="text-center col-6 col-lg-3">
+                        <div class="p-2 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-clock-history mb-2" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
+                                <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z" />
+                                <path
+                                    d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                            <h2>Prep Time</h2>
+                            <span><?= $recipe->prepTime ?></span>
+                        </div>
+                    </li>
+                    <li class="text-center col-6 col-lg-3">
+                        <div class="p-2 mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-users w-6 h-6 text-foreground mx-auto mb-2"
+                                    aria-hidden="true">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                    <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                </svg>
+                            <h2>Servings</h2>
+                            <span><?= $recipe->servings ?></span>
+                        </div>
+                    </li>
+                    <li class="text-center col-6 col-lg-3">
+                        <div class="p-2 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-star mb-2" viewBox="0 0 16 16">
+                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+                            </svg>
+                            <h2>Rating</h2>
+                            <span><?= $rating ?></span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </section>
         <div class="container-fluid">
@@ -165,12 +172,12 @@ $ingredients = array(
                         <ul>
                             <?php 
                                 $i = 0;
-                                foreach ($ingredients as $ingredient => $quantity) { 
+                                foreach ($ingredients as $ingredient) { 
                                     ?>
                                 <li class="d-flex flex-wrap my-3">
                                     <input id="ingredients<?= $i ?>" type="checkbox" class="me-2" />
                                     <label for="ingredients<?= $i ?>">
-                                        <?= $quantity." ".$ingredient ?>
+                                        <?= $ingredient->name." ".$ingredient->quantity ?>
                                     </label>
                                 </li>
                             <?php
@@ -186,26 +193,15 @@ $ingredients = array(
                         <div class="p-4 mb-4">
                             <h2 class="mb-4">Instruction</h2>
                             <ol>
+                                <?php 
+                                    foreach($instructions as $instruction){
+                                ?>
                                 <li class="d-flex flex-start">
-                                    Cook pasta according to package directions. Reserve 1 cup pasta water before
-                                    draining.
+                                    <?= $instruction->instruction ?>
                                 </li>
-                                <li class="d-flex flex-start">
-                                    Cook pasta according to package directions. Reserve 1 cup pasta water before
-                                    draining.
-                                </li>
-                                <li class="d-flex flex-start">
-                                    Cook pasta according to package directions. Reserve 1 cup pasta water before
-                                    draining.
-                                </li>
-                                <li class="d-flex flex-start">
-                                    Cook pasta according to package directions. Reserve 1 cup pasta water before
-                                    draining.
-                                </li>
-                                <li class="d-flex flex-start">
-                                    Cook pasta according to package directions. Reserve 1 cup pasta water before
-                                    draining.
-                                </li>
+                                <?php                                    
+                                    }
+                                ?>
                             </ol>
                         </div>
                     </section>
@@ -277,9 +273,16 @@ $ingredients = array(
                                 <button id="submit_review" type="submit" class="btn btn-success">Submit Review</button>
                             </form>
                             <?php } ?>
-                            <?= Review("1", "Username", 4, new DateTime(), "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
-                            <?= Review("1", "Username", 3, new DateTime(), "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
-                            <?= Review("1", "Username", 5, new DateTime(), "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugit, distinctio nihil quibusdam praesentium iure?") ?>
+                            <?php 
+                                $i = 0;
+                                foreach($reviews as $review){
+                                    $user = User::fromId($db,$review->userId);
+                            ?>
+                            <?= Review("review-".$i, $user->username, $review->rating, $review->createdAt, $review->body) ?>
+                            <?php
+                                    $i++; 
+                                }
+                            ?>
                         </div>
                     </section>
                 </div>
