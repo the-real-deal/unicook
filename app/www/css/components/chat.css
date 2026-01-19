@@ -228,3 +228,9 @@ body::-webkit-scrollbar {
         width: 100%;
     }
 }
+
+.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}

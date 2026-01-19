@@ -29,6 +29,7 @@ function createMessageDiv(role) {
     if (role === 'assistant') {
         responseDiv = messageText
     }
+    chatContent.scrollTop = chatContent.scrollHeight
     return messageText
 }
 
@@ -49,6 +50,8 @@ messageTextArea.addEventListener("keydown", function (e) {
         messageBox.requestSubmit()
     }
 })
+
+
 
 function displayResponse(displayedText) {
     let markdownHtml = marked.parse(displayedText)
@@ -102,7 +105,6 @@ messageBox.addEventListener('submit', async (e) => {
 
                 displayResponse(displayedText)
 
-                chatContent.scrollTop = chatContent.scrollHeight
 
                 // Continue animation
                 requestAnimationFrame(animateText)
