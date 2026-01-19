@@ -1,12 +1,14 @@
+import { marked } from "/js/marked.js"
+
 let currentResponse = ""
 const form = document.getElementById("chatForm")
-const prompt = document.getElementById("prompt")
-const responseDiv = document.getElementById("response")
+const content = document.getElementById("content")
+const chat = document.getElementById("chat")
 const statusDiv = document.getElementById("status")
 const sendBtn = document.getElementById("sendBtn")
 
 // Allow Enter key to send (Shift+Enter for new line)
-prompt.addEventListener("keydown", function (e) {
+content.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault()
         form.requestSubmit()
@@ -15,7 +17,7 @@ prompt.addEventListener("keydown", function (e) {
 
 function displayResponse(displayedText) {
     let markdownHtml = marked.parse(displayedText)
-    responseDiv.innerHTML = markdownHtml
+    chat.innerHTML = markdownHtml
 }
 
 form.addEventListener("submit", async (e) => {
@@ -23,7 +25,7 @@ form.addEventListener("submit", async (e) => {
 
     // Reset
     currentResponse = ""
-    responseDiv.textContent = ""
+    chat.textContent = ""
     statusDiv.textContent = "Connecting..."
     sendBtn.disabled = true
     let dataFinished = false

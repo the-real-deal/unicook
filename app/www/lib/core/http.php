@@ -6,8 +6,7 @@ enum HTTPHeader: string {
     case ContentType = "Content-Type";
     case ContentLength = "Content-Length";
     case Location = "Location";
-    case CacheControl = "Cache-Control";
-    case Pragma = "Pragma";
+    case Authorization = "Authorization";
 
     public function checkData(mixed $data): bool {
         return match ($this) {
@@ -15,6 +14,17 @@ enum HTTPHeader: string {
             self::ContentLength => is_int($data) && $data >= 0,
             default => is_string($data),
         };
+    }
+
+    public function createString(mixed $data): string|false {
+        $headerName = $this->value;
+        if (!$this->checkData($data)) {
+            return false;
+        }
+        if (isEnum($data)) {
+            $data = $data->value;
+        }
+        return "$headerName: $data";
     }
 }
 
