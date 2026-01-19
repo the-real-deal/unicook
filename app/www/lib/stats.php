@@ -18,6 +18,18 @@ readonly class Stats {
         return SqlValueType::Int->valueFromField($row["users"]);
     }
 
+    public static function getTotalUniversities(Database $db): int|false {
+        $query = $db->createStatement(<<<sql
+            SELECT 1 AS universities
+            sql);
+        $ok = $query->execute();
+        if (!$ok) {
+            return false;
+        }
+        $row = $query->expectResult()->fetchOne();
+        return SqlValueType::Int->valueFromField($row["universities"]);
+    }
+
     public static function getTotalRecipes(Database $db): int|false {
         $query = $db->createStatement(<<<sql
             SELECT COUNT(*) AS recipes

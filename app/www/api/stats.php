@@ -20,11 +20,15 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
         if ($recipes === false) {
             $res->dieWithError(HTTPCode::InternalServerError, "Failed to get total recipes");
         }
+        $universities = Stats::getTotalUniversities($db);
+        if ($universities === false) {
+            $res->dieWithError(HTTPCode::InternalServerError, "Failed to get university number");
+        }
         $res->sendJSON([ 
             "users" => $users, 
             "rating" => $rating, 
             "recipes" => $recipes,
-            "universities" => 1,
+            "universities" => $universities,
         ]);
     } catch (InvalidArgumentException $e) {
         $res->dieWithError(HTTPCode::BadRequest, $e);

@@ -6,11 +6,15 @@ require_once "components/Footer.php";
 require_once "components/Chat.php";
 require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
-    
-$recipesCount = floorPlus(145);
-$studentsCount = floorPlus(298);
-$universitiesCount = floorPlus(400);
-$averageRating = floorPlus(86);
+require_once "lib/stats.php";
+
+$db = Database::connectDefault();
+$login = LoginSession::autoLogin($db);
+
+$recipesCount = Stats::getTotalRecipes($db);
+$studentsCount = Stats::getTotalUsers($db);
+$universitiesCount = Stats::getTotalUniversities($db);
+$averageRating = Stats::getAverageRating($db);
 
 function floorPlus($var) {
     if ($var >100) {
@@ -19,11 +23,6 @@ function floorPlus($var) {
     }
     return strval($var);
 }
-
-$db = Database::connectDefault();
-$login = LoginSession::autoLogin($db);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -291,22 +290,22 @@ $login = LoginSession::autoLogin($db);
                 <div class="row text-center g-4">
 
                     <div class="col-6 col-md-3">
-                        <span><?= $recipesCount ?></span>
+                        <span><?= floorPlus($recipesCount) ?></span>
                         <p>Recipes</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span><?= $studentsCount ?></span>
+                        <span><?= floorPlus($studentsCount) ?></span>
                         <p>Students</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span><?= $universitiesCount ?></span>
+                        <span><?= floorPlus($universitiesCount) ?></span>
                         <p>Universities</p>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <span><?= $averageRating ?></span>
+                        <span><?= floor($averageRating * 10)/10 ?></span>
                         <p>Average Rating</p>
                     </div>
 

@@ -83,26 +83,26 @@
 - [x] switch pages when searching
     - [x] search
     - [x] tag
-- [ ] random recipe
+- [X] random recipe
 #### Single Recipe
 - [ ] open single recipe
     - [x] link on all the card surface (only title)
-- [ ] getting card from db
+- [X] getting card from db
 
 ### About
-- [ ] add useless API
+- [X] add useless API
 
 ### Recipes
-- [ ] add search
+- [X] add search
 - [ ] hide/show filters instead of search button
-- [ ] ajax (maybe) --> accessibility
+- [X] ajax (maybe) --> accessibility
 
 ### Profile
 - [ ] delete image?
     - [X] add delete button
 - [X] fix image input (missing submit)
 - [ ] handle generic/logged user difference
-    - [ ] perchè se tolgo il form non carica più le immagini T_T
+    - [x] perchè se tolgo il form non carica più le immagini T_T
 
 ### pianinator
 - [X] remove js inline
