@@ -20,7 +20,7 @@
 #### POST
 - [x] create recipe (title, description, image, tags[], difficulty, prepTime, cost, servings, ingredientsQuantity[], ingredientsName[], steps[])
 - [x] update recipe (if creator or admin) ?
-- [ ] delete recipe (if creator or admin) ?
+- [x] delete recipe (if creator or admin) ?
 
 ### Users
 
