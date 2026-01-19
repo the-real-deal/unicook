@@ -15,7 +15,7 @@ $login = LoginSession::autoLogin($db);
 $_isLogged = false;
 
 if ($login !== false) {
-    $isLogged = true;
+    $_isLogged = true;
 }
 
 $tags = Tag::getAllTags($db);
@@ -100,7 +100,7 @@ $resultNumber = 4;
         <div>
             <section id="recipe-result" class="row">
                 <h2>Results</h2>
-                <p id="recipeCount">Showing 3 recipes</p>
+                <p>Showing <span id="recipeCount">3</span> recipes</p>
                 <div id="recipe-template">
                     <?= RecipeCard("{template}", "{template}", "{template}", [], 20, "{template}", isLogged:$_isLogged) ?>
                 </div>
@@ -110,7 +110,6 @@ $resultNumber = 4;
             </section>
         </div>
     </main>
-    <button type="button" id="clickme">CLICK</button>
     <?= Footer();?>
 
     <script type="module" src="/js/bootstrap.js"></script>
