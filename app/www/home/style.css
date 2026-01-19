@@ -95,6 +95,10 @@ main>:last-child a:hover {
     border: 2px solid var(--bg-light);
 }
 
+main>section:last-of-type h2 {
+    color: var(--bg-light);
+}
+
 @media (min-width: 0px) and (max-width: 768px) {
     main h1 {
         font-size: 40px;
