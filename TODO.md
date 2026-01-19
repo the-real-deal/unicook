@@ -102,6 +102,7 @@
     - [X] add delete button
 - [X] fix image input (missing submit)
 - [ ] handle generic/logged user difference
+    - [ ] perchè se tolgo il form non carica più le immagini T_T
 
 ### pianinator
 - [X] remove js inline
