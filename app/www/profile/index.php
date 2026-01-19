@@ -59,7 +59,7 @@ $server->respond();
                     </div>
                 </div>
                 <div class="col-12 col-md-8 text-center text-md-start">
-                    <h3 class="mb-1 fw-bold d-flex justify-content-md-start justify-content-center align-text-center ">
+                    <h3 class="mb-1 fw-bold d-flex justify-content-md-start gap-2 justify-content-center align-text-center ">
                         <?php
                         echo $user->username;
                         if ($user->isAdmin) {

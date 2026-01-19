@@ -46,7 +46,7 @@ body::-webkit-scrollbar {
     transform: translateY(-3px);
 }
 
-#chatModal.modal.fade.show,
+#chatModal.modal.fade,
 .modal-backdrop {
     max-width: none !important;
 }
