@@ -148,5 +148,5 @@ form.addEventListener("submit", async (e) => {
         body: data,
     }).then(rejectApiError)
 
-    window.location = "/singleRecipe"
+    window.location = `/singleRecipe?recipeId=${res.id}`
 })

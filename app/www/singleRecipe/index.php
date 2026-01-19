@@ -6,46 +6,58 @@ require_once "components/Footer.php";
 require_once "components/Review.php";
 require_once "components/Chat.php";
 require_once "components/ErrorNotification.php";
+require_once "lib/core/api.php";
 require_once "lib/auth.php";
 require_once "lib/recipes.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
+$recipe = null;
 
-$id = $_GET['id'] ?? null;
+$server = new ApiServer();
 
-if($id===null){
-    header("Location:/404/");
-}
+$server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
+    global $db, $recipe;
 
-$recipe = Recipe::fromId($db, $id);
+    $recipeId = $req->getParam("recipeId");
+    if (!is_string($recipeId)) {
+        $res->redirect("/404/");
+    }
 
-if($recipe === false){
-    header("Location:/404/");
-}
+    try {
+        $recipe = Recipe::fromId($db, $recipeId);
+        if($recipe === false){
+            $res->redirect("/404/");
+        }
+    } catch (InvalidArgumentException $e) {
+        $res->redirect("/404/");
+    }
+});
+
+$server->respond();
 
 $ingredients = $recipe->getIngredients($db);
-if($ingredients===false){
+if($ingredients === false){
     $ingredients = [];
 }
 
 $tags = $recipe->getTags($db);
-if($tags===false){
+if($tags === false){
     $tags = [];
 }
 
 $reviews = $recipe->getReviews($db);
-if($reviews===false){
+if($reviews === false){
     $reviews = [];
 }
 
 $rating = $recipe->getRating($db);
-if($rating===false){
+if($rating === false){
     $rating = "No Reviews Yet";
 }
 
 $instructions = $recipe->getSteps($db);
-if($instructions===false){
+if($instructions === false){
     $instructions = [];
 }
 ?>

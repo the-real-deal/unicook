@@ -58,7 +58,7 @@ bool $isLogged=false) {
                 </div>
             </div>
         
-            <a href="/singleRecipe?id=<?= $recipeId?>" class="order-5 mt-3">More...</a>
+            <a href="/singleRecipe?recipeId=<?= $recipeId?>" class="order-5 mt-3">More...</a>
         </div>
         
         <?php 

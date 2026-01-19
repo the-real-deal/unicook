@@ -56,5 +56,3 @@ function Chat() {
     </div>
 </div>
 <?php } ?>
-
-
