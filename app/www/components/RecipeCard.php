@@ -14,7 +14,9 @@ bool $isLogged=false) {
 <div class="p-0 col-12 col-sm-6 col-lg-3 d-flex justify-content-center recipe-card" id="<?= $elementId ?>">
     <article class="my-2 pb-2 d-flex flex-column">
         <div>
-            <img class="card-img-top img-fluid" src="/api/recipes/image.php?recipeId=<?= $recipeId ?>" alt="">
+            <img 
+                class="card-img-top img-fluid" 
+                src="<?= $recipeId!=="{template}"?"/api/recipes/image.php?recipeId=".$recipeId:"" ?>" alt="">
         </div>
         <div class="d-flex flex-column h-50 innerCard">
             <h3 class="order-3 recipe-card-title" data-recipe-id="<?= $recipeId?>"><?= $recipeTitle ?></h3>

@@ -45,7 +45,7 @@ $resultNumber = 4;
             <h1>All Recipes</h1>
             <p>Discover <?= $totalRecipes ?> delicious recipes for students</p>
             <div class="row">
-                <form id="search-form" class="w-100">
+                <form id="search-form" class="w-100" action="/api/recipes/search.php?" method="GET">
                     <?= SearchBar("recipes", 50, isset($searchText) ? $searchText : "", false) ?>
                     <div class="row p-4">
                         <div class="col-lg-4 my-3">
@@ -83,8 +83,8 @@ $resultNumber = 4;
                             <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
                                 <input type="checkbox" 
                                        id="<?= $tag->id ?>" 
-                                       name="<?= $tag->id ?>" 
-                                       value="<?= strtolower($tag->name)?>" 
+                                       name="tagIds[]"
+                                       value="<?= $tag->id?>" 
                                        <?= isset($selectedTag) && $selectedTag == $tag->id ? "checked" : ""; ?>>
                                 <label for="<?= $tag->id ?>"><?= $tag->name ?></label>
                             </li>
@@ -102,7 +102,7 @@ $resultNumber = 4;
                 <h2>Results</h2>
                 <p id="recipeCount">Showing 3 recipes</p>
                 <div id="recipe-template">
-                    <?= RecipeCard("{template}", "{recipeId}", "{recipeTitle}", [], 20, "{cost}", isLogged:$_isLogged) ?>
+                    <?= RecipeCard("{template}", "{template}", "{template}", [], 20, "{template}", isLogged:$_isLogged) ?>
                 </div>
                 <div id="recipe-container" class="row">
 
@@ -112,8 +112,9 @@ $resultNumber = 4;
     </main>
     <button type="button" id="clickme">CLICK</button>
     <?= Footer();?>
+
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

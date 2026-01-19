@@ -1,17 +1,17 @@
-document.getElementById('clickme').addEventListener('click', () => { addRecipeFromTemplate() });
+import { rejectApiError } from "/js/errors.js"
 
 const form = document.getElementById('search-form');
-
 let nRecipes = 0;
 let lastBatchCount = -1;
 const nextBatchCount = 8;
+let timerID = null;
+
+document.getElementById('clickme').addEventListener('click', () => { addRecipeFromTemplate() });
 
 form.addEventListener('change', (e) => {
     if (e.target.name != 'search-bar')
         handleFormChange(e);
 });
-
-let timerID = null;
 
 document.getElementById('search-recipes').addEventListener('keyup', (e) => {
     if (timerID)
@@ -23,10 +23,39 @@ document.getElementById('search-recipes').addEventListener('keyup', (e) => {
     }, 1000);
 });
 
-function handleFormChange(event) {
+async function handleFormChange(event) {
     removeAllChilds();
-    // call query
-    console.log('Form changed!', e.target.name, e.target.value);
+    const data = new FormData(form);
+    const dataSent = new URLSearchParams();
+
+    const time = data.get('time');
+    data.delete('time');
+    switch (time) {
+        case '0':
+            data.append('maxPrepTime', 30);
+            break;
+        case '1':
+            data.append('minPrepTime', 30);
+            data.append('maxPrepTime', 60);
+            break;
+        case '2':
+            data.append('minPrepTime', 30);
+            break;
+        default:
+            break;
+    }
+
+    data.forEach((v, k) => {
+        dataSent.append(k, v);
+    });
+
+    const response = await fetch(form.action + dataSent.toString(), {
+        method: form.method,
+    }).then(rejectApiError)
+
+    if (res.ok) {
+        console.log(res);
+    }
 }
 
 
@@ -49,10 +78,7 @@ function addRecipeFromTemplate() {
 
     clone.id = newID;
 
-    // const params = new URLSearchParams(document.location.search)
-    // const userId = params.get("userId")
-
-    clone.querySelector('img').src = `/api/recipes/image.php?recipeId=${user.id}`;
+    clone.querySelector('img').src = `/api/recipes/image.php?recipeId=${recipeData.id}`;
 
     const title = clone.querySelector('h3');
     title.textContent = recipeData.recipeTitle;
