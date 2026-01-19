@@ -123,7 +123,7 @@ body::-webkit-scrollbar {
     flex-direction: column;
 }
 
-#chat-content>.other {
+#chat-content>.assistant {
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -131,7 +131,7 @@ body::-webkit-scrollbar {
     margin-bottom: 8px;
 }
 
-#chat-content>.other>p {
+#chat-content>.assistant>p {
     max-width: 75%;
     border-radius: 16px;
     background: var(--bg-dark);
@@ -197,7 +197,7 @@ body::-webkit-scrollbar {
     outline: none;
 }
 
-#message-box input[type="button"] {
+#message-box input[type="submit"] {
     background: var(--primary-text);
     border: none;
     color: var(--bg);
@@ -209,7 +209,7 @@ body::-webkit-scrollbar {
     font-weight: 600;
 }
 
-#message-box input[type="button"]:hover {
+#message-box input[type="submit"]:hover {
     background: var(--primary-text-hover);
     color: var(--primary-text);
 }

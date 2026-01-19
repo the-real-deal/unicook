@@ -115,14 +115,15 @@ class Chat {
                     $content = "";
                     $end = false;
                     foreach ($response->choices as $choice) {
+                        $content .= $choice->delta->content ?? "";
+                        $responseMessage .= $content;
+
                         $end = $choice->finish_reason !== null;
                         if ($end) {
                             break;
                         }
-                        $content .= $choice->delta->content;
                     }
                     yield $content;
-                    $responseMessage += $content;
 
                     if ($end) {
                         break;
