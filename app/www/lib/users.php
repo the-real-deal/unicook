@@ -317,5 +317,13 @@ readonly class User extends DBTable {
         )->execute();
         return $ok;
     }
+
+    public function delete(Database $db): bool {
+        $query = $db->createStatement(<<<sql
+            DELETE FROM `Users` WHERE `id` = ?
+            sql); // all other things are deleted on cascade
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        return $ok;
+    }
 }
 ?>

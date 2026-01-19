@@ -40,7 +40,7 @@
 - [x] save recipe (if logged user)
 - [x] unsave recipe (if logged user)
 - [x] make admin (if admin) ?
-- [ ] delete user (if admin) ?
+- [x] delete user (if admin) ?
 
 ### Reviews
 
