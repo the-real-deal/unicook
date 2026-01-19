@@ -10,7 +10,7 @@ $server = new ApiServer();
 $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     $title = $req->expectScalar($res, "title");
     $description = $req->expectScalar($res, "description");
-    $image = $req->expectFile($res, "image");
+    $imageFile = $req->expectFile($res, "image");
     $tagIds = $req->expectArray($res, "tagIds");
     $difficulty = $req->expectScalar($res, "difficulty");
     $prepTime = $req->expectScalar($res, "prepTime");
@@ -49,7 +49,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         }
 
         $image = UploadFile::uploadFileArray($imageFile, FileType::Image, self::IMAGES_UPLOAD_PATH);
-        if ($image === null) {
+        if ($image === false) {
             $res->dieWithError(HTTPCode::InternalServerError, "Failed to upload image");
         }
         $recipeId = Recipe::create(

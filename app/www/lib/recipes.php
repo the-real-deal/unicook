@@ -287,6 +287,162 @@ readonly class Recipe extends DBTable {
         }
     }
 
+    public function update(
+        Database $db,
+        ?string $title,
+        ?string $description,
+        ?UploadFile $image, 
+        ?array $tags,
+        ?RecipeDifficulty $difficulty,
+        ?int $prepTime, 
+        ?RecipeCost $cost,
+        ?int $servings,
+        ?array $ingredients,
+        ?array $steps,
+    ): bool {
+        $title = self::validateTitle($title ?? $this->title);
+        $description = self::validateDescription($description ?? $this->description);
+        $imageId = $image === null ? $this->photoId : $image->id;
+        $tags ??= $this->getTags($db);
+        $difficulty ??= $this->difficulty;
+        $prepTime = self::validatePrepTime($prepTime ?? $this->prepTime);
+        $cost ??= $this->cost;
+        $servings = self::validateServings($servings ?? $this->servings);
+        $ingredients = self::validateIngredients($ingredients ?? array_map(
+            fn ($ingredient) => [
+                "name" => $ingredient->name,
+                "quantity" => $ingredient->quantity,
+            ],
+            $this->getIngredients($db)
+        ));
+        $steps = self::validateSteps($steps ?? array_map(
+            fn ($step) => $step->instruction,
+            $this->getSteps($db)
+        ));
+
+        $ok = $db->beginTransaction();
+        if (!$ok) {
+            return false;
+        }
+        try {
+            $query = $db->createStatement(<<<sql
+                UPDATE `Recipes` r SET
+                    r.`title` = ?,
+                    r.`description` = ?,
+                    r.`photoId` = ?,
+                    r.`difficulty` = ?,
+                    r.`prepTime` = ?,
+                    r.`cost` = ?,
+                    r.`servings` = ?
+                WHERE r.`id` = ?
+                sql);
+            
+            $ok = $query->bind(
+                SqlValueType::String->createParam($title),
+                SqlValueType::String->createParam($description),
+                SqlValueType::String->createParam($image === null ? $this->photoId : $image->id),
+                SqlValueType::Int->createParam($difficulty->value),
+                SqlValueType::Int->createParam($prepTime),
+                SqlValueType::Int->createParam($cost->value),
+                SqlValueType::Int->createParam($servings),
+                SqlValueType::String->createParam($this->id),
+            )->execute();
+            if (!$ok) {
+                throw new RuntimeException("Failed to update recipe");
+            }
+
+            $query = $db->createStatement(<<<sql
+                DELETE FROM `RecipeTags` WHERE `recipeId` = ?
+                sql);
+            $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+            if (!$ok) {
+                throw new RuntimeException("Failed to delete old recipe tags");
+            }
+
+            $valueEntries = implode(", ", array_map(
+                fn ($tag) => "(?, ?)",
+                $tags,
+            ));
+            $query = $db->createStatement(<<<sql
+                INSERT INTO `RecipeTags`(`recipeId`, `tagId`) VALUES
+                {$valueEntries}
+                sql);
+            $ok = $query->bind(...array_merge(...array_map(
+                fn ($tag) => [
+                    SqlValueType::String->createParam($this->id),
+                    SqlValueType::String->createParam($tag->id),
+                ],
+                $tags
+            )))->execute();
+            if (!$ok) {
+                throw new RuntimeException("Failed to insert new recipe tags");
+            }
+
+            $query = $db->createStatement(<<<sql
+                DELETE FROM `RecipeIngredients` WHERE `recipeId` = ?
+                sql);
+            $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+            if (!$ok) {
+                throw new RuntimeException("Failed to delete old recipe ingredients");
+            }
+
+            $valueEntries = implode(", ", array_map(
+                fn ($ingredient) => "(?, ?, ?, ?)",
+                $ingredients,
+            ));
+            $query = $db->createStatement(<<<sql
+                INSERT INTO `RecipeIngredients`(`recipeId`, `ingredientId`, `name`, `quantity`) VALUES
+                {$valueEntries}
+                sql);
+            $ok = $query->bind(...array_merge(...array_map(
+                fn ($ingredient, $i) => [
+                    SqlValueType::String->createParam($this->id),
+                    SqlValueType::Int->createParam($i),
+                    SqlValueType::String->createParam($ingredient["name"]),
+                    SqlValueType::String->createParam($ingredient["quantity"]),
+                ],
+                $ingredients, array_keys($ingredients)
+            )))->execute();
+            if (!$ok) {
+                throw new RuntimeException("Failed to insert new recipe ingredients");
+            }
+
+            $query = $db->createStatement(<<<sql
+                DELETE FROM `RecipeSteps` WHERE `recipeId` = ?
+                sql);
+            $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+            if (!$ok) {
+                throw new RuntimeException("Failed to delete old recipe steps");
+            }
+
+            $valueEntries = implode(", ", array_map(
+                fn ($step) => "(?, ?, ?)",
+                $steps,
+            ));
+            $query = $db->createStatement(<<<sql
+                INSERT INTO `RecipeSteps`(`recipeId`, `stepNumber`, `instruction`) VALUES
+                {$valueEntries}
+                sql);
+            $ok = $query->bind(...array_merge(...array_map(
+                fn ($step, $i) => [
+                    SqlValueType::String->createParam($this->id),
+                    SqlValueType::Int->createParam($i),
+                    SqlValueType::String->createParam($step),
+                ],
+                $steps, array_keys($steps)
+            )))->execute();
+            if (!$ok) {
+                throw new RuntimeException("Failed to insert new recipe steps");
+            }
+
+            return $db->commit();
+
+        } catch (\Throwable $th) {
+            $db->rollback();
+            return false;
+        }
+    }
+
     public static function getRandom(Database $db): self|false {
         $query = $db->createStatement(<<<sql
             SELECT r.*
