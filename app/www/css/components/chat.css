@@ -163,6 +163,10 @@ body::-webkit-scrollbar {
     padding: 8px 12px;
 }
 
+#chat-content p>p {
+    margin: 0;
+}
+
 #message-box {
     background: var(--bg-dark);
     border-radius: 0 0 var(--card-radius) var(--card-radius);

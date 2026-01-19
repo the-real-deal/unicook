@@ -49,52 +49,61 @@ $resultNumber = 4;
             <div class="row">
                 <form id="search-form" class="w-100" action="/api/recipes/search.php?" method="GET">
                     <?= SearchBar("recipes", 50, isset($searchText) ? $searchText : "", false) ?>
-                    <div class="row p-4">
-                        <div class="col-lg-4 my-3">
-                            <label for="dif" hidden>difficulty level selector</label>
-                            <select name="difficulty" id="dif" class="w-100 p-2 mx-2">
-                                <option value="">Any Difficulty</option>
-                                <option value="0">Easy</option>
-                                <option value="1">Moderate</option>
-                                <option value="2">Hard</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-4 my-3">
-                            <label for="prc" hidden>price level selector</label>
-                            <select name="price" id="prc" class="w-100 p-2 mx-2">
-                                <option value="">Any Price</option>
-                                <option value="0">Cheap</option>
-                                <option value="1">Medium</option>
-                                <option value="2">Expensive</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-4 my-3">
-                            <label for="time" hidden>time level selector</label>
-                            <select name="time" id="time" class="w-100 p-2 mx-2">
-                                <option value="">Any Time</option>
-                                <option value="0">Quick</option>
-                                <option value="1">Medium</option>
-                                <option value="2">Long</option>
-                            </select>
-                        </div>
-                        <ul class="col-12 d-flex mt-3 flex-wrap">
-                            <?php
-                                if($tags !== false){
-                                    foreach($tags as $tag){
-                            ?>   
-                            <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
-                                <input type="checkbox" 
-                                       id="<?= $tag->id ?>" 
-                                       name="tagIds[]"
-                                       value="<?= $tag->id?>" 
-                                       <?= isset($selectedTag) && $selectedTag == $tag->id ? "checked" : ""; ?>>
-                                <label for="<?= $tag->id ?>"><?= $tag->name ?></label>
-                            </li>
-                            <?php 
+                    <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="p-2  mb-2">
+                        Filter 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-left" viewBox="0 0 16 16">
+                            <path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+                        </svg>
+                    </a> 
+                    <div class="collapse mt-3" id="collapseExample" >
+                        <div class="row p-4">
+                            <div class="col-lg-4 my-3">
+                                <label for="dif" hidden>difficulty level selector</label>
+                                <select name="difficulty" id="dif" class="w-100 p-2 mx-2">
+                                    <option value="">Any Difficulty</option>
+                                    <option value="0">Easy</option>
+                                    <option value="1">Moderate</option>
+                                    <option value="2">Hard</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 my-3">
+                                <label for="prc" hidden>price level selector</label>
+                                <select name="price" id="prc" class="w-100 p-2 mx-2">
+                                    <option value="">Any Price</option>
+                                    <option value="0">Cheap</option>
+                                    <option value="1">Medium</option>
+                                    <option value="2">Expensive</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 my-3">
+                                <label for="time" hidden>time level selector</label>
+                                <select name="time" id="time" class="w-100 p-2 mx-2">
+                                    <option value="">Any Time</option>
+                                    <option value="0">Quick</option>
+                                    <option value="1">Medium</option>
+                                    <option value="2">Long</option>
+                                </select>
+                            </div>
+                            <ul class="col-12 d-flex mt-3 flex-wrap">
+                                <?php
+                                    if($tags !== false){
+                                        foreach($tags as $tag){
+                                ?>   
+                                <li class="d-flex align-items-center ps-2 pe-3 py-1 me-3 mb-3">
+                                    <input type="checkbox" 
+                                        id="<?= $tag->id ?>" 
+                                        name="tagIds[]"
+                                        value="<?= $tag->id?>" 
+                                        <?= isset($selectedTag) && $selectedTag == $tag->id ? "checked" : ""; ?>>
+                                    <label for="<?= $tag->id ?>"><?= $tag->name ?></label>
+                                </li>
+                                <?php 
+                                        }
                                     }
-                                }
-                            ?>
-                        </ul>
+                                ?>
+                            </ul>
+                        </div>
+                        
                     </div>
                 </form>
             </div>
