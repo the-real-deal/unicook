@@ -52,7 +52,7 @@
 #### POST
 
 - [x] create reviews (userId, recipeId, body, rating)
-- [ ] delete review (if creator or admin)
+- [x] delete review (if creator or admin)
 
 
 ### About

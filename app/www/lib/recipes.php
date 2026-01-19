@@ -677,8 +677,8 @@ readonly class Recipe extends DBTable {
 
     public function delete(Database $db): bool {
         $query = $db->createStatement(<<<sql
-        DELETE FROM `Recipes` WHERE `id` = ?
-        sql); // all other things are deleted on cascade
+            DELETE FROM `Recipes` WHERE `id` = ?
+            sql); // all other things are deleted on cascade
         $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
         return $ok;
     }

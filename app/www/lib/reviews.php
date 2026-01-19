@@ -91,5 +91,13 @@ readonly class Review extends DBTable {
         }
         return $id;
     }
+
+    public function delete(Database $db): bool {
+        $query = $db->createStatement(<<<sql
+            DELETE FROM `Reviews` WHERE `id` = ?
+            sql);
+        $ok = $query->bind(SqlValueType::String->createParam($this->id))->execute();
+        return $ok;
+    }
 }
 ?>
