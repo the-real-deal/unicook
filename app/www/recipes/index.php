@@ -6,6 +6,7 @@ require_once "components/Footer.php";
 require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "components/ErrorNotification.php";
+require_once "components/Chat.php";
 require_once "lib/auth.php";
 require_once "lib/tags.php";
 
@@ -40,6 +41,7 @@ $resultNumber = 4;
 <body>
     <?=  ErrorNotification() ?>
     <?= Navbar($login) ?>
+    <?=  Chat() ?>
     <main class="container-fluid p-0 overflow-x-hidden" id="home-page">
         <header class="p-5">
             <h1>All Recipes</h1>
@@ -115,5 +117,6 @@ $resultNumber = 4;
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
     <script src="main.js"></script>
+    <script type="module" src="/js/chat.js"></script>
 </body>
 </html>

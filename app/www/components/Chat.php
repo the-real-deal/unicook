@@ -20,13 +20,15 @@ function Chat() {
                     <div id="chat-title" class="d-flex align-items-center p-3 gap-2">
                         <button type="button" data-bs-dismiss="modal" >&#128473;</button>
                         <img class="object-fit-cover"
-                            src="/assets/ilSussurroDeiFornelli.png"
+                            src="/assets/chefLupino.png"
                             alt="profile picture">
-                        <div class="ms-3">
-                            <h1>The whisper of the burners</h1>
+                        <div class="ms-3 flex-shrink-0">
+                            <h1>Chef Lupino</h1>
                             <h2 id="status">Available</h2>
                         </div>
-                        <input id="clear-chat" type="button" value="Clear chat" />
+                        <div class="d-flex justify-content-end w-100" >
+                            <button type="button" id="clear-chat">&#10227;</button>
+                        </div> 
                     </div>
 
                     <div id="chat-content" class="d-flex py-4">

@@ -6,6 +6,7 @@ require_once "components/Footer.php";
 require_once "components/RecipeCard.php";
 require_once "components/CategoryCard.php";
 require_once "components/SearchBar.php";
+require_once "components/Chat.php";
 require_once "lib/auth.php";
 require_once "lib/recipes.php";
 
@@ -25,7 +26,8 @@ if($login !== false){
 <html lang="en">
 <?= PageHead("Home",["style.css"]) ?>
 <body>
-    <?= Navbar($login) ?>
+    <?= Navbar($login);?>
+    <?= Chat(); ?>
     <main class="container-fluid p-0 overflow-x-hidden" id="home-page">
         <div><!-- Presentational Purposes Only -->
             <header class="row pt-5 px-5">
@@ -117,5 +119,6 @@ if($login !== false){
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="/js/recipeCard.js"></script>
     <script type="module" src="main.js"></script>
+    <script type="module" src="/js/chat.js"></script>
 </body>
 </html>

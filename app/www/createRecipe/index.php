@@ -5,6 +5,7 @@ require_once "components/ErrorNotification.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/FileInput.php";
+require_once "components/Chat.php";
 require_once "lib/auth.php";
 
 $db = Database::connectDefault();
@@ -16,6 +17,7 @@ $login = LoginSession::autoLogin($db);
 <body>
     <?=  ErrorNotification() ?>
     <?=  Navbar($login) ?>
+    <?=  Chat() ?>
     <main>
         <form id="recipeForm" action="/api/recipes/create.php" method="POST"
             class="d-flex flex-column p-4 gap-3 mx-auto my-2">
@@ -97,5 +99,6 @@ $login = LoginSession::autoLogin($db);
     ?>
     <script type="module" src="/js/bootstrap.js"></script>
     <script type="module" src="main.js"></script>
+    <script type="module" src="/js/chat.js"></script>
 </body>
 </html>

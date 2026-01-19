@@ -45,7 +45,7 @@ function Navbar(LoginSession|false $login) {
                     if ($login !== false) { 
                     ?>
                         <li class="nav-item">
-                            <a class="d-flex align-items-center nav-link px-3 py-2" href="/login">
+                            <a class="d-flex align-items-center nav-link px-3 py-2" href="/createRecipe">
                                 Create
                             </a>    
                         </li>

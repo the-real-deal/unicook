@@ -4,6 +4,7 @@ require_once "components/PageHead.php";
 require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/Review.php";
+require_once "components/Chat.php";
 require_once "components/ErrorNotification.php";
 require_once "lib/auth.php";
 
@@ -28,6 +29,7 @@ $ingredients = array(
 <body>
     <?=  ErrorNotification() ?>
     <?= Navbar($login) ?>
+    <?=  Chat() ?>
     <main>
         <section id="recipe-info" class="d-flex justify-content-center">
             <div class="mx-auto px-4 py-4">
@@ -287,5 +289,6 @@ $ingredients = array(
     <?= Footer() ?>
     <script type="module" src="/js/bootstrap.js"></script>
     <script src="main.js"></script>
+    <script type="module" src="/js/chat.js"></script>
 </body>
 </html>
