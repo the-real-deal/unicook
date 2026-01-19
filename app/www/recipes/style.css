@@ -32,6 +32,16 @@ form>div:last-child {
     border: 1px solid var(--border-muted);
 }
 
+form a:first-of-type {
+    text-decoration: none;
+    color: var(--primary-text);
+    transition: var(--default-transition-timing-function);
+}
+
+form a:first-of-type:hover {
+    color: var(--text);
+}
+
 input[type="checkbox"] {
     width: 10px;
     height: 10px;
