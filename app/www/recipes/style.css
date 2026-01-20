@@ -43,8 +43,8 @@ form a:first-of-type:hover {
 }
 
 input[type="checkbox"] {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
     appearance: none;
     background-color: var(--bg);
     border: 1px solid var(--border-muted);

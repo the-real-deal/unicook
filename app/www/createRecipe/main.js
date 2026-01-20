@@ -57,7 +57,7 @@ function addIngredientSlot(ingredient = null) {
     inputQuantity.name = 'ingredientsQuantity[]'
     inputQuantity.minLength = 1
     inputQuantity.maxLength = 30
-    inputQuantity.className = 'p-2 col-md-2'
+    inputQuantity.className = 'p-2 col-md-3 col-2'
     inputQuantity.placeholder = 'Quantity'
     if (ingredient !== null) {
         inputQuantity.value = ingredient.quantity
