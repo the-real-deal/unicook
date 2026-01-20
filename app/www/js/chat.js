@@ -70,19 +70,21 @@ messageBox.addEventListener('submit', async (e) => {
 
     try {
         const data = new FormData(messageBox)
+        const content = data.get("content")
+        messageBox.reset()
+        statusDiv.textContent = "Thinking..."
         const response = await fetch(messageBox.action, {
             method: messageBox.method,
             body: data
         }).then(rejectApiError)
             .catch(err => {
                 userMessageDiv.remove()
+                messageTextArea.value = content
                 return Promise.reject(err)
             })
 
         messageTextArea.value = ''
         createMessageDiv('assistant')
-        messageBox.reset()
-
 
         statusDiv.textContent = "Writing..."
         const reader = response.body.getReader()
