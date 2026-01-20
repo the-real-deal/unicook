@@ -1,7 +1,7 @@
 @import '/css/components/review.css';
 
 div {
-    max-width: 1000px !important;
+    max-width: 62.5rem !important;
 }
 
 #recipe-info {
@@ -99,7 +99,7 @@ div {
 }
 
 #recipe-info ul:last-of-type>li>div>h2 {
-    color: var(--text-muted);
+    color: var(--text);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(1)>div {
@@ -177,7 +177,7 @@ div {
 #aside label {
     word-wrap: break-word;
     display: inline-block;
-    max-width: calc(100% - 30px);
+    max-width: calc(100% - 1.875rem);
 }
 
 #instruction ol {
@@ -196,13 +196,14 @@ div {
     content: counter(item);
     background: var(--primary);
     border-radius: 50%;
-    color: var(--bg-light);
+    color: var(--text);
     width: 2em;
     height: 2em;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    font-weight: 500;
 }
 
 body {
@@ -239,8 +240,8 @@ body {
 }
 
 .stars label svg {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 form:has(.stars) {

@@ -6,7 +6,7 @@ main {
 
 main>:first-child,
 main>:not(:first-child)>* {
-    max-width: 1250px;
+    max-width: 78.125rem;
     margin-top: 10px;
     margin-inline: auto !important;
 }
@@ -68,7 +68,7 @@ form ul li:has(>input[type="checkbox"]:checked) {
 
 
 label {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 div>label {

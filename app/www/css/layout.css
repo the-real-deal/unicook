@@ -7,7 +7,7 @@
 
 body {
     padding-top: 76px;
-    min-width: 250px;
+    min-width: 15.625rem;
     background-color: var(--bg);
 }
 
@@ -39,7 +39,7 @@ nav {
 /* LOGO TESTO */
 footer span.logo,
 nav span {
-    font-size: 22px;
+    font-size: 1.375 rem;
     font-weight: 600;
     color: var(--text);
 }
@@ -58,7 +58,7 @@ nav ul {
 nav li a {
     text-decoration: none;
     color: var(--text);
-    font-size: 17px;
+    font-size: 1.063;
     border-radius: var(--card-radius);
     min-width: fit-content;
 }
@@ -80,7 +80,7 @@ nav div.navbar-nav li:last-child a {
 }
 
 nav div.navbar-nav li:last-child a img {
-    width: 30px;
+    width: 1.875rem;
     aspect-ratio: 1/1;
     object-fit: cover;
     overflow: hidden;
@@ -105,14 +105,14 @@ nav div.navbar-nav li:last-child a:hover {
 
 footer div,
 nav div {
-    max-width: 1300px !important;
+    max-width: 81.25rem !important;
 }
 
 footer div:has(> svg),
 nav div:has(> svg) {
     background: var(--primary);
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 40%;
     transition: var(--default-transition-timing-function);
     color: var(--text)
@@ -154,7 +154,7 @@ footer ul a:hover {
 footer ul a,
 footer p {
     font-weight: 300;
-    font-size: 90%;
+    font-size: 0.9em;
 }
 
 .px-12 {

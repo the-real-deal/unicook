@@ -110,9 +110,9 @@
 - [ ] check js (pianini)
 - [ ] color
     - [ ] color error notification
-    - [ ] home
-    - [ ] recipes
-    - [ ] about
+    - [X] home
+    - [X] recipes
+    - [?] about
     - [ ] create
     - [ ] login/register
     - [ ] single recipe
