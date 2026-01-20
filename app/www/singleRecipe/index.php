@@ -60,6 +60,7 @@ $instructions = $recipe->getSteps($db);
 if($instructions === false){
     $instructions = [];
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -80,18 +80,22 @@ div {
 
 #recipe-info ul:last-of-type>li:nth-child(1)>div {
     background-color: var(--secondary-shade);
+    border: 1px solid var(--secondary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(2)>div {
     background-color: var(--primary-shade);
+    border: 1px solid var(--primary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(3)>div {
     background-color: var(--tertiary-shade);
+    border: 1px solid var(--tertiary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(4)>div {
     background-color: var(--primary-shade);
+    border: 1px solid var(--primary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(1)>div svg {
