@@ -99,7 +99,7 @@ if($instructions===false){
                         }
                     ?>
                 </div>
-                <ul id="tagsUl" class="d-flex px-5">
+                <ul id="tagsUl" class="d-flex flex-wrap px-3 px-md-5">
                     <?php 
                         foreach($tags as $tag){
 
@@ -119,7 +119,7 @@ if($instructions===false){
                     <p class="d-flex flex-wrap"><?= $recipe->description ?></p>
                 </div>
 
-                <ul class="row d-flex mt-4 container-fluid">
+                <ul class="row d-flex mt-4 w-100 m-0 ps-0">
                     <li class="text-center col-6 col-lg-3">
                         <div class="p-2 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -176,7 +176,7 @@ if($instructions===false){
         </section>
         <div class="container-fluid">
             <div class="row d-flex">
-                <aside class="col-md-4 pe-4" id="aside">
+                <aside class="col-md-4 px-3" id="aside">
                     <div class="p-4 mb-4">
                         <h2 class="mb-4">Ingredients</h2>
                         <ul>

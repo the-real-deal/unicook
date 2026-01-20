@@ -50,9 +50,9 @@ $resultNumber = 4;
         <header class="p-5">
             <h1>All Recipes</h1>
             <p>Discover <?= $totalRecipes ?> delicious recipes for students</p>
-            <div class="row">
-                <form id="search-form" class="row" action="/api/recipes/search.php?" method="GET">
-                    <div class="col-md-8 col-12">
+            <div class="container px-0">
+                <form id="search-form" class="row w-100" action="/api/recipes/search.php?" method="GET">
+                    <div class="col-md-8 col-12 p-0">
                         <?= SearchBar("recipes", isset($searchText) ? $searchText : "", false) ?>
                     </div>
                     <a data-bs-toggle="collapse" href="#collapseExample" role="button" class="col-2 d-flex align-items-center gap-1 mt-md-0 mt-2 x-2 ">
