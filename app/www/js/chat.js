@@ -61,28 +61,33 @@ function displayResponse(displayedText) {
 messageBox.addEventListener('submit', async (e) => {
     e.preventDefault()
     // Reset
+    if (messageBox.disabled) {
+        return
+    }
+    messageBox.disabled = true
     const userMessageDiv = createMessageDiv('user')
     userMessageDiv.innerHTML = marked.parse(messageTextArea.value)
-    messageSendButton.disabled = true
     let dataFinished = false
     let dotInterval = null
     let displayedText = "" // accumulated displayed text
 
     try {
         const data = new FormData(messageBox)
+        const content = data.get("content")
+        messageBox.reset()
+        statusDiv.textContent = "Thinking..."
         const response = await fetch(messageBox.action, {
             method: messageBox.method,
             body: data
         }).then(rejectApiError)
             .catch(err => {
                 userMessageDiv.remove()
+                messageTextArea.value = content
                 return Promise.reject(err)
             })
 
         messageTextArea.value = ''
         createMessageDiv('assistant')
-        messageBox.reset()
-
 
         statusDiv.textContent = "Writing..."
         const reader = response.body.getReader()
@@ -115,7 +120,7 @@ messageBox.addEventListener('submit', async (e) => {
                     clearInterval(dotInterval)
                     displayResponse(displayedText)
                     statusDiv.textContent = "Available"
-                    messageSendButton.disabled = false
+                    messageBox.disabled = false
                     return
                 }
                 dotInterval = setInterval(() => {
@@ -135,7 +140,6 @@ messageBox.addEventListener('submit', async (e) => {
 
         while (true) {
             const { done, value } = await reader.read()
-            console.log(done, value)
 
             if (done) {
                 break
@@ -148,7 +152,7 @@ messageBox.addEventListener('submit', async (e) => {
     } catch (error) {
         console.error("Error:", error)
         statusDiv.textContent = "Available"
-        messageSendButton.disabled = false
+        messageBox.disabled = false
     } finally {
         dataFinished = true
         clearInterval(dotInterval)

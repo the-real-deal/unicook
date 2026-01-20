@@ -21,12 +21,12 @@ h6 {
     font-weight: 400;
 }
 
-h1+p,
-h2+p,
-h3+p,
-h4+p,
-h5+p,
-h6+p {
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
     color: var(--text-muted);
 }
 
@@ -46,8 +46,8 @@ nav span {
 
 
 
-nav>*,
-footer>* {
+nav > *,
+footer > * {
     min-width: 0 !important;
 }
 
@@ -74,7 +74,7 @@ nav div.navbar-nav li:last-child a {
     font-weight: 600;
     text-decoration: none;
     border-radius: 50px;
-    min-width: fit-content;
+    min-width: max-content;
     white-space: nowrap;
     display: inline-block;
 }
@@ -90,6 +90,7 @@ nav div.navbar-nav li:last-child a img {
 
 nav div.navbar-nav li:last-child a:hover {
     background: var(--primary-text);
+    color: var(--bg-light)
 }
 
 #svgToggle,
@@ -114,10 +115,12 @@ nav div:has(> svg) {
     height: 40px;
     border-radius: 40%;
     transition: var(--default-transition-timing-function);
+    color: var(--text)
 }
 
 .navbar-brand:hover div:has(>svg) {
     background: var(--primary-text);
+    color: var(--bg-light);
 }
 
 .navbar-brand {
