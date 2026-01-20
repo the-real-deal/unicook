@@ -8,7 +8,7 @@ window.onload = function () {
     });
 }
 
-async function saveRecipe(btnId, recipeId) {
+export async function saveRecipe(btnId, recipeId) {
 
     const btn = document.getElementById(btnId)
     if (btn.querySelector("svg").attributes.fill.value == "transparent") {
