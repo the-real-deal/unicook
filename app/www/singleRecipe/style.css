@@ -38,6 +38,30 @@ div {
     top: 20px;
 }
 
+#recipe-info>div>div>div>* {
+    background-color: var(--bg-dark);
+    border: 0px;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    transition: var(--default-transition-timing-function);
+}
+
+#recipe-info>div>div>div>*:hover {
+    background-color: var(--bg-light);
+}
+
+#recipe-info>div>div>div>button:first-of-type:hover {
+    color: var(--danger);
+}
+
+#recipe-info>div>div>div>button:last-of-type>svg[fill="currentColor"] {
+    color: var(--primary);
+}
+
+#recipe-info>div>div>div>button:last-of-type>svg[fill="transparent"] {
+    color: var(--text);
+}
+
 #recipe-info svg {
     aspect-ratio: 1/1;
 }
@@ -135,6 +159,7 @@ div {
 
 #aside input[type="checkbox"]:checked+label {
     text-decoration: line-through;
+    color: var(--text-muted);
 }
 
 #aside>div,

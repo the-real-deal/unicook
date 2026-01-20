@@ -6,13 +6,11 @@ require_once "components/Footer.php";
 require_once "components/Review.php";
 require_once "components/Chat.php";
 require_once "components/ErrorNotification.php";
-require_once "lib/core/api.php";
 require_once "lib/auth.php";
 require_once "lib/recipes.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
-$recipe = false;
 
 $server = new ApiServer();
 
@@ -37,30 +35,29 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
 $server->respond();
 
 $ingredients = $recipe->getIngredients($db);
-if($ingredients === false){
+if($ingredients===false){
     $ingredients = [];
 }
 
 $tags = $recipe->getTags($db);
-if($tags === false){
+if($tags===false){
     $tags = [];
 }
 
 $reviews = $recipe->getReviews($db);
-if($reviews === false){
+if($reviews===false){
     $reviews = [];
 }
 
 $rating = $recipe->getRating($db);
-if($rating === false){
+if($rating===false){
     $rating = "No Reviews Yet";
 }
 
 $instructions = $recipe->getSteps($db);
-if($instructions === false){
+if($instructions===false){
     $instructions = [];
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,30 +72,24 @@ if($instructions === false){
                 <a href="/recipes" class="p-2"> &#8592; Back to Recipes</a>
                 <div class="my-4 position-relative">
                     <img src="/api/recipes/image.php?recipeId=<?= $recipe->id ?>"
-                        class="object-fit-cover w-100" alt="Students cooking together" />
-                    <div class="d-flex gap-3">
-                        <input type="button" id="save_btn" value="save recipe" hidden>
-                        <label for="save_btn" class="d-flex align-items-center justify-content-center p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                        class="object-fit-cover w-100" alt="Students cooking together"/>
+                    <div class="d-flex">
+                        <a href="" title="edit recipe" class="d-flex justify-content-center align-items-center p-2">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil flex-shrink-0" viewBox="-1 -1 18 18">
                                 <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
                             </svg>
-                            <span hidden>save recipe</span>
-                        </label>
-                        <input type="button" id="remove_btn" value="remove recipe" hidden>
-                        <label for="remove_btn" class="d-flex align-items-center justify-content-center p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        </a>
+                        <button id="remove_btn" class="d-flex justify-content-center align-items-center p-2 ms-2" type="button" title="remove recipe">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash flex-shrink-0" viewBox="-1 -1 18 18">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                             </svg>
-                            <span hidden>remove recipe</span>
-                        </label>
-                        <input type="checkbox" id="modify_btn" value="modify recipe" hidden>
-                        <label for="modify_btn" class="d-flex align-items-center justify-content-center p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="transparent" stroke="currentColor" class="bi bi-bookmark-fill" viewBox="-1 -1 18 18">
+                        </button>   
+                        <button id="save_btn_1" class="d-flex justify-content-center align-items-center p-2 ms-2" onclick="saveRecipe('save_btn_1','<?= $recipe->id?>')" type="button" title="<?= $saved?"remove from saved":"save" ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?= $saved?"currentColor":"transparent" ?>" stroke="currentColor" class="bi bi-bookmark-fill flex-shrink-0" viewBox="-1 -1 18 18">
                                 <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
                             </svg>
-                            <span hidden>modify recipe</span>
-                        </label>
+                        </button>   
                     </div>
                     
                 </div>
@@ -304,7 +295,7 @@ if($instructions === false){
     </main>
     <?= Footer() ?>
     <script type="module" src="/js/bootstrap.js"></script>
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
     <script type="module" src="/js/chat.js"></script>
 </body>
 </html>
