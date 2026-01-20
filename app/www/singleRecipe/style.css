@@ -46,19 +46,19 @@ div {
     transition: var(--default-transition-timing-function);
 }
 
-#recipe-info>div>div>div>*:hover {
+#recipe-info .control-buttons>*:hover {
     background-color: var(--bg-light);
 }
 
-#recipe-info>div>div>div>button:first-of-type:hover {
+#recipe-info #remove_btn:first-of-type:hover {
     color: var(--danger);
 }
 
-#recipe-info>div>div>div>button:last-of-type>svg[fill="currentColor"] {
+#recipe-info #save_btn_1>svg[fill="currentColor"] {
     color: var(--primary);
 }
 
-#recipe-info>div>div>div>button:last-of-type>svg[fill="transparent"] {
+#recipe-info #save_btn_1>svg[fill="transparent"] {
     color: var(--text);
 }
 
