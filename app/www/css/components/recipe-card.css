@@ -21,7 +21,7 @@
     padding: 5px 0%;
     margin-block: 0px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .recipe-card article ul {
@@ -36,7 +36,7 @@
     display: inline-block;
     padding: 1px 3%;
     border-radius: 500px;
-    font-size: small;
+    font-size: 0.89rem;
     font-weight: normal;
     text-align: center;
     color: var(--text);
@@ -85,12 +85,12 @@
 .recipe-card article span {
     font-weight: lighter;
     margin-left: 2px;
-    font-size: smaller;
+    font-size: 0.75rem;
 }
 
 .recipe-card article a {
     text-decoration: underline;
-    font-size: medium;
+    font-size: 1rem;
     font-weight: 400;
     margin-top: auto;
     color: var(--text);

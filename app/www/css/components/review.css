@@ -11,7 +11,7 @@ article.review span {
 
 article.review h3 {
     color: var(--text);
-    font-size: medium;
+    font-size: 1rem;
     font-weight: 500;
     margin: 0px;
 }

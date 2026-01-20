@@ -10,7 +10,7 @@ function Footer() {
             <div class="col-lg-3 col-md-6">
                 <a class="d-flex align-items-center gap-2 mb-3">
                     <div class="d-flex align-items-center justify-content-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="white"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="CurrentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                             <path
                                 d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z" />
@@ -35,12 +35,11 @@ function Footer() {
             </div>
 
             <div class="col-lg-3 col-md-6">
-                <span>Categories</span>
+                <span>Contact Us</span>
                 <ul class="list-unstyled mt-2 ">
                     <!-- TODO: Update tags dynamically -->
-                    <li class="mb-2"><a href="/recipes?tag=1">Budget Friendly</a></li>
-                    <li class="mb-2"><a href="/recipes?tag=2">Vegan</a></li>
-                    <li class="mb-2"><a href="/recipes?tag=3">Late-Night Snacks</a></li>
+                    <li class="mb-2"><a href="mailto:someone@example.com">Send email</a></li>
+                    <li class="mb-2"><a href="https://github.com/the-real-deal/unicook/issues">Reports</a></li>
                 </ul>
             </div>
 
