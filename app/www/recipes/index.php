@@ -9,6 +9,7 @@ require_once "components/ErrorNotification.php";
 require_once "components/Chat.php";
 require_once "lib/auth.php";
 require_once "lib/tags.php";
+require_once "lib/stats.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
@@ -31,7 +32,10 @@ if(isset($_GET['text']))
 else
     $searchText = null;
 
-$totalRecipes = 13;
+$totalRecipes = Stats::getTotalRecipes($db);
+if ($totalRecipes === false) {
+    $totalRecipes = 0;
+}
 $resultNumber = 4;
 
 ?>
@@ -48,19 +52,19 @@ $resultNumber = 4;
             <p>Discover <?= $totalRecipes ?> delicious recipes for students</p>
             <div class="row">
                 <form id="search-form" class="row" action="/api/recipes/search.php?" method="GET">
-                    <div class="col-9">
-                        <?= SearchBar("recipes", 100, isset($searchText) ? $searchText : "", false) ?>
+                    <div class="col-md-8 col-12">
+                        <?= SearchBar("recipes", isset($searchText) ? $searchText : "", false) ?>
                     </div>
-                    <a data-bs-toggle="collapse" href="#collapseExample" role="button" class="col-2">
-                        Filter 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-left" viewBox="0 0 16 16">
-                            <path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+                    <a data-bs-toggle="collapse" href="#collapseExample" role="button" class="col-2 d-flex align-items-center gap-1 mt-md-0 mt-2 x-2 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders flex-shrink-0" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"/>
                         </svg>
+                        Filter 
                     </a>
                     <div class="collapse mt-3" id="collapseExample" >
                         <div class="row p-4">
                             <div class="col-lg-4 my-3">
-                                <label for="dif" hidden>difficulty level selector</label>
+                                <label for="dif">Difficulty</label>
                                 <select name="difficulty" id="dif" class="w-100 p-2 mx-2">
                                     <option value="">Any Difficulty</option>
                                     <option value="0">Easy</option>
@@ -69,7 +73,7 @@ $resultNumber = 4;
                                 </select>
                             </div>
                             <div class="col-lg-4 my-3">
-                                <label for="prc" hidden>price level selector</label>
+                                <label for="prc">Price</label>
                                 <select name="price" id="prc" class="w-100 p-2 mx-2">
                                     <option value="">Any Price</option>
                                     <option value="0">Cheap</option>
@@ -78,7 +82,7 @@ $resultNumber = 4;
                                 </select>
                             </div>
                             <div class="col-lg-4 my-3">
-                                <label for="time" hidden>time level selector</label>
+                                <label for="time" >Time</label>
                                 <select name="time" id="time" class="w-100 p-2 mx-2">
                                     <option value="">Any Time</option>
                                     <option value="0">Quick</option>
@@ -86,6 +90,8 @@ $resultNumber = 4;
                                     <option value="2">Long</option>
                                 </select>
                             </div>
+                            <hr/>
+                            <bold>Tags<bold>
                             <ul class="col-12 d-flex mt-3 flex-wrap">
                                 <?php
                                     if($tags !== false){

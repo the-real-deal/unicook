@@ -1,21 +1,14 @@
 <?php 
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/bootstrap.php";
 
-function SearchBar(string $id, int $width = 75, string $value = "", bool $showButton=true){
+function SearchBar(string $id, string $value = ""){
 ?>
 
-<div class=" d-flex align-items-center w-100">
+<div class=" d-flex align-items-center w-100 p-2">
+    <img src="/assets/search.svg" alt="Search bar" class="mx-2">
     <label for="search-<?= $id?>" hidden>Text input for search purpose</label>
-    <input id="search-<?= $id?>" name="query" type="search" placeholder="Search Recipes..." class="me-2 w-<?= $width?>" value="<?= $value?>"/>
-    <?php 
-        if($showButton){
-
-    ?>
-    <label for="btn-<?= $id?>" hidden>Button to start the search</label>
-    <input id="btn-<?= $id?>" type="submit" class="px-4 w-auto" value="Search" />
-    <?php 
-        }   
-    ?>
+    <input id="search-<?= $id?>" name="query" type="search" placeholder="Search Recipes..." class="w-100"  value="<?= $value?>"/>
 </div>
+    
 
 <?php } ?>

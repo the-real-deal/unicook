@@ -1,21 +1,25 @@
-main input[type=search] {
+main div:has(>input[type=search]) {
     border-radius: var(--radius);
-    border-width: 2px;
-    border-color: var(--bg-light);
-    border-style: solid;
+    border: 1px solid var(--border-muted);
     outline: none;
     transition: var(--default-transition-timing-function);
-    background-image: url('/assets/search.svg');
-    background-position: 3% 50%;
-    background-repeat: no-repeat;
-    padding-block: 14px;
-    padding-inline: 6%;
+    background-color: var(--bg-light);
+}
+
+main input[type=search] {
+    border: none;
+    background: none;
+}
+
+main div:has(>input[type=search]:focus) {
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-shade);
 }
 
 main input[type=search]:focus {
-    border-width: 2px;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-shade);
+    border: none;
+    background: none;
+    outline: none;
 }
 
 main:has(> input[type=search]) {
@@ -41,11 +45,4 @@ main form:first-of-type input[type=submit]:hover {
     background-color: var(--primary-text);
     box-shadow: var(--shadow-hover);
     color: var(--bg-light);
-}
-
-@media (min-width: 0px) and (max-width: 768px) {
-    main input[type=search] {
-        padding-inline: 10% 4%;
-        background-position: 5% 50%;
-    }
 }

@@ -39,7 +39,7 @@ form a:first-of-type {
 }
 
 form a:first-of-type:hover {
-    color: var(--text);
+    color: var(--primary-text);
 }
 
 input[type="checkbox"] {
@@ -69,6 +69,11 @@ form ul li:has(>input[type="checkbox"]:checked) {
 
 label {
     font-size: 16px;
+}
+
+div>label {
+    font-weight: 400;
+    margin-bottom: 10px;
 }
 
 form ul {
