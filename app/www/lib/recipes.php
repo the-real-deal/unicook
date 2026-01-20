@@ -7,6 +7,8 @@ require_once "lib/tags.php";
 require_once "lib/users.php";
 require_once "lib/reviews.php";
 
+// TODO: at least 1 step and 1 ingredient
+
 enum RecipeDifficulty: int {
     case Easy = 0;
     case Medium = 1;
