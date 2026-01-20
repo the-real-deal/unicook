@@ -64,7 +64,7 @@ bool $isLogged=false) {
         <?php 
             if($isLogged){
         ?>
-        <button id="btn-<?= $elementId?>" class="d-flex justify-content-center align-items-center" onclick="saveRecipe('btn-<?= $elementId ?>','<?= $recipeId?>')" type="button" title="<?= $saved?"remove from saved":"save" ?>">
+        <button id="btn-<?= $elementId?>" class="d-flex justify-content-center align-items-center" type="button" title="<?= $saved?"remove from saved":"save" ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?= $saved?"currentColor":"transparent" ?>" stroke="currentColor" class="bi bi-bookmark-fill flex-shrink-0" viewBox="-1 -1 18 18">
                 <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
             </svg>
