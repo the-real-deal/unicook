@@ -143,3 +143,7 @@ input[type="submit"]:hover {
     aspect-ratio: 1/1;
     transition: var(--default-transition-timing-function);
 }
+
+textarea {
+    resize: none
+}

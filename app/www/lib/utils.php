@@ -12,6 +12,10 @@ function enumValues(mixed $cases): array {
     return array_map(fn($m) => $m->value, $cases);
 }
 
+function enumNames(mixed $cases): array {
+    return array_map(fn($m) => $m->name, $cases);
+}
+
 function searchEnum(mixed $cases, mixed $value): string|int|false {
     return array_search($value, enumValues($cases), true);
 }

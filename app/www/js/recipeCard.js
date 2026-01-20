@@ -1,4 +1,14 @@
-async function saveRecipe(btnId, recipeId) {
+window.onload = function () {
+    const buttons = document.querySelectorAll('.recipe-card')
+    buttons.forEach(b => {
+        const button = b.querySelector('article>button')
+        button.addEventListener('click', (e) => {
+            saveRecipe(button.id, b.querySelector('.recipe-card-title').dataset.recipeId)
+        })
+    })
+}
+
+export async function saveRecipe(btnId, recipeId) {
 
     const btn = document.getElementById(btnId)
     if (btn.querySelector("svg").attributes.fill.value == "transparent") {
@@ -26,6 +36,6 @@ Array.from(document.getElementsByClassName('recipe-card-title')).forEach(element
     })
 })
 
-function changePage(recipeID) {
+export function changePage(recipeID) {
     window.location = "/singleRecipe?recipeId=" + recipeID
 }

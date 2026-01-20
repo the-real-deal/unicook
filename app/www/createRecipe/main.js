@@ -1,7 +1,45 @@
 import { rejectApiError } from "/js/errors.js"
 
-let newIngredientIndex = 2
-function addIngredientSlot() {
+const titleInput = document.getElementById("title")
+const descriptionInput = document.getElementById("description")
+const difficultyInput = document.getElementById("difficulty")
+const prepTimeInput = document.getElementById("prepTime")
+const costInput = document.getElementById("cost")
+const servingsInput = document.getElementById("servings")
+
+descriptionInput.oninput = function () {
+    this.style.height = ""
+    this.style.height = (this.scrollHeight + 3) + 'px'
+}
+
+async function getRecipe() {
+    const params = new URLSearchParams(document.location.search)
+    const recipeId = params.get("recipeId")
+    if (recipeId === null) {
+        return null
+    }
+    const recipe = await fetch(`/api/recipes/data.php?recipeId=${recipeId}`)
+        .then(rejectApiError)
+        .then(res => res.json())
+
+    const tags = await fetch(`/api/recipes/tags.php?recipeId=${recipeId}`)
+        .then(rejectApiError)
+        .then(res => res.json())
+
+    const ingredients = await fetch(`/api/recipes/ingredients.php?recipeId=${recipeId}`)
+        .then(rejectApiError)
+        .then(res => res.json())
+
+    const steps = await fetch(`/api/recipes/steps.php?recipeId=${recipeId}`)
+        .then(rejectApiError)
+        .then(res => res.json())
+    return { ...recipe, ...{ tags, ingredients, steps } }
+}
+
+const recipe = await getRecipe()
+
+let newIngredientIndex = 1
+function addIngredientSlot(ingredient = null) {
     const ingredientsList = document.getElementById('ingredients')
     newIngredientIndex++ // TODO: gradle check, pianini ti osserva
     const li = document.createElement('li')
@@ -17,8 +55,13 @@ function addIngredientSlot() {
     inputQuantity.id = `ingredientQuantity-${newIngredientIndex}`
     inputQuantity.type = 'text'
     inputQuantity.name = 'ingredientsQuantity[]'
+    inputQuantity.minLength = 1
+    inputQuantity.maxLength = 30
     inputQuantity.className = 'p-2 col-md-2'
     inputQuantity.placeholder = 'Quantity'
+    if (ingredient !== null) {
+        inputQuantity.value = ingredient.quantity
+    }
 
     const labelName = document.createElement('label')
     labelName.setAttribute('for', `ingredientName-${newIngredientIndex}`)
@@ -30,15 +73,23 @@ function addIngredientSlot() {
     inputName.id = `ingredientName-${newIngredientIndex}`
     inputName.type = 'text'
     inputName.name = 'ingredientsName[]'
+    inputName.minLength = 1
+    inputName.maxLength = 30
     inputName.className = 'p-2 flex-grow-1'
     inputName.placeholder = 'Add ingredient'
+    if (ingredient !== null) {
+        inputName.value = ingredient.name
+    }
 
     const button = document.createElement('button')
     button.type = 'button'
     button.className = 'p-2 flex-shrink-0'
     button.innerHTML = '&#128473;'
     button.onclick = function () {
-        this.parentElement.remove()
+        const children = ingredientsList.getElementsByTagName("li")
+        if (children.length > 1) {
+            this.parentElement.remove()
+        }
     }
 
     li.appendChild(labelQuantity)
@@ -49,10 +100,19 @@ function addIngredientSlot() {
     ingredientsList.appendChild(li)
 }
 
-function addTag() {
+function addTag(tag = null) {
     const select = document.getElementById('tags')
+    let oldSelectValue = undefined
+    if (tag !== null) {
+        oldSelectValue = select.value
+        select.value = tag.id
+    }
     const selectedValue = select.value
     const selectedText = select.options[select.selectedIndex].text
+    if (oldSelectValue !== undefined) {
+        select.value = oldSelectValue
+    }
+
     const tagList = document.getElementById('tag-list')
 
     const existingTags = Array.from(tagList.querySelectorAll('input[type="hidden"]')).map(input =>
@@ -91,8 +151,8 @@ function removeTag(button) {
     button.parentElement.remove()
 }
 
-let newStepIndex = 2
-function addStepSlot() {
+let newStepIndex = 1
+function addStepSlot(step = null) {
     const stepsList = document.getElementById('steps')
     const newIndex = newStepIndex++
     const li = document.createElement('li')
@@ -109,18 +169,23 @@ function addStepSlot() {
         this.style.height = ""
         this.style.height = (this.scrollHeight + 3) + 'px'
     }
-    inputStep.style.resize = 'none'
     inputStep.id = `step-${newIndex}`
     inputStep.name = 'steps[]'
     inputStep.className = 'p-2 flex-grow-1'
     inputStep.placeholder = 'Describe the step'
+    if (step !== null) {
+        inputStep.value = step.instruction
+    }
 
     const button = document.createElement('button')
     button.type = 'button'
     button.className = 'p-2 flex-shrink-0'
     button.innerHTML = '&#128473;'
     button.onclick = function () {
-        this.parentElement.remove()
+        const children = stepsList.getElementsByTagName("li")
+        if (children.length > 1) {
+            this.parentElement.remove()
+        }
     }
 
     li.appendChild(labelStep)
@@ -129,11 +194,9 @@ function addStepSlot() {
     stepsList.appendChild(li)
 }
 
-document.getElementById('add-ingredients-slot').addEventListener('click', addIngredientSlot)
-addIngredientSlot()
-document.getElementById('add-step-slot').addEventListener('click', addStepSlot)
-addStepSlot()
-document.getElementById('tags').addEventListener('change', addTag)
+document.getElementById('add-ingredients-slot').addEventListener('click', () => addIngredientSlot())
+document.getElementById('add-step-slot').addEventListener('click', () => addStepSlot())
+document.getElementById('tags').addEventListener('change', () => addTag())
 
 const form = document.getElementById("recipeForm")
 
@@ -142,11 +205,30 @@ form.addEventListener("submit", async (e) => {
     e.preventDefault()
 
     const data = new FormData(form)
+    if (recipe !== null) {
+        data.set("recipeId", recipe.id)
+    }
 
     const res = await fetch(form.action, {
         method: form.method,
         body: data,
     }).then(rejectApiError)
+        .then(r => r.json())
 
-    window.location = `/singleRecipe?recipeId=${res.id}`
+    window.location = `/singleRecipe?recipeId=${recipe === null ? res.id : recipe.id}`
 })
+
+if (recipe !== null) {
+    titleInput.value = recipe.title
+    descriptionInput.value = recipe.description
+    difficultyInput.value = recipe.difficulty
+    prepTimeInput.value = recipe.prepTime
+    costInput.value = recipe.cost
+    servingsInput.value = recipe.servings
+    recipe.tags.forEach(addTag)
+    recipe.ingredients.forEach(addIngredientSlot)
+    recipe.steps.forEach(addStepSlot)
+} else {
+    addIngredientSlot()
+    addStepSlot()
+}
