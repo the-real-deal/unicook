@@ -6,38 +6,72 @@ require_once "components/Navbar.php";
 require_once "components/Footer.php";
 require_once "components/FileInput.php";
 require_once "components/Chat.php";
+require_once "lib/core/api.php";
 require_once "lib/auth.php";
+require_once "lib/tags.php";
+require_once "lib/utils.php";
 
 $db = Database::connectDefault();
-$login = LoginSession::autoLogin($db);
+$login = LoginSession::autoLoginOrRedirect($db);
+$recipe = false;
+
+$server = new ApiServer();
+
+$server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
+    global $db, $recipe;
+
+    $recipeId = $req->getParam("recipeId");
+    if (is_array($recipeId)) {
+        $res->redirect("/404/");
+    } else if ($recipeId === null) {
+        return;
+    }
+
+    try {
+        $recipe = Recipe::fromId($db, $recipeId);
+        if($recipe === false){
+            $res->redirect("/404/");
+        }
+    } catch (InvalidArgumentException $e) {
+        $res->redirect("/404/");
+    }
+});
+
+$server->respond();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?= PageHead("Form", [ "style.css" ]) ?>
 <body>
-    <?=  ErrorNotification() ?>
-    <?=  Navbar($login) ?>
-    <?=  Chat() ?>
+    <?= ErrorNotification() ?>
+    <?= Navbar($login) ?>
+    <?= Chat() ?>
     <main>
-        <form id="recipeForm" action="/api/recipes/create.php" method="POST"
+        <form id="recipeForm" action="/api/recipes/<?= $recipe === false ? "create.php" : "update.php" ?>" method="POST"
             class="d-flex flex-column p-4 gap-3 mx-auto my-2">
-            <label for="title">Recipe Title *</label>
-            <input type="text" id="title" name="title" class="p-2" placeholder="e.g. Easy Ramen" required />
+            <label for="title">Title *</label>
+            <input type="text" minlength="1" maxlength="50" id="title" name="title" class="p-2" placeholder="e.g. Easy Ramen" required />
 
             <label for="description">Description *</label>
-            <input type="text" id="description" name="description" class="p-2" placeholder="Describe your recipe..." required />
+            <textarea minlength="1" maxlength="250" id="description" name="description" class="p-2" placeholder="Describe your recipe..." required></textarea>
 
             <label for="image">Image *</label>
-            <?= FileInput("image", FileType::Image, required: true) ?>
+            <?= FileInput("image", FileType::Image, required: $recipe === false) ?>
 
             <hr>
             <label for="tags">Tags</label>
             <select id="tags" class="p-2">
                 <option disabled selected value> -- select an option -- </option>
-                <option value="italiana">Italian</option>
-                <option value="veloce">Quick</option>
-                <option value="vegetariana">Vegetarian</option>
-                <option value="vegana">Vegan</option>
+                <?php
+                $tags = Tag::getAllTags($db);
+                if ($tags === false) {
+                    $tags = [];
+                }
+                foreach ($tags as $t) {
+                ?>
+                    <option value="<?= $t->id ?>"><?= $t->name ?></option>
+                <?php } ?>
             </select>
             <ul id="tag-list">
             </ul>
@@ -48,27 +82,33 @@ $login = LoginSession::autoLogin($db);
                     <label for="difficulty">Difficulty *</label>
                     <select name="difficulty" id="difficulty" class="p-2" required>
                         <option disabled selected value> -- select an option -- </option>
-                        <option value="0">Easy</option>
-                        <option value="1">Medium</option>
-                        <option value="2">Hard</option>
+                        <?php
+                        $difficulties = RecipeDifficulty::cases();
+                        foreach ($difficulties as $d) {
+                        ?>
+                            <option value="<?= $d->value ?>"><?= $d->name ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="col-md-6 d-flex flex-column ps-2 py-2 gap-2">
-                    <label for="prepTime">Preparation Time *</label>
-                    <input type="number" id="prepTime" name="prepTime" class="p-2" min="1" value="1" required />
+                    <label for="prepTime">Preparation Time (minutes) *</label>
+                    <input type="number" min="5" max="300" id="prepTime" name="prepTime" class="p-2" value="5" required />
                 </div>
                 <div class="col-md-6 d-flex flex-column ps-2 py-2 gap-2">
                     <label for="cost">Cost *</label>
                     <select name="cost" id="cost" class="p-2" required>
                         <option disabled selected value> -- select an option -- </option>
-                        <option value="0">Cheap</option>
-                        <option value="1">Average</option>
-                        <option value="2">Expensive</option>
+                        <?php
+                        $costs = RecipeCost::cases();
+                        foreach ($costs as $c) {
+                        ?>
+                            <option value="<?= $c->value ?>"><?= $c->name ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="col-md-6 d-flex flex-column ps-2 py-2 gap-2">
                     <label for="servings">Servings *</label>
-                    <input type="number" id="servings" name="servings" class="p-2" min="1" value="1" required />
+                    <input type="number" min="1" max="10" id="servings" name="servings" class="p-2" value="1" required />
                 </div>
             </div>
             <hr>
@@ -98,7 +138,7 @@ $login = LoginSession::autoLogin($db);
     Footer();
     ?>
     <script type="module" src="/js/bootstrap.js"></script>
-    <script type="module" src="main.js"></script>
     <script type="module" src="/js/chat.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

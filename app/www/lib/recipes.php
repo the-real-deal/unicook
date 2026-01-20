@@ -107,9 +107,9 @@ readonly class Recipe extends DBTable {
     }
     
     public static function validateIngredientQuantity(string $quantity): string {
-        if (filter_var_regex($quantity, '/^.{1,20}$/') === false) {
+        if (filter_var_regex($quantity, '/^.{1,30}$/') === false) {
             throw new InvalidArgumentException(<<<end
-            Recipe ingredient quantity must be between 1 and 20 characters
+            Recipe ingredient quantity must be between 1 and 30 characters
             end);
         }
         return $quantity;
