@@ -34,7 +34,7 @@ form>div:last-child {
 
 form a:first-of-type {
     text-decoration: none;
-    color: var(--primary-text);
+    color: var(--text);
     transition: var(--default-transition-timing-function);
 }
 
@@ -46,8 +46,6 @@ input[type="checkbox"] {
     width: 10px;
     height: 10px;
     appearance: none;
-    /* -webkit-appearance: none;
-    -moz-appearance: none; */
     background-color: var(--bg);
     border: 1px solid var(--border-muted);
     border-radius: 6px;

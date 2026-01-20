@@ -31,8 +31,9 @@ main header a {
 }
 
 main header a:hover {
-    background-color: var(--secondary);
+    background-color: var(--secondary-text);
     border-color: var(--secondary-text);
+    color: var(--bg-light);
 }
 
 main header>div:last-child>div {
@@ -82,7 +83,7 @@ main>:last-child p {
 
 main>:last-child a {
     background-color: var(--bg-light);
-    color: var(--primary-text);
+    color: var(--text);
     border: 2px solid var(--primary-text);
     text-decoration: none;
     border-radius: 20px;
@@ -92,7 +93,7 @@ main>:last-child a {
 main>:last-child a:hover {
     background-color: var(--secondary-text);
     color: var(--bg-light);
-    border: 2px solid var(--bg-light);
+    border: 2px solid var(--secondary-text);
 }
 
 main>section:last-of-type h2 {

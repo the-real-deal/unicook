@@ -32,6 +32,12 @@ form.addEventListener('change', (e) => {
     }
 })
 
+form.addEventListener('submit', (e) => {
+    e.preventDefault()
+}
+
+)
+
 document.getElementById('search-recipes').addEventListener('keyup', (e) => {
     if (timerID)
         clearTimeout(timerID)

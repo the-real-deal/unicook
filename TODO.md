@@ -108,3 +108,14 @@
 - [X] remove js inline
 - [X] remove style inline
 - [ ] check js (pianini)
+- [ ] color
+    - [ ] color error notification
+    - [ ] home
+    - [ ] recipes
+    - [ ] about
+    - [ ] create
+    - [ ] login/register
+    - [ ] single recipe
+    - [ ] profile
+- [ ] history back
+- [ ] footer
