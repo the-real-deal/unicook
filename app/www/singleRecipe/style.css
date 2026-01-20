@@ -38,6 +38,30 @@ div {
     top: 20px;
 }
 
+#recipe-info>div>div>div>* {
+    background-color: var(--bg-dark);
+    border: 0px;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    transition: var(--default-transition-timing-function);
+}
+
+#recipe-info .control-buttons>*:hover {
+    background-color: var(--bg-light);
+}
+
+#recipe-info #remove_btn:first-of-type:hover {
+    color: var(--danger);
+}
+
+#recipe-info #save_btn_1>svg[fill="currentColor"] {
+    color: var(--primary);
+}
+
+#recipe-info #save_btn_1>svg[fill="transparent"] {
+    color: var(--text);
+}
+
 #recipe-info svg {
     aspect-ratio: 1/1;
 }
@@ -80,18 +104,22 @@ div {
 
 #recipe-info ul:last-of-type>li:nth-child(1)>div {
     background-color: var(--secondary-shade);
+    border: 1px solid var(--secondary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(2)>div {
     background-color: var(--primary-shade);
+    border: 1px solid var(--primary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(3)>div {
     background-color: var(--tertiary-shade);
+    border: 1px solid var(--tertiary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(4)>div {
     background-color: var(--primary-shade);
+    border: 1px solid var(--primary);
 }
 
 #recipe-info ul:last-of-type>li:nth-child(1)>div svg {
@@ -131,6 +159,7 @@ div {
 
 #aside input[type="checkbox"]:checked+label {
     text-decoration: line-through;
+    color: var(--text-muted);
 }
 
 #aside>div,
