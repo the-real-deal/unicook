@@ -3,53 +3,73 @@ import { changePage } from "/js/recipeCard.js"
 
 const form = document.getElementById('search-form')
 const counter = document.getElementById('recipeCount')
-const nextBatchCount = 4
-let timerID = null
-var recipeIndex = 0
-var index = 0
-var lastBatchCount = -1
-var requestingNext = false
+const searchBar = document.getElementById('search-recipes')
+const recipeContainer = document.getElementById('recipe-container')
 
-window.onload = function () {
-    updateRecipes()
+let nextBatchCount
+const width = window.innerWidth
+// https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints
+const breakpoints = {
+    xxl: 1400,
+    xl: 1200,
+    lg: 992,
+    md: 768,
+    sm: 576,
 }
+if (width >= breakpoints.xxl) nextBatchCount = 8
+else if (width >= breakpoints.xl) nextBatchCount = 8
+else if (width >= breakpoints.lg) nextBatchCount = 8
+else if (width >= breakpoints.md) nextBatchCount = 4
+else if (width >= breakpoints.sm) nextBatchCount = 2
+else nextBatchCount = 2
 
-window.addEventListener('scroll', function () {
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.9) {
-        if (!requestingNext) {
-            requestingNext = true
-            if (lastBatchCount == nextBatchCount) {
-                console.log('updating')
-                updateRecipes()
-            }
+let timerID = null
+let recipeIndex = 0
+let index = 0
+let lastBatchCount = -1
+let requestingNext = false
+
+window.addEventListener('scroll', async function () {
+    if (
+        !requestingNext &&
+        window.innerHeight + window.scrollY >= (document.body.scrollHeight / 2)
+    ) {
+        requestingNext = true
+        if (lastBatchCount == nextBatchCount) {
+            await updateRecipes({ remove: false, ajax: true })
         }
     }
 })
 
-form.addEventListener('change', (e) => {
-    if (e.target.name != 'search-bar') {
-        removeAllChilds()
-        updateRecipes()
+form.addEventListener('change', async (e) => {
+    if (e.target === searchBar) {
+        return
     }
+    await updateRecipes()
 })
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault()
-}
-
-)
-
-document.getElementById('search-recipes').addEventListener('keyup', (e) => {
-    if (timerID)
+    if (timerID) {
         clearTimeout(timerID)
-    timerID = setTimeout(() => {
-        removeAllChilds()
-        updateRecipes()
-        timerID = null
-    }, 1000)
+    }
+    await updateRecipes()
 })
 
-async function updateRecipes() {
+searchBar.addEventListener('keyup', (e) => {
+    if (timerID) {
+        clearTimeout(timerID)
+    }
+    timerID = setTimeout(async () => {
+        timerID = null
+        await updateRecipes()
+    }, 200)
+})
+
+async function updateRecipes({
+    remove = true,
+    ajax = false
+} = {}) {
     const data = new FormData(form)
     const dataSent = new URLSearchParams()
 
@@ -74,25 +94,33 @@ async function updateRecipes() {
         dataSent.append(k, v)
     })
 
+    if (!ajax) {
+        index = 0
+    }
+
     dataSent.append('from', index)
     dataSent.append('n', nextBatchCount)
 
     const response = await fetch(form.action + dataSent.toString(), {
         method: form.method,
     }).then(rejectApiError)
+        .then(r => r.json())
 
-    if (response.ok) {
-        const resArray = await response.json()
-        lastBatchCount = resArray.length
-        index += lastBatchCount
-        counter.textContent = index
-        resArray.forEach(json => {
-            addRecipeFromTemplate(json)
-        })
+    const fragment = document.createDocumentFragment()
+    for (const recipeData of response) {
+        await addRecipeFromTemplate(fragment, recipeData)
     }
+    if (remove) {
+        removeAllChilds()
+    }
+    lastBatchCount = response.length
+    index += lastBatchCount
+    counter.textContent = index
+    recipeContainer.appendChild(fragment)
+    requestingNext = false
 }
 
-async function addRecipeFromTemplate(recipeData) {
+async function addRecipeFromTemplate(fragment, recipeData) {
     const template = document.getElementById("{template}")
     const clone = template.cloneNode(true)
 
@@ -141,7 +169,7 @@ async function addRecipeFromTemplate(recipeData) {
     clone.querySelector('.pe-3:first-of-type span').textContent = recipeData.prepTime + " min"
     clone.querySelector('.pe-3:last-of-type span').textContent = costEnumToString(recipeData.cost)
 
-    document.getElementById('recipe-container').appendChild(clone)
+    fragment.appendChild(clone)
 }
 
 function costEnumToString(cost) {
@@ -158,7 +186,9 @@ function costEnumToString(cost) {
 }
 
 function removeAllChilds() {
-    document.getElementById('recipe-container').innerHTML = ''
+    recipeContainer.innerHTML = ''
     index = 0
     lastBatchCount = -1
 }
+
+await updateRecipes({ remove: false })

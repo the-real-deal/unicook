@@ -2,7 +2,7 @@ window.onload = function () {
     const buttons = document.querySelectorAll('.recipe-card')
     buttons.forEach(b => {
         const button = b.querySelector('article>button')
-        button.addEventListener('click', (e) => {
+        button?.addEventListener('click', (e) => {
             saveRecipe(button.id, b.querySelector('.recipe-card-title').dataset.recipeId)
         })
     })
