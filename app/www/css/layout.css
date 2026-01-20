@@ -90,6 +90,7 @@ nav div.navbar-nav li:last-child a img {
 
 nav div.navbar-nav li:last-child a:hover {
     background: var(--primary-text);
+    color: var(--bg-light)
 }
 
 #svgToggle,
@@ -114,10 +115,12 @@ nav div:has(> svg) {
     height: 40px;
     border-radius: 40%;
     transition: var(--default-transition-timing-function);
+    color: var(--text)
 }
 
 .navbar-brand:hover div:has(>svg) {
     background: var(--primary-text);
+    color: var(--bg-light);
 }
 
 .navbar-brand {
