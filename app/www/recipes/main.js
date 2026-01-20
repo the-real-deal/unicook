@@ -1,4 +1,5 @@
 import { rejectApiError } from "/js/errors.js"
+import { changePage } from "/js/recipeCard.js"
 
 const form = document.getElementById('search-form')
 const counter = document.getElementById('recipeCount')
