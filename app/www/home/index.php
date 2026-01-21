@@ -40,7 +40,7 @@ if($login !== false){
                     <form class="d-flex w-100" id="home-search-form">
                         <?= SearchBar("home") ?>
                         <label for="btn-home" hidden>Button to start the search</label>
-                        <input id="btn-home" type="submit" class="px-4 w-auto" value="Search" />
+                        <input id="btn-home" type="submit" class="px-4 ms-2 w-auto" value="Search" />
                     </form>
                     <a href="/singleRecipe?recipeId=<?= $randomRecipeId->id ?>" class="mt-5 px-3 py-1 d-inline-flex justify-content-center align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
