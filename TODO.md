@@ -117,5 +117,5 @@
     - [ ] login/register
     - [X] single recipe
     - [?] profile
-- [ ] history back
+- [x] history back
 - [X] footer

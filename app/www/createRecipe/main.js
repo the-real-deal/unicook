@@ -6,6 +6,13 @@ const difficultyInput = document.getElementById("difficulty")
 const prepTimeInput = document.getElementById("prepTime")
 const costInput = document.getElementById("cost")
 const servingsInput = document.getElementById("servings")
+const backButton = document.getElementById("back-button")
+
+backButton.addEventListener("click", (e) => {
+    e.preventDefault()
+    navigateBack()
+    return false
+})
 
 descriptionInput.oninput = function () {
     this.style.height = ""

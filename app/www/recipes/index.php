@@ -119,7 +119,7 @@ $resultNumber = 4;
         <div>
             <section id="recipe-result" class="row">
                 <h2>Results</h2>
-                <p>Showing <span id="recipeCount">3</span> recipes</p>
+                <p>Showing <span id="recipeCount">0</span> recipes</p>
                 <div id="recipe-template">
                     <?= RecipeCard("{template}", "{template}", "{template}", [], 20, "{template}", isLogged:$_isLogged) ?>
                 </div>

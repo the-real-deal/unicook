@@ -1,6 +1,15 @@
 import { rejectApiError } from "/js/errors.js"
+import { navigateBack } from "/js/navigation.js"
 
 const form = document.getElementById("loginForm")
+const backButton = document.getElementById("back-button")
+
+backButton.addEventListener("click", (e) => {
+    e.preventDefault()
+    navigateBack()
+    return false
+})
+
 form.addEventListener("submit", async (e) => {
     e.preventDefault()
 
@@ -11,7 +20,6 @@ form.addEventListener("submit", async (e) => {
     }).then(rejectApiError)
 
     if (res.ok) {
-        window.location = "/"
+        navigateBack()
     }
 })
-

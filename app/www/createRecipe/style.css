@@ -4,9 +4,25 @@ body {
 
 }
 
-form {
+main {
     max-width: 50rem;
     margin: 0 auto;
+}
+
+#back-button {
+    color: currentColor;
+    text-decoration: none;
+    border-radius: var(--card-radius);
+    border: none;
+}
+
+#back-button:hover {
+    color: currentColor;
+    text-decoration: none;
+    background-color: var(--bg-dark);
+}
+
+form {
     background: var(--bg-light);
     border-radius: var(--card-radius);
     box-shadow: var(--shadow-dark);

@@ -1,6 +1,14 @@
 import { rejectApiError, showError } from "/js/errors.js"
+import { navigateBack } from "/js/navigation.js"
 
 const form = document.getElementById("registerForm")
+const backButton = document.getElementById("back-button")
+
+backButton.addEventListener("click", (e) => {
+    e.preventDefault()
+    navigateBack()
+    return false
+})
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault()
