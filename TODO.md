@@ -103,8 +103,8 @@
 - [X] fix image input (missing submit)
 - [ ] handle generic/logged user difference
     - [x] perchè se tolgo il form non carica più le immagini T_T
-- [ ] TOGGLE user admin
-- [ ] remove user
+- [x] TOGGLE user admin
+- [x] remove user
 
 ### pianinator
 - [X] remove js inline
@@ -116,7 +116,7 @@
     - [X] recipes
     - [?] about
     - [X] create
-    - [ ] login/register
+    - [x] login/register
     - [X] single recipe
     - [?] profile
 - [x] history back
