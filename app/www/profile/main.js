@@ -5,6 +5,7 @@ const avatarImage = document.getElementById("avatarImage")
 const uploadButton = document.getElementById("upload-button")
 const imageInput = document.getElementById('image')
 const logoutButton = document.getElementById('logout-button')
+const deleteImageButton = document.getElementById("delete-image-button")
 
 async function getUser() {
     const params = new URLSearchParams(document.location.search)
@@ -59,8 +60,27 @@ imageInput?.addEventListener('change', function () {
 
 logoutButton?.addEventListener('click', async (e) => {
     const res = await fetch('/api/auth/logout.php', { method: 'POST' })
+        .then(rejectApiError)
 
     if (res.ok) {
         window.location = '/login/'
+    }
+})
+
+deleteImageButton?.addEventListener("click", async (e) => {
+    const user = await getUser()
+
+    const data = new FormData()
+    data.set("userId", user.id)
+    const res = await fetch('/api/users/image/delete.php', {
+        method: 'POST',
+        body: data,
+    }).then(rejectApiError)
+
+
+    if (res.ok) {
+        avatarImage.src = getImageSrc(user, true)
+        console.log(avatarImage.src)
+
     }
 })

@@ -9,7 +9,16 @@ body {
     padding-top: 76px;
     min-width: 15.625rem;
     background-color: var(--bg);
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
+
+main {
+    flex: 1;
+}
+
 
 h1,
 h2,

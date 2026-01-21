@@ -78,14 +78,14 @@
 ## Pages
 - [ ] add error notification on every page
 - [ ] COLORS 
-- [ ] admin page + logged modify
+- [x] admin page + logged modify
 ### Home
 - [x] switch pages when searching
     - [x] search
     - [x] tag
 - [X] random recipe
 #### Single Recipe
-- [ ] open single recipe
+- [x] open single recipe
     - [x] link on all the card surface (only title)
 - [X] getting card from db
 
@@ -94,15 +94,17 @@
 
 ### Recipes
 - [X] add search
-- [ ] hide/show filters instead of search button
+- [x] hide/show filters instead of search button
 - [X] ajax (maybe) --> accessibility
 
 ### Profile
-- [ ] delete image?
+- [x] delete image?
     - [X] add delete button
 - [X] fix image input (missing submit)
 - [ ] handle generic/logged user difference
     - [x] perchè se tolgo il form non carica più le immagini T_T
+- [ ] TOGGLE user admin
+- [ ] remove user
 
 ### pianinator
 - [X] remove js inline

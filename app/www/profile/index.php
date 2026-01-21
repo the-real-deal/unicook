@@ -40,6 +40,7 @@ $server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
     }
 });
 $server->respond();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,27 +121,52 @@ $server->respond();
                 </div>
             </div>
         </section>
-        <section id="recipes-section" class="container my-5 mx-auto">
-            <div class="container-fluid mb-2 mx-auto p-4">
-                <h3 class="col-12 col-md-4 text-center mb-3"><strong>Published Recipes</strong></h3>
-                <div class="row">
-                    <?= RecipeCard("1", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                    <?= RecipeCard("2", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                    <?= RecipeCard("3", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                    <?= RecipeCard("4", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                </div>
-            </div>
-            <div class="container-fluid  mb-2 mx-auto p-4">
-                <h3 class="col-12 col-md-4 text-center mb-3"><strong>Saved Recipes</strong></h3>
-                <div class="row ">
-                    <?= RecipeCard("5", "1", "Recipe Title#1", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                    <?= RecipeCard("6", "2", "Recipe Title#2", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                    <?= RecipeCard("7", "3", "Recipe Title#3", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                    <?= RecipeCard("8", "4", "Recipe Title#4", ["Tag#1", "Tag#2", "Tag#3"], 20, "Medium") ?>
-                </div>
-                
-            </div>
-        </section>
+        <div class="container my-5 mx-auto">
+            <?php
+                $publishedRecipes = $user->getPublishedRecipes($db);
+                if ($publishedRecipes !== false && count($publishedRecipes) > 0) {
+                ?>
+                <section class="container-fluid mb-2 mx-auto p-4">
+                    <h3 class="col-12 col-md-4 text-center mb-3"><strong>Published Recipes</strong></h3>
+                    <div class="row">
+                    <?php
+                    foreach ($publishedRecipes as $i => $recipe) {
+                    ?>    
+                    <?= RecipeCard(
+                        "published-recipe-$i", 
+                        $recipe->id,
+                        $recipe->title,
+                        array_map(fn($t)=>$t->name ,$recipe->getTags($db)), 
+                        $recipe->prepTime, 
+                        $recipe->cost->name, 
+                    ) ?>
+                    <?php } ?>
+                    </div>
+                </section>
+                <?php } ?>
+            <?php
+                $savedRecipes = $user->getSavedRecipes($db);
+                if ($savedRecipes !== false && count($savedRecipes) > 0) {
+                ?>
+                <section class="container-fluid  mb-2 mx-auto p-4">
+                    <h3 class="col-12 col-md-4 text-center mb-3"><strong>Saved Recipes</strong></h3>
+                    <div class="row ">
+                    <?php
+                    foreach ($savedRecipes as $i => $recipe) {
+                    ?>    
+                    <?= RecipeCard(
+                        "published-recipe-$i", 
+                        $recipe->id, 
+                        $recipe->title,
+                        array_map(fn($t)=>$t->name ,$recipe->getTags($db)), 
+                        $recipe->prepTime, 
+                        $recipe->cost->name,
+                    ) ?>
+                    <?php } ?>    
+                    </div>
+                </section>
+                <?php } ?>
+        </div>
     </main> 
     <?= Footer() ?>
     <script type="module" src="/js/bootstrap.js"></script>

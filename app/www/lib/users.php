@@ -219,6 +219,11 @@ readonly class User extends DBTable {
     }
 
     public function deleteImage(Database $db): bool {
+        $ok = $this->deleteImageUpload();
+        if (!$ok) {
+            return false;
+        }
+
         $query = $db->createStatement(<<<sql
             UPDATE `Users` u
             SET u.`avatarId` = ?
@@ -228,10 +233,7 @@ readonly class User extends DBTable {
             SqlValueType::String->createParam(null),
             SqlValueType::String->createParam($this->id),
         )->execute();
-        if (!$ok) {
-            return false;
-        }
-        return $this->deleteImageUpload();
+        return $ok;
     }
 
     public function getPublishedRecipes(Database $db): array|false {
@@ -264,9 +266,9 @@ readonly class User extends DBTable {
         return array_map(fn ($row) => Recipe::fromTableRow($row), $result->fetchAll());
     }
 
-    private function getSavedRecipe(Database $db, Recipe $recipe): RecipeSave|null|false {
+    private function isRecipeSaved(Database $db, Recipe $recipe): bool {
         $query = $db->createStatement(<<<sql
-            SELECT rs.*
+            SELECT rs.`recipeId`
             FROM `RecipeSaves` rs
             WHERE rs.`recipeId` = ?
                 AND rs.`userId` = ?
@@ -278,13 +280,12 @@ readonly class User extends DBTable {
         if (!$ok) {
             return false;
         }
-        $result = $query->expectResult();
-        return RecipeSave::fromOptionalTableRow($result->fetchOne());
+        return $query->expectResult()->totalRows > 0;
     }
 
     public function saveRecipe(Database $db, Recipe $recipe): bool {
-        $recipeSave = $this->getSavedRecipe($db, $recipe);
-        if ($recipeSave === false || $recipeSave !== null) {
+        $alreadySaved = $this->isRecipeSaved($db, $recipe);
+        if ($alreadySaved) {
             return false;
         }
         
@@ -300,8 +301,8 @@ readonly class User extends DBTable {
     }
 
     public function unsaveRecipe(Database $db, Recipe $recipe): bool {
-        $recipeSave = $this->getSavedRecipe($db, $recipe);
-        if ($recipeSave === false || $recipeSave === null) {
+        $alreadySaved = $this->isRecipeSaved($db, $recipe);
+        if (!$alreadySaved) {
             return false;
         }
         
