@@ -123,7 +123,7 @@ $resultNumber = 4;
                 <div id="recipe-template">
                     <?= RecipeCard("{template}", "{template}", "{template}", [], 20, "{template}", isLogged:$_isLogged) ?>
                 </div>
-                <div id="recipe-container" class="row">
+                <div id="recipe-container" class="row mx-auto px-0">
 
                 </div>
             </section>
