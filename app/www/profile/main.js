@@ -6,6 +6,8 @@ const uploadButton = document.getElementById("upload-button")
 const imageInput = document.getElementById('image')
 const logoutButton = document.getElementById('logout-button')
 const deleteImageButton = document.getElementById("delete-image-button")
+const changeAdminButton = document.getElementById("change-admin")
+const deleteUserButton = document.getElementById("delete-user")
 
 async function getUser() {
     const params = new URLSearchParams(document.location.search)
@@ -84,3 +86,38 @@ deleteImageButton?.addEventListener("click", async (e) => {
 
     }
 })
+
+function setAdminButton(admin) {
+    if (!changeAdminButton) {
+        return
+    }
+    changeAdminButton.dataset.admin = admin
+    const revokeText = "Revoke admin"
+    const grantText = "Grant admin"
+    const index = changeAdminButton.innerHTML.lastIndexOf(admin ? grantText : revokeText)
+    if (index !== -1) {
+        changeAdminButton.innerHTML = changeAdminButton.innerHTML.substring(0, index)
+    }
+    changeAdminButton.innerHTML += admin ? revokeText : grantText
+}
+
+if (changeAdminButton) {
+    changeAdminButton.addEventListener("click", async (e) => {
+        const user = await getUser()
+        const newAdmin = !changeAdminButton.dataset.admin
+
+        const data = new FormData()
+        data.set("userId", user.id)
+        data.set("admin", newAdmin)
+
+        const res = await fetch("/api/users/update.php", {
+            method: "POST",
+            body: data,
+        })
+        if (res.ok) {
+            setAdminButton(newAdmin)
+        }
+    })
+
+    setAdminButton(changeAdminButton.dataset.admin)
+}
