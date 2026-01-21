@@ -19,12 +19,14 @@
      height: 5rem;
      border-radius: var(--card-radius);
      transition: var(--default-transition-timing-function);
+     color: var(--text) !important;
  }
 
  #logoApp:hover {
      transform: scale(1.05);
      box-shadow: 0 6px 20px var(--primary);
      background: var(--primary-text);
+     color: var(--bg-light) !important;
  }
 
  input,
@@ -60,7 +62,7 @@
  input[type="submit"] {
      border-radius: 12px;
      background: var(--primary);
-     color: var(--bg-light);
+     color: var(--text);
      font-weight: 600;
      transition: all 0.2s ease;
      border: none;
@@ -70,6 +72,7 @@
      background: var(--primary-text);
      box-shadow: 0 4px 12px var(--primary);
      transform: translateY(-2px);
+     color: var(--bg-light);
  }
 
  input[type="submit"]:active {
@@ -77,14 +80,17 @@
  }
 
  a {
-     color: var(--primary);
+     color: var(--primary-text);
      font-weight: 500;
      transition: var(--default-transition-timing-function);
  }
 
- a:hover {
-     color: var(--primary-text);
-     text-decoration: none;
+ a:first-of-type:hover {
+     transform: translateX(-3px);
+ }
+
+ a:last-of-type:hover {
+     transform: translateX(3px);
  }
 
  svg {
