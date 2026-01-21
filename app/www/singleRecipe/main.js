@@ -58,14 +58,11 @@ if (form) {
             document.getElementById("reviews-box").prepend(clone)
         }
     })
-
-
-
 }
 
 if (saveBtn) {
-    saveBtn.addEventListener('click', (e) => {
-        saveRecipe('save_btn_1', params)
+    saveBtn.addEventListener('click', async (e) => {
+        await saveRecipe('save_btn_1', params)
     })
 }
 

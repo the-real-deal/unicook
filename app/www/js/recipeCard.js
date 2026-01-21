@@ -4,15 +4,19 @@ window.onload = function () {
     const buttons = document.querySelectorAll('.recipe-card')
     buttons.forEach(b => {
         const button = b.querySelector('article>button')
-        button?.addEventListener('click', (e) => {
-            saveRecipe(button.id, b.querySelector('.recipe-card-title').dataset.recipeId)
+        button?.addEventListener('click', async (e) => {
+            await saveRecipe(button.id, b.querySelector('.recipe-card-title').dataset.recipeId)
         })
     })
 }
 
 export async function saveRecipe(btnId, recipeId) {
-
     const btn = document.getElementById(btnId)
+    if (btn.disabled) {
+        return
+    }
+
+    btn.disabled = true
     const data = new FormData()
 
     data.set("recipeId", recipeId)
@@ -34,13 +38,8 @@ export async function saveRecipe(btnId, recipeId) {
         method: "POST",
         body: data,
     }).then(rejectApiError)
-}
 
-function deleteRecipe(recipeId, elementId) {
-    const recipeCard = document.getElementById(elementId)
-    if (recipeCard) {
-        recipeCard.remove()
-    }
+    btn.disabled = false
 }
 
 Array.from(document.getElementsByClassName('recipe-card-title')).forEach(element => {
