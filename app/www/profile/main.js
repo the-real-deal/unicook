@@ -113,7 +113,7 @@ if (changeAdminButton) {
         const res = await fetch("/api/users/update.php", {
             method: "POST",
             body: data,
-        })
+        }).then(rejectApiError)
         if (res.ok) {
             setAdminButton(newAdmin)
         }
