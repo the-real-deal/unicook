@@ -3,6 +3,10 @@ body {
     background-repeat: repeat;
 }
 
+h1 {
+    font-size: x-large;
+}
+
 section {
     background-color: var(--bg);
     border-radius: var(--card-radius);

@@ -60,7 +60,7 @@ $server->respond();
                     </div>
                 </div>
                 <div class="col-12 col-md-8 text-center text-md-start">
-                    <h3 class="mb-1 fw-bold d-flex justify-content-md-start gap-2 justify-content-center align-text-center ">
+                    <h1 class="mb-1 d-flex justify-content-md-start gap-2 justify-content-center align-text-center">
                         <?php
                         echo $user->username;
                         if ($user->isAdmin) {
@@ -71,7 +71,7 @@ $server->respond();
                         <?php
                         }
                         ?> 
-                    </h3>
+                    </h1>
                     <p class="fw-semibold mb-0"><?= $user->email?></p>
                     <p><small>created at <?= $user->createdAt->format('d/m/Y')?>.</small></p>
                     
@@ -126,8 +126,8 @@ $server->respond();
                 if ($publishedRecipes !== false && count($publishedRecipes) > 0) {
                 ?>
                 <section class="container-fluid mb-2 mx-auto p-4">
-                    <h3 class="col-12 col-md-4 text-center mb-3"><strong>Published Recipes</strong></h3>
-                    <div class="row">
+                    <h1 class="col-12 col-md-4 mb-3">Published Recipes</h1>
+                    <div class="row mx-auto">
                     <?php
                     foreach ($publishedRecipes as $i => $recipe) {
                     ?>    
@@ -147,9 +147,9 @@ $server->respond();
                 $savedRecipes = $user->getSavedRecipes($db);
                 if ($savedRecipes !== false && count($savedRecipes) > 0) {
                 ?>
-                <section class="container-fluid  mb-2 mx-auto p-4">
-                    <h3 class="col-12 col-md-4 text-center mb-3"><strong>Saved Recipes</strong></h3>
-                    <div class="row ">
+                <section class="container-fluid  mb-2 p-4">
+                    <h1 class="col-12 col-md-4 mb-3">Saved Recipes</h1>
+                    <div class="row mx-auto">
                     <?php
                     foreach ($savedRecipes as $i => $recipe) {
                     ?>    

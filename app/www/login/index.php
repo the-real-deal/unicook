@@ -30,7 +30,7 @@ $login = LoginSession::autoLogin($db);
                     </svg>
                 </div>
                 <div class="text-center">
-                    <h1 class="text-2xl font-bold mt-4 mb-2">Welcome Back!</h1>
+                    <h1 class="text-2xl mt-4 mb-2">Welcome Back!</h1>
                     <p class="mb-6 text-center text-muted-foreground">Log in to save recipes and share your own</p>
                 </div>
 
