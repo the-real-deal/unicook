@@ -39,7 +39,7 @@ function Footer() {
                 <ul class="list-unstyled mt-2 ">
                     <!-- TODO: Update tags dynamically -->
                     <li class="mb-2"><a href="mailto:someone@example.com">Send email</a></li>
-                    <li class="mb-2"><a href="https://github.com/the-real-deal/unicook/issues">Reports</a></li>
+                    <li class="mb-2"><a href="https://github.com/the-real-deal/unicook/issues/new">Report a bug</a></li>
                 </ul>
             </div>
 

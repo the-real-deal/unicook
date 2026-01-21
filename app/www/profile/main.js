@@ -19,12 +19,10 @@ async function getUser() {
     return user
 }
 
-function getFallbackSrc(user) {
-    return `https://ui-avatars.com/api/?name=${user.username}&size=256`
-}
-
 function getImageSrc(user, noCache = false) {
-    return `/api/users/image/content.php?userId=${user.id}${noCache ? `&t=${Date.now()}` : ""}`
+    return user.avatarId === null ?
+        `https://ui-avatars.com/api/?name=${user.username}&size=256` :
+        `/api/users/image/content.php?userId=${user.id}${noCache ? `&t=${Date.now()}` : ""}`
 }
 
 form?.addEventListener("submit", async (e) => {
@@ -45,10 +43,6 @@ form?.addEventListener("submit", async (e) => {
 })
 
 const user = await getUser()
-
-avatarImage.addEventListener("error", _ => {
-    avatarImage.src = getFallbackSrc(user)
-})
 
 avatarImage.src = getImageSrc(user)
 
@@ -71,7 +65,7 @@ logoutButton?.addEventListener('click', async (e) => {
 })
 
 deleteImageButton?.addEventListener("click", async (e) => {
-    const user = await getUser()
+    let user = await getUser()
 
     const data = new FormData()
     data.set("userId", user.id)
@@ -82,6 +76,7 @@ deleteImageButton?.addEventListener("click", async (e) => {
 
 
     if (res.ok) {
+        user = await getUser()
         avatarImage.src = getImageSrc(user, true)
     }
 })

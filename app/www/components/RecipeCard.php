@@ -16,7 +16,7 @@ bool $isLogged=false) {
         <div>
             <img 
                 class="card-img-top img-fluid" 
-                src="<?= $recipeId!=="{template}"?"/api/recipes/image.php?recipeId=".$recipeId:"" ?>" alt="">
+                src="<?= $recipeId !== "template" ? "/api/recipes/image.php?recipeId=$recipeId" : "/assets/penne.jpg" ?>" alt="">
         </div>
         <div class="d-flex flex-column flex-grow-1 innerCard">
             <h3 class="order-3 recipe-card-title" data-recipe-id="<?= $recipeId?>"><?= $recipeTitle ?></h3>

@@ -116,12 +116,13 @@ async function updateRecipes({
     lastBatchCount = response.length
     index += lastBatchCount
     counter.textContent = index
+
     recipeContainer.appendChild(fragment)
     requestingNext = false
 }
 
 async function addRecipeFromTemplate(fragment, recipeData) {
-    const template = document.getElementById("{template}")
+    const template = document.getElementById("template")
     const clone = template.cloneNode(true)
 
     const newID = "recipe-" + recipeIndex++
