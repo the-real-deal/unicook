@@ -132,14 +132,6 @@
     color: var(--text);
 }
 
-.recipe-card article>:not(:first-child, :last-child, :nth-child(2)) {
-    margin-bottom: 10px;
-}
-
-.recipe-card article>:not(:first-child, :last-child) {
-    margin-inline: 7%;
-}
-
 .recipe-card>article>.innerCard {
     margin-inline: 7%;
 }
@@ -150,7 +142,7 @@
 }
 
 @media (min-width: 576px) and (max-width: 768px) {
-    .recipe-card>article>div:last-child {
+    .recipe-card>article>div:last-child:not(.innerCard) {
         width: 5%;
     }
 }
