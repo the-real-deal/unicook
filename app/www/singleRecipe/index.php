@@ -236,40 +236,40 @@ if($instructions===false){
                                     <legend>Your Rating</legend>
                                     <!-- <label class="mb-2" for="rating">Your Rating</label> -->
                                     <div class="stars">
-                                        <input type="radio" name="rating" id="r1" value="1"/>
+                                        <input type="radio" name="rating" id="r1" value="5"/>
                                         <label for="r1" class="pe-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
                                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                                             </svg>
-                                            <span hidden>1 star</span>
+                                            <span hidden>5 star</span>
                                         </label>
-                                        <input type="radio" name="rating" id="r2" value="2"/>
+                                        <input type="radio" name="rating" id="r2" value="4"/>
                                         <label for="r2" class="pe-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
                                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                                             </svg>
-                                            <span hidden>2 star</span>
+                                            <span hidden>4 star</span>
                                         </label>
-                                        <input type="radio" name="rating" id="r3" value="3" checked="checked" hidden/>
+                                        <input type="radio" name="rating" id="r3" value="3" checked="checked"/>
                                         <label for="r3" class="pe-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
                                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                                             </svg>
                                             <span hidden>3 star</span>
                                         </label>
-                                        <input type="radio" name="rating" id="r4" value="4"/>
+                                        <input type="radio" name="rating" id="r4" value="2"/>
                                         <label for="r4" class="pe-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
                                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                                             </svg>
-                                            <span hidden>4 star</span>
+                                            <span hidden>2 star</span>
                                         </label>
-                                        <input type="radio" name="rating" id="r5" value="5" checked/>
+                                        <input type="radio" name="rating" id="r5" value="1" checked/>
                                         <label for="r5" class="pe-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
                                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                                             </svg>
-                                            <span hidden>5 star</span>
+                                            <span hidden>1 star</span>
                                         </label>
                                     </div>
                                 </fieldset>

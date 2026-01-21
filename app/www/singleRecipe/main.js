@@ -32,8 +32,8 @@ if (form) {
                 month: "numeric",
                 day: "numeric"
             });
-            clone.querySelector("p").textContent = "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL";
-            const rating = 3
+            clone.querySelector("p").textContent = data.get("body")
+            const rating = data.get("rating")
             clone.querySelector("span").textContent = rating;
 
             const full_star = clone.querySelector("div:has(> svg) svg:first-of-type").cloneNode(true)
