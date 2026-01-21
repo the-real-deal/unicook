@@ -1,5 +1,5 @@
 import { rejectApiError } from "/js/errors.js"
-import { changePage } from "/js/recipeCard.js"
+import { changePage, saveRecipe } from "/js/recipeCard.js"
 
 const form = document.getElementById('search-form')
 const counter = document.getElementById('recipeCount')
@@ -156,7 +156,9 @@ async function addRecipeFromTemplate(fragment, recipeData) {
     const button = clone.querySelector('button')
     if (button) {
         button.id = "btn-" + newID
-        button.setAttribute('onclick', `saveRecipe('${"btn-" + newID}', '${recipeData.id}')`)
+        button.addEventListener("click", async (e) => {
+            await saveRecipe("btn-" + newID, recipeData.id)
+        })
 
         const savedRes = await fetch(`/api/recipes/saved.php?recipeId=${recipeData.id}`,
             { method: "GET" }).then(rejectApiError).then(r => r.json())

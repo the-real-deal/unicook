@@ -83,8 +83,6 @@ deleteImageButton?.addEventListener("click", async (e) => {
 
     if (res.ok) {
         avatarImage.src = getImageSrc(user, true)
-        console.log(avatarImage.src)
-
     }
 })
 
@@ -135,9 +133,6 @@ if (changeAdminButton) {
 
 deleteUserButton?.addEventListener("click", async (e) => {
     const user = await getUser()
-
-    console.log(user.id)
-
 
     const data = new FormData()
     data.set("userId", user.id)

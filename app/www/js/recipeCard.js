@@ -13,24 +13,22 @@ window.onload = function () {
 export async function saveRecipe(btnId, recipeId) {
 
     const btn = document.getElementById(btnId)
-    const data = new FormData();
+    const data = new FormData()
 
-    data.set("recipeId", recipeId);
+    data.set("recipeId", recipeId)
 
-    let api = "/api/users/recipes/saves/";
+    let api = "/api/users/recipes/saves/"
 
     if (btn.querySelector("svg").attributes.fill.value == "transparent") {
         btn.title = "remove from saved"
         btn.querySelector("svg").attributes.fill.value = "currentColor"
-        api += "save.php";
+        api += "save.php"
     }
     else {
         btn.title = "save"
         btn.querySelector("svg").attributes.fill.value = "transparent"
-        api += "unsave.php";
+        api += "unsave.php"
     }
-
-    console.log(recipeId);
 
     await fetch(api, {
         method: "POST",

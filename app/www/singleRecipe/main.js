@@ -25,25 +25,25 @@ if (form) {
             const templateContainer = document.getElementById("review-template")
             const clone = templateContainer.querySelector("article").cloneNode(true)
 
-            const clone_datetime = clone.querySelector("time");
-            clone_datetime.datetime = new Date().toISOString();
+            const clone_datetime = clone.querySelector("time")
+            clone_datetime.datetime = new Date().toISOString()
             clone_datetime.textContent = new Date().toLocaleString(undefined, {
                 year: "numeric",
                 month: "numeric",
                 day: "numeric"
-            });
+            })
             clone.querySelector("p").textContent = data.get("body")
             const rating = data.get("rating")
-            clone.querySelector("span").textContent = rating;
+            clone.querySelector("span").textContent = rating
 
             const full_star = clone.querySelector("div:has(> svg) svg:first-of-type").cloneNode(true)
             const empty_star = clone.querySelector("div:has(> svg) svg:last-of-type").cloneNode(true)
             const star_div = clone.querySelector("div:has(> svg)")
             star_div.innerHTML = ""
 
-            const span = document.createElement("span");
-            span.textContent = "(" + rating + ")";
-            star_div.appendChild(span);
+            const span = document.createElement("span")
+            span.textContent = "(" + rating + ")"
+            star_div.appendChild(span)
 
             star_div.append(document.createElement("span"))
             for (let index = 0; index < 5; index++) {
@@ -89,9 +89,6 @@ if (deleteBtn) {
 
 backButton.addEventListener("click", (e) => {
     e.preventDefault()
-    console.log(document.referrer)
-    console.log(window.location.origin)
-
     navigateBack()
     return false
 })
