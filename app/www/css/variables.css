@@ -1,6 +1,11 @@
 @font-face {
-    font-family: 'Barachieldemo-8OZXB';
-    src: url("/assets/Barachieldemo-8OZXB.ttf");
+    font-family: 'Noto Sans';
+    src: url("/assets/NotoSans.ttf");
+}
+
+@font-face {
+    font-family: 'AncientEgyptianHieroglyphs';
+    src: url("/assets/AncientEgyptianHieroglyphs.otf");
 }
 
 :root {
@@ -42,10 +47,12 @@
 
     --default-transition-timing-function: 0.2s cubic-bezier(.4, 0, .2, 1);
 
-    --font-family: "Barachieldemo-8OZXB",
+    --font-family:
+        "Noto Sans",
         ui-sans-serif,
         sans-serif,
-        system-ui;
+        system-ui,
+        "AncientEgyptianHieroglyphs";
 }
 
 body.dark {
