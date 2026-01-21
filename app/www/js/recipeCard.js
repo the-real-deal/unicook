@@ -1,3 +1,5 @@
+import { rejectApiError } from '/js/errors.js'
+
 window.onload = function () {
     const buttons = document.querySelectorAll('.recipe-card')
     buttons.forEach(b => {
@@ -11,16 +13,29 @@ window.onload = function () {
 export async function saveRecipe(btnId, recipeId) {
 
     const btn = document.getElementById(btnId)
-    if (btn.querySelector("svg").attributes.fill.value == "transparent") {
+    const data = new FormData();
 
+    data.set("recipeId", recipeId);
+
+    let api = "/api/users/recipes/saves/";
+
+    if (btn.querySelector("svg").attributes.fill.value == "transparent") {
         btn.title = "remove from saved"
         btn.querySelector("svg").attributes.fill.value = "currentColor"
+        api += "save.php";
     }
     else {
-
         btn.title = "save"
         btn.querySelector("svg").attributes.fill.value = "transparent"
+        api += "unsave.php";
     }
+
+    console.log(recipeId);
+
+    await fetch(api, {
+        method: "POST",
+        body: data,
+    }).then(rejectApiError)
 }
 
 function deleteRecipe(recipeId, elementId) {

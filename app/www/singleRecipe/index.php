@@ -6,6 +6,7 @@ require_once "components/Footer.php";
 require_once "components/Review.php";
 require_once "components/Chat.php";
 require_once "components/ErrorNotification.php";
+require_once "lib/core/api.php";
 require_once "lib/auth.php";
 require_once "lib/recipes.php";
 
@@ -230,7 +231,7 @@ if($instructions===false){
                                 <a href="/login/" class="py-2 px-3 m-3" >Log in </a>
                             </div>
                             <?php } else { ?>
-                            <form class="p-3 mb-3">
+                            <form action="/api/reviews/create.php" method="POST"  class="p-3 mb-3" id="review-form">
                                 <fieldset class="mb-3">
                                     <legend>Your Rating</legend>
                                     <!-- <label class="mb-2" for="rating">Your Rating</label> -->
@@ -249,7 +250,7 @@ if($instructions===false){
                                             </svg>
                                             <span hidden>2 star</span>
                                         </label>
-                                        <input type="radio" name="rating" id="r3" value="3"/>
+                                        <input type="radio" name="rating" id="r3" value="3" checked="checked" hidden/>
                                         <label for="r3" class="pe-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="-1 -1 18 18">
                                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
@@ -276,6 +277,7 @@ if($instructions===false){
                                 <div class="mb-3">
                                     <label for="reviewText" hidden>Your Review</label>
                                     <textarea 
+                                        name="body"
                                         id="reviewText"
                                         placeholder="Share your thoughts about this recipe..." 
                                         rows="3"
@@ -287,13 +289,35 @@ if($instructions===false){
                                 <label for="submit_review" hidden>Submit Review</label>
                                 <button id="submit_review" type="submit" class="btn btn-success">Submit Review</button>
                             </form>
-                            <?php } ?>
+                            <?php } 
+                            ?>
+
+                            <div id="review-template"class="d-none"> 
+                                <?= Review("template", $login->user->id, $login->user->username, 1, "template", new DateTime(),  $login!==false ) ?>
+                            </div>
+                            <div id="reviews-box">
+                            <div>
                             <?php 
                                 $i = 0;
+                                usort($reviews, function ($a, $b) use ($login){
+                                    if($login === false){
+                                        return $b->createdAt <=> $a->createdAt;
+                                    }
+
+                                    $aIsMine = $a->userId === $login->user->id;
+                                    $bIsMine = $b->userId === $login->user->id;
+
+                                    if ($aIsMine !== $bIsMine) {
+                                        return $bIsMine <=> $aIsMine;
+                                    }
+
+                                    return $b->createdAt <=> $a->createdAt;
+                                });
+
                                 foreach($reviews as $review){
                                     $user = User::fromId($db,$review->userId);
                             ?>
-                            <?= Review($db, $review, $login) ?>
+                            <?=     Review($review->id, $review->userId, $user->username, $review->rating, $review->body, $review->createdAt, $login!==false and ($user->id === $login->user->id or $login->user->isAdmin)) ?>
                             <?php
                                     $i++; 
                                 }
@@ -307,6 +331,7 @@ if($instructions===false){
     <?= Footer() ?>
     <script type="module" src="/js/bootstrap.js"></script>
     <script type="module" src="/js/chat.js"></script>
+    <script type="module" src="/js/review.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 </html>

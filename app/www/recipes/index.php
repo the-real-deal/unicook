@@ -133,7 +133,7 @@ $resultNumber = 4;
 
     <script type="module" src="/js/bootstrap.js"></script>
     <script type="module" src="/js/recipeCard.js"></script>
-    <script type="module"  src="main.js"></script>
     <script type="module" src="/js/chat.js"></script>
+    <script type="module"  src="main.js"></script>
 </body>
 </html>
