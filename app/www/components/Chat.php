@@ -22,9 +22,9 @@ function Chat() {
                         <img class="object-fit-cover"
                             src="/assets/chefLupino.png"
                             alt="profile picture">
-                        <div class="ms-3 flex-shrink-0">
-                            <h1>Chef Lupino</h1>
-                            <h2 id="status">Available</h2>
+                        <div class="ms-3 flex-shrink-0 ">
+                            <strong class="w-100 d-block">Chef Lupino</strong>
+                            <em id="status">Available</em>
                         </div>
                         <div class="d-flex justify-content-end w-100" >
                             <button type="button" id="clear-chat">&#10227;</button>
