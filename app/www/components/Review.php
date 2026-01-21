@@ -16,7 +16,7 @@ function Review(
     string $header = "h3",
 ) {
 ?>
-<article data-reviewId="<?= $reviewId ?>" class="review p-3">
+<article data-reviewid="<?= $reviewId ?>" class="review p-3">
     <div class="d-flex justify-content-between">
         <div class="d-flex align-items-start flex-column mb-2"> 
             <<?= $header ?>><?= $username ?></<?= $header ?>>

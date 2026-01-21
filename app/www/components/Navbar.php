@@ -54,23 +54,23 @@ function Navbar(LoginSession|false $login) {
                         <?php  
                         if ($login === false) { 
                         ?>
-                        <a id="nav-login"class="d-flex align-items-center nav-link px-3 py-2" href="/login">
-                            <svg class="flex-shrink-0 me-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                        <a id="nav-login"class="d-flex align-items-center nav-link px-2 py-2" href="/login">
+                            <svg class="flex-shrink-0 ms-lg-2 me-lg-0 me-2 order-lg-2" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            Login
+                            <span class="order-lg-1">Login</span>
                         </a>
                         <?php } else { ?>
-                        <a class="d-flex align-items-center nav-link px-3 py-2" href="/profile/?userId=<?= $login->user->id ?>">
-                            <?= $login->user->username ?>
+                        <a class="d-flex align-items-center nav-link px-2 py-2" href="/profile/?userId=<?= $login->user->id ?>">
                             <?php if($login->user->avatarId){ ?>
-                            <img class="ms-2 flex-shrink-0" src="/api/users/image/content.php?userId=<?= $login->user->id ?>" alt="Profile Picture">
+                            <img class="ms-lg-2 me-lg-0 me-2 order-lg-2 flex-shrink-0" src="/api/users/image/content.php?userId=<?= $login->user->id ?>" alt="Profile Picture">
                             <?php } else { ?>
-                            <img class="ms-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>" alt="Profile Picture">
+                            <img class="ms-lg-2 me-lg-0 me-2 order-lg-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>" alt="Profile Picture">
                             <?php } ?>
+                            <span class="order-lg-1"><?= $login->user->username ?></span>
                         </a>
                         <?php }?>
                     </li>

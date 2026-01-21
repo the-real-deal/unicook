@@ -1,9 +1,10 @@
 import { rejectApiError } from "/js/errors.js"
 
-document.querySelectorAll('.review').forEach(reviewElement => {
+export function hydrateReviewElement(reviewElement) {
     const deleteButton = reviewElement.querySelector('button')
+    const reviewId = reviewElement.dataset.reviewid
+
     deleteButton?.addEventListener('click', async () => {
-        const reviewId = reviewElement.dataset.reviewid
         const data = new FormData()
         data.set('reviewId', reviewId)
         const response = await fetch('/api/reviews/delete.php', {
@@ -15,4 +16,6 @@ document.querySelectorAll('.review').forEach(reviewElement => {
             reviewElement.remove()
         }
     })
-})
+}
+
+document.querySelectorAll('.review').forEach(hydrateReviewElement)
