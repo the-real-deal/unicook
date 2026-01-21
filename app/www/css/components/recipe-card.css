@@ -146,6 +146,7 @@
 
 .recipe-card>article>div:has(span) {
     color: var(--text-muted);
+    font-weight: bold;
 }
 
 @media (min-width: 576px) and (max-width: 768px) {
