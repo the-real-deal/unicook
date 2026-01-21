@@ -7,12 +7,26 @@ require_once "components/RecipeCard.php";
 require_once "components/SearchBar.php";
 require_once "components/ErrorNotification.php";
 require_once "components/Chat.php";
+require_once "lib/core/api.php";
 require_once "lib/auth.php";
 require_once "lib/tags.php";
 require_once "lib/stats.php";
 
 $db = Database::connectDefault();
 $login = LoginSession::autoLogin($db);
+$selectedTag = false;
+$searchText = false;
+
+$server = new ApiServer();
+
+$server->addEndpoint(HTTPMethod::GET, function ($req, $res) {
+    global $selectedTag, $searchText;
+
+    $selectedTag = $req->getScalar($res, "tag");
+    $searchText = $req->getScalar($res, "text");
+});
+
+$server->respond();
 
 $_isLogged = false;
 
@@ -21,16 +35,6 @@ if ($login !== false) {
 }
 
 $tags = Tag::getAllTags($db);
-
-if(isset($_GET['tag']))
-    $selectedTag = $_GET['tag'];
-else
-    $selectedTag = null;
-
-if(isset($_GET['text']))
-    $searchText = $_GET['text'];
-else
-    $searchText = null;
 
 $totalRecipes = Stats::getTotalRecipes($db);
 if ($totalRecipes === false) {
