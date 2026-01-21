@@ -88,11 +88,12 @@ deleteImageButton?.addEventListener("click", async (e) => {
     }
 })
 
-function setAdminButton(admin) {
+function setAdminButton() {
     if (!changeAdminButton) {
         return
     }
-    changeAdminButton.dataset.admin = admin
+
+    const admin = changeAdminButton.hasAttribute("data-admin")
     const revokeText = "Revoke admin"
     const grantText = "Grant admin"
     const index = changeAdminButton.innerHTML.lastIndexOf(admin ? grantText : revokeText)
@@ -104,8 +105,16 @@ function setAdminButton(admin) {
 
 if (changeAdminButton) {
     changeAdminButton.addEventListener("click", async (e) => {
+        changeAdminButton.disabled = true
         const user = await getUser()
-        const newAdmin = !changeAdminButton.dataset.admin
+        const admin = changeAdminButton.hasAttribute("data-admin")
+        const newAdmin = !admin
+
+        if (newAdmin) {
+            changeAdminButton.setAttribute("data-admin", true)
+        } else {
+            changeAdminButton.removeAttribute("data-admin")
+        }
 
         const data = new FormData()
         data.set("userId", user.id)
@@ -116,11 +125,12 @@ if (changeAdminButton) {
             body: data,
         }).then(rejectApiError)
         if (res.ok) {
-            setAdminButton(newAdmin)
+            setAdminButton()
+            changeAdminButton.disabled = false
         }
     })
 
-    setAdminButton(changeAdminButton.dataset.admin)
+    setAdminButton()
 }
 
 deleteUserButton?.addEventListener("click", async (e) => {
