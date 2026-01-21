@@ -4,14 +4,25 @@ div {
     max-width: 62.5rem !important;
 }
 
-#recipe-info div>a {
+header p,
+header span,
+header a {
+    color: var(--text-muted) !important;
+}
+
+header a {
+    font-weight: bold;
+    text-decoration: underline !important;
+}
+
+#recipe-info div > a {
     color: currentColor;
     text-decoration: none;
     border-radius: var(--card-radius);
     border: none;
 }
 
-#recipe-info div>a:hover {
+#recipe-info div > a:hover {
     color: currentColor;
     text-decoration: none;
     background-color: var(--bg-dark);
@@ -28,13 +39,13 @@ div {
     position: relative;
 }
 
-#recipe-info>div>div>div {
+#recipe-info > div > div > div {
     position: absolute;
     right: 20px;
     top: 20px;
 }
 
-#recipe-info>div>div>div>* {
+#recipe-info > div > div > div > * {
     background-color: var(--bg-dark);
     border: 0px;
     border-radius: 100%;
@@ -42,7 +53,7 @@ div {
     transition: var(--default-transition-timing-function);
 }
 
-#recipe-info .control-buttons>*:hover {
+#recipe-info .control-buttons > *:hover {
     background-color: var(--bg-light);
 }
 
@@ -50,11 +61,11 @@ div {
     color: var(--danger);
 }
 
-#recipe-info #save_btn_1>svg[fill="currentColor"] {
+#recipe-info #save_btn_1 > svg[fill="currentColor"] {
     color: var(--primary);
 }
 
-#recipe-info #save_btn_1>svg[fill="transparent"] {
+#recipe-info #save_btn_1 > svg[fill="transparent"] {
     color: var(--text);
 }
 
@@ -77,7 +88,7 @@ div {
     list-style-type: none;
 }
 
-#recipe-info ul>li>div,
+#recipe-info ul > li > div,
 #recipe-info ul:first-of-type li {
     border-radius: var(--card-radius);
 }
@@ -94,43 +105,43 @@ div {
     background-color: var(--primary);
 }
 
-#recipe-info ul:last-of-type>li>div>h2 {
+#recipe-info ul:last-of-type > li > div > h2 {
     color: var(--text);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(1)>div {
+#recipe-info ul:last-of-type > li:nth-child(1) > div {
     background-color: var(--secondary-shade);
     border: 1px solid var(--secondary);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(2)>div {
+#recipe-info ul:last-of-type > li:nth-child(2) > div {
     background-color: var(--primary-shade);
     border: 1px solid var(--primary);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(3)>div {
+#recipe-info ul:last-of-type > li:nth-child(3) > div {
     background-color: var(--tertiary-shade);
     border: 1px solid var(--tertiary);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(4)>div {
+#recipe-info ul:last-of-type > li:nth-child(4) > div {
     background-color: var(--primary-shade);
     border: 1px solid var(--primary);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(1)>div svg {
+#recipe-info ul:last-of-type > li:nth-child(1) > div svg {
     color: var(--secondary-text);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(2)>div svg {
+#recipe-info ul:last-of-type > li:nth-child(2) > div svg {
     color: var(--primary-text);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(3)>div svg {
+#recipe-info ul:last-of-type > li:nth-child(3) > div svg {
     color: var(--tertiary-text);
 }
 
-#recipe-info ul:last-of-type>li:nth-child(4)>div svg {
+#recipe-info ul:last-of-type > li:nth-child(4) > div svg {
     color: var(--primary-text);
 }
 
@@ -153,7 +164,7 @@ div {
 
 
 
-#aside input[type="checkbox"]:checked+label {
+#aside input[type="checkbox"]:checked + label {
     text-decoration: line-through;
     color: var(--text-muted);
 }
@@ -193,9 +204,9 @@ div {
     padding: 0px;
 }
 
-#aside>div,
-#instruction>div,
-#reviews>div {
+#aside > div,
+#instruction > div,
+#reviews > div {
     /* border: 2px solid #E6D3B3; */
     border-radius: 16px;
     background-color: var(--bg-light);
@@ -262,17 +273,17 @@ body {
 }
 
 .stars label:hover svg,
-.stars input:focus+label svg {
+.stars input:focus + label svg {
     transform: scale(1.15);
 }
 
 .stars label:hover svg,
-.stars label:hover~label svg {
+.stars label:hover ~ label svg {
     fill: var(--secondary-text);
     stroke: var(--secondary-text);
 }
 
-.stars input[type="radio"]:checked~label svg {
+.stars input[type="radio"]:checked ~ label svg {
     fill: var(--secondary-text);
     stroke: var(--secondary-text);
 }

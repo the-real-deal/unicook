@@ -41,6 +41,8 @@ if($ingredients===false){
     $ingredients = [];
 }
 
+$creator = User::fromId($db, $recipe->userId);
+
 $tags = $recipe->getTags($db);
 if($tags===false){
     $tags = [];
@@ -121,7 +123,17 @@ if($instructions===false){
                 </ul>
 
                 <header>
-                    <h1 class="mb-4"><?= $recipe->title ?></h1>
+                    <h1 class="mb-1"><?= $recipe->title ?></h1>
+                    <div class="mb-4">
+                        <span>from:</span>
+                        <?php
+                        if ($creator === false) {
+                        ?>
+                        <span>Unknown</span>
+                        <?php } else { ?>
+                        <a href="/profile/?userId=<?= $creator->id ?>"><?= $creator->username ?></a>
+                        <?php } ?>
+                    </div>
                     <p class="d-flex flex-wrap"><?= $recipe->description ?></p>
                 </header>
 
