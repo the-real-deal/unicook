@@ -9,7 +9,7 @@ function ErrorNotification() {
       <strong class="me-auto">Error</strong>
       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
-    <p class="toast-body" />
+    <p class="toast-body"></p>
   </div>
 </div>
 <?php } ?>

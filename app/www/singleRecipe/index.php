@@ -299,7 +299,7 @@ if($instructions===false){
                                 </div>
 
                                 <label for="submit_review" hidden>Submit Review</label>
-                                <button id="submit_review" type="submit" class="btn btn-success">Submit Review</button>
+                                <button id="submit_review" type="submit" class="px-3 py-2">Submit Review</button>
                             </form>
                             <?php } 
                             ?>

@@ -344,7 +344,20 @@ form:has(.stars) {
 }
 
 #reviews #login-adv a:hover {
-    color: white;
+    color: var(--bg-light);
     border: 1px solid var(--secondary-text);
     background-color: var(--secondary-text);
+}
+
+#reviews #submit_review {
+    color: var(--text);
+    background-color: var(--primary);
+    border-radius: var(--radius);
+    border: none;
+    transition: var(--default-transition-timing-function);
+}
+
+#reviews #submit_review:hover {
+    background-color: var(--primary-text);
+    color: var(--bg-light);
 }

@@ -1,8 +1,39 @@
-#errorToast,
-#errorToast .toast-header {
-    background-color: var(--danger);
+.toast {
+    background: var(--text);
+    border: 1px solid var(--text-muted);
+    border-left: 8px solid var(--danger);
+    border-radius: 14px;
+    box-shadow: var(--shadow-combined);
+    color: var(--bg-light);
+    animation: toast-slide-in var(--default-transition-timing-function);
 }
 
-#errorToast * {
-    color: var(--highlight) !important;
+.toast-header {
+    background: transparent;
+    border-bottom: 1px solid var(--text-muted);
+    color: var(--white);
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.toast-header .btn-close {
+    /*non riesco a metterlo bianco...*/
+    filter: invert(1);
+    transition: var(--default-transition-timing-function);
+}
+
+.toast-header .btn-close:hover {
+    transform: rotate(90deg);
+}
+
+.toast-body {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    padding: 0.75rem 1rem 1rem;
+    color: var(--bg-light);
+}
+
+.toast.show {
+    animation:
+        toast-slide-in var(--default-transition-timing-function);
 }
