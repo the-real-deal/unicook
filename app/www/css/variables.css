@@ -42,10 +42,11 @@
 
     --default-transition-timing-function: 0.2s cubic-bezier(.4, 0, .2, 1);
 
-    --font-family: "Barachieldemo-8OZXB",
+    --font-family:
         ui-sans-serif,
         sans-serif,
-        system-ui;
+        system-ui,
+        "Barachieldemo-8OZXB";
 }
 
 body.dark {
