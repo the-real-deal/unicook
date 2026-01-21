@@ -9,11 +9,27 @@ article.review span {
     color: var(--text-muted);
 }
 
-article.review h3 {
+article.review a {
     color: var(--text);
     font-size: 1rem;
     font-weight: 500;
     margin: 0px;
+}
+
+article.review button {
+    color: var(--danger);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0px;
+    background-color: transparent;
+    border: none !important;
+    outline-color: transparent;
+    transition: var(--default-transition-timing-function);
+}
+
+article.review button:hover {
+    text-decoration: underline;
 }
 
 article.review time {

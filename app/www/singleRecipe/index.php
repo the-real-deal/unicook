@@ -293,7 +293,7 @@ if($instructions===false){
                                 foreach($reviews as $review){
                                     $user = User::fromId($db,$review->userId);
                             ?>
-                            <?= Review("review-".$i, $user->username, $review->rating, $review->createdAt, $review->body) ?>
+                            <?= Review($db, $review, $login) ?>
                             <?php
                                     $i++; 
                                 }

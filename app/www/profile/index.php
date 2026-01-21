@@ -53,7 +53,7 @@ $server->respond();
                 <div class="col-12 col-md-4 text-center mb-3">
                     <div class="image-wrapper">
                         <img id="avatarImage" alt="profile picture">
-                        <?php if ($user->id == $login->user->id or $login->user->isAdmin) { ?>
+                        <?php if ($login !== false and ($user->id == $login->user->id or $login->user->isAdmin)) { ?>
                         <button id="delete-image-button">&#128473;</button>
                         <?php } ?>
                     </div>
@@ -75,7 +75,7 @@ $server->respond();
                     <p><small>created at <?= $user->createdAt->format('d/m/Y')?>.</small></p>
                     
                     
-                    <?php if ($user->id == $login->user->id) { ?>
+                    <?php if ($login !== false and $user->id == $login->user->id) { ?>
                     <!-- Proprietario -->
                     <form id="imageForm" action="/api/users/image/upload.php" method="POST"
                         class="mt-4 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start gap-2 mx-auto mx-md-0">
@@ -100,7 +100,7 @@ $server->respond();
                         </svg>
                         Log out
                     </button>
-                    <?php } elseif ($login->user->isAdmin) { ?>
+                    <?php } elseif ($login !== false and $login->user->isAdmin) { ?>
                     <!-- Admin -->
                         <button id="logout-button" class="mt-4 d-flex align-items-center justify-content-center justify-content-md-start gap-2 mx-auto mx-md-0 ps-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
