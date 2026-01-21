@@ -219,6 +219,11 @@ readonly class User extends DBTable {
     }
 
     public function deleteImage(Database $db): bool {
+        $ok = $this->deleteImageUpload();
+        if (!$ok) {
+            return false;
+        }
+
         $query = $db->createStatement(<<<sql
             UPDATE `Users` u
             SET u.`avatarId` = ?
@@ -228,10 +233,7 @@ readonly class User extends DBTable {
             SqlValueType::String->createParam(null),
             SqlValueType::String->createParam($this->id),
         )->execute();
-        if (!$ok) {
-            return false;
-        }
-        return $this->deleteImageUpload();
+        return $ok;
     }
 
     public function getPublishedRecipes(Database $db): array|false {

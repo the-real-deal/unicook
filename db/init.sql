@@ -233,7 +233,7 @@ INSERT INTO `Users`(
     'elena.greco@yahoo.it', 
     'Elena Greco', 
     '$2y$10$do4df7cUbVISo7nTtNxgqeNwjAvKxOpbajLCrmowZODGsNP9Iawly', 
-    NULL, 
+    '9349d82e-6f04-416f-a129-577954e1c98d', 
     false, 
     '2024-10-08 12:50:00'
 ),
