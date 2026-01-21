@@ -113,9 +113,9 @@
     - [X] home
     - [X] recipes
     - [?] about
-    - [ ] create
+    - [X] create
     - [ ] login/register
-    - [ ] single recipe
-    - [ ] profile
+    - [X] single recipe
+    - [?] profile
 - [ ] history back
-- [ ] footer
+- [X] footer
