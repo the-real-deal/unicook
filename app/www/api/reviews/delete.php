@@ -19,7 +19,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         if ($login === false) {
             $res->dieWithError(HTTPCode::Unauthorized, "Not logged in");
         }
-        if ($login->user->id !== $recipe->userId && !$login->user->isAdmin) {
+        if ($login->user->id !== $review->userId && !$login->user->isAdmin) {
             $res->dieWithError(HTTPCode::Forbidden, "Insufficient permissions");
         }
             

@@ -65,7 +65,7 @@ if($login !== false){
         </div>
         <section class="row">
             <h2>Featured Recipes</h2>
-            <p>Handpicked favorites for busy students</p>
+            <p>Favourites among busy students</p>
 
             <?php 
                 $recipes = Recipe::getBest($db, 4);
