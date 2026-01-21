@@ -7,7 +7,8 @@ h1 {
     font-size: x-large;
 }
 
-section {
+section,
+header {
     background-color: var(--bg);
     border-radius: var(--card-radius);
     box-shadow: var(--shadow-dark);

@@ -49,7 +49,7 @@ $server->respond();
     <?= ErrorNotification() ?>
     <?= Navbar($login) ?>
     <main>
-        <section id="profile-section" class="container my-5 mx-auto">
+        <header id="profile-section" class="container my-5 mx-auto">
             <div class="row align-items-center justify-content-center p-5">
                 <div class="col-12 col-md-4 text-center mb-3">
                     <div class="image-wrapper">
@@ -119,14 +119,14 @@ $server->respond();
                     <?php } ?>
                 </div>
             </div>
-        </section>
+        </header>
         <div class="container my-5 mx-auto">
             <?php
                 $publishedRecipes = $user->getPublishedRecipes($db);
                 if ($publishedRecipes !== false && count($publishedRecipes) > 0) {
                 ?>
                 <section class="container-fluid mb-2 mx-auto p-4">
-                    <h1 class="col-12 col-md-4 mb-3">Published Recipes</h1>
+                    <h2 class="col-12 col-md-4 mb-3">Published Recipes</h2>
                     <div class="row mx-auto">
                     <?php
                     foreach ($publishedRecipes as $i => $recipe) {
@@ -148,13 +148,13 @@ $server->respond();
                 if ($savedRecipes !== false && count($savedRecipes) > 0) {
                 ?>
                 <section class="container-fluid  mb-2 p-4">
-                    <h1 class="col-12 col-md-4 mb-3">Saved Recipes</h1>
+                    <h2 class="col-12 col-md-4 mb-3">Saved Recipes</h2>
                     <div class="row mx-auto">
                     <?php
                     foreach ($savedRecipes as $i => $recipe) {
                     ?>    
                     <?= RecipeCard(
-                        "published-recipe-$i", 
+                        "saved-recipe-$i", 
                         $recipe->id, 
                         $recipe->title,
                         array_map(fn($t)=>$t->name ,$recipe->getTags($db)), 

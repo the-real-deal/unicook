@@ -91,7 +91,7 @@ $resultNumber = 4;
                                 </select>
                             </div>
                             <hr/>
-                            <bold>Tags<bold>
+                            Tags
                             <ul class="col-12 d-flex mt-3 flex-wrap">
                                 <?php
                                     if($tags !== false){
