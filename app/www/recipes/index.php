@@ -74,7 +74,7 @@ $resultNumber = 4;
                             </div>
                             <div class="col-lg-4 my-3">
                                 <label for="prc">Price</label>
-                                <select name="price" id="prc" class="w-100 p-2 mx-2">
+                                <select name="cost" id="prc" class="w-100 p-2 mx-2">
                                     <option value="">Any Price</option>
                                     <option value="0">Cheap</option>
                                     <option value="1">Medium</option>

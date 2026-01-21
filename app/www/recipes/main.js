@@ -80,11 +80,11 @@ async function updateRecipes({
             data.append('maxPrepTime', 30)
             break
         case '1':
-            data.append('minPrepTime', 30)
+            data.append('minPrepTime', 31)
             data.append('maxPrepTime', 60)
             break
         case '2':
-            data.append('minPrepTime', 30)
+            data.append('minPrepTime', 61)
             break
         default:
             break
