@@ -24,7 +24,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
         }
         if (
             ($admin !== null && !$login->user->isAdmin) ||
-            ($login->user->id !== $recipe->userId && !$login->user->isAdmin)
+            ($login->user->id !== $userId && !$login->user->isAdmin)
         ) {
             $res->dieWithError(HTTPCode::Forbidden, "Insufficient permissions");
         }
