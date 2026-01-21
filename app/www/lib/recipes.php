@@ -7,6 +7,8 @@ require_once "lib/tags.php";
 require_once "lib/users.php";
 require_once "lib/reviews.php";
 
+// TODO: at least 1 step and 1 ingredient
+
 enum RecipeDifficulty: int {
     case Easy = 0;
     case Medium = 1;
@@ -124,6 +126,9 @@ readonly class Recipe extends DBTable {
     public static function validateIngredients(array $ingredients): array {
         $result = [];
         $ingredients = array_values(array_unique($ingredients, SORT_REGULAR));
+        if (count($ingredients) === 0) {
+            throw new InvalidArgumentException("Recipe must have at least one ingredient");
+        }
         foreach ($ingredients as $ingredient) {
             [ "name" => $name, "quantity" => $quantity ] = $ingredient;
             array_push($result, [
@@ -146,6 +151,9 @@ readonly class Recipe extends DBTable {
     public static function validateSteps(array $steps): array {
         $result = [];
         $steps = array_values(array_unique($steps, SORT_REGULAR));
+        if (count($steps) === 0) {
+            throw new InvalidArgumentException("Recipe must have at least one step");
+        }
         foreach ($steps as $step) {
             array_push($result, self::validateStep($step));
         }

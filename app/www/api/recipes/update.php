@@ -17,9 +17,9 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     $prepTime = $req->expectScalar($res, "prepTime", allowEmpty: true);
     $cost = $req->expectScalar($res, "cost", allowEmpty: true);
     $servings = $req->expectScalar($res, "servings", allowEmpty: true);
-    $ingredientsQuantity = $req->getArray($res, "ingredientsQuantity") ?? [];
-    $ingredientsName = $req->getArray($res, "ingredientsName") ?? [];
-    $steps = $req->getArray($res, "steps") ?? [];
+    $ingredientsQuantity = $req->expectArray($res, "ingredientsQuantity");
+    $ingredientsName = $req->expectArray($res, "ingredientsName");
+    $steps = $req->expectArray($res, "steps");
 
     $db = Database::connectDefault();
     try {
