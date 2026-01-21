@@ -1,4 +1,5 @@
 import { rejectApiError } from "/js/errors.js"
+import { navigateBack } from "/js/navigation.js"
 
 const form = document.getElementById("imageForm")
 const avatarImage = document.getElementById("avatarImage")
@@ -121,3 +122,21 @@ if (changeAdminButton) {
 
     setAdminButton(changeAdminButton.dataset.admin)
 }
+
+deleteUserButton?.addEventListener("click", async (e) => {
+    const user = await getUser()
+
+    console.log(user.id)
+
+
+    const data = new FormData()
+    data.set("userId", user.id)
+
+    const res = await fetch("/api/users/delete.php", {
+        method: "POST",
+        body: data,
+    }).then(rejectApiError)
+    if (res.ok) {
+        navigateBack()
+    }
+})

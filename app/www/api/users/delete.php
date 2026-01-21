@@ -10,7 +10,7 @@ $server->addEndpoint(HTTPMethod::POST, function ($req, $res) {
     
     $db = Database::connectDefault();
     try {
-        $user = Review::fromId($db, $userId);
+        $user = User::fromId($db, $userId);
         if ($user === false) {
             $res->dieWithError(HTTPCode::NotFound, "User not found");
         }
