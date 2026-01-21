@@ -291,37 +291,39 @@ if($instructions===false){
                             </form>
                             <?php } 
                             ?>
-
-                            <div id="review-template"class="d-none"> 
+                            
+                            <?php if ($login !== false) { ?>
+                            <div id="review-template" class="d-none"> 
                                 <?= Review("template", $login->user->id, $login->user->username, 1, "template", new DateTime(),  $login!==false ) ?>
                             </div>
+                            <?php } ?>
                             <div id="reviews-box">
-                            <div>
-                            <?php 
-                                $i = 0;
-                                usort($reviews, function ($a, $b) use ($login){
-                                    if($login === false){
-                                        return $b->createdAt <=> $a->createdAt;
-                                    }
+                                <div>
+                                    <?php 
+                                        $i = 0;
+                                        usort($reviews, function ($a, $b) use ($login){
+                                            if($login === false){
+                                                return $b->createdAt <=> $a->createdAt;
+                                            }
 
-                                    $aIsMine = $a->userId === $login->user->id;
-                                    $bIsMine = $b->userId === $login->user->id;
+                                            $aIsMine = $a->userId === $login->user->id;
+                                            $bIsMine = $b->userId === $login->user->id;
 
-                                    if ($aIsMine !== $bIsMine) {
-                                        return $bIsMine <=> $aIsMine;
-                                    }
+                                            if ($aIsMine !== $bIsMine) {
+                                                return $bIsMine <=> $aIsMine;
+                                            }
 
-                                    return $b->createdAt <=> $a->createdAt;
-                                });
+                                            return $b->createdAt <=> $a->createdAt;
+                                        });
 
-                                foreach($reviews as $review){
-                                    $user = User::fromId($db,$review->userId);
-                            ?>
-                            <?=     Review($review->id, $review->userId, $user->username, $review->rating, $review->body, $review->createdAt, $login!==false and ($user->id === $login->user->id or $login->user->isAdmin)) ?>
-                            <?php
-                                    $i++; 
-                                }
-                            ?>
+                                        foreach($reviews as $review){
+                                            $user = User::fromId($db,$review->userId);
+                                    ?>
+                                    <?=     Review($review->id, $review->userId, $user->username, $review->rating, $review->body, $review->createdAt, $login!==false and ($user->id === $login->user->id or $login->user->isAdmin)) ?>
+                                    <?php
+                                            $i++; 
+                                        }
+                                    ?>
                         </div>
                     </section>
                 </div>
