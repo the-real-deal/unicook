@@ -76,8 +76,8 @@
 - [x] clear
 
 ## Pages
-- [ ] add error notification on every page
-- [ ] COLORS 
+- [x] add error notification on every page
+- [x] COLORS 
 - [x] admin page + logged modify
 ### Home
 - [x] switch pages when searching
@@ -101,7 +101,7 @@
 - [x] delete image?
     - [X] add delete button
 - [X] fix image input (missing submit)
-- [ ] handle generic/logged user difference
+- [x] handle generic/logged user difference
     - [x] perchè se tolgo il form non carica più le immagini T_T
 - [x] TOGGLE user admin
 - [x] remove user
@@ -109,15 +109,15 @@
 ### pianinator
 - [X] remove js inline
 - [X] remove style inline
-- [ ] check js (pianini)
-- [ ] color
-    - [ ] color error notification
+- [x] check js (pianini)
+- [x] color
+    - [x] color error notification
     - [X] home
     - [X] recipes
     - [?] about
     - [X] create
     - [x] login/register
     - [X] single recipe
-    - [?] profile
+    - [x] profile
 - [x] history back
 - [X] footer
