@@ -30,12 +30,12 @@ h6 {
     font-weight: 400;
 }
 
-h1+p,
-h2+p,
-h3+p,
-h4+p,
-h5+p,
-h6+p {
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
     color: var(--text-muted);
 }
 
@@ -55,8 +55,8 @@ nav span {
 
 
 
-nav>*,
-footer>* {
+nav > *,
+footer > * {
     min-width: 0 !important;
 }
 
@@ -100,6 +100,10 @@ nav div.navbar-nav li:last-child a img {
 nav div.navbar-nav li:last-child a:hover {
     background: var(--primary-text);
     color: var(--bg-light)
+}
+
+nav div.navbar-nav li:last-child span {
+    color: inherit;
 }
 
 #svgToggle,

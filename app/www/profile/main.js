@@ -9,6 +9,7 @@ const logoutButton = document.getElementById('logout-button')
 const deleteImageButton = document.getElementById("delete-image-button")
 const changeAdminButton = document.getElementById("change-admin")
 const deleteUserButton = document.getElementById("delete-user")
+const navUserImage = document.querySelector("nav div.navbar-nav li:last-child a img")
 
 async function getUser() {
     const params = new URLSearchParams(document.location.search)
@@ -19,10 +20,14 @@ async function getUser() {
     return user
 }
 
-function getImageSrc(user, noCache = false) {
-    return user.avatarId === null ?
+function setImageSrc(user, noCache = false) {
+    const src = user.avatarId === null ?
         `https://ui-avatars.com/api/?name=${user.username}&size=256` :
         `/api/users/image/content.php?userId=${user.id}${noCache ? `&t=${Date.now()}` : ""}`
+    avatarImage.src = src
+    if (navUserImage) {
+        navUserImage.src = src
+    }
 }
 
 form?.addEventListener("submit", async (e) => {
@@ -36,15 +41,14 @@ form?.addEventListener("submit", async (e) => {
 
     if (res.ok) {
         const user = await getUser()
-        avatarImage.src = getImageSrc(user, true)
+        setImageSrc(user, true)
         form.reset()
         uploadButton.style.visibility = 'hidden'
     }
 })
 
 const user = await getUser()
-
-avatarImage.src = getImageSrc(user)
+setImageSrc(user)
 
 
 imageInput?.addEventListener('change', function () {
@@ -77,7 +81,7 @@ deleteImageButton?.addEventListener("click", async (e) => {
 
     if (res.ok) {
         user = await getUser()
-        avatarImage.src = getImageSrc(user, true)
+        setImageSrc(user, true)
     }
 })
 
