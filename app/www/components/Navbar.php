@@ -66,9 +66,9 @@ function Navbar(LoginSession|false $login) {
                         <?php } else { ?>
                         <a class="d-flex align-items-center nav-link px-2 py-2" href="/profile/?userId=<?= $login->user->id ?>">
                             <?php if($login->user->avatarId){ ?>
-                            <img class="ms-lg-2 me-lg-0 me-2 order-lg-2 flex-shrink-0" src="/api/users/image/content.php?userId=<?= $login->user->id ?>" alt="Profile Picture">
+                            <img data-userid="<?= $login->user->id ?>" class="ms-lg-2 me-lg-0 me-2 order-lg-2 flex-shrink-0" src="/api/users/image/content.php?userId=<?= $login->user->id ?>" alt="Profile Picture">
                             <?php } else { ?>
-                            <img class="ms-lg-2 me-lg-0 me-2 order-lg-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>" alt="Profile Picture">
+                            <img data-userid="<?= $login->user->id ?>" class="ms-lg-2 me-lg-0 me-2 order-lg-2" src="https://ui-avatars.com/api/?name=<?= $login->user->username ?>" alt="Profile Picture">
                             <?php } ?>
                             <span class="order-lg-1"><?= $login->user->username ?></span>
                         </a>

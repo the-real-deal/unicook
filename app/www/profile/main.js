@@ -25,7 +25,7 @@ function setImageSrc(user, noCache = false) {
         `https://ui-avatars.com/api/?name=${user.username}&size=256` :
         `/api/users/image/content.php?userId=${user.id}${noCache ? `&t=${Date.now()}` : ""}`
     avatarImage.src = src
-    if (navUserImage) {
+    if (navUserImage && navUserImage.dataset.userid === user.id) {
         navUserImage.src = src
     }
 }
