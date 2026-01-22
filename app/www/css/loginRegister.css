@@ -1,102 +1,102 @@
- body {
-     background-image: url('/assets/patternpad.svg');
-     background-repeat: repeat;
- }
+body {
+    background-image: url('/assets/patternpad.svg');
+    background-repeat: repeat;
+}
 
 
- form {
-     background: var(--bg-light);
-     border-radius: var(--card-radius);
-     box-shadow: var(--shadow-dark);
-     max-width: 28rem;
-     margin-top: 50px;
-     margin-bottom: 50px;
- }
+form {
+    background: var(--bg-light);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-dark);
+    max-width: 28rem;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
 
- #logoApp {
-     background: var(--primary);
-     width: 5rem;
-     height: 5rem;
-     border-radius: var(--card-radius);
-     transition: var(--default-transition-timing-function);
-     color: var(--text) !important;
- }
+form #logoApp {
+    background: var(--primary);
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--card-radius);
+    transition: var(--default-transition-timing-function);
+    color: var(--text) !important;
+}
 
- #logoApp:hover {
-     transform: scale(1.05);
-     box-shadow: 0 6px 20px var(--primary);
-     background: var(--primary-text);
-     color: var(--bg-light) !important;
- }
+form #logoApp:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px var(--primary);
+    background: var(--primary-text);
+    color: var(--bg-light) !important;
+}
 
- input,
- input:focus {
-     border: none;
-     outline: none;
-     background: transparent;
- }
+form input,
+form input:focus {
+    border: none;
+    outline: none;
+    background: transparent;
+}
 
- div:has(>input[type=email]),
- div:has(>input[type=password]),
- div:has(>input[type=text]) {
-     border-radius: 12px;
-     border: var(--border-muted);
-     background: var(--bg);
-     transition: var(--default-transition-timing-function);
- }
+form div:has(>input[type=email]),
+form div:has(>input[type=password]),
+form div:has(>input[type=text]) {
+    border-radius: 12px;
+    border: var(--border-muted);
+    background: var(--bg);
+    transition: var(--default-transition-timing-function);
+}
 
- div:has(>input[type=email]:focus),
- div:has(>input[type=password]:focus),
- div:has(>input[type=text]:focus) {
-     border-color: var(--primary);
-     background: var(--bg-light);
-     box-shadow: var(--shadow-focus);
- }
+form div:has(>input[type=email]:focus),
+form div:has(>input[type=password]:focus),
+form div:has(>input[type=text]:focus) {
+    border-color: var(--primary);
+    background: var(--bg-light);
+    box-shadow: var(--shadow-focus);
+}
 
- label {
-     display: block;
-     font-weight: 600;
-     color: var(--text);
- }
+form label {
+    display: block;
+    font-weight: 600;
+    color: var(--text);
+}
 
- input[type="submit"] {
-     border-radius: 12px;
-     background: var(--primary);
-     color: var(--text);
-     font-weight: 600;
-     transition: all 0.2s ease;
-     border: none;
- }
+form input[type="submit"] {
+    border-radius: 12px;
+    background: var(--primary);
+    color: var(--text);
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: none;
+}
 
- input[type="submit"]:hover {
-     background: var(--primary-text);
-     box-shadow: 0 4px 12px var(--primary);
-     transform: translateY(-2px);
-     color: var(--bg-light);
- }
+form input[type="submit"]:hover {
+    background: var(--primary-text);
+    box-shadow: 0 4px 12px var(--primary);
+    transform: translateY(-2px);
+    color: var(--bg-light);
+}
 
- input[type="submit"]:active {
-     transform: translateY(0);
- }
+form input[type="submit"]:active {
+    transform: translateY(0);
+}
 
- a {
-     color: var(--primary-text);
-     font-weight: 500;
-     transition: var(--default-transition-timing-function);
- }
+form a {
+    color: var(--primary-text);
+    font-weight: 500;
+    transition: var(--default-transition-timing-function);
+}
 
- a:first-of-type:hover {
-     transform: translateX(-3px);
- }
+form a:first-of-type:hover {
+    transform: translateX(-3px);
+}
 
- a:last-of-type:hover {
-     transform: translateX(3px);
- }
+form a:last-of-type:hover {
+    transform: translateX(3px);
+}
 
- svg {
-     transition: var(--default-transition-timing-function);
- }
+form svg {
+    transition: var(--default-transition-timing-function);
+}
 
- div:has(>input:focus) svg {
-     color: var(--primary) !important;
- }
+form div:has(>input:focus) svg {
+    color: var(--primary) !important;
+}
