@@ -33,7 +33,7 @@ CREATE TABLE `AuthSessions` (
   `keyHash` char(128) NOT NULL,
   `userId` char(36) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE `RecipeIngredients` (
   `name` varchar(50) NOT NULL,
   `quantity` varchar(50) NOT NULL,
   `barcode` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `RecipeIngredients`
@@ -206,7 +206,7 @@ CREATE TABLE `Recipes` (
   `servings` int NOT NULL,
   `userId` char(36) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `Recipes`
@@ -247,7 +247,7 @@ DROP TABLE IF EXISTS `RecipeSaves`;
 CREATE TABLE `RecipeSaves` (
   `recipeId` char(36) NOT NULL,
   `userId` char(36) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `RecipeSaves`
@@ -276,7 +276,7 @@ CREATE TABLE `RecipeSteps` (
   `recipeId` char(36) NOT NULL,
   `stepNumber` int NOT NULL,
   `instruction` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `RecipeSteps`
@@ -369,7 +369,7 @@ DROP TABLE IF EXISTS `RecipeTags`;
 CREATE TABLE `RecipeTags` (
   `recipeId` char(36) NOT NULL,
   `tagId` char(36) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `RecipeTags`
@@ -499,7 +499,7 @@ DROP TABLE IF EXISTS `Tags`;
 CREATE TABLE `Tags` (
   `id` char(36) NOT NULL,
   `name` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `Tags`
@@ -534,7 +534,7 @@ CREATE TABLE `Users` (
   `avatarId` char(36) DEFAULT NULL,
   `isAdmin` bit(1) NOT NULL DEFAULT b'0',
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `Users`
