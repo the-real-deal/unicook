@@ -42,7 +42,7 @@ $server->respond();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?= PageHead("Form", [ "style.css" ]) ?>
+<?= PageHead(($recipe === false ? "Create" : "Update") . " recipe", [ "style.css" ]) ?>
 <body>
     <?= ErrorNotification() ?>
     <?= Navbar($login) ?>

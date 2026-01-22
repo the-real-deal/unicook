@@ -44,7 +44,7 @@ $server->respond();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?= PageHead("Profile", [ "style.css" ]) ?>
+<?= PageHead("Profile - {$user->username}", [ "style.css" ]) ?>
 <body>
     <?= ErrorNotification() ?>
     <?= Navbar($login) ?>

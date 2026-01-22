@@ -65,7 +65,7 @@ if($instructions===false){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?= PageHead("Recipe", [ "style.css" ]) ?>
+<?= PageHead("Recipe - {$recipe->title}", [ "style.css" ]) ?>
 <body>
     <?=  ErrorNotification() ?>
     <?= Navbar($login) ?>
