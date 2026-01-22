@@ -19,7 +19,8 @@
 .recipe-card article h3 {
     transition: var(--default-transition-timing-function);
     padding: 5px 0%;
-    margin-block: 0px;
+    margin-top: 0px;
+    margin-bottom: 10px;
     font-weight: 600;
     font-size: 1.125rem;
 }
@@ -139,6 +140,11 @@
 .recipe-card>article>div:has(span) {
     color: var(--text-muted);
     font-weight: bold;
+}
+
+.recipe-card .order-4>div>img {
+    width: 16px;
+    height: 16px;
 }
 
 @media (min-width: 576px) and (max-width: 768px) {

@@ -137,7 +137,8 @@ $server->respond();
                         $recipe->title,
                         array_map(fn($t)=>$t->name ,$recipe->getTags($db)), 
                         $recipe->prepTime, 
-                        $recipe->cost->name, 
+                        $recipe->cost->name,
+                        $recipe->difficulty->name
                     ) ?>
                     <?php } ?>
                     </div>
@@ -160,6 +161,7 @@ $server->respond();
                         array_map(fn($t)=>$t->name ,$recipe->getTags($db)), 
                         $recipe->prepTime, 
                         $recipe->cost->name,
+                        $recipe->difficulty->name
                     ) ?>
                     <?php } ?>    
                     </div>

@@ -54,8 +54,8 @@ if($reviews===false){
 }
 
 $rating = $recipe->getRating($db);
-if($rating===false){
-    $rating = "No Reviews Yet";
+if($rating===false || $rating === 0){
+    $rating = "N.C.";
 }
 
 $instructions = $recipe->getSteps($db);

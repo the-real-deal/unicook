@@ -169,8 +169,11 @@ async function addRecipeFromTemplate(fragment, recipeData) {
         }
     }
 
-    clone.querySelector('.pe-3:first-of-type span').textContent = recipeData.prepTime + " min"
-    clone.querySelector('.pe-3:last-of-type span').textContent = costEnumToString(recipeData.cost)
+    const items = clone.querySelectorAll('.px-2 span');
+
+    items[0].textContent = recipeData.prepTime + " min";
+    items[1].textContent = costEnumToString(recipeData.cost);
+    items[2].textContent = difficultyEnumToString(recipeData.difficulty);
 
     fragment.appendChild(clone)
 }
@@ -183,6 +186,19 @@ function costEnumToString(cost) {
             return "Medium"
         case 2:
             return "Expensive"
+        default:
+            break
+    }
+}
+
+function difficultyEnumToString(diff) {
+    switch (diff) {
+        case 0:
+            return "Easy"
+        case 1:
+            return "Medium"
+        case 2:
+            return "Difficult"
         default:
             break
     }

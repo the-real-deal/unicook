@@ -125,7 +125,7 @@ $resultNumber = 4;
                 <h2>Results</h2>
                 <p>Showing <span id="recipeCount">0</span> recipes</p>
                 <div id="recipe-template">
-                    <?= RecipeCard("template", "template", "template", [], 20, "template", isLogged:$_isLogged) ?>
+                    <?= RecipeCard("template", "template", "template", [], 20, "template", "template", isLogged:$_isLogged) ?>
                 </div>
                 <div id="recipe-container" class="row mx-auto px-0">
 
