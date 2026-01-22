@@ -1,119 +1,65 @@
-# Ricettario per fuori sede
+# UniCook 🍳
 
-## Requisiti funzionali
+A community-driven recipe sharing platform designed for students who want to cook delicious meals without breaking the bank or spending hours in the kitchen.
 
-Utenti
-- Admin: gestire utenti, post altrui
-- Utente: CRUD di sue ricette e i suoi dati
+## About
 
-Sistema di recensioni
+UniCook is a web application that empowers students to share, discover, and save quick and easy recipes perfect for busy academic schedules and tight budgets. Whether you're looking for a 15-minute dinner between study sessions or a cheap meal that feeds you for days, UniCook has you covered.
 
-Creazione di menù (giornalieri/settimanali/etc...) in base ai gusti, recensioni, prezzo delle ricette, tempo di esecuzione e altri tag vari (valori nutrizionali).
-- Integrazione con gusti dell'utente e decisione sul momento
-- Generazione automatica della lista della spesa in base al menù creato
+## Features
 
-### DB (accenni)
-#### Utenti
-> User
-- Username
-- Email
-- Password
-- Gusti 
-- Lista di Ricette Salvate
+- **Recipe Sharing**: Post your favorite quick recipes with ingredients, steps, and photos
+- **Student-Friendly**: Filter recipes by preparation time, budget, and difficulty level
+- **Community Ratings**: Rate and review recipes from fellow students
+- **Save Favorites**: Bookmark recipes to build your personal cookbook
+- **Search & Filter**: Find exactly what you need based on ingredients, dietary restrictions, or cooking time
 
-#### Gusti
-[TODO] Refine Concept
-> Gusto
-- Tipologia
-- Positivo/Negativo
+## Technologies Used
 
-Tipologie di Gusti
-- Carne
-- Pesce
-- Verdure
-- Piccante
-#### Ricette
->Ricetta
-- Nome
-- Descrizione
-- Tempo di Preparazione (veloce-media durata-lungo)
-- Numero di Persone Target
-- Serie di ingredienti
-- Procedimento a step
+- **Frontend**: HTML5, CSS3
+- **Backend**: PHP
+- **Deployment**: Docker container
 
-> Ingrediente
-- Nome
-- Quantità
-- Eventuale Codice a barre (per API).
+## Getting Started
 
-> Step procedimento
-- Descrizione
-- Ordine (progressivo)
+### Prerequisites
 
-#### Tag
-##### Scelta Singola
-> Prezzo
-- Low       $
-- Medium    $$
-- High      $$$
+- Docker
+- Docker Compose (optional but recommended)
+- A modern web browser
 
-> Tempo
-- Short     <15 min
-- Medium    15 min< x < 30 min
-- Long      > 30 min
+## Project Structure
 
-> Difficoltà
-- Easy
-- Medium
-- Hard
+```
+unicook/
+├── www/
+│   ├── home/
+│   │   ├── index.php
+│   │   ├── main.js
+│   │   └── main.css
+│   ├── recipes/
+│   │   ├── index.php
+│   │   ├── main.js
+│   │   └── main.css
+│   ├── profile/
+│   │   ├── index.php
+│   │   ├── main.js
+│   │   └── main.css
+│   ├── api/
+│   │   ├── recipe.php
+│   │   ├── user.php
+│   │   └── review.php
+│   ├── lib/
+│   │   ├── database.php
+│   │   ├── userConnection.php
+│   │   └── uuid.php
+│   └── assets/
+│       ├── img1.png
+│       └── icon.svg
+└── README.md
+```
 
-##### Scelta Multipla
-> Tag
-- Carne
-- Pesce
-- Verdure
-- Piccante
-- Diet
-- Breakfast
-- Launch
-- Dinner
-- Snack
-
-#### Recensioni
-> Recensione
-- Rating (1-5)
-- Commento
-- Data
-
-## Idee
-- Filtri per tempo di preparazione
-- Filtri per difficoltà
-- Possibilità di salvare ricette preferite
-- Notifiche per nuove ricette o menù basati sui gusti dell'utente
-- Funzione di ricerca avanzata con parole chiave, ingredienti, e categorie
-- Chatbot per chiedere consigli culinari o suggerimenti di ricette (WOW?)
-- Funzione di calcolo delle porzioni in base al numero di persone
-- Sezione dedicata alle ricette per intolleranze alimentari con opzioni sicure
-
-# Piattaforma per pubblicazione e condivisione di appunti universitari
-
-## Requisiti funzionali
-
-3 Livelli di categorizzazione dei post, gerarchici:
-1. Facoltà (es. Matematica, Informatica, Economia)
-2. Materia (es. Analisi Matematica, Fisica 1, Microeconomia)
-3. Argomento (es. Integrali, Leggi di Newton, Domanda e Offerta)
-
-3 livelli di utenti:
-1. Admin: potere assoluto
-2. Studente: utente normale che può leggere, pubblicare, aggiornare (?) ed eliminare (i suoi post) 
-3. Verificatore: può validare i post pubblicati dagli studenti in una **MATERIA** di competenza
-4. Professore: può validare i post pubblicati dagli studenti in una **FACOLTÀ** di competenza
-
-Possibilità di fare review.
-
-
-## Idee
-- Preview se non registrato
-
-
+Each page has its own dedicated folder inside `www/` containing:
+- `index.php` - Page logic and HTML structure
+- `main.js` - Page-specific JavaScript
+- `main.css` - Page-specific styles
