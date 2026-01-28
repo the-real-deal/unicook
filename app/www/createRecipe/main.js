@@ -1,4 +1,5 @@
 import { rejectApiError } from "/js/errors.js"
+import { navigateBack } from "/js/navigation.js"
 
 const titleInput = document.getElementById("title")
 const descriptionInput = document.getElementById("description")
