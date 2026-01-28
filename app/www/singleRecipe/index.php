@@ -82,9 +82,10 @@ if($instructions===false){
                 <div class="my-4 position-relative">
                     <img src="/api/recipes/image.php?recipeId=<?= $recipe->id ?>"
                         class="object-fit-cover w-100" alt="Students cooking together"/>
+                    <?php if ($login !== false) { ?>
                     <div class="d-flex control-buttons">
                         <?php 
-                        if($login !== false && ($login->user->isAdmin || $recipe->userId === $login->user->id)){
+                        if($login->user->isAdmin || $recipe->userId === $login->user->id){
                         ?>
                         <a href="/createRecipe?recipeId=<?= $recipe->id ?>" title="edit recipe" class="d-flex justify-content-center align-items-center p-2">
                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil flex-shrink-0" viewBox="-1 -1 18 18">
@@ -104,6 +105,7 @@ if($instructions===false){
                             </svg>
                         </button>   
                     </div>
+                    <?php } ?>
                 </div>
                 <ul id="tagsUl" class="d-flex flex-wrap px-3 px-md-5">
                     <?php 
