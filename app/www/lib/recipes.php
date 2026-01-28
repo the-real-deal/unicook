@@ -543,9 +543,14 @@ readonly class Recipe extends DBTable {
             throw new InvalidArgumentException("Invalid search results range");
         }
 
+        $nTags = count($tags);
         $difficultyCheck = ($difficulty === null) ? "1" : "r.`difficulty` = ?";
         $costCheck = ($cost === null) ? "1" : "r.`cost` = ?";
-        $tagsCheck = (count($tags) === 0) ? "1" : "rt.`tagId` IN (" . implode(", ", array_map(fn ($tag) => "?", $tags)) . ")";
+        $tagsCheck = ($nTags === 0) ? "1" : "rt.`tagId` IN (" . implode(", ", array_map(fn ($tag) => "?", $tags)) . ")";
+        $exactTagsCheck = ($nTags === 0) ? "" : <<<sql
+            GROUP BY r.`id`
+            HAVING COUNT(DISTINCT rt.`tagId`) = $nTags
+            sql;
         $query = $db->createStatement(<<<sql
             SELECT DISTINCT r.*
             FROM `Recipes` r
@@ -555,6 +560,7 @@ readonly class Recipe extends DBTable {
                 AND $difficultyCheck
                 AND $costCheck
                 AND $tagsCheck
+            $exactTagsCheck
             ORDER BY r.`createdAt` DESC
             LIMIT ? OFFSET ?
             sql);
